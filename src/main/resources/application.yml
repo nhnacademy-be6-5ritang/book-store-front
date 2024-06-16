@@ -1,5 +1,3 @@
 spring:
   application:
-    name: book-store-front
-server:
-  port: 8081
+    name: book-store-front-A
