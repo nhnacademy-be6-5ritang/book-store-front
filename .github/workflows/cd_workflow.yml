@@ -1,4 +1,4 @@
-name: CD to Ubuntu Server
+name: CD to Ubuntu Server #
 
 on:
   push:
