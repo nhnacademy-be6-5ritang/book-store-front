@@ -1,48 +1,57 @@
-name: Continuous Deployment
+name: CD to Ubuntu Server
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      # jar 파일 배포
-      - name: upload file
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Build with Maven
+        run: mvn clean package
+
+      - name: Copy files via SCP
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SSH_IP }}
           username: ${{ secrets.SSH_ID }}
           key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT }}
+          port: 22
           source: "target/*.jar"
-          target: "~/"
+          target: "/home/${{ secrets.SSH_ID }}/"
           rm: false
+          timeout: '30s'
+          command_timeout: '10m'
+          use_insecure_cipher: false
+          debug: true
 
-      # 앱 포트로 실행된 jar 파일 종료
-      - name: Stop existing Spring Boot application
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_IP }}
-          username: ${{ secrets.SSH_ID }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
-            echo "Stopping existing application..."
-            pid=$(lsof -t -i:${{ secrets.FRONT_PORT_A }}) && kill -9 $pid || echo "No application running on port ${{ secrets.FRONT_PORT_A }}"
-
-      #앱 포트로 배포 한 jar 파일 실행
-      - name: execute shell script
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_IP }}
-          username: ${{ secrets.SSH_ID }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          script_stop: true
-          script: |
-            echo "Starting new application..."
-            nohup java -jar ~/target/BOOK-STORE-FRONT.jar --server.port=${{ secrets.FRONT_PORT_A }} > app.log 2>&1 &
-            echo "New application started. Check app.log for details."
-
+      - name: Deploy to Server
+        env:
+          SSH_IP: ${{ secrets.SSH_IP }}
+          SSH_ID: ${{ secrets.SSH_ID }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          PORT1: ${{ secrets.PORT1 }}
+          PORT2: ${{ secrets.PORT2 }}
+        run: |
+          ssh -i ssh_key -o StrictHostKeyChecking=no $SSH_ID@$SSH_IP << 'EOF'
+          if pgrep -f "java -jar /home/$SSH_ID/your-app.jar --server.port=$PORT1"; then
+            pkill -f "java -jar /home/$SSH_ID/your-app.jar --server.port=$PORT1"
+          fi
+          if pgrep -f "java -jar /home/$SSH_ID/your-app.jar --server.port=$PORT2"; then
+            pkill -f "java -jar /home/$SSH_ID/your-app.jar --server.port=$PORT2"
+          fi
+          nohup java -jar /home/$SSH_ID/your-app.jar --server.port=$PORT1 > app1.log 2>&1 &
+          nohup java -jar /home/$SSH_ID/your-app.jar --server.port=$PORT2 > app2.log 2>&1 &
+          EOF
