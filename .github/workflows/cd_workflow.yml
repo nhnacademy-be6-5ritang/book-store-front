@@ -1,4 +1,3 @@
-# again
 name: Continuous Deployment
 
 on:
@@ -17,7 +16,7 @@ jobs:
           username: ${{ secrets.SSH_ID }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: "target/BOOK-STORE-FRONT.jar"
+          source: "target/*.jar"
           target: "~/"
           rm: false
 
