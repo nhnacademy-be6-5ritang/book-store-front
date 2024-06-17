@@ -38,10 +38,13 @@ jobs:
           debug: true
 
       - name: Deploy to Server
-        env:
+        uses: appleboy/ssh-action@master
+        with:
           SSH_IP: ${{ secrets.SSH_IP }}
           SSH_ID: ${{ secrets.SSH_ID }}
           SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_PORT: 22
+        env:
           PORT1: ${{ secrets.FRONT_PORT_A }}
         run: |
           if pgrep -f "java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=${{env.FRONT_PORT_A}}"; then
