@@ -29,7 +29,7 @@ jobs:
           username: ${{ secrets.SSH_ID }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{secrets.SSH_PORT}}
-          source: "target/front/*.jar"
+          source: "target/*.jar"
           target: "~/"
           rm: false
           timeout: '30s'
@@ -45,12 +45,12 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{secrets.SSH_PORT}}
           script: |
-            if pgrep -f "java -jar ~/target/front/BOOK-STORE-FRONT.jar --server.port=${{secrets.FRONT_PORT_A}}"; then
-              pkill -f "java -jar ~/target/front/BOOK-STORE-FRONT.jar --server.port=${{secrets.FRONT_PORT_A}}"
+            if pgrep -f "java -jar ~/target/BOOK-STORE-FRONT.jar --server.port=${{secrets.FRONT_PORT_A}}"; then
+              pkill -f "java -jar ~/target/BOOK-STORE-FRONT.jar --server.port=${{secrets.FRONT_PORT_A}}"
             fi
-            nohup java -jar ~/target/front/BOOK-STORE-FRONT.jar --server.port=${{ secrets.FRONT_PORT_A }} > app.log 2>&1 &
-            if pgrep -f "java -jar ~/target/front/BOOK-STORE-FRONT.jar --server.port=${{secrets.FRONT_PORT_B}}"; then
-              pkill -f "java -jar ~/target/front/BOOK-STORE-FRONT.jar --server.port=${{secrets.FRONT_PORT_B}}"
+            nohup java -jar ~/target/BOOK-STORE-FRONT.jar --server.port=${{ secrets.FRONT_PORT_A }} > app.log 2>&1 &
+            if pgrep -f "java -jar ~/target/BOOK-STORE-FRONT.jar --server.port=${{secrets.FRONT_PORT_B}}"; then
+              pkill -f "java -jar ~/target/BOOK-STORE-FRONT.jar --server.port=${{secrets.FRONT_PORT_B}}"
             fi
-            nohup java -jar ~/target/front/BOOK-STORE-FRONT.jar --server.port=${{ secrets.FRONT_PORT_B }} > app.log 2>&1 &
+            nohup java -jar ~/target/BOOK-STORE-FRONT.jar --server.port=${{ secrets.FRONT_PORT_B }} > app.log 2>&1 &
             
