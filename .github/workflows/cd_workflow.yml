@@ -37,24 +37,6 @@ jobs:
           use_insecure_cipher: false
           debug: true
 
-#      - name: Deploy to Server
-#        uses: appleboy/ssh-action@master
-#        with:
-#          host: ${{ secrets.SSH_IP }}
-#          username: ${{ secrets.SSH_ID }}
-#          key: ${{ secrets.SSH_KEY }}
-#          port: ${{secrets.SSH_PORT}}
-#          script: |
-#            if pgrep -f "java -jar ~/target/BOOK-STORE-FRONT.jar --server.port=${{secrets.FRONT_PORT_A}}"; then
-#              pkill -f "java -jar ~/target/BOOK-STORE-FRONT.jar --server.port=${{secrets.FRONT_PORT_A}}"
-#            fi
-#            nohup java -jar ~/target/BOOK-STORE-FRONT.jar --server.port=${{ secrets.FRONT_PORT_A }} > app.log 2>&1 &
-#            if pgrep -f "java -jar ~/target/BOOK-STORE-FRONT.jar --server.port=${{secrets.FRONT_PORT_B}}"; then
-#              pkill -f "java -jar ~/target/BOOK-STORE-FRONT.jar --server.port=${{secrets.FRONT_PORT_B}}"
-#            fi
-#            nohup java -jar ~/target/BOOK-STORE-FRONT.jar --server.port=${{ secrets.FRONT_PORT_B }} > app.log 2>&1 &
-#
-
 
       # 앱 포트로 실행된 jar 파일 종료
       - name: Stop existing Spring Boot application
@@ -80,4 +62,30 @@ jobs:
           script: |
             echo "Starting new application..."
             nohup java -jar ~/target/BOOK-STORE-FRONT.jar --server.port=${{ secrets.FRONT_PORT_A }} > app.log 2>&1 &
+            echo "New application started. Check app.log for details."
+
+      # 앱 포트로 실행된 jar 파일 종료
+      - name: Stop existing Spring Boot application
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_IP }}
+          username: ${{ secrets.SSH_ID }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            echo "Stopping existing application..."
+            pid=$(lsof -t -i:${{ secrets.FRONT_PORT_B }}) && kill -9 $pid || echo "No application running on port ${{ secrets.FRONT_PORT_B }}"
+
+      #앱 포트로 배포 한 jar 파일 실행
+      - name: execute shell script
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_IP }}
+          username: ${{ secrets.SSH_ID }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script_stop: true
+          script: |
+            echo "Starting new application..."
+            nohup java -jar ~/target/BOOK-STORE-FRONT.jar --server.port=${{ secrets.FRONT_PORT_B }} > app.log 2>&1 &
             echo "New application started. Check app.log for details."
