@@ -89,3 +89,5 @@ jobs:
             echo "Starting new application..."
             nohup java -jar ~/target/BOOK-STORE-FRONT.jar --server.port=${{ secrets.FRONT_PORT_B }} > app.log 2>&1 &
             echo "New application started. Check app.log for details."
+
+
