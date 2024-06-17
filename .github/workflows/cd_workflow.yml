@@ -44,12 +44,14 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           PORT1: ${{ secrets.FRONT_PORT_A }}
         run: |
-          ssh -i ssh_key -o StrictHostKeyChecking=no $SSH_ID@$SSH_IP << 'EOF'
-          if pgrep -f "java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=$FRONT_PORT_A"; then
-            pkill -f "java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=$FRONT_PORT_A"
+          ssh -i ssh_key -o StrictHostKeyChecking=no ${{env.SSH_ID}}@${{env.SSH_IP}} << 'EOF'
+          if pgrep -f "java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=${{env.FRONT_PORT_A}}"; then
+            pkill -f "java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=${{env.FRONT_PORT_A}}"
           fi
-          nohup java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=$FRONT_PORT_A > app1.log 2>&1 &
+          nohup java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=${{env.FRONT_PORT_A}} > app1.log 2>&1 &
 #          if pgrep -f "java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=$FRONT_PORT_B"; then
 #            pkill -f "java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=$FRONT_PORT_B"
 #          fi
 #          nohup java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=$FRONT_PORT_B > app2.log 2>&1 &
+
+
