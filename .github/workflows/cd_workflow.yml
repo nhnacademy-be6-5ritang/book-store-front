@@ -3,24 +3,23 @@ name: CD to Ubuntu Server #
 on:
   push:
     branches:
-      - develop
+      - main
 
 jobs:
-  deploy:
+  build:
+
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
+      - uses: actions/checkout@v3
       - name: Set up JDK 21
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
           java-version: '21'
-
+          distribution: 'temurin'
+          cache: maven
       - name: Build with Maven
-        run: mvn clean package
+        run: mvn -B package --file pom.xml
 
       - name: Copy files via SCP
         uses: appleboy/scp-action@v0.1.7
@@ -28,28 +27,65 @@ jobs:
           host: ${{ secrets.SSH_IP }}
           username: ${{ secrets.SSH_ID }}
           key: ${{ secrets.SSH_KEY }}
-          port: 22
+          port: ${{secrets.SSH_PORT}}
           source: "target/*.jar"
-          target: "/home/${{ secrets.SSH_ID }}/"
+          target: "~/"
           rm: false
           timeout: '30s'
           command_timeout: '10m'
           use_insecure_cipher: false
           debug: true
 
-      - name: Deploy to Server
-        env:
-          SSH_IP: ${{ secrets.SSH_IP }}
-          SSH_ID: ${{ secrets.SSH_ID }}
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-          PORT1: ${{ secrets.FRONT_PORT_A }}
-        run: |
-          ssh -i ssh_key -o StrictHostKeyChecking=no $SSH_ID@$SSH_IP << 'EOF'
-          if pgrep -f "java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=$FRONT_PORT_A"; then
-            pkill -f "java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=$FRONT_PORT_A"
-          fi
-          nohup java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=$FRONT_PORT_A > app1.log 2>&1 &
-#          if pgrep -f "java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=$FRONT_PORT_B"; then
-#            pkill -f "java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=$FRONT_PORT_B"
-#          fi
-#          nohup java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=$FRONT_PORT_B > app2.log 2>&1 &
+
+      # 앱 포트로 실행된 jar 파일 종료
+      - name: Stop existing Spring Boot application A
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_IP }}
+          username: ${{ secrets.SSH_ID }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            echo "Stopping existing application..."
+            pid=$(lsof -t -i:${{ secrets.FRONT_PORT_A }}) && kill -9 $pid || echo "No application running on port ${{ secrets.FRONT_PORT_A }}"
+
+      #앱 포트로 배포 한 jar 파일 실행
+      - name: execute shell script A
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_IP }}
+          username: ${{ secrets.SSH_ID }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script_stop: true
+          script: |
+            echo "Starting new application..."
+            nohup java -jar ~/target/BOOK-STORE-FRONT.jar --server.port=${{ secrets.FRONT_PORT_A }} > app.log 2>&1 &
+            echo "New application started. Check app.log for details."
+
+      # 앱 포트로 실행된 jar 파일 종료
+      - name: Stop existing Spring Boot application B
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_IP }}
+          username: ${{ secrets.SSH_ID }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            echo "Stopping existing application..."
+            pid=$(lsof -t -i:${{ secrets.FRONT_PORT_B }}) && kill -9 $pid || echo "No application running on port ${{ secrets.FRONT_PORT_B }}"
+
+      #앱 포트로 배포 한 jar 파일 실행
+      - name: execute shell script B
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_IP }}
+          username: ${{ secrets.SSH_ID }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script_stop: true
+          script: |
+            echo "Starting new application..."
+            nohup java -jar ~/target/BOOK-STORE-FRONT.jar --server.port=${{ secrets.FRONT_PORT_B }} > app.log 2>&1 &
+            echo "New application started. Check app.log for details."
+
