@@ -54,3 +54,4 @@ jobs:
             fi
             nohup java -jar ~/target/BOOK-STORE-FRONT.jar --server.port=${{ secrets.FRONT_PORT_B }} > app.log 2>&1 &
             
+
