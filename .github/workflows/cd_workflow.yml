@@ -44,13 +44,11 @@ jobs:
           username: ${{ secrets.SSH_ID }}
           key: ${{ secrets.SSH_KEY }}
           port: 22
-        env:
-          PORT1: ${{ secrets.FRONT_PORT_A }}
-        run: |
-          if pgrep -f "java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=${{env.FRONT_PORT_A}}"; then
-            pkill -f "java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=${{env.FRONT_PORT_A}}"
-          fi
-          nohup java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=${{env.FRONT_PORT_A}} > app1.log 2>&1 &
+          script: |
+            if pgrep -f "java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=${{secrets.FRONT_PORT_A}}"; then
+              pkill -f "java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=${{secrets.FRONT_PORT_A}}"
+            fi
+            nohup java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=${{secrets.FRONT_PORT_A}} > app1.log 2>&1 &
 #          if pgrep -f "java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=$FRONT_PORT_B"; then
 #            pkill -f "java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=$FRONT_PORT_B"
 #          fi
