@@ -43,7 +43,6 @@ jobs:
           host: ${{ secrets.SSH_IP }}
           username: ${{ secrets.SSH_ID }}
           key: ${{ secrets.SSH_KEY }}
-          port: 22
           script: |
             if pgrep -f "java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=${{secrets.FRONT_PORT_A}}"; then
               pkill -f "java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=${{secrets.FRONT_PORT_A}}"
