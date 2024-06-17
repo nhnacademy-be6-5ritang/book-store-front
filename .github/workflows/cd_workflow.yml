@@ -39,7 +39,7 @@ jobs:
 
 
       # 앱 포트로 실행된 jar 파일 종료
-      - name: Stop existing Spring Boot application
+      - name: Stop existing Spring Boot application A
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_IP }}
@@ -51,7 +51,7 @@ jobs:
             pid=$(lsof -t -i:${{ secrets.FRONT_PORT_A }}) && kill -9 $pid || echo "No application running on port ${{ secrets.FRONT_PORT_A }}"
 
       #앱 포트로 배포 한 jar 파일 실행
-      - name: execute shell script
+      - name: execute shell script A
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_IP }}
@@ -65,7 +65,7 @@ jobs:
             echo "New application started. Check app.log for details."
 
       # 앱 포트로 실행된 jar 파일 종료
-      - name: Stop existing Spring Boot application
+      - name: Stop existing Spring Boot application B
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_IP }}
@@ -77,7 +77,7 @@ jobs:
             pid=$(lsof -t -i:${{ secrets.FRONT_PORT_B }}) && kill -9 $pid || echo "No application running on port ${{ secrets.FRONT_PORT_B }}"
 
       #앱 포트로 배포 한 jar 파일 실행
-      - name: execute shell script
+      - name: execute shell script B
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_IP }}
@@ -89,6 +89,5 @@ jobs:
             echo "Starting new application..."
             nohup java -jar ~/target/BOOK-STORE-FRONT.jar --server.port=${{ secrets.FRONT_PORT_B }} > app.log 2>&1 &
             echo "New application started. Check app.log for details."
-
 
 
