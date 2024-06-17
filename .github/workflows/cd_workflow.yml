@@ -79,5 +79,5 @@ jobs:
           script_stop: true
           script: |
             echo "Starting new application..."
-            nohup java -jar ~/target/hello.jar --server.port=${{ secrets.FRONT_PORT_A }} > app.log 2>&1 &
+            nohup java -jar ~/target/BOOK-STORE-FRONT.jar --server.port=${{ secrets.FRONT_PORT_A }} > app.log 2>&1 &
             echo "New application started. Check app.log for details."
