@@ -53,5 +53,6 @@ jobs:
               pkill -f "java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=${{secrets.FRONT_PORT_B}}"
             fi
             nohup java -jar /home/$SSH_ID/BOOK-STORE-FRONT.jar --server.port=${{secrets.FRONT_PORT_B}} > app1.log 2>&1 &
+            
 
 
