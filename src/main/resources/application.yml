@@ -1,3 +1,13 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: book-store-front-A
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+server:
+  port: 9999
+
+

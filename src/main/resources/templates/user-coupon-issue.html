@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>쿠폰발행페이지-고객</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .coupon-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+            margin-bottom: 20px;
+        }
+        .coupon-card-body {
+            flex-grow: 1;
+        }
+        .coupon-field {
+            margin-bottom: 10px;
+        }
+        .issue-btn {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h4>발행가능 쿠폰리스트</h4>
+            <div class="d-flex flex-wrap justify-content-between">
+                <div class="row w-100" th:each="coupon : ${coupons}">
+                    <div class="col-md-6 d-flex mb-4">
+                        <div class="coupon-card card w-100">
+                            <div class="card-body coupon-card-body">
+                                <div class="coupon-field">
+                                    <label for="couponId-${coupon.id}">Coupon ID</label>
+                                    <input type="text" id="couponId-${coupon.id}" class="form-control" th:value="${coupon.id}" readonly>
+                                </div>
+                                <div class="coupon-field">
+                                    <label for="couponPolicyId-${coupon.id}">Coupon PolicyId</label>
+                                    <input type="text" id="couponPolicyId-${coupon.id}" class="form-control" th:value="${coupon.couponPolicy.couponPolicyId}" readonly>
+                                </div>
+                                <div class="coupon-field">
+                                    <label for="minOrderPrice-${coupon.id}">Min Order Price</label>
+                                    <input type="text" id="minOrderPrice-${coupon.id}" class="form-control" th:value="${coupon.couponPolicy.minOrderPrice}" readonly>
+                                </div>
+                                <div class="coupon-field">
+                                    <label for="salePrice-${coupon.id}">Sale Price</label>
+                                    <input type="text" id="salePrice-${coupon.id}" class="form-control" th:value="${coupon.couponPolicy.salePrice}" readonly>
+                                </div>
+                                <div class="coupon-field">
+                                    <label for="saleRate-${coupon.id}">Sale Rate</label>
+                                    <input type="text" id="saleRate-${coupon.id}" class="form-control" th:value="${coupon.couponPolicy.saleRate}" readonly>
+                                </div>
+                                <div class="coupon-field">
+                                    <label for="maxSalePrice-${coupon.id}">Max Sale Price</label>
+                                    <input type="text" id="maxSalePrice-${coupon.id}" class="form-control" th:value="${coupon.couponPolicy.maxSalePrice}" readonly>
+                                </div>
+                                <div class="coupon-field">
+                                    <label for="type-${coupon.id}">Type</label>
+                                    <input type="text" id="type-${coupon.id}" class="form-control" th:value="${coupon.couponPolicy.type}" readonly>
+                                </div>
+                                <div class="coupon-field">
+                                    <label for="expiredDate-${coupon.id}">Expired Date</label>
+                                    <input type="text" id="expiredDate-${coupon.id}" class="form-control" th:value="${coupon.expiredDate}" readonly>
+                                </div>
+                                <div class="coupon-field">
+                                    <label for="issueDate-${coupon.id}">Issue Date</label>
+                                    <input type="text" id="issueDate-${coupon.id}" class="form-control" th:value="${coupon.issueDate}" readonly>
+                                </div>
+                            </div>
+                            <div class="card-footer issue-btn">
+                                <form th:action="@{/coupons/{couponId}(couponId=${coupon.id})}" th:method="post">
+                                    <button type="submit" class="btn btn-primary">발급</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 한 줄에 2개의 쿠폰 카드가 나란히 표시됩니다 -->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>쿠폰생성페이지-관리자</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <!-- Display Coupon List -->
+            <h4>Coupon List</h4>
+            <table id="couponTable" class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Coupon ID</th>
+                    <th>Coupon PolicyId</th>
+                    <th>Min Order Price</th>
+                    <th>Sale Price</th>
+                    <th>Sale Rate</th>
+                    <th>Max Sale Price</th>
+                    <th>Type</th>
+                    <th>Expired Date</th>
+                    <th>Issue Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Loop through coupons and display each coupon -->
+                <tr th:each="coupon : ${coupons}">
+                    <td><input type="text" class="form-control couponId" th:value="${coupon.id}" readonly></td>
+                    <td>
+                        <input type="text" class="form-control couponPolicyId" th:value="${coupon.couponPolicy.couponPolicyId}" readonly>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control couponPolicyId" th:value="${coupon.couponPolicy.minOrderPrice}" readonly>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control couponPolicyId" th:value="${coupon.couponPolicy.salePrice}" readonly>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control couponPolicyId" th:value="${coupon.couponPolicy.saleRate}" readonly>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control couponPolicyId" th:value="${coupon.couponPolicy.maxSalePrice}" readonly>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control couponPolicyId" th:value="${coupon.couponPolicy.type}" readonly>
+                    </td>
+                    <td><input type="text" class="form-control expiredDate" th:value="${coupon.expiredDate}"></td>
+                    <td><input type="text" class="form-control issueDate" th:value="${coupon.issueDate}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
