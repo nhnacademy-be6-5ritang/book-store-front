@@ -41,6 +41,47 @@
         <p>No coupons found.</p>
     </div>
 
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center mt-4">
+            <!-- 첫번째 페이지로 이동 -->
+            <li class="page-item" th:classappend="${userAndCoupon.first} ? 'disabled'">
+                <a class="page-link" th:href="@{/coupons/users(page=1)}" aria-label="First">
+                    <span aria-hidden="true">&laquo; First</span>
+                </a>
+            </li>
+
+            <li class="page-item" th:classappend="${userAndCoupon.first} ? 'disabled'">
+                <a class="page-link" th:href="${userAndCoupon.first} ? '#' : '/coupons/users?page=' + ${userAndCoupon.number}" aria-label="Previous">
+                    <span aria-hidden="true">&lsaquo; Previous</span>
+                </a>
+            </li>
+
+
+            <!-- 페이지 번호 링크 -->
+            <li class="page-item" th:each="page: ${#numbers.sequence(startPage, endPage)}"
+                th:classappend="${page == userAndCoupon.number + 1} ? 'active'">
+                <a class="page-link" th:href="@{/coupons/users(page=${page})}" th:text="${page}"></a>
+            </li>
+
+
+            <!-- 다음 페이지로 이동  둘다 가능한 방법 -->
+            <li class="page-item" th:classappend="${userAndCoupon.last} ? 'disabled'">
+                <a class="page-link" th:href="${userAndCoupon.last} ? '#' : '/coupons/users?page=' + (${userAndCoupon.number} + 2)" aria-label="Next">
+                    <span aria-hidden="true">Next &rsaquo;</span>
+                </a>
+            </li>
+
+
+            <!-- 마지막 페이지로 이동 -->
+            <li class="page-item" th:classappend="${userAndCoupon.last} ? 'disabled'">
+                <a class="page-link" th:href="@{/coupons/users(page=${userAndCoupon.totalPages})}" aria-label="Last">
+                    <span aria-hidden="true">Last &raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+
 </div>
 
 <!-- Bootstrap JS and dependencies -->

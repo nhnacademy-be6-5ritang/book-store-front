@@ -1,7 +1,8 @@
 package com.nhnacademy.bookstorefront.userandcoupon.controller;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,18 +50,48 @@ public class UserAndCouponController {
     //     return "#";
     // }
 
-    // TODO 3 : 마이페이지 쿠폰목록 보여주기 (페이징처리)
+    // @GetMapping("/users/{userEmail}")
+    // public String getUserAndCouponById( @PathVariable("userEmail") String userEmail, Model model) {
+    //     List<UserAndCouponResponseDTO> userAndCoupon = userAndCouponService.getUserAndCouponById(userEmail);
+    //     model.addAttribute("userAndCoupon", userAndCoupon);
+    //     return "mypage-coupon";
+    // }
+
     @GetMapping("/users/{userEmail}")
-    public String getUserAndCouponById( @PathVariable("userEmail") String userEmail, Model model) {
-        List<UserAndCouponResponseDTO> userAndCoupon = userAndCouponService.getUserAndCouponById(userEmail);
+    public String getUserAndCouponByIdPaging( @PathVariable("userEmail") String userEmail, @PageableDefault(page = 1)Pageable pageable,Model model) {
+        Page<UserAndCouponResponseDTO> userAndCoupon = userAndCouponService.getUserAndCouponByIdPaging(userEmail, pageable);
+
+        int blockLimit = 3;
+        int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
+        int endPage = Math.min((startPage + blockLimit - 1), userAndCoupon.getTotalPages());
+
+        userAndCoupon.forEach(userAndCouponDTO -> model.addAttribute("user", userAndCouponDTO));
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
         model.addAttribute("userAndCoupon", userAndCoupon);
         return "mypage-coupon";
     }
 
-    // TODO 4 : 판매자페이지 유저가 발급한 쿠폰목록 보여주기 (페이징처리)
+
+    // @GetMapping("/users")
+    // public String getAllUserAndCoupon(Model model) {
+    //     List<UserAndCouponResponseDTO> userAndCoupon = userAndCouponService.getAllUserAndCoupons();
+    //     model.addAttribute("userAndCoupon", userAndCoupon);
+    //     return "coupon-issued";
+    // }
+
+    // 판매자가 쿠폰목록 확인할 수 있는 페이지,  페이징 처리
     @GetMapping("/users")
-    public String getAllUserAndCoupon(Model model) {
-        List<UserAndCouponResponseDTO> userAndCoupon = userAndCouponService.getAllUserAndCoupons();
+    public String getAllUserAndCouponPaging(@PageableDefault(page = 1)Pageable pageable,Model model) {
+        Page<UserAndCouponResponseDTO> userAndCoupon = userAndCouponService.getAllUserAndCouponPaging(pageable);
+
+        int blockLimit = 3;
+        int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
+        int endPage = Math.min((startPage + blockLimit - 1), userAndCoupon.getTotalPages());
+
+
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
         model.addAttribute("userAndCoupon", userAndCoupon);
         return "coupon-issued";
     }

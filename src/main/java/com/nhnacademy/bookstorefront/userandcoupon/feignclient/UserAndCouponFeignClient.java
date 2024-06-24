@@ -1,8 +1,8 @@
 package com.nhnacademy.bookstorefront.userandcoupon.feignclient;
 
-import java.util.List;
-
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -25,13 +25,20 @@ public interface UserAndCouponFeignClient {
 	@PatchMapping("/coupons/users/{userEmail}")
 	ResponseEntity<UserAndCouponResponseDTO> updateUserAndCoupon(@PathVariable("userEmail") String userId,
 		@RequestBody UserAndCouponRequestUpdateDTO requestDTO);
+	//
+	// @GetMapping("/coupons/users")
+	// ResponseEntity<List<UserAndCouponResponseDTO>> getAllUserAndCoupons();
 
 	@GetMapping("/coupons/users")
-	ResponseEntity<List<UserAndCouponResponseDTO>> getAllUserAndCoupons();
+	ResponseEntity<Page<UserAndCouponResponseDTO>> getAllUserAndCouponPaging(Pageable pageable);
+
+	//
+	// @GetMapping("/coupons/users/{userEmail}")
+	// ResponseEntity<List<UserAndCouponResponseDTO>> getUserAndCouponById(@PathVariable("userEmail") String userId);
 
 
 	@GetMapping("/coupons/users/{userEmail}")
-	ResponseEntity<List<UserAndCouponResponseDTO>> getUserAndCouponById(@PathVariable("userEmail") String userId);
+	ResponseEntity<Page<UserAndCouponResponseDTO>> getUserAndCouponByIdPaging(@PathVariable("userEmail") String userEmail, Pageable pageable);
 }
 
 

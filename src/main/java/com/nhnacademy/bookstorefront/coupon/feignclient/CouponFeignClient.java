@@ -3,6 +3,8 @@ package com.nhnacademy.bookstorefront.coupon.feignclient;
 import java.util.List;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +22,9 @@ public interface CouponFeignClient {
 
 	@GetMapping("coupons")
 	ResponseEntity<List<CouponResponseDTO>> getAllCoupons();
+
+	@GetMapping("coupons/issue")
+	ResponseEntity<Page<CouponResponseDTO>> getAllCouponPaging(Pageable pageable);
 
 }
 
