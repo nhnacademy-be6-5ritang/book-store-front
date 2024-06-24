@@ -778,13 +778,8 @@
                         <!-- My Account Tab Menu Start -->
                         <div class="col-lg-3 col-12">
                             <div class="myaccount-tab-menu nav" role="tablist">
-                                <a th:href="@{/deliveries-policies}"><i class="fa fa-truck"></i> 배송</a>
-                                <a href="#coupon"><i class="fa fa-ticket-alt"></i> 쿠폰</a>
-                                <a href="#point"><i class="fa fa-star"></i> 포인트</a>
-                                <a href="#books"><i class="fa fa-book"></i> 도서</a>
-                                <a href="#orders"><i class="fa fa-shopping-cart"></i> 주문</a>
-                                <a href="#members"><i class="fa fa-user"></i> 회원</a>
-                                <a href="#inquiries"><i class="fa fa-question-circle"></i> 문의</a>
+                                <!-- 관리자 계정 메뉴 -->
+                                <div th:insert="~{/fragments/admin-account-menu.html}"></div>
                             </div>
                         </div>
                         <!-- My Account Tab Menu End -->
@@ -800,12 +795,20 @@
                                         <div th:if="${deliveryPolicy != null}">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h5 class="card-title" th:text="${deliveryPolicy.deliveryPolicyName}">Policy Name</h5>
-                                                    <p class="card-text"><strong>정책 내용:</strong> <span th:text="${deliveryPolicy.deliveryPolicyContent}">Policy Content</span></p>
-                                                    <p class="card-text"><strong>정책 가격:</strong> <span th:text="${deliveryPolicy.deliveryPolicyPrice}">Policy Price</span></p>
+                                                    <h5 class="card-title"
+                                                        th:text="${deliveryPolicy.deliveryPolicyName}">Policy Name</h5>
+                                                    <p class="card-text"><strong>정책 내용:</strong> <span
+                                                            th:text="${deliveryPolicy.deliveryPolicyContent}">Policy Content</span>
+                                                    </p>
+                                                    <p class="card-text"><strong>정책 가격:</strong> <span
+                                                            th:text="${deliveryPolicy.deliveryPolicyPrice}">Policy Price</span>
+                                                    </p>
                                                     <div class="d-flex justify-content-end">
-                                                        <a href="#" th:href="@{'/deliveries-policies/update/' + ${deliveryPolicy.deliveryPolicyId()}}" class="btn btn-warning">편집</a>
-                                                        <form th:action="@{/deliveries-policies/{deliveryPolicyId}(deliveryPolicyId=${deliveryPolicy.deliveryPolicyId})}" th:method="delete">
+                                                        <a href="#"
+                                                           th:href="@{'/deliveries-policies/update/' + ${deliveryPolicy.deliveryPolicyId()}}"
+                                                           class="btn btn-warning">편집</a>
+                                                        <form th:action="@{/deliveries-policies/{deliveryPolicyId}(deliveryPolicyId=${deliveryPolicy.deliveryPolicyId})}"
+                                                              th:method="delete">
                                                             <button type="submit" class="btn btn-danger">삭제</button>
                                                         </form>
                                                     </div>

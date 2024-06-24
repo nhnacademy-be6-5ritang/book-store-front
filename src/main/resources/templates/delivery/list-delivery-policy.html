@@ -778,13 +778,8 @@
                         <!-- My Account Tab Menu Start -->
                         <div class="col-lg-3 col-12">
                             <div class="myaccount-tab-menu nav" role="tablist">
-                                <a th:href="@{/deliveries-policies}" class="active" data-bs-toggle="tab"><i class="fa fa-truck"></i> 배송</a>
-                                <a href="#coupon" data-bs-toggle="tab"><i class="fa fa-ticket-alt"></i> 쿠폰</a>
-                                <a href="#point" data-bs-toggle="tab"><i class="fa fa-star"></i> 포인트</a>
-                                <a href="#books" data-bs-toggle="tab"><i class="fa fa-book"></i> 도서</a>
-                                <a href="#orders" data-bs-toggle="tab"><i class="fa fa-shopping-cart"></i> 주문</a>
-                                <a href="#members" data-bs-toggle="tab"><i class="fa fa-user"></i> 회원</a>
-                                <a href="#inquiries" data-bs-toggle="tab"><i class="fa fa-question-circle"></i> 문의</a>
+                                <!-- 관리자 계정 메뉴 -->
+                                <div th:insert="~{/fragments/admin-account-menu.html}"></div>
                             </div>
                         </div>
                         <!-- My Account Tab Menu End -->
@@ -792,54 +787,37 @@
                         <div class="col-lg-9 col-12 mt--30 mt-lg--0">
                             <div class="tab-content" id="myaccountContent">
                                 <!-- Delivery Tab Content Start -->
-                                <div class="tab-pane fade show active" id="delivery" role="tabpanel">
-                                    <div class="myaccount-content">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <h3>Delivery Policy</h3>
-                                            <a href="/deliveries-policies/create" class="btn btn-primary">정책 추가</a>
-                                        </div>
-                                        <div th:if="${deliveryPolicies != null}">
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                <tr>
-                                                    <th>번호</th>
-                                                    <th>정책 이름</th>
-                                                    <td></td>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr th:each="policy, index : ${deliveryPolicies}">
-                                                    <td th:text="${index.index + 1}">1</td>
-                                                    <td th:text="${policy.deliveryPolicyName}">Policy Name</td>
-                                                    <td style="display: flex; align-items: center;">
-                                                        <a href="#" th:href="@{'/deliveries-policies/' + ${policy.deliveryPolicyId()}}" class="btn btn-info">보기</a>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div th:if="${deliveryPolicies == null}">
-                                            <p>No delivery policies found.</p>
-                                        </div>
+                                <div class="myaccount-content">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h3>Delivery Policy</h3>
+                                        <a href="/deliveries-policies/create" class="btn btn-primary">정책 추가</a>
+                                    </div>
+                                    <div th:if="${deliveryPolicies != null}">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th>번호</th>
+                                                <th>정책 이름</th>
+                                                <td></td>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="policy, index : ${deliveryPolicies}">
+                                                <td th:text="${index.index + 1}">1</td>
+                                                <td th:text="${policy.deliveryPolicyName}">Policy Name</td>
+                                                <td style="display: flex; align-items: center;">
+                                                    <a href="#"
+                                                       th:href="@{'/deliveries-policies/' + ${policy.deliveryPolicyId()}}"
+                                                       class="btn btn-info">보기</a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div th:if="${deliveryPolicies == null}">
+                                        <p>No delivery policies found.</p>
                                     </div>
                                 </div>
-                                <!-- Delivery Tab Content End -->
-                                <!-- Coupon Tab Content Start -->
-                                <div class="tab-pane fade" id="coupon" role="tabpanel">
-                                    <div class="myaccount-content">
-                                        <h3>Coupon</h3>
-                                        <p>Here you can view and manage your coupons.</p>
-                                    </div>
-                                </div>
-                                <!-- Coupon Tab Content End -->
-                                <!-- Point Tab Content Start -->
-                                <div class="tab-pane fade" id="point" role="tabpanel">
-                                    <div class="myaccount-content">
-                                        <h3>Point</h3>
-                                        <p>Here you can view and manage your points.</p>
-                                    </div>
-                                </div>
-                                <!-- Point Tab Content End -->
                             </div>
                         </div>
                         <!-- My Account Tab Content End -->

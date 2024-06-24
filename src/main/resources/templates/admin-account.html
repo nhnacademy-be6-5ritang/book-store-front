@@ -778,13 +778,8 @@
                         <!-- My Account Tab Menu Start -->
                         <div class="col-lg-3 col-12">
                             <div class="myaccount-tab-menu nav" role="tablist">
-                                <a th:href="@{/deliveries-policies}"><i class="fa fa-truck"></i> 배송</a>
-                                <a href="#coupon"><i class="fa fa-ticket-alt"></i> 쿠폰</a>
-                                <a href="#point"><i class="fa fa-star"></i> 포인트</a>
-                                <a href="#books"><i class="fa fa-book"></i> 도서</a>
-                                <a href="#orders"><i class="fa fa-shopping-cart"></i> 주문</a>
-                                <a href="#members"><i class="fa fa-user"></i> 회원</a>
-                                <a href="#inquiries"><i class="fa fa-question-circle"></i> 문의</a>
+                                <!-- 관리자 계정 메뉴 -->
+                                <div th:insert="~{/fragments/admin-account-menu.html}"></div>
                             </div>
                         </div>
                     </div>
