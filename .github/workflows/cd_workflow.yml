@@ -62,7 +62,11 @@ jobs:
             echo "Starting new application..."
             nohup java -jar ~/target/BOOK-STORE-FRONT.jar --server.port=${{ secrets.FRONT_PORT_A }} > app.log 2>&1 &
             echo "New application started. Check app.log for details."
-
+            
+      # 딜레이 추가 (10초 예시)
+      - name: Delay before stopping application B
+        run: sleep 15
+        
       # 앱 포트로 실행된 jar 파일 종료
       - name: Stop existing Spring Boot application B
         uses: appleboy/ssh-action@master
