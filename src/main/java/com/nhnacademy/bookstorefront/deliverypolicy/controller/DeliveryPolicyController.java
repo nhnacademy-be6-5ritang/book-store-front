@@ -50,7 +50,7 @@ public class DeliveryPolicyController {
 
 	@GetMapping
 	public ModelAndView listDeliveryPolicies() {
-		ModelAndView modelAndView = new ModelAndView("admin-account");
+		ModelAndView modelAndView = new ModelAndView("delivery/list-delivery-policy");
 		List<GetDeliveryPoliciesResponse> responses = deliveryPolicyService.getDeliveryPolicies();
 		modelAndView.addObject("deliveryPolicies", responses);
 		return modelAndView;
