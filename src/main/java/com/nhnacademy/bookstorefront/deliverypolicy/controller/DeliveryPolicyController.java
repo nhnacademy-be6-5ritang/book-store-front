@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.nhnacademy.bookstorefront.deliverypolicy.dto.request.CreateDeliveryPolicyRequest;
@@ -30,19 +28,19 @@ public class DeliveryPolicyController {
 
 	@GetMapping("/create")
 	public ModelAndView createDeliveryPolicyForm() {
-		return new ModelAndView("/delivery/create-delivery-policy");
+		return new ModelAndView("/deliverypolicy/create-delivery-policy");
 	}
 
 	@GetMapping("/update/{deliveryPolicyId}")
 	public ModelAndView updateDeliveryPolicyForm(@PathVariable Long deliveryPolicyId) {
-		ModelAndView modelAndView = new ModelAndView("/delivery/update-delivery-policy");
+		ModelAndView modelAndView = new ModelAndView("/deliverypolicy/update-delivery-policy");
 		modelAndView.addObject("deliveryPolicy", deliveryPolicyService.getDeliveryPolicy(deliveryPolicyId));
 		return modelAndView;
 	}
 
 	@GetMapping("/{deliveryPolicyId}")
 	public ModelAndView getDeliveryPolicy(@PathVariable Long deliveryPolicyId) {
-		ModelAndView modelAndView = new ModelAndView("delivery/get-delivery-policy");
+		ModelAndView modelAndView = new ModelAndView("deliverypolicy/get-delivery-policy");
 		GetDeliveryPolicyResponse response = deliveryPolicyService.getDeliveryPolicy(deliveryPolicyId);
 		modelAndView.addObject("deliveryPolicy", response);
 		return modelAndView;
@@ -50,7 +48,7 @@ public class DeliveryPolicyController {
 
 	@GetMapping
 	public ModelAndView listDeliveryPolicies() {
-		ModelAndView modelAndView = new ModelAndView("delivery/list-delivery-policy");
+		ModelAndView modelAndView = new ModelAndView("deliverypolicy/list-delivery-policy");
 		List<GetDeliveryPoliciesResponse> responses = deliveryPolicyService.getDeliveryPolicies();
 		modelAndView.addObject("deliveryPolicies", responses);
 		return modelAndView;
