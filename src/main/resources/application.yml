@@ -1,3 +1,22 @@
 spring:
   application:
     name: book-store-front-A
+
+  devtools:
+    livereload:
+      enabled: true
+
+  # 캐시 비활성화
+  thymeleaf:
+    cache: false
+
+  # HTML form에서 GET, POST 뿐 아니라 PUT, DELETE도 사용하기 위해서 설정
+  mvc:
+    hidden method:
+      filter:
+        enabled: true
+
+server:
+  port: 8081
+
+
