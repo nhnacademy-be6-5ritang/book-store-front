@@ -21,15 +21,15 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 
 	@Override
 	public UserAndCouponResponseDTO createUserAndCoupon(Long couponId) {
-		String userId="1";
-		UserAndCouponRequestCreateDTO requestDTO = new UserAndCouponRequestCreateDTO(userId, false);
+		String userEmail="2";
+		UserAndCouponRequestCreateDTO requestDTO = new UserAndCouponRequestCreateDTO(userEmail, false);
 
 		return userAndCouponFeignClient.createUserAndCoupon(couponId ,requestDTO).getBody();
 	}
 
 	@Override
-	public UserAndCouponResponseDTO updateUserAndCoupon(String userId, UserAndCouponRequestUpdateDTO requestDTO) {
-		return userAndCouponFeignClient.updateUserAndCoupon(userId, requestDTO).getBody();
+	public UserAndCouponResponseDTO updateUserAndCoupon(String userEmail, UserAndCouponRequestUpdateDTO requestDTO) {
+		return userAndCouponFeignClient.updateUserAndCoupon(userEmail, requestDTO).getBody();
 	}
 
 	@Override
@@ -38,8 +38,8 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 	}
 
 	@Override
-	public List<UserAndCouponResponseDTO> getUserAndCouponById(String userId) {
-		return userAndCouponFeignClient.getUserAndCouponById(userId).getBody();
+	public List<UserAndCouponResponseDTO> getUserAndCouponById(String userEmail) {
+		return userAndCouponFeignClient.getUserAndCouponById(userEmail).getBody();
 
 	}
 

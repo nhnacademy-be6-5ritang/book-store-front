@@ -10,10 +10,10 @@ public interface UserAndCouponService {
 
     UserAndCouponResponseDTO createUserAndCoupon(Long couponId);
 
-    UserAndCouponResponseDTO updateUserAndCoupon(String userId, UserAndCouponRequestUpdateDTO requestDTO);
+    UserAndCouponResponseDTO updateUserAndCoupon(String userEmail, UserAndCouponRequestUpdateDTO requestDTO);
 
     List<UserAndCouponResponseDTO> getAllUserAndCoupons();
 
-    List<UserAndCouponResponseDTO> getUserAndCouponById(String userId);
+    List<UserAndCouponResponseDTO> getUserAndCouponById(String userEmail);
 
 }

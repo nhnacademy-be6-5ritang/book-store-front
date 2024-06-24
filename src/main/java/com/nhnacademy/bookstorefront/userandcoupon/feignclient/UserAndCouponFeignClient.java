@@ -22,16 +22,16 @@ public interface UserAndCouponFeignClient {
 	ResponseEntity<UserAndCouponResponseDTO> createUserAndCoupon(@PathVariable("couponId") Long couponId, @RequestBody
 		UserAndCouponRequestCreateDTO createDTO);
 
-	@PatchMapping("/coupons/users/{userId}")
-	ResponseEntity<UserAndCouponResponseDTO> updateUserAndCoupon(@PathVariable("userId") String userId,
+	@PatchMapping("/coupons/users/{userEmail}")
+	ResponseEntity<UserAndCouponResponseDTO> updateUserAndCoupon(@PathVariable("userEmail") String userId,
 		@RequestBody UserAndCouponRequestUpdateDTO requestDTO);
 
 	@GetMapping("/coupons/users")
 	ResponseEntity<List<UserAndCouponResponseDTO>> getAllUserAndCoupons();
 
 
-	@GetMapping("/coupons/users/{userId}")
-	ResponseEntity<List<UserAndCouponResponseDTO>> getUserAndCouponById(@PathVariable("userId") String userId);
+	@GetMapping("/coupons/users/{userEmail}")
+	ResponseEntity<List<UserAndCouponResponseDTO>> getUserAndCouponById(@PathVariable("userEmail") String userId);
 }
 
 

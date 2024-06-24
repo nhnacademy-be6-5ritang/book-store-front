@@ -20,11 +20,11 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Coupon ID: <span th:text="${coupon.id}"></span></h5>
-                        <p class="card-text">Coupon Policy: <span th:text="${coupon.coupon.couponPolicy.name}"></span></p>
-                        <p class="card-text">Expired Date: <span th:text="${#dates.format(coupon.coupon.expiredDate, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
-                        <p class="card-text">Used Date: <span th:text="${coupon.usedDate != null ? #dates.format(coupon.usedDate, 'yyyy-MM-dd HH:mm:ss') : 'Not Used'}"></span></p>
+                        <p class="card-text">Coupon Policy: <span th:text="${coupon.coupon.couponPolicy.couponPolicyId}"></span></p>
+                        <p class="card-text">Expired Date: <span th:text="${coupon.coupon.expiredDate}"></span></p>
+                        <p class="card-text">Used Date: <span th:text="${coupon.usedDate}"></span></p>
                         <p class="card-text">Is Used: <span th:text="${coupon.isUsed ? 'Not Usable' : 'Usable'}"></span></p>
-                        <p class="card-text">Issue Date: <span th:text="${#dates.format(coupon.coupon.issueDate, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+                        <p class="card-text">Issue Date: <span th:text="${coupon.coupon.issueDate}"></span></p>
                         <p class="card-text">Type: <span th:text="${coupon.coupon.couponPolicy.type}"></span></p>
                         <p class="card-text">Sale Price: <span th:text="${coupon.coupon.couponPolicy.salePrice}"></span></p>
                         <p class="card-text">Sale Rate: <span th:text="${coupon.coupon.couponPolicy.saleRate}"></span></p>

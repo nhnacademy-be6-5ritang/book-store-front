@@ -8,7 +8,7 @@ import com.nhnacademy.bookstorefront.coupon.domain.dto.response.CouponResponseDT
 public record UserAndCouponResponseDTO(
 	Long id,
 	CouponResponseDTO coupon,
-	String userId,
+	String userEmail,
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 	LocalDateTime usedDate,

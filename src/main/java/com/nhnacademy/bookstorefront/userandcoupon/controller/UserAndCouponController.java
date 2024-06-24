@@ -50,17 +50,18 @@ public class UserAndCouponController {
     // }
 
     // TODO 3 : 마이페이지 쿠폰목록 보여주기 (페이징처리)
-    @GetMapping("/users/{userId}")
-    public String getUserAndCouponById( @PathVariable("userId") String userId, Model model) {
-        List<UserAndCouponResponseDTO> userAndCoupon = userAndCouponService.getUserAndCouponById(userId);
+    @GetMapping("/users/{userEmail}")
+    public String getUserAndCouponById( @PathVariable("userEmail") String userEmail, Model model) {
+        List<UserAndCouponResponseDTO> userAndCoupon = userAndCouponService.getUserAndCouponById(userEmail);
         model.addAttribute("userAndCoupon", userAndCoupon);
         return "mypage-coupon";
     }
 
     // TODO 4 : 판매자페이지 유저가 발급한 쿠폰목록 보여주기 (페이징처리)
     @GetMapping("/users")
-    public String getAllUserAndCoupon() {
+    public String getAllUserAndCoupon(Model model) {
         List<UserAndCouponResponseDTO> userAndCoupon = userAndCouponService.getAllUserAndCoupons();
+        model.addAttribute("userAndCoupon", userAndCoupon);
         return "coupon-issued";
     }
 
