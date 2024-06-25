@@ -6,6 +6,3 @@ spring:
   devtools:
     livereload:
       enabled: false
-
-#server:
-#  port: 8081

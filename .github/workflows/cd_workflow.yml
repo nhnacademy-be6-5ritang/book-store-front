@@ -60,7 +60,7 @@ jobs:
           script_stop: true
           script: |
             echo "Starting new application..."
-            nohup java -jar ~/target/BOOK-STORE-FRONT.jar --server.profiles.active=${{secrets.SPRING_PROFILE_A}} --server.port=${{ secrets.FRONT_PORT_A }} > app.log 2>&1 &
+            nohup java -jar ~/target/BOOK-STORE-FRONT.jar --server.profiles.active=${{secrets.SPRING_PROFILE}} --server.port=${{ secrets.FRONT_PORT_A }} > app.log 2>&1 &
             echo "New application started. Check app.log for details."
             
       # 딜레이 추가 (10초 예시)
@@ -90,6 +90,6 @@ jobs:
           script_stop: true
           script: |
             echo "Starting new application..."
-            nohup java -jar ~/target/BOOK-STORE-FRONT.jar --server.profiles.active=${{secrets.SPRING_PROFILE_B}} --server.port=${{ secrets.FRONT_PORT_B }} > app.log 2>&1 &
+            nohup java -jar ~/target/BOOK-STORE-FRONT.jar --server.profiles.active=${{secrets.SPRING_PROFILE}} --server.port=${{ secrets.FRONT_PORT_B }} > app.log 2>&1 &
             echo "New application started. Check app.log for details."
 
