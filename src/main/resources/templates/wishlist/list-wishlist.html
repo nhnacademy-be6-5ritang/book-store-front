@@ -796,7 +796,6 @@
                     </div>
                     <div class="item-actions button">
                         <div><button class="btn btn-primary">카트에 담기</button></div>
-<!--                        <div><button class="btn btn-danger small">삭제</button></div>-->
                         <div>
                             <form th:action="@{/wishLists/{wishListsId}(wishListsId=${wishList.wishListId})}" th:method="delete">
                                 <button type="submit" class="btn btn-danger">삭제</button>

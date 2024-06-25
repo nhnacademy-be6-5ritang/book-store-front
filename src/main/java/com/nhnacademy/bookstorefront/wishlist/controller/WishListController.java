@@ -28,9 +28,8 @@ public class WishListController {
 	}
 
 	@PostMapping
-	public String createWishList(@RequestBody CreateWishListRequest request) {
+	public void createWishList(@RequestBody CreateWishListRequest request) {
 		wishListService.createWishList(request);
-		return "redirect:/wishLists";
 	}
 
 	@DeleteMapping("{wishListId}")
