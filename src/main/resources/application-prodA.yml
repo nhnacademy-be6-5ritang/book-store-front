@@ -7,5 +7,5 @@ spring:
     livereload:
       enabled: false
 
-server:
-  port: 8081
+#server:
+#  port: 8081
