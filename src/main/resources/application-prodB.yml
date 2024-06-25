@@ -1,11 +1,11 @@
 spring:
   application:
-    name: book-store-front-A
+    name: book-store-front-B
 
   # 라이브 리로드 비활성화
   devtools:
     livereload:
       enabled: false
 
-  server:
-    port:8081
+server:
+  port: 8082

@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: book-store-front-A
+
+  # 라이브 리로드 비활성화
+  devtools:
+    livereload:
+      enabled: false
+
+server:
+  port: 8081
