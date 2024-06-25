@@ -2,11 +2,9 @@ package com.nhnacademy.bookstorefront.wishlist.service.impl;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.wishlist.dto.request.CreateWishListRequest;
-import com.nhnacademy.bookstorefront.wishlist.dto.request.GetWishListsRequest;
 import com.nhnacademy.bookstorefront.wishlist.dto.response.CreateWishListResponse;
 import com.nhnacademy.bookstorefront.wishlist.dto.response.GetWishListResponse;
 import com.nhnacademy.bookstorefront.wishlist.feignclient.WishListServiceClient;
@@ -20,17 +18,17 @@ public class WishListServiceImpl implements WishListService {
 	private final WishListServiceClient wishListServiceClient;
 
 	@Override
-	public ResponseEntity<List<GetWishListResponse>> getWishLists(GetWishListsRequest request) {
-		return wishListServiceClient.getWishLists(request);
+	public List<GetWishListResponse> getWishLists() {
+		return wishListServiceClient.getWishLists().getBody();
 	}
 
 	@Override
-	public ResponseEntity<CreateWishListResponse> createWishList(CreateWishListRequest request) {
-		return wishListServiceClient.createWishList(request);
+	public CreateWishListResponse createWishList(CreateWishListRequest request) {
+		return wishListServiceClient.createWishList(request).getBody();
 	}
 
 	@Override
-	public ResponseEntity<Void> deleteWishList(Long wishListId) {
-		return wishListServiceClient.deleteWishList(wishListId);
+	public void deleteWishList(Long wishListId) {
+		wishListServiceClient.deleteWishList(wishListId);
 	}
 }
