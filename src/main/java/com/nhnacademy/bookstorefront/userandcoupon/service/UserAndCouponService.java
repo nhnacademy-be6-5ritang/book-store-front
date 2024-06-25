@@ -13,11 +13,9 @@ public interface UserAndCouponService {
 
     UserAndCouponResponseDTO updateUserAndCoupon(String userEmail, UserAndCouponRequestUpdateDTO requestDTO);
 
-    // List<UserAndCouponResponseDTO> getAllUserAndCoupons();
 
-    Page<UserAndCouponResponseDTO> getAllUserAndCouponPaging(Pageable pageable);
-
-    // List<UserAndCouponResponseDTO> getUserAndCouponById(String userEmail);
+    // Page<UserAndCouponResponseDTO> getAllUserAndCouponPaging(Pageable pageable);
+    Page<UserAndCouponResponseDTO> getAllUserAndCouponPaging(String userEmail, String type,Pageable pageable);
     Page<UserAndCouponResponseDTO> getUserAndCouponByIdPaging(String userEmail, Pageable pageable);
 
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nhnacademy.bookstorefront.global.config.FeignClientConfig;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.request.UserAndCouponRequestCreateDTO;
@@ -27,14 +28,12 @@ public interface UserAndCouponFeignClient {
 		@RequestBody UserAndCouponRequestUpdateDTO requestDTO);
 	//
 	// @GetMapping("/coupons/users")
-	// ResponseEntity<List<UserAndCouponResponseDTO>> getAllUserAndCoupons();
+	// ResponseEntity<Page<UserAndCouponResponseDTO>> getAllUserAndCouponPaging(Pageable pageable);
+
 
 	@GetMapping("/coupons/users")
-	ResponseEntity<Page<UserAndCouponResponseDTO>> getAllUserAndCouponPaging(Pageable pageable);
+	ResponseEntity<Page<UserAndCouponResponseDTO>> getAllUserAndCouponPaging(@RequestParam(required = false)String userEmail,@RequestParam(required = false)  String type, Pageable pageable);
 
-	//
-	// @GetMapping("/coupons/users/{userEmail}")
-	// ResponseEntity<List<UserAndCouponResponseDTO>> getUserAndCouponById(@PathVariable("userEmail") String userId);
 
 
 	@GetMapping("/coupons/users/{userEmail}")

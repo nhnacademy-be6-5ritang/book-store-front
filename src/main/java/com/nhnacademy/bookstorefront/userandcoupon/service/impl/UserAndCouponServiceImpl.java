@@ -32,22 +32,17 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 		return userAndCouponFeignClient.updateUserAndCoupon(userEmail, requestDTO).getBody();
 	}
 
-	// @Override
-	// public List<UserAndCouponResponseDTO> getAllUserAndCoupons() {
-	// 	return userAndCouponFeignClient.getAllUserAndCoupons().getBody();
-	// }
 
+	// @Override
+	// public Page<UserAndCouponResponseDTO> getAllUserAndCouponPaging(Pageable pageable) {
+	// 	return userAndCouponFeignClient.getAllUserAndCouponPaging(pageable).getBody();
+	// }
 
 	@Override
-	public Page<UserAndCouponResponseDTO> getAllUserAndCouponPaging(Pageable pageable) {
-		return userAndCouponFeignClient.getAllUserAndCouponPaging(pageable).getBody();
+	public Page<UserAndCouponResponseDTO> getAllUserAndCouponPaging(String userEmail, String type, Pageable pageable) {
+		return userAndCouponFeignClient.getAllUserAndCouponPaging(userEmail, type, pageable).getBody();
 	}
-	//
-	// @Override
-	// public List<UserAndCouponResponseDTO> getUserAndCouponById(String userEmail) {
-	// 	return userAndCouponFeignClient.getUserAndCouponById(userEmail).getBody();
-	//
-	// }
+
 
 	@Override
 	public Page<UserAndCouponResponseDTO> getUserAndCouponByIdPaging(String userEmail, Pageable pageable) {
