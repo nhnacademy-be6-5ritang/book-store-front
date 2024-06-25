@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.nhnacademy.bookstorefront.wishlist.dto.request.CreateWishListRequest;
-import com.nhnacademy.bookstorefront.wishlist.dto.request.GetWishListsRequest;
 import com.nhnacademy.bookstorefront.wishlist.service.WishListService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,15 +21,10 @@ public class WishListController {
 	private final WishListService wishListService;
 
 	@GetMapping
-	public ModelAndView getWishLists(@RequestBody GetWishListsRequest request) {
-		ModelAndView modelAndView = new ModelAndView("wishlist/list-wishlist");
-		modelAndView.addObject("wishLists", wishListService.getWishLists(request));
-		return modelAndView;
-	}
-
-	@GetMapping("/view")
 	public ModelAndView getWishLists() {
-		return new ModelAndView("wishlist/list-wishlist");
+		ModelAndView modelAndView = new ModelAndView("wishlist/list-wishlist");
+		modelAndView.addObject("wishLists", wishListService.getWishLists());
+		return modelAndView;
 	}
 
 	@PostMapping

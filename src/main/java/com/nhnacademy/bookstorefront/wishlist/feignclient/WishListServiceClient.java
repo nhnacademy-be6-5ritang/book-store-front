@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.nhnacademy.bookstorefront.wishlist.dto.request.CreateWishListRequest;
-import com.nhnacademy.bookstorefront.wishlist.dto.request.GetWishListsRequest;
 import com.nhnacademy.bookstorefront.wishlist.dto.response.CreateWishListResponse;
 import com.nhnacademy.bookstorefront.wishlist.dto.response.GetWishListResponse;
 
@@ -19,7 +18,7 @@ import com.nhnacademy.bookstorefront.wishlist.dto.response.GetWishListResponse;
 public interface WishListServiceClient {
 
 	@GetMapping("/wishLists")
-	ResponseEntity<List<GetWishListResponse>> getWishLists(@RequestBody GetWishListsRequest request);
+	ResponseEntity<List<GetWishListResponse>> getWishLists();
 
 	@PostMapping("/wishLists")
 	ResponseEntity<CreateWishListResponse> createWishList(@RequestBody CreateWishListRequest request);

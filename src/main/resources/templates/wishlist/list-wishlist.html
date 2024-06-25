@@ -20,7 +20,7 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-3">
-                        <a href="index.html" class="site-brand">
+                        <a th:href="@{/}" class="site-brand">
                             <img th:src="@{/image/oritang.png}" alt="">
                         </a>
                     </div>
@@ -776,43 +776,27 @@
         <div class="container">
             <form action="./">
                 <div class="wishlist-header">
-                    <h2>2권</h2>
-                    <button>도서추가</button>
+                    <h2 th:text="${wishLists.size()} + '권'"></h2>
                 </div>
-                <div class="wishlist-item">
+                <div th:each="wishlist : ${wishLists}" class="wishlist-item">
                     <div class="item-details">
                         <div class="item-image">
-                            <img th:src="@{/image/products/product-1.jpg}" alt="챗봇 2025 트렌드&활용백과" width="100" height="150">
+                            <img th:src="@{/image/products/product-1.jpg}" alt="Book Image" width="100" height="150">
                         </div>
                         <div>
-                            <div class="item-title">챗봇 2025 트렌드&활용백과</div>
-                            <div class="item-author">김덕진 외 1명</div>
-                            <div class="item-publisher">스마트북스</div>
+                            <div class="item-title" th:text="${wishlist.bookTitle}">Book Title</div>
+                            <div class="item-author" th:text="${wishlist.authorName}">Author</div>
+                            <div class="item-publisher" th:text="${wishlist.publisherName}">Publisher</div>
                             <div class="item-rating">평균 ★4(16)</div>
-                            <div class="item-price">22,500원 <span class="item-discount">10%</span></div>
+                            <div class="item-price">
+                                <span th:text="${wishlist.bookSalePrice} + '원'"></span>
+                                <span class="item-discount" th:text="${wishlist.bookSalePercent} + '%'"></span>
+                            </div>
                         </div>
                     </div>
-                    <div class="item-actions">
-                        <button class="btn--primary">카트에 담기</button>
-                        <div><a href="#"><i class="far fa-trash-alt"></i></a></div>
-                    </div>
-                </div>
-                <div class="wishlist-item">
-                    <div class="item-details">
-                        <div class="item-image">
-                            <img th:src="@{/image/products/product-2.jpg}" alt="라부카를 위한 소나타" width="100" height="150">
-                        </div>
-                        <div>
-                            <div class="item-title">라부카를 위한 소나타</div>
-                            <div class="item-author">아단 미오 저</div>
-                            <div class="item-publisher">알에이치코리아(RHK)</div>
-                            <div class="item-rating">평균 ★4(18)</div>
-                            <div class="item-price">17,820원 <span class="item-discount">10%</span></div>
-                        </div>
-                    </div>
-                    <div class="item-actions">
-                        <button><img src="cart-icon.png" alt="Add to cart"></button>
-                        <div><a href="#"><i class="far fa-trash-alt"></i></a></div>
+                    <div class="item-actions button">
+                        <div><button class="btn btn-primary">카트에 담기</button></div>
+                        <div><button class="btn btn-danger small">삭제</button></div>
                     </div>
                 </div>
             </form>
@@ -823,47 +807,47 @@
 <!--=================================
 Brands Slider
 ===================================== -->
-<section class="section-margin">
-    <h2 class="sr-only">Brand Slider</h2>
-    <div class="container">
-        <div class="brand-slider sb-slick-slider border-top border-bottom" data-slick-setting='{
-                                            "autoplay": true,
-                                            "autoplaySpeed": 8000,
-                                            "slidesToShow": 6
-                                            }' data-slick-responsive='[
-                {"breakpoint":992, "settings": {"slidesToShow": 4} },
-                {"breakpoint":768, "settings": {"slidesToShow": 3} },
-                {"breakpoint":575, "settings": {"slidesToShow": 3} },
-                {"breakpoint":480, "settings": {"slidesToShow": 2} },
-                {"breakpoint":320, "settings": {"slidesToShow": 1} }
-            ]'>
-            <div class="single-slide">
-                <img src="image/others/brand-1.jpg" alt="">
-            </div>
-            <div class="single-slide">
-                <img src="image/others/brand-2.jpg" alt="">
-            </div>
-            <div class="single-slide">
-                <img src="image/others/brand-3.jpg" alt="">
-            </div>
-            <div class="single-slide">
-                <img src="image/others/brand-4.jpg" alt="">
-            </div>
-            <div class="single-slide">
-                <img src="image/others/brand-5.jpg" alt="">
-            </div>
-            <div class="single-slide">
-                <img src="image/others/brand-6.jpg" alt="">
-            </div>
-            <div class="single-slide">
-                <img src="image/others/brand-1.jpg" alt="">
-            </div>
-            <div class="single-slide">
-                <img src="image/others/brand-2.jpg" alt="">
-            </div>
-        </div>
-    </div>
-</section>
+<!--<section class="section-margin">-->
+<!--    <h2 class="sr-only">Brand Slider</h2>-->
+<!--    <div class="container">-->
+<!--        <div class="brand-slider sb-slick-slider border-top border-bottom" data-slick-setting='{-->
+<!--                                            "autoplay": true,-->
+<!--                                            "autoplaySpeed": 8000,-->
+<!--                                            "slidesToShow": 6-->
+<!--                                            }' data-slick-responsive='[-->
+<!--                {"breakpoint":992, "settings": {"slidesToShow": 4} },-->
+<!--                {"breakpoint":768, "settings": {"slidesToShow": 3} },-->
+<!--                {"breakpoint":575, "settings": {"slidesToShow": 3} },-->
+<!--                {"breakpoint":480, "settings": {"slidesToShow": 2} },-->
+<!--                {"breakpoint":320, "settings": {"slidesToShow": 1} }-->
+<!--            ]'>-->
+<!--            <div class="single-slide">-->
+<!--                <img src="image/others/brand-1.jpg" alt="">-->
+<!--            </div>-->
+<!--            <div class="single-slide">-->
+<!--                <img src="image/others/brand-2.jpg" alt="">-->
+<!--            </div>-->
+<!--            <div class="single-slide">-->
+<!--                <img src="image/others/brand-3.jpg" alt="">-->
+<!--            </div>-->
+<!--            <div class="single-slide">-->
+<!--                <img src="image/others/brand-4.jpg" alt="">-->
+<!--            </div>-->
+<!--            <div class="single-slide">-->
+<!--                <img src="image/others/brand-5.jpg" alt="">-->
+<!--            </div>-->
+<!--            <div class="single-slide">-->
+<!--                <img src="image/others/brand-6.jpg" alt="">-->
+<!--            </div>-->
+<!--            <div class="single-slide">-->
+<!--                <img src="image/others/brand-1.jpg" alt="">-->
+<!--            </div>-->
+<!--            <div class="single-slide">-->
+<!--                <img src="image/others/brand-2.jpg" alt="">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
 <!--=================================
 Footer Area
 ===================================== -->
