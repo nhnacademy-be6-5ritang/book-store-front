@@ -96,6 +96,14 @@
             <scope>test</scope>
         </dependency>
         -->
+        <!-- https://mvnrepository.com/artifact/com.squareup.okhttp/okhttp -->
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-okhttp</artifactId>
+            <version>11.8</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>

@@ -104,7 +104,7 @@ public class CouponPolicyController {
 		} catch (Exception e) {
 			model.addAttribute("error", "Error fetching coupon policies: " + e.getMessage());
 		}
-		return "coupon-policy"; // Ensure this view exists
+		return "/coupon-manager/coupon-policy"; // Ensure this view exists
 	}
 	//
 	// @GetMapping("/{couponPolicyId}")

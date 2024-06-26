@@ -66,7 +66,7 @@ public class UserAndCouponController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("userAndCoupon", userAndCoupon);
-        return "mypage-coupon";
+        return "/coupon-user/mypage-coupon";
     }
 
 
@@ -114,7 +114,7 @@ public class UserAndCouponController {
         model.addAttribute("endPage", endPage);
         model.addAttribute("userAndCoupon", userAndCoupon);
         model.addAttribute("param", searchParams);
-        return "coupon-issued";
+        return "/coupon-manager/coupon-issued";
     }
 
 
