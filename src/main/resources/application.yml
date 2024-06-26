@@ -1,11 +1,12 @@
 spring:
   application:
     name: book-store-front-A
+
+  profiles:
+    active: dev
+
+  # HTML form에서 GET, POST 뿐 아니라 PUT, DELETE도 사용하기 위해서 설정
   mvc:
-    hiddenmethod:
+    hidden method:
       filter:
         enabled: true
-server:
-  port: 9999
-
-
