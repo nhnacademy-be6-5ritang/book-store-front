@@ -16,7 +16,7 @@ import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.request.UserAndCou
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.request.UserAndCouponRequestUpdateDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCouponResponseDTO;
 
-@FeignClient(name = "book-store-coupon", url = "http://localhost:9494", configuration = FeignClientConfig.class)
+@FeignClient(name = "book-store-coupon", contextId = "userAndCouponClient", url = "http://localhost:9494", configuration = FeignClientConfig.class)
 public interface UserAndCouponFeignClient {
 
 	@PostMapping("/coupons/{couponId}")
@@ -26,6 +26,7 @@ public interface UserAndCouponFeignClient {
 	@PatchMapping("/coupons/users/{userEmail}")
 	ResponseEntity<UserAndCouponResponseDTO> updateUserAndCoupon(@PathVariable("userEmail") String userId,
 		@RequestBody UserAndCouponRequestUpdateDTO requestDTO);
+	//
 	//
 	// @GetMapping("/coupons/users")
 	// ResponseEntity<Page<UserAndCouponResponseDTO>> getAllUserAndCouponPaging(Pageable pageable);

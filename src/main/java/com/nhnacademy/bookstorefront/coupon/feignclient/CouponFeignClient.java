@@ -14,7 +14,7 @@ import com.nhnacademy.bookstorefront.coupon.domain.dto.request.CouponCreateReque
 import com.nhnacademy.bookstorefront.coupon.domain.dto.response.CouponResponseDTO;
 import com.nhnacademy.bookstorefront.global.config.FeignClientConfig;
 
-@FeignClient(name = "book-store-coupon", url = "http://localhost:9494", configuration = FeignClientConfig.class)
+@FeignClient(name = "book-store-coupon",  contextId = "couponClient", url = "http://localhost:9494", configuration = FeignClientConfig.class)
 public interface CouponFeignClient {
 
 	@PostMapping("coupons")
