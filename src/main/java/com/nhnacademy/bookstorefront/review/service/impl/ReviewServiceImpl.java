@@ -3,6 +3,7 @@ package com.nhnacademy.bookstorefront.review.service.impl;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.review.dto.request.CreateReviewRequest;
@@ -21,32 +22,32 @@ public class ReviewServiceImpl implements ReviewService {
 	private final ReviewServiceClient reviewServiceClient;
 
 	@Override
-	public List<GetReviewResponse> getReviews(Long bookId) {
-		return reviewServiceClient.getReviews(bookId).getBody();
+	public List<GetReviewResponse> getReviews() {
+		return reviewServiceClient.getReviews().getBody();
 	}
 
 	@Override
-	public Page<GetReviewResponse> getReviewsByBookId(Long userId, int page, int size, String sort, Long bookId) {
-		return reviewServiceClient.getReviewsByBookId(userId, page, size, sort, bookId).getBody();
+	public Page<GetReviewResponse> getReviewsByBookId(Pageable pageable, Long bookId) {
+		return reviewServiceClient.getReviewsByBookId(pageable, bookId).getBody();
 	}
 
 	@Override
-	public CreateReviewResponse createReview(Long bookId, CreateReviewRequest request) {
-		return reviewServiceClient.createReview(bookId, request).getBody();
+	public CreateReviewResponse createReview(CreateReviewRequest request) {
+		return reviewServiceClient.createReview(request).getBody();
 	}
 
 	@Override
-	public GetReviewResponse getReview(Long bookId, Long reviewId) {
-		return reviewServiceClient.getReview(bookId, reviewId).getBody();
+	public GetReviewResponse getReview(Long reviewId) {
+		return reviewServiceClient.getReview(reviewId).getBody();
 	}
 
 	@Override
-	public UpdateReviewResponse updateReview(Long bookId, UpdateReviewRequest request, Long reviewId) {
-		return reviewServiceClient.updateReview(bookId, request, reviewId).getBody();
+	public UpdateReviewResponse updateReview(UpdateReviewRequest request, Long reviewId) {
+		return reviewServiceClient.updateReview(request, reviewId).getBody();
 	}
 
 	@Override
 	public void deleteReview(Long bookId, Long reviewId) {
-
+		reviewServiceClient.deleteReview(bookId, reviewId);
 	}
 }

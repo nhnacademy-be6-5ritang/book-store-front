@@ -9,7 +9,7 @@
     <!-- Use Minified Plugins Version For Fast Page Load -->
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
-    <link rel="stylesheet" th:href="@{/css/pages/create-review.css}" />
+    <link rel="stylesheet" th:href="@{/css/pages/list-review.css}" />
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
 </head>
 
@@ -765,78 +765,81 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item active">Wishlist</li>
+                        <li class="breadcrumb-item active">Review-List</li>
                     </ol>
                 </nav>
             </div>
         </div>
     </section>
-    <!-- Create Review Page Start -->
+    <!-- List Review Page Start -->
     <div class="cart_area inner-page-sec-padding-bottom">
         <div class="container">
-            <div class="review-list">
+            <div th:if="${reviews != null}">
+                <div class="review-list">
                 <div class="tabs">
-                    <button class="active">전체 리뷰 (2)</button>
-                    <button>구매 리뷰 (2)</button>
+                    <button class="active">전체 리뷰 (<span th:text="${reviews.totalElements}"></span>)</button>
+                    <button>일반 리뷰 (2)</button>
                     <button>포토 리뷰 (1)</button>
-                    <button>이달의 사락 리뷰 (0)</button>
                 </div>
-                <div class="review">
-                    <div class="review-header">
-                        <div class="title">
-                            <span>종이책</span>
-                            <span>구매</span>
-                            2023 알기사 정보보안기사(산업기사) 실기
+                <div th:if="${reviews.getContent() != null}">
+                    <div th:each="review : ${reviews}" class="review">
+                        <div class="review-header">
+                            <div class="info">
+                                <span th:text="${review.userId}"></span>
+                                <span th:text="${review.reviewCreatedAt}"></span>
+                                <span th:each="star : ${#numbers.sequence(1, review.reviewScore)}" class="star">&#9733;</span>
+                                <span th:if="${review.reviewScore < 5}" th:each="star : ${#numbers.sequence(1, 5 - review.reviewScore)}" class="star">&#9734;</span>
+                            </div>
                         </div>
-                        <div class="info">
-                            <span>S*****k</span>
-                            <span>2024-02-01</span>
-                            <span>신고</span>
-                        </div>
-                    </div>
-                    <div class="review-body">
-                        2023년 알기사 정보보안기사(산업기사) 실기는 전체적으로 난이도가 높아진 것으로 평가됩니다. 특히, 다음과 같은 부분에서 난이도가 높아졌습니다. 문제의 출제 범위가 확대되었습니다. 2023년 실기에서는 기존에 출제되지 않았던 다양한 분야의 문제가 출제되었습니다. 예를 들어, 암호학, 네트워크 보안, 시스템 보안, 응용 보안 등 다양한 분야의 문제가 출제... <span class="more">더보기</span>
-                    </div>
-                    <div class="review-footer">
-                        <div class="helpful">
-                            이 리뷰가 도움이 되었나요?
-                            <button>0</button>
-                        </div>
-                        <div class="comments">
-                            <button>댓글 0</button>
+                        <div class="review-body">
+                            <span th:text="${review.reviewComment}"></span>
+                            <span class="more">더보기</span>
                         </div>
                     </div>
                 </div>
-                <div class="review">
-                    <div class="review-header">
-                        <div class="title">
-                            <span>종이책</span>
-                            <span>구매</span>
-                            빨리 받아서 좋아요..
-                        </div>
-                        <div class="info">
-                            <span>K******n</span>
-                            <span>2023-03-18</span>
-                            <span>신고</span>
-                        </div>
-                    </div>
-                    <div class="review-body">
-                        보안기사 필기시험에 합격하고 실기시험을 보려고 책을 찾던 중 이 책을 추천을 많이 해서 구매를 하게 되었습니다. 책이 세권으로 되어 있어서 뚝딱지 않아서 좋습니다. 에스에서 적립해 주는 상품권과 쿠폰을 써서 저렴하게 구매를 했습니다. 열심히 공부해 보겠습니다. 열심히 공부해 보겠습니다. 열심히 공부해 보겠습니다. 열... <span class="more">더보기</span>
-                    </div>
-                    <div class="review-footer">
-                        <div class="helpful">
-                            이 리뷰가 도움이 되었나요?
-                            <button>0</button>
-                        </div>
-                        <div class="comments">
-                            <button>댓글 0</button>
-                        </div>
-                    </div>
+<!--                페이징 처리-->
+                <div>
+                    <ul class="pagination justify-content-center mt-4">
+                        <!-- 첫번째 페이지로 이동 -->
+                        <li class="page-item" th:classappend="${reviews.first} ? 'disabled'">
+                            <a class="page-link" th:href="@{/books/{bookId}/reviews(page=1, bookId=${bookId})}" aria-label="First">
+                                <span aria-hidden="true">&laquo; First</span>
+                            </a>
+                        </li>
+                        <!-- 이전 페이지로 이동 -->
+                        <li class="page-item" th:classappend="${reviews.first} ? 'disabled'">
+                            <a class="page-link" th:href="@{/books/{bookId}/reviews (page=${reviews.number}, bookId=${bookId}, type=${param.type})}" aria-label="Previous">
+                                <span aria-hidden="true">&lsaquo; Previous</span>
+                            </a>
+                        </li>
+
+                        <!-- 페이지 번호 링크 -->
+                        <li class="page-item" th:each="page: ${#numbers.sequence(startPage, endPage)}"
+                            th:classappend="${page == reviews.number + 1} ? 'active'">
+                            <a class="page-link" th:href="@{/books/{bookId}/reviews (page=${page}, bookId=${bookId})}" th:text="${page}"></a>
+                        </li>
+
+                        <!-- 다음 페이지로 이동 -->
+                        <li class="page-item" th:classappend="${reviews.last} ? 'disabled'">
+                            <a class="page-link" th:href="@{/books/{bookId}/reviews (page=${reviews.number+2}, bookId=${bookId})}" aria-label="Next">
+                                <span aria-hidden="true">Next &rsaquo;</span>
+                            </a>
+                        </li>
+
+                        <!-- 마지막 페이지로 이동 -->
+                        <li class="page-item" th:classappend="${reviews.last} ? 'disabled'">
+                            <a class="page-link" th:href="@{/books/{bookId}/reviews (page=${reviews.totalPages}, bookId=${bookId})}" aria-label="Last">
+                                <span aria-hidden="true">Last &raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
+
             </div>
         </div>
     </div>
-    <!-- Creat Review Page End -->
+
+    <!-- List Review Page End -->
 </div>
 <!--=================================
 Brands Slider
