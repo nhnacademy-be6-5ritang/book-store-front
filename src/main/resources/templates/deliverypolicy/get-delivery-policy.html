@@ -795,20 +795,13 @@
                                         <div th:if="${deliveryPolicy != null}">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h5 class="card-title"
-                                                        th:text="${deliveryPolicy.deliveryPolicyName}">Policy Name</h5>
-                                                    <p class="card-text"><strong>정책 내용:</strong> <span
-                                                            th:text="${deliveryPolicy.deliveryPolicyContent}">Policy Content</span>
-                                                    </p>
-                                                    <p class="card-text"><strong>정책 가격:</strong> <span
-                                                            th:text="${deliveryPolicy.deliveryPolicyPrice}">Policy Price</span>
-                                                    </p>
+                                                    <h5 class="card-title" th:text="${deliveryPolicy.deliveryPolicyName}"></h5>
+                                                    <p class="card-text"><strong>정책 내용:</strong> <span th:text="${deliveryPolicy.deliveryPolicyContent}"></span></p>
+                                                    <p class="card-text"><strong>배송비:</strong> <span th:text="${deliveryPolicy.deliveryPolicyPrice}"></span></p>
+                                                    <p class="card-text"><strong>배송비 정책 기준 금액:</strong> <span th:text="${deliveryPolicy.deliveryPolicyStandardPrice}"></span></p>
                                                     <div class="d-flex justify-content-end">
-                                                        <a href="#"
-                                                           th:href="@{'/deliveries-policies/update/' + ${deliveryPolicy.deliveryPolicyId()}}"
-                                                           class="btn btn-warning">편집</a>
-                                                        <form th:action="@{/deliveries-policies/{deliveryPolicyId}(deliveryPolicyId=${deliveryPolicy.deliveryPolicyId})}"
-                                                              th:method="delete">
+                                                        <a href="#" th:href="@{'/deliveries-policies/update/' + ${deliveryPolicy.deliveryPolicyId}}" class="btn btn-warning">편집</a>
+                                                        <form th:action="@{/deliveries-policies/{deliveryPolicyId}(deliveryPolicyId=${deliveryPolicy.deliveryPolicyId})}" th:method="delete">
                                                             <button type="submit" class="btn btn-danger">삭제</button>
                                                         </form>
                                                     </div>
