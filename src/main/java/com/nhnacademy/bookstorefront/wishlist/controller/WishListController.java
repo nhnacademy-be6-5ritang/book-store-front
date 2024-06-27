@@ -1,13 +1,13 @@
 package com.nhnacademy.bookstorefront.wishlist.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.nhnacademy.bookstorefront.wishlist.dto.request.CreateWishListRequest;
 import com.nhnacademy.bookstorefront.wishlist.service.WishListService;
@@ -21,10 +21,9 @@ public class WishListController {
 	private final WishListService wishListService;
 
 	@GetMapping
-	public ModelAndView getWishLists() {
-		ModelAndView modelAndView = new ModelAndView("wishlist/list-wishlist");
-		modelAndView.addObject("wishLists", wishListService.getWishLists());
-		return modelAndView;
+	public String getWishLists(Model model) {
+		model.addAttribute("wishLists", wishListService.getWishLists());
+		return "wishlist/list-wishlist";
 	}
 
 	@PostMapping
