@@ -16,7 +16,7 @@ import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.request.CouponPolic
 import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.response.CouponPolicyResponseDTO;
 import com.nhnacademy.bookstorefront.global.config.FeignClientConfig;
 
-@FeignClient(name = "book-store-coupon", contextId ="couponPolicyServiceClient" , url = "http://localhost:9494", configuration = FeignClientConfig.class)
+@FeignClient(name = "coupon-feign-client", url = "http://localhost:9494", configuration = FeignClientConfig.class)
 public interface CouponPolicyServiceFeignClient {
 
 
