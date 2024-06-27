@@ -24,9 +24,19 @@ public class ReviewController {
 	}
 
 	@GetMapping("/reviews")
-	public String getReviews(Model model) {
-		model.addAttribute("reviews", reviewService.getReviews());
-		return "review/list-review";
+	public String getReviews(@PageableDefault(page = 1) Pageable pageable, Model model) {
+		Page<GetReviewResponse> reviews = reviewService.getReviews(pageable);
+		model.addAttribute("reviews", reviews);
+
+		int blockLimit = 3;
+		int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
+		int endPage = Math.min((startPage + blockLimit - 1), reviews.getTotalPages());
+
+		model.addAttribute("blockLimit", blockLimit);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
+
+		return "review/list-all-review";
 	}
 
 	@GetMapping("/books/{bookId}/reviews")
@@ -41,6 +51,21 @@ public class ReviewController {
 		model.addAttribute("blockLimit", blockLimit);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
-		return "review/list-review";
+		return "review/list-by-book-review";
+	}
+
+	@GetMapping("/users/me/reviews")
+	public String getBookReviews(@PageableDefault(page = 1) Pageable pageable, Model model) {
+		Page<GetReviewResponse> reviews = reviewService.getReviewsByUserId(pageable);
+		model.addAttribute("reviews", reviews);
+
+		int blockLimit = 3;
+		int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
+		int endPage = Math.min((startPage + blockLimit - 1), reviews.getTotalPages());
+
+		model.addAttribute("blockLimit", blockLimit);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
+		return "review/list-by-user-review";
 	}
 }

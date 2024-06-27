@@ -1,7 +1,5 @@
 package com.nhnacademy.bookstorefront.review.service.impl;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,13 +20,18 @@ public class ReviewServiceImpl implements ReviewService {
 	private final ReviewServiceClient reviewServiceClient;
 
 	@Override
-	public List<GetReviewResponse> getReviews() {
-		return reviewServiceClient.getReviews().getBody();
+	public Page<GetReviewResponse> getReviews(Pageable pageable) {
+		return reviewServiceClient.getReviews(pageable).getBody();
 	}
 
 	@Override
 	public Page<GetReviewResponse> getReviewsByBookId(Pageable pageable, Long bookId) {
 		return reviewServiceClient.getReviewsByBookId(pageable, bookId).getBody();
+	}
+
+	@Override
+	public Page<GetReviewResponse> getReviewsByUserId(Pageable pageable) {
+		return reviewServiceClient.getReviewsByUserId(pageable).getBody();
 	}
 
 	@Override

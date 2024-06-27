@@ -776,12 +776,11 @@
         <div class="container">
             <div th:if="${reviews != null}">
                 <div class="review-list">
-                <div class="tabs">
-                    <button class="active">전체 리뷰 (<span th:text="${reviews.totalElements}"></span>)</button>
-                    <button>일반 리뷰 (2)</button>
-                    <button>포토 리뷰 (1)</button>
-                </div>
-                <div th:if="${reviews.getContent() != null}">
+                    <div class="tabs">
+                        <button class="active">전체 리뷰 (<span th:text="${reviews.getSize()}"></span>)</button>
+                        <button>일반 리뷰 (2)</button>
+                        <button>포토 리뷰 (1)</button>
+                    </div>
                     <div th:each="review : ${reviews}" class="review">
                         <div class="review-header">
                             <div class="info">
@@ -796,49 +795,48 @@
                             <span class="more">더보기</span>
                         </div>
                     </div>
+                    <!-- 페이징 처리 -->
+                    <div>
+                        <ul class="pagination justify-content-center mt-4">
+                            <!-- 첫번째 페이지로 이동 -->
+                            <li class="page-item" th:classappend="${reviews.first} ? 'disabled'">
+                                <a class="page-link" th:href="@{/reviews(page=1)}" aria-label="First">
+                                    <span aria-hidden="true">&laquo; First</span>
+                                </a>
+                            </li>
+                            <!-- 이전 페이지로 이동 -->
+                            <li class="page-item" th:classappend="${reviews.first} ? 'disabled'">
+                                <a class="page-link" th:href="@{/reviews (page=${reviews.number})}" aria-label="Previous">
+                                    <span aria-hidden="true">&lsaquo; Previous</span>
+                                </a>
+                            </li>
+
+                            <!-- 페이지 번호 링크 -->
+                            <li class="page-item" th:each="page: ${#numbers.sequence(startPage, endPage)}"
+                                th:classappend="${page == reviews.number + 1} ? 'active'">
+                                <a class="page-link" th:href="@{/reviews (page=${page})}" th:text="${page}"></a>
+                            </li>
+
+                            <!-- 다음 페이지로 이동 -->
+                            <li class="page-item" th:classappend="${reviews.last} ? 'disabled'">
+                                <a class="page-link" th:href="@{/reviews (page=${reviews.number+2})}" aria-label="Next">
+                                    <span aria-hidden="true">Next &rsaquo;</span>
+                                </a>
+                            </li>
+
+                            <!-- 마지막 페이지로 이동 -->
+                            <li class="page-item" th:classappend="${reviews.last} ? 'disabled'">
+                                <a class="page-link" th:href="@{/reviews (page=${reviews.totalPages})}" aria-label="Last">
+                                    <span aria-hidden="true">Last &raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
                 </div>
-<!--                페이징 처리-->
-                <div>
-                    <ul class="pagination justify-content-center mt-4">
-                        <!-- 첫번째 페이지로 이동 -->
-                        <li class="page-item" th:classappend="${reviews.first} ? 'disabled'">
-                            <a class="page-link" th:href="@{/books/{bookId}/reviews(page=1, bookId=${bookId})}" aria-label="First">
-                                <span aria-hidden="true">&laquo; First</span>
-                            </a>
-                        </li>
-                        <!-- 이전 페이지로 이동 -->
-                        <li class="page-item" th:classappend="${reviews.first} ? 'disabled'">
-                            <a class="page-link" th:href="@{/books/{bookId}/reviews (page=${reviews.number}, bookId=${bookId}, type=${param.type})}" aria-label="Previous">
-                                <span aria-hidden="true">&lsaquo; Previous</span>
-                            </a>
-                        </li>
-
-                        <!-- 페이지 번호 링크 -->
-                        <li class="page-item" th:each="page: ${#numbers.sequence(startPage, endPage)}"
-                            th:classappend="${page == reviews.number + 1} ? 'active'">
-                            <a class="page-link" th:href="@{/books/{bookId}/reviews (page=${page}, bookId=${bookId})}" th:text="${page}"></a>
-                        </li>
-
-                        <!-- 다음 페이지로 이동 -->
-                        <li class="page-item" th:classappend="${reviews.last} ? 'disabled'">
-                            <a class="page-link" th:href="@{/books/{bookId}/reviews (page=${reviews.number+2}, bookId=${bookId})}" aria-label="Next">
-                                <span aria-hidden="true">Next &rsaquo;</span>
-                            </a>
-                        </li>
-
-                        <!-- 마지막 페이지로 이동 -->
-                        <li class="page-item" th:classappend="${reviews.last} ? 'disabled'">
-                            <a class="page-link" th:href="@{/books/{bookId}/reviews (page=${reviews.totalPages}, bookId=${bookId})}" aria-label="Last">
-                                <span aria-hidden="true">Last &raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
             </div>
         </div>
     </div>
-
     <!-- List Review Page End -->
 </div>
 <!--=================================

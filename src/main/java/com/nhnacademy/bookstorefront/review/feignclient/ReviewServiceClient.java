@@ -1,7 +1,5 @@
 package com.nhnacademy.bookstorefront.review.feignclient;
 
-import java.util.List;
-
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,11 +21,14 @@ import com.nhnacademy.bookstorefront.review.dto.response.UpdateReviewResponse;
 public interface ReviewServiceClient {
 
 	@GetMapping("/reviews")
-	ResponseEntity<List<GetReviewResponse>> getReviews();
+	ResponseEntity<Page<GetReviewResponse>> getReviews(Pageable pageable);
 
 	@GetMapping("/books/{bookId}/reviews")
 	ResponseEntity<Page<GetReviewResponse>> getReviewsByBookId(Pageable pageable,
 		@PathVariable Long bookId);
+
+	@GetMapping("/users/me/reviews")
+	ResponseEntity<Page<GetReviewResponse>> getReviewsByUserId(Pageable pageable);
 
 	@PostMapping("/reviews")
 	ResponseEntity<CreateReviewResponse> createReview(@RequestBody CreateReviewRequest request);
