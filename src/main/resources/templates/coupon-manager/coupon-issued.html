@@ -10,13 +10,13 @@
 <body>
 
 <div class="container mt-5">
-    <h2 class="mb-4">My Coupons</h2>
+    <h2 class="mb-4">관리자 쿠폰관리페이지</h2>
 
     <!-- Search and Filter Form -->
     <form th:action="@{/coupons/users}" method="get" class="mb-4">
         <div class="form-row">
             <div class="col-md-4">
-                <input type="text" class="form-control" name="userEmail" placeholder="Search by User Email" th:value="${param.userEmail}">
+                <input type="text" class="form-control" name="userId" placeholder="Search by UserId" th:value="${param.userId}">
             </div>
             <div class="col-md-4">
                 <select class="form-control" name="type">
@@ -45,16 +45,17 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Coupon ID: <span th:text="${coupon.id}"></span></h5>
-                        <p class="card-text">Coupon Policy: <span th:text="${coupon.coupon.couponPolicy.couponPolicyId}"></span></p>
-                        <p class="card-text">Expired Date: <span th:text="${coupon.coupon.expiredDate}"></span></p>
+                        <p class="card-text">Coupon Policy: <span th:text="${coupon.couponPolicyResponseDTO.couponPolicyId}"></span></p>
+                        <p class="card-text">userId: <span th:text="${coupon.userId}"></span></p>
+                        <p class="card-text">Expired Date: <span th:text="${coupon.expiredDate}"></span></p>
                         <p class="card-text">Used Date: <span th:text="${coupon.usedDate}"></span></p>
                         <p class="card-text">Is Used: <span th:text="${coupon.isUsed ? 'Not Usable' : 'Usable'}"></span></p>
-                        <p class="card-text">Issue Date: <span th:text="${coupon.coupon.issueDate}"></span></p>
-                        <p class="card-text">Type: <span th:text="${coupon.coupon.couponPolicy.type}"></span></p>
-                        <p class="card-text">Sale Price: <span th:text="${coupon.coupon.couponPolicy.salePrice}"></span></p>
-                        <p class="card-text">Sale Rate: <span th:text="${coupon.coupon.couponPolicy.saleRate}"></span></p>
-                        <p class="card-text">Max Sale Price: <span th:text="${coupon.coupon.couponPolicy.maxSalePrice}"></span></p>
-                        <p class="card-text">Min Order Price: <span th:text="${coupon.coupon.couponPolicy.minOrderPrice}"></span></p>
+                        <p class="card-text">Issue Date: <span th:text="${coupon.issueDate}"></span></p>
+                        <p class="card-text">Type: <span th:text="${coupon.couponPolicyResponseDTO.type}"></span></p>
+                        <p class="card-text">Sale Price: <span th:text="${coupon.couponPolicyResponseDTO.salePrice}"></span></p>
+                        <p class="card-text">Sale Rate: <span th:text="${coupon.couponPolicyResponseDTO.salePrice}"></span></p>
+                        <p class="card-text">Max Sale Price: <span th:text="${coupon.couponPolicyResponseDTO.maxSalePrice}"></span></p>
+                        <p class="card-text">Min Order Price: <span th:text="${coupon.couponPolicyResponseDTO.minOrderPrice}"></span></p>
                     </div>
                 </div>
             </div>
@@ -69,13 +70,13 @@
         <ul class="pagination justify-content-center mt-4">
             <!-- 첫번째 페이지로 이동 -->
             <li class="page-item" th:classappend="${userAndCoupon.first} ? 'disabled'">
-                <a class="page-link" th:href="@{/coupons/users(page=1, userEmail=${param.userEmail}, type=${param.type})}" aria-label="First">
+                <a class="page-link" th:href="@{/coupons/users(page=1, userId=${param.userId}, type=${param.type})}" aria-label="First">
                     <span aria-hidden="true">&laquo; First</span>
                 </a>
             </li>
             <!-- 이전 페이지로 이동 -->
             <li class="page-item" th:classappend="${userAndCoupon.first} ? 'disabled'">
-                <a class="page-link" th:href="@{/coupons/users(page=${userAndCoupon.number}, userEmail=${param.userEmail}, type=${param.type})}" aria-label="Previous">
+                <a class="page-link" th:href="@{/coupons/users(page=${userAndCoupon.number}, userId=${param.userId}, type=${param.type})}" aria-label="Previous">
                     <span aria-hidden="true">&lsaquo; Previous</span>
                 </a>
             </li>
@@ -83,12 +84,12 @@
             <!-- 페이지 번호 링크 -->
             <li class="page-item" th:each="page: ${#numbers.sequence(startPage, endPage)}"
                 th:classappend="${page == userAndCoupon.number + 1} ? 'active'">
-                <a class="page-link" th:href="@{/coupons/users(page=${page}, userEmail=${param.userEmail}, type=${param.type})}" th:text="${page}"></a>
+                <a class="page-link" th:href="@{/coupons/users(page=${page}, userId=${param.userId}, type=${param.type})}" th:text="${page}"></a>
             </li>
 
             <!-- 다음 페이지로 이동 -->
             <li class="page-item" th:classappend="${userAndCoupon.last} ? 'disabled'">
-                <a class="page-link" th:href="@{/coupons/users(page=${userAndCoupon.number+2}, userEmail=${param.userEmail}, type=${param.type})}" aria-label="Next">
+                <a class="page-link" th:href="@{/coupons/users(page=${userAndCoupon.number+2}, userId=${param.userId}, type=${param.type})}" aria-label="Next">
                     <span aria-hidden="true">Next &rsaquo;</span>
                 </a>
             </li>
@@ -96,7 +97,7 @@
 
             <!-- 마지막 페이지로 이동 -->
             <li class="page-item" th:classappend="${userAndCoupon.last} ? 'disabled'">
-                <a class="page-link" th:href="@{/coupons/users(page=${userAndCoupon.totalPages}, userEmail=${param.userEmail}, type=${param.type})}" aria-label="Last">
+                <a class="page-link" th:href="@{/coupons/users(page=${userAndCoupon.totalPages}, userId=${param.userId}, type=${param.type})}" aria-label="Last">
                     <span aria-hidden="true">Last &raquo;</span>
                 </a>
             </li>

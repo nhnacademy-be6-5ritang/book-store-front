@@ -80,7 +80,9 @@
                                       th:method="delete">
                                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                 </form>
-                                <button class="btn btn-success btn-sm addBtn" th:data-policy-id="${policy.couponPolicyId}" data-toggle="modal" data-target="#addCouponModal">
+
+                                <button class="btn btn-success btn-sm addBtn" th:data-policy-id="${policy.couponPolicyId}" data-toggle="modal" data-target="#addCouponModal"
+                                        th:if="${policy.type == 'sale' or policy.type == 'book' or policy.type == 'category'}">
                                     Add Coupon
                                 </button>
                             </div>

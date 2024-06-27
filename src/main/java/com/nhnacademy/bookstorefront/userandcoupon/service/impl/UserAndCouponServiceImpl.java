@@ -20,16 +20,16 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 	}
 
 	@Override
-	public UserAndCouponResponseDTO createUserAndCoupon(Long couponId) {
-		String userEmail="2";
-		UserAndCouponRequestCreateDTO requestDTO = new UserAndCouponRequestCreateDTO(userEmail, false);
+	public UserAndCouponResponseDTO createUserAndCoupon(Long couponTemplateId) {
+		Long userId=2L;
+		UserAndCouponRequestCreateDTO requestDTO = new UserAndCouponRequestCreateDTO(userId, false);
 
-		return userAndCouponFeignClient.createUserAndCoupon(couponId ,requestDTO).getBody();
+		return userAndCouponFeignClient.createUserAndCoupon(couponTemplateId ,requestDTO).getBody();
 	}
 
 	@Override
-	public UserAndCouponResponseDTO updateUserAndCoupon(String userEmail, UserAndCouponRequestUpdateDTO requestDTO) {
-		return userAndCouponFeignClient.updateUserAndCoupon(userEmail, requestDTO).getBody();
+	public UserAndCouponResponseDTO updateUserAndCoupon(Long userId, UserAndCouponRequestUpdateDTO requestDTO) {
+		return userAndCouponFeignClient.updateUserAndCoupon(userId, requestDTO).getBody();
 	}
 
 
@@ -39,14 +39,14 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 	// }
 
 	@Override
-	public Page<UserAndCouponResponseDTO> getAllUserAndCouponPaging(String userEmail, String type, Pageable pageable) {
-		return userAndCouponFeignClient.getAllUserAndCouponPaging(userEmail, type, pageable).getBody();
+	public Page<UserAndCouponResponseDTO> getAllUserAndCouponPaging(Long userId, String type, Pageable pageable) {
+		return userAndCouponFeignClient.getAllUserAndCouponPaging(userId, type, pageable).getBody();
 	}
 
 
 	@Override
-	public Page<UserAndCouponResponseDTO> getUserAndCouponByIdPaging(String userEmail, Pageable pageable) {
-		return userAndCouponFeignClient.getUserAndCouponByIdPaging(userEmail, pageable).getBody();
+	public Page<UserAndCouponResponseDTO> getUserAndCouponByIdPaging(Long userId, Pageable pageable) {
+		return userAndCouponFeignClient.getUserAndCouponByIdPaging(userId, pageable).getBody();
 
 	}
 

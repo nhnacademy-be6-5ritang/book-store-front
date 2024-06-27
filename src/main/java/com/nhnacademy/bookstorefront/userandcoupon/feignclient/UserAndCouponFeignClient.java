@@ -16,15 +16,15 @@ import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.request.UserAndCou
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.request.UserAndCouponRequestUpdateDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCouponResponseDTO;
 
-@FeignClient(name = "userandcoupon-feign-client", contextId = "userAndCouponClient", url = "http://localhost:9494", configuration = FeignClientConfig.class)
+@FeignClient(name = "user-and-coupon-feign-client", url = "http://localhost:9494", configuration = FeignClientConfig.class)
 public interface UserAndCouponFeignClient {
 
-	@PostMapping("/coupons/{couponId}")
-	ResponseEntity<UserAndCouponResponseDTO> createUserAndCoupon(@PathVariable("couponId") Long couponId, @RequestBody
+	@PostMapping("/coupons/{couponTemplateId}")
+	ResponseEntity<UserAndCouponResponseDTO> createUserAndCoupon(@PathVariable("couponTemplateId") Long couponId, @RequestBody
 		UserAndCouponRequestCreateDTO createDTO);
 
-	@PatchMapping("/coupons/users/{userEmail}")
-	ResponseEntity<UserAndCouponResponseDTO> updateUserAndCoupon(@PathVariable("userEmail") String userId,
+	@PatchMapping("/coupons/users/{userId}")
+	ResponseEntity<UserAndCouponResponseDTO> updateUserAndCoupon(@PathVariable("userId") Long userId,
 		@RequestBody UserAndCouponRequestUpdateDTO requestDTO);
 	//
 	//
@@ -33,12 +33,12 @@ public interface UserAndCouponFeignClient {
 
 
 	@GetMapping("/coupons/users")
-	ResponseEntity<Page<UserAndCouponResponseDTO>> getAllUserAndCouponPaging(@RequestParam(required = false)String userEmail,@RequestParam(required = false)  String type, Pageable pageable);
+	ResponseEntity<Page<UserAndCouponResponseDTO>> getAllUserAndCouponPaging(@RequestParam(required = false)Long userId,@RequestParam(required = false)  String type, Pageable pageable);
 
 
 
-	@GetMapping("/coupons/users/{userEmail}")
-	ResponseEntity<Page<UserAndCouponResponseDTO>> getUserAndCouponByIdPaging(@PathVariable("userEmail") String userEmail, Pageable pageable);
+	@GetMapping("/coupons/users/{userId}")
+	ResponseEntity<Page<UserAndCouponResponseDTO>> getUserAndCouponByIdPaging(@PathVariable("userId") Long userId, Pageable pageable);
 }
 
 
