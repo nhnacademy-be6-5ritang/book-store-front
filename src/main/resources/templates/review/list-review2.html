@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>리뷰 리스트</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .review-list {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        .tabs button {
+            flex: 1;
+            padding: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .tabs button.active {
+            border-bottom: 2px solid #007bff;
+            color: #007bff;
+        }
+        .review {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .review:last-child {
+            border-bottom: none;
+        }
+        .review-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        .review-header .title {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .review-header .info {
+            font-size: 14px;
+            color: #888;
+        }
+        .review-header .info span {
+            margin-right: 10px;
+        }
+        .review-body {
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #333;
+        }
+        .review-body .more {
+            color: #007bff;
+            cursor: pointer;
+        }
+        .review-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #888;
+        }
+        .review-footer .helpful {
+            display: flex;
+            align-items: center;
+        }
+        .review-footer .helpful button {
+            margin-left: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #007bff;
+        }
+        .review-footer .comments {
+            display: flex;
+            align-items: center;
+        }
+        .review-footer .comments button {
+            margin-left: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+<div class="review-list">
+    <div class="tabs">
+        <button class="active">전체 리뷰 (2)</button>
+        <button>구매 리뷰 (2)</button>
+        <button>포토 리뷰 (1)</button>
+        <button>이달의 사락 리뷰 (0)</button>
+    </div>
+    <div class="review">
+        <div class="review-header">
+            <div class="title">
+                <span>종이책</span>
+                <span>구매</span>
+                2023 알기사 정보보안기사(산업기사) 실기
+            </div>
+            <div class="info">
+                <span>S*****k</span>
+                <span>2024-02-01</span>
+                <span>신고</span>
+            </div>
+        </div>
+        <div class="review-body">
+            2023년 알기사 정보보안기사(산업기사) 실기는 전체적으로 난이도가 높아진 것으로 평가됩니다. 특히, 다음과 같은 부분에서 난이도가 높아졌습니다. 문제의 출제 범위가 확대되었습니다. 2023년 실기에서는 기존에 출제되지 않았던 다양한 분야의 문제가 출제되었습니다. 예를 들어, 암호학, 네트워크 보안, 시스템 보안, 응용 보안 등 다양한 분야의 문제가 출제... <span class="more">더보기</span>
+        </div>
+        <div class="review-footer">
+            <div class="helpful">
+                이 리뷰가 도움이 되었나요?
+                <button>0</button>
+            </div>
+            <div class="comments">
+                <button>댓글 0</button>
+            </div>
+        </div>
+    </div>
+    <div class="review">
+        <div class="review-header">
+            <div class="title">
+                <span>종이책</span>
+                <span>구매</span>
+                빨리 받아서 좋아요..
+            </div>
+            <div class="info">
+                <span>K******n</span>
+                <span>2023-03-18</span>
+                <span>신고</span>
+            </div>
+        </div>
+        <div class="review-body">
+            보안기사 필기시험에 합격하고 실기시험을 보려고 책을 찾던 중 이 책을 추천을 많이 해서 구매를 하게 되었습니다. 책이 세권으로 되어 있어서 뚝딱지 않아서 좋습니다. 에스에서 적립해 주는 상품권과 쿠폰을 써서 저렴하게 구매를 했습니다. 열심히 공부해 보겠습니다. 열심히 공부해 보겠습니다. 열심히 공부해 보겠습니다. 열... <span class="more">더보기</span>
+        </div>
+        <div class="review-footer">
+            <div class="helpful">
+                이 리뷰가 도움이 되었나요?
+                <button>0</button>
+            </div>
+            <div class="comments">
+                <button>댓글 0</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

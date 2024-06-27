@@ -24,14 +24,6 @@ public class ReviewController {
 		return modelAndView;
 	}
 
-	@GetMapping("/create2")
-	public ModelAndView createReview2(@PathVariable Long bookId) {
-		ModelAndView modelAndView = new ModelAndView("/review/create-review2");
-		modelAndView.addObject("bookId", bookId);
-
-		return modelAndView;
-	}
-
 	@GetMapping
 	public ModelAndView getReviews(@PathVariable Long bookId) {
 		ModelAndView modelAndView = new ModelAndView("/review/list-review");
