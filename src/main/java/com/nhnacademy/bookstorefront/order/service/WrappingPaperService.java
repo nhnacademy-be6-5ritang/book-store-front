@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.order.dto.response.GetListWrappingResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetWrappingResponse;
-import com.nhnacademy.bookstorefront.order.feginclient.OrderServiceClient;
+import com.nhnacademy.bookstorefront.order.feignclient.OrderServiceClient;
 
 import lombok.RequiredArgsConstructor;
 
