@@ -4,12 +4,11 @@
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Pustok - Book Store HTML Template</title>
+    <title>책 파는 오리탕집</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Use Minified Plugins Version For Fast Page Load -->
-    <link rel="stylesheet" type="text/css" media="screen" href="../static/css/plugins.css"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="../static/css/main.css"/>
-    <link rel="shortcut icon" type="image/x-icon" href="image/favicon.ico">
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
 </head>
 
 <body>
@@ -19,8 +18,8 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-3 ">
-                        <a href="index.html" class="site-brand">
-                            <img src="image/oritang.png" alt="">
+                        <a th:href="@{/}" class="site-brand">
+                            <img th:src="@{/image/oritang.png}" alt="">
                         </a>
                     </div>
                     <div class="col-lg-3">
@@ -107,7 +106,7 @@
                                         <li><a href="compare.html">Compare</a></li>
                                         <li><a href="wishlist.html">Wishlist</a></li>
                                         <li><a href="login.html">Login Register</a></li>
-                                        <li><a href="my-account.html">My Account</a></li>
+                                        <li><a href="user-account.html">My Account</a></li>
                                         <li><a href="order-complete.html">Order Complete</a></li>
                                         <li><a href="faq.html">Faq</a></li>
                                         <li><a href="contact-2.html">contact 02</a></li>
@@ -573,7 +572,7 @@
                                     <li><a href="compare.html">Compare</a></li>
                                     <li><a href="wishlist.html">Wishlist</a></li>
                                     <li><a href="login.html">Login Register</a></li>
-                                    <li><a href="my-account.html">My Account</a></li>
+                                    <li><a href="user-account.html">My Account</a></li>
                                     <li><a href="order-complete.html">Order Complete</a></li>
                                     <li><a href="faq.html">Faq</a></li>
                                     <li><a href="contact-2.html">contact 02</a></li>
@@ -708,7 +707,7 @@
                                     <li><a href="compare.html">Compare</a></li>
                                     <li><a href="wishlist.html">Wishlist</a></li>
                                     <li><a href="login.html">Login Register</a></li>
-                                    <li><a href="my-account.html">My Account</a></li>
+                                    <li><a href="user-account.html">My Account</a></li>
                                     <li><a href="order-complete.html">Order Complete</a></li>
                                     <li><a href="faq.html">Faq</a></li>
                                     <li><a href="contact-2.html">contact 02</a></li>
@@ -777,19 +776,8 @@
                         <!-- My Account Tab Menu Start -->
                         <div class="col-lg-3 col-12">
                             <div class="myaccount-tab-menu nav" role="tablist">
-                                <a href="#dashboad" class="active" data-bs-toggle="tab"><i
-                                        class="fas fa-tachometer-alt"></i>
-                                    Dashboard</a>
-                                <a href="#orders" data-bs-toggle="tab"><i class="fa fa-cart-arrow-down"></i> Orders</a>
-                                <a href="#download" data-bs-toggle="tab"><i class="fas fa-download"></i> Download</a>
-                                <a href="#payment-method" data-bs-toggle="tab"><i class="fa fa-credit-card"></i>
-                                    Payment
-                                    Method</a>
-                                <a href="#address-edit" data-bs-toggle="tab"><i class="fa fa-map-marker"></i>
-                                    address</a>
-                                <a href="#account-info" data-bs-toggle="tab"><i class="fa fa-user"></i> Account
-                                    Details</a>
-                                <a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                                <!-- 사용자 계정 메뉴 -->
+                                <div th:insert="~{/fragments/user-account-menu.html}"></div>
                             </div>
                         </div>
                         <!-- My Account Tab Menu End -->

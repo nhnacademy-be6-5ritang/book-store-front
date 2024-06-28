@@ -2,11 +2,9 @@ package com.nhnacademy.bookstorefront.deliverypolicy.dto.request;
 
 import java.math.BigDecimal;
 
-import lombok.Builder;
-
-@Builder
 public record CreateDeliveryPolicyRequest(
 	String deliveryPolicyName,
+	String deliveryPolicyContent,
 	BigDecimal deliveryPolicyPrice,
-	String deliveryPolicyContent) {
+	BigDecimal deliveryPolicyStandardPrice) {
 }

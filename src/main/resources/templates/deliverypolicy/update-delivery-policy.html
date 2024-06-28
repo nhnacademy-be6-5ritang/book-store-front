@@ -805,8 +805,12 @@
                                                         <textarea class="form-control" id="deliveryPolicyContent" th:field="*{deliveryPolicyContent}" rows="4" required></textarea>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="deliveryPolicyPrice">정책 가격</label>
+                                                        <label for="deliveryPolicyPrice">배송비</label>
                                                         <input type="text" class="form-control" id="deliveryPolicyPrice" th:field="*{deliveryPolicyPrice}" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="deliveryPolicyStandardPrice">정책 기준 가격</label>
+                                                        <input type="text" class="form-control" id="deliveryPolicyStandardPrice" th:field="*{deliveryPolicyStandardPrice}" required>
                                                     </div>
                                                     <button type="submit" class="btn btn-primary">수정</button>
                                                 </form>

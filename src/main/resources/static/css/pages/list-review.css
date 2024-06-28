@@ -1,0 +1,91 @@
+body {
+    font-family: Arial, sans-serif;
+}
+.review-list {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+.tabs button {
+    flex: 1;
+    padding: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+.tabs button.active {
+    border-bottom: 2px solid #007bff;
+    color: #007bff;
+}
+.review {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+.review:last-child {
+    border-bottom: none;
+}
+.review-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+.review-header .title {
+    font-weight: bold;
+    font-size: 16px;
+}
+.review-header .info {
+    font-size: 14px;
+    color: #888;
+}
+.review-header .info span {
+    margin-right: 10px;
+}
+.review-body {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #333;
+}
+.review-body .more {
+    color: #007bff;
+    cursor: pointer;
+}
+.review-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #888;
+}
+.review-footer .helpful {
+    display: flex;
+    align-items: center;
+}
+.review-footer .helpful button {
+    margin-left: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #007bff;
+}
+.review-footer .comments {
+    display: flex;
+    align-items: center;
+}
+.review-footer .comments button {
+    margin-left: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #007bff;
+}
