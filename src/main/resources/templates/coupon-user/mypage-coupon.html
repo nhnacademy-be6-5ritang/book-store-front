@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Coupon Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 class="mb-4">내 쿠폰 목록</h2>
+
+    <!-- Check if there are coupons to display -->
+    <div th:if="${not #lists.isEmpty(userAndCoupon)}">
+        <div class="row">
+            <!-- Iterate over each UserAndCouponResponseDTO -->
+            <div th:each="coupon : ${userAndCoupon}" class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Coupon ID: <span th:text="${coupon.id}"></span></h5>
+                        <p class="card-text">Coupon Policy: <span th:text="${coupon.couponPolicyResponseDTO.couponPolicyId}"></span></p>
+                        <p class="card-text">Expired Date: <span th:text="${coupon.expiredDate}"></span></p>
+                        <p class="card-text">Used Date: <span th:text="${coupon.usedDate}"></span></p>
+                        <p class="card-text">Is Used: <span th:text="${coupon.isUsed ? 'Not Usable' : 'Usable'}"></span></p>
+                        <p class="card-text">Issue Date: <span th:text="${coupon.issueDate}"></span></p>
+                        <p class="card-text">Type: <span th:text="${coupon.couponPolicyResponseDTO.type}"></span></p>
+                        <p class="card-text">Sale Price: <span th:text="${coupon.couponPolicyResponseDTO.salePrice}"></span></p>
+                        <p class="card-text">Sale Rate: <span th:text="${coupon.couponPolicyResponseDTO.salePrice}"></span></p>
+                        <p class="card-text">Max Sale Price: <span th:text="${coupon.couponPolicyResponseDTO.maxSalePrice}"></span></p>
+                        <p class="card-text">Min Order Price: <span th:text="${coupon.couponPolicyResponseDTO.minOrderPrice}"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- If no coupons are available -->
+    <div th:if="${#lists.isEmpty(userAndCoupon)}">
+        <p>No coupons found.</p>
+    </div>
+
+
+    <!-- 페이지 네비게이션 -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center mt-4">
+            <th:block th:with="coupon=${userAndCoupon.content[0]}">
+
+                <!-- 첫번째 페이지로 이동 -->
+                <li class="page-item" th:classappend="${userAndCoupon.first} ? 'disabled'">
+                    <a class="page-link" th:href="@{/coupons/users/{userId}(userId=${coupon.userId}, page=1)}" aria-label="First">
+                        <span aria-hidden="true">&laquo; First</span>
+                    </a>
+                </li>
+
+                <!-- 이전 페이지로 이동 -->
+                <li class="page-item" th:classappend="${userAndCoupon.first} ? 'disabled'">
+                    <a class="page-link" th:href="@{/coupons/users/{userId}(userId=${coupon.userId}, page=${userAndCoupon.number})}" aria-label="Previous">
+                        <span aria-hidden="true">&lsaquo; Previous</span>
+                    </a>
+                </li>
+
+                <!-- 페이지 번호 링크 -->
+                <li class="page-item" th:each="page: ${#numbers.sequence(startPage, endPage)}"
+                    th:classappend="${page == userAndCoupon.number + 1} ? 'active'">
+                    <a class="page-link" th:href="@{/coupons/users/{userId}(userId=${coupon.userId}, page=${page})}" th:text="${page}"></a>
+                </li>
+
+                <!-- 다음 페이지로 이동 -->
+                <li class="page-item" th:classappend="${userAndCoupon.last} ? 'disabled'">
+                    <a class="page-link" th:href="@{/coupons/users/{userId}(userId=${coupon.userId}, page=${userAndCoupon.number + 2})}" aria-label="Next">
+                        <span aria-hidden="true">Next &rsaquo;</span>
+                    </a>
+                </li>
+
+                <!-- 마지막 페이지로 이동 -->
+                <li class="page-item" th:classappend="${userAndCoupon.last} ? 'disabled'">
+                    <a class="page-link" th:href="@{/coupons/users/{userId}(userId=${coupon.userId}, page=${userAndCoupon.totalPages})}" aria-label="Last">
+                        <span aria-hidden="true">Last &raquo;</span>
+                    </a>
+                </li>
+            </th:block>
+        </ul>
+    </nav>
+
+
+</div>
+
+
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
