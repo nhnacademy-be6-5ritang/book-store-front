@@ -21178,6 +21178,7 @@ input[type=number] {
   text-align: center;
 }
 .product-card .product-header {
+  height: 80px; /* 추가 */
   padding: 0 15px;
 }
 .product-card .author {
