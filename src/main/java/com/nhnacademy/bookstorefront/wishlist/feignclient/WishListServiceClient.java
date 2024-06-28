@@ -14,7 +14,7 @@ import com.nhnacademy.bookstorefront.wishlist.dto.request.CreateWishListRequest;
 import com.nhnacademy.bookstorefront.wishlist.dto.response.CreateWishListResponse;
 import com.nhnacademy.bookstorefront.wishlist.dto.response.GetWishListResponse;
 
-@FeignClient(name = "wishList-service", url = "http://localhost:8080")
+@FeignClient(name = "wishList-service", url = "http://localhost:8080/back")
 public interface WishListServiceClient {
 
 	@GetMapping("/wishLists")

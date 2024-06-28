@@ -18,7 +18,7 @@ import com.nhnacademy.bookstorefront.delivery.dto.response.CreateDeliveryRespons
 import com.nhnacademy.bookstorefront.delivery.dto.response.GetDeliveryResponse;
 import com.nhnacademy.bookstorefront.delivery.dto.response.UpdateDeliveryResponse;
 
-@FeignClient(name = "delivery-feign-client", url = "http://localhost:8083")
+@FeignClient(name = "delivery-feign-client", url = "http://localhost:8090/back")
 public interface DeliveryServiceClient {
 
 	@GetMapping
