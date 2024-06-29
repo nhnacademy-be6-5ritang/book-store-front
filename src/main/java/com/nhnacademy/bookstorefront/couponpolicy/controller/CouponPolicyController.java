@@ -29,7 +29,7 @@ public class CouponPolicyController {
 	}
 
 
-
+	// TODO api 이름 바꾸기 고려
 	@PostMapping("/create")
 	public String createCouponPolicy(
 		@ModelAttribute CouponPolicyCreateRequestDTO requestDTO,

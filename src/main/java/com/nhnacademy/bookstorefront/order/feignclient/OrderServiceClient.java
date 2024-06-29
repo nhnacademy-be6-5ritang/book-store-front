@@ -1,4 +1,4 @@
-package com.nhnacademy.bookstorefront.order.feginclient;
+package com.nhnacademy.bookstorefront.order.feignclient;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -24,37 +24,38 @@ import com.nhnacademy.bookstorefront.order.dto.response.UpdateBookOrderResponse;
 
 @FeignClient(name = "order-feign-service", url = "http://localhost:8083")
 public interface OrderServiceClient {
-	@GetMapping("/getBook/{book_id}")
+
+	@GetMapping("/books/{book_id}")
 	ResponseEntity<GetBookResponse> getBook(@PathVariable("book_id") Long bookId);
 
-	@GetMapping("/getBookOrder/{order_list_id}")
+	@GetMapping("/books-orders/{order_list_id}")
 	ResponseEntity<GetBookOrderResponse> getBookOrder(@PathVariable("order_list_id") Long orderListId);
 
 	//도서 주문 생성
-	@PostMapping("/bookOrder")
+	@PostMapping("/books-orders")
 	 ResponseEntity<CreateBookOrderResponse> createBookOrder(
 		@RequestBody CreateBookOrderRequest createBookOrderRequest);
 
-	@GetMapping("/wrapping")
+	@GetMapping("/wrappings")
 	 ResponseEntity<GetAllPaperResponse> getAllWrappingPapers();
 
-	@PostMapping("/createWrapping/{paper_id}/{book_order_id}/{quantity}")
+	@PostMapping("/wrappings/{paper_id}/{book_order_id}/{quantity}")
 	 ResponseEntity<GetWrappingResponse> createWrappingPapers(@PathVariable("paper_id") Long paperId, @PathVariable("book_order_id") long bookOrderId, @PathVariable("quantity") int quantity);
 
-	@GetMapping("/getWrappingPaperByOrderListId/{order_list_id}")
+	@GetMapping("/books-orders/{order_list_id}/wrapping-papers")
 	 ResponseEntity<GetListWrappingResponse> getWrappingPaperByOrderListId(@PathVariable("order_list_id") Long orderListId);
 
 	//주문 만들기 (도서 주문)
-	@PostMapping("/createOrder")
+	@PostMapping("/orders")
 	 ResponseEntity<CreateOrderResponse> createOrder(@ModelAttribute CreateOrderRequest createOrderRequest);
 
-	@PutMapping("/bookOrderUpdate/{book_list_id}/{order_id}")
+	@PutMapping("/books-orders/{book_list_id}/{order_id}")
 	 ResponseEntity<UpdateBookOrderResponse> updateBookOrder(@PathVariable("book_list_id") Long bookListId, @PathVariable("order_id") Long orderId);
 
-	@GetMapping("/findAllByCartId/{cart_id}")
+	@GetMapping("/carts/{cart_id}/orders/all")
 	 ResponseEntity<GetAllListOrderResponse> findAllByCartId(@PathVariable("cart_id") Long cartId);
 
-	@GetMapping("/findByOrderInfoId/{order_info_id}")
+	@GetMapping("/order-info/{order_info_id}")
 	 ResponseEntity<GetOrderByInfoResponse> findByOrderInfoId(@PathVariable("order_info_id") String orderInfoId);
 
 }
