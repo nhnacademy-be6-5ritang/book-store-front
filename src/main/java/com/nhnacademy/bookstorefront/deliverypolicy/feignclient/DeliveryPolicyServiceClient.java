@@ -18,7 +18,7 @@ import com.nhnacademy.bookstorefront.deliverypolicy.dto.response.GetDeliveryPoli
 import com.nhnacademy.bookstorefront.deliverypolicy.dto.response.GetDeliveryPolicyResponse;
 import com.nhnacademy.bookstorefront.deliverypolicy.dto.response.UpdateDeliveryPolicyResponse;
 
-@FeignClient(name = "delivery-policy-feign-client", url = "http://localhost:8090/back")
+@FeignClient(name = "delivery-policy-feign-client", url = "http://localhost:8083")
 public interface DeliveryPolicyServiceClient {
 
 	@GetMapping("/deliveries-policies")
