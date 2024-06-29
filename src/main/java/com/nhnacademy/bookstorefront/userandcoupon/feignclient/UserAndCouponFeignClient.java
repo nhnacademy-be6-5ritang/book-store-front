@@ -16,7 +16,7 @@ import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.request.UserAndCou
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.request.UserAndCouponRequestUpdateDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCouponResponseDTO;
 
-@FeignClient(name = "user-and-coupon-feign-client", url = "http://localhost:9494", configuration = FeignClientConfig.class)
+@FeignClient(name = "user-and-coupon-feign-client", url = "http://localhost:8083", configuration = FeignClientConfig.class)
 public interface UserAndCouponFeignClient {
 
 	@PostMapping("/coupons/{couponTemplateId}")
