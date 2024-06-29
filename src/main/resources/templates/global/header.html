@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-3">
-                    <a th:href="@{/}" class="site-brand">
+                    <a th:href="@{/books}" class="site-brand">
                         <img th:src="@{/image/oritang.png}" alt="">
                     </a>
                 </div>
@@ -19,32 +19,23 @@
                     <div class="main-navigation flex-lg-right">
                         <div class="cart-widget">
                             <div class="login-block">
-                                <a href="login.html" class="font-weight-bold">로그인</a> <br>
-                                <span>or</span><a href="login.html">회원가입</a>
+                                <a th:href="@{/login}" class="font-weight-bold">로그인</a> <br>
+                                <span>or</span><a th:href="@{/login}">회원가입</a>
                             </div>
                             <div class="cart-block">
                                 <div class="cart-total">
-                                            <span class="text-number">
-                                                1
-                                            </span>
-                                    <span class="text-item">
-                                                장바구니
-                                            </span>
-                                    <span class="price">
-                                                ₩0.00
-                                                <i class="fas fa-chevron-down"></i>
-                                            </span>
+                                    <span class="text-number">1</span>
+                                    <span class="text-item">장바구니</span>
+                                    <span class="price">₩0.00<i class="fas fa-chevron-down"></i></span>
                                 </div>
                                 <div class="cart-dropdown-block">
                                     <div class=" single-cart-block ">
                                         <div class="cart-product">
-                                            <a href="product-details.html" class="image">
-                                                <img src="image/products/cart-product-1.jpg" alt="">
+                                            <a th:href="@{/product-details}" class="image">
+                                                <img th:src="@{/image/products/cart-product-1.jpg}" alt="">
                                             </a>
                                             <div class="content">
-                                                <h3 class="title"><a href="product-details.html">Kodak PIXPRO
-                                                    Astro Zoom AZ421 16 MP</a>
-                                                </h3>
+                                                <h3 class="title"><a th:href="@{/product-details}">Kodak PIXPRO Astro Zoom AZ421 16 MP</a></h3>
                                                 <p class="price"><span class="qty">1 ×</span> £87.34</p>
                                                 <button class="cross-btn"><i class="fas fa-times"></i></button>
                                             </div>
@@ -52,10 +43,8 @@
                                     </div>
                                     <div class=" single-cart-block ">
                                         <div class="btn-block">
-                                            <a href="cart.html" class="btn">View Cart <i
-                                                    class="fas fa-chevron-right"></i></a>
-                                            <a href="checkout.html" class="btn btn--primary">Check Out <i
-                                                    class="fas fa-chevron-right"></i></a>
+                                            <a th:href="@{/cart}" class="btn">View Cart <i class="fas fa-chevron-right"></i></a>
+                                            <a th:href="@{/checkout}" class="btn btn--primary">Check Out <i class="fas fa-chevron-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -77,108 +66,107 @@
                 <div class="col-lg-3">
                     <nav class="category-nav white-nav  ">
                         <div>
-                            <a href="javascript:void(0)" class="category-trigger"><i class="fa fa-bars"></i>Browse categories</a>
+                            <a href="javascript:void(0)" class="category-trigger"><i class="fa fa-bars"></i>카테고리 목록</a>
                             <ul class="category-menu">
                                 <li class="cat-item has-children">
-                                    <a href="#">Arts & Photography</a>
+                                    <a th:href="@{#}">Arts & Photography</a>
                                     <ul class="sub-menu">
-                                        <li><a href="#">Bags & Cases</a></li>
-                                        <li><a href="#">Binoculars & Scopes</a></li>
-                                        <li><a href="#">Digital Cameras</a></li>
-                                        <li><a href="#">Film Photography</a></li>
-                                        <li><a href="#">Lighting & Studio</a></li>
+                                        <li><a th:href="@{#}">Bags & Cases</a></li>
+                                        <li><a th:href="@{#}">Binoculars & Scopes</a></li>
+                                        <li><a th:href="@{#}">Digital Cameras</a></li>
+                                        <li><a th:href="@{#}">Film Photography</a></li>
+                                        <li><a th:href="@{#}">Lighting & Studio</a></li>
                                     </ul>
                                 </li>
-                                <li class="cat-item has-children mega-menu"><a href="#">Biographies</a>
+                                <li class="cat-item has-children mega-menu"><a th:href="@{#}">Biographies</a>
                                     <ul class="sub-menu">
                                         <li class="single-block">
                                             <h3 class="title">WHEEL SIMULATORS</h3>
                                             <ul>
-                                                <li><a href="#">Bags & Cases</a></li>
-                                                <li><a href="#">Binoculars & Scopes</a></li>
-                                                <li><a href="#">Digital Cameras</a></li>
-                                                <li><a href="#">Film Photography</a></li>
-                                                <li><a href="#">Lighting & Studio</a></li>
+                                                <li><a th:href="@{#}">Bags & Cases</a></li>
+                                                <li><a th:href="@{#}">Binoculars & Scopes</a></li>
+                                                <li><a th:href="@{#}">Digital Cameras</a></li>
+                                                <li><a th:href="@{#}">Film Photography</a></li>
+                                                <li><a th:href="@{#}">Lighting & Studio</a></li>
                                             </ul>
                                         </li>
                                         <li class="single-block">
                                             <h3 class="title">WHEEL SIMULATORS</h3>
                                             <ul>
-                                                <li><a href="#">Bags & Cases</a></li>
-                                                <li><a href="#">Binoculars & Scopes</a></li>
-                                                <li><a href="#">Digital Cameras</a></li>
-                                                <li><a href="#">Film Photography</a></li>
-                                                <li><a href="#">Lighting & Studio</a></li>
+                                                <li><a th:href="@{#}">Bags & Cases</a></li>
+                                                <li><a th:href="@{#}">Binoculars & Scopes</a></li>
+                                                <li><a th:href="@{#}">Digital Cameras</a></li>
+                                                <li><a th:href="@{#}">Film Photography</a></li>
+                                                <li><a th:href="@{#}">Lighting & Studio</a></li>
                                             </ul>
                                         </li>
                                         <li class="single-block">
                                             <h3 class="title">WHEEL SIMULATORS</h3>
                                             <ul>
-                                                <li><a href="#">Bags & Cases</a></li>
-                                                <li><a href="#">Binoculars & Scopes</a></li>
-                                                <li><a href="#">Digital Cameras</a></li>
-                                                <li><a href="#">Film Photography</a></li>
-                                                <li><a href="#">Lighting & Studio</a></li>
+                                                <li><a th:href="@{#}">Bags & Cases</a></li>
+                                                <li><a th:href="@{#}">Binoculars & Scopes</a></li>
+                                                <li><a th:href="@{#}">Digital Cameras</a></li>
+                                                <li><a th:href="@{#}">Film Photography</a></li>
+                                                <li><a th:href="@{#}">Lighting & Studio</a></li>
                                             </ul>
                                         </li>
                                         <li class="single-block">
                                             <h3 class="title">WHEEL SIMULATORS</h3>
                                             <ul>
-                                                <li><a href="#">Bags & Cases</a></li>
-                                                <li><a href="#">Binoculars & Scopes</a></li>
-                                                <li><a href="#">Digital Cameras</a></li>
-                                                <li><a href="#">Film Photography</a></li>
-                                                <li><a href="#">Lighting & Studio</a></li>
+                                                <li><a th:href="@{#}">Bags & Cases</a></li>
+                                                <li><a th:href="@{#}">Binoculars & Scopes</a></li>
+                                                <li><a th:href="@{#}">Digital Cameras</a></li>
+                                                <li><a th:href="@{#}">Film Photography</a></li>
+                                                <li><a th:href="@{#}">Lighting & Studio</a></li>
                                             </ul>
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="cat-item has-children"><a href="#">Business & Money</a>
+                                <li class="cat-item has-children"><a th:href="@{#}">Business & Money</a>
                                     <ul class="sub-menu">
-                                        <li><a href="">Brake Tools</a></li>
-                                        <li><a href="">Driveshafts</a></li>
-                                        <li><a href="">Emergency Brake</a></li>
-                                        <li><a href="">Spools</a></li>
+                                        <li><a th:href="@{#}">Brake Tools</a></li>
+                                        <li><a th:href="@{#}">Driveshafts</a></li>
+                                        <li><a th:href="@{#}">Emergency Brake</a></li>
+                                        <li><a th:href="@{#}">Spools</a></li>
                                     </ul>
                                 </li>
-                                <li class="cat-item has-children"><a href="#">Calendars</a>
+                                <li class="cat-item has-children"><a th:href="@{#}">Calendars</a>
                                     <ul class="sub-menu">
-                                        <li><a href="">Brake Tools</a></li>
-                                        <li><a href="">Driveshafts</a></li>
-                                        <li><a href="">Emergency Brake</a></li>
-                                        <li><a href="">Spools</a></li>
+                                        <li><a th:href="@{#}">Brake Tools</a></li>
+                                        <li><a th:href="@{#}">Driveshafts</a></li>
+                                        <li><a th:href="@{#}">Emergency Brake</a></li>
+                                        <li><a th:href="@{#}">Spools</a></li>
                                     </ul>
                                 </li>
-                                <li class="cat-item has-children"><a href="#">Children's Books</a>
+                                <li class="cat-item has-children"><a th:href="@{#}">Children's Books</a>
                                     <ul class="sub-menu">
-                                        <li><a href="">Brake Tools</a></li>
-                                        <li><a href="">Driveshafts</a></li>
-                                        <li><a href="">Emergency Brake</a></li>
-                                        <li><a href="">Spools</a></li>
+                                        <li><a th:href="@{#}">Brake Tools</a></li>
+                                        <li><a th:href="@{#}">Driveshafts</a></li>
+                                        <li><a th:href="@{#}">Emergency Brake</a></li>
+                                        <li><a th:href="@{#}">Spools</a></li>
                                     </ul>
                                 </li>
-                                <li class="cat-item has-children"><a href="#">Comics</a>
+                                <li class="cat-item has-children"><a th:href="@{#}">Comics</a>
                                     <ul class="sub-menu">
-                                        <li><a href="">Brake Tools</a></li>
-                                        <li><a href="">Driveshafts</a></li>
-                                        <li><a href="">Emergency Brake</a></li>
-                                        <li><a href="">Spools</a></li>
+                                        <li><a th:href="@{#}">Brake Tools</a></li>
+                                        <li><a th:href="@{#}">Driveshafts</a></li>
+                                        <li><a th:href="@{#}">Emergency Brake</a></li>
+                                        <li><a th:href="@{#}">Spools</a></li>
                                     </ul>
                                 </li>
-                                <li class="cat-item"><a href="#">Perfomance Filters</a></li>
-                                <li class="cat-item has-children"><a href="#">Cookbooks</a>
+                                <li class="cat-item"><a th:href="@{#}">Perfomance Filters</a></li>
+                                <li class="cat-item has-children"><a th:href="@{#}">Cookbooks</a>
                                     <ul class="sub-menu">
-                                        <li><a href="">Brake Tools</a></li>
-                                        <li><a href="">Driveshafts</a></li>
-                                        <li><a href="">Emergency Brake</a></li>
-                                        <li><a href="">Spools</a></li>
+                                        <li><a th:href="@{#}">Brake Tools</a></li>
+                                        <li><a th:href="@{#}">Driveshafts</a></li>
+                                        <li><a th:href="@{#}">Emergency Brake</a></li>
+                                        <li><a th:href="@{#}">Spools</a></li>
                                     </ul>
                                 </li>
-                                <li class="cat-item "><a href="#">Accessories</a></li>
-                                <li class="cat-item "><a href="#">Education</a></li>
-                                <li class="cat-item hidden-menu-item"><a href="#">Indoor Living</a></li>
-                                <li class="cat-item"><a href="#" class="js-expand-hidden-menu">More
-                                    Categories</a></li>
+                                <li class="cat-item "><a th:href="@{#}">Accessories</a></li>
+                                <li class="cat-item "><a th:href="@{#}">Education</a></li>
+                                <li class="cat-item hidden-menu-item"><a th:href="@{#}">Indoor Living</a></li>
+                                <li class="cat-item"><a th:href="@{#}" class="js-expand-hidden-menu">More Categories</a></li>
                             </ul>
                         </div>
                     </nav>
@@ -191,50 +179,41 @@
 
                             <!-- Shop -->
                             <li class="menu-item has-children mega-menu">
-                                <a href="javascript:void(0)">shop <i
-                                        class="fas fa-chevron-down dropdown-arrow"></i></a>
+                                <a href="javascript:void(0)">shop <i class="fas fa-chevron-down dropdown-arrow"></i></a>
                                 <ul class="sub-menu four-column">
                                     <li class="cus-col-25">
                                         <h3 class="menu-title"><a href="javascript:void(0)">Shop Grid </a></h3>
                                         <ul class="mega-single-block">
-                                            <li><a href="shop-grid.html">Fullwidth</a></li>
-                                            <li><a href="shop-grid-left-sidebar.html">left Sidebar</a></li>
-                                            <li><a href="shop-grid-right-sidebar.html">Right Sidebar</a></li>
+                                            <li><a th:href="@{shop-grid.html}">Fullwidth</a></li>
+                                            <li><a th:href="@{shop-grid-left-sidebar.html}">left Sidebar</a></li>
+                                            <li><a th:href="@{shop-grid-right-sidebar.html}">Right Sidebar</a></li>
                                         </ul>
                                     </li>
                                     <li class="cus-col-25">
                                         <h3 class="menu-title"><a href="javascript:void(0)">Shop List</a></h3>
                                         <ul class="mega-single-block">
-                                            <li><a href="shop-list.html">Fullwidth</a></li>
-                                            <li><a href="shop-list-left-sidebar.html">left Sidebar</a></li>
-                                            <li><a href="shop-list-right-sidebar.html">Right Sidebar</a></li>
+                                            <li><a th:href="@{shop-list.html}">Fullwidth</a></li>
+                                            <li><a th:href="@{shop-list-left-sidebar.html}">left Sidebar</a></li>
+                                            <li><a th:href="@{shop-list-right-sidebar.html}">Right Sidebar</a></li>
                                         </ul>
                                     </li>
                                     <li class="cus-col-25">
                                         <h3 class="menu-title"><a href="javascript:void(0)">Product Details
                                             1</a></h3>
                                         <ul class="mega-single-block">
-                                            <li><a href="product-details.html">Product Details Page</a></li>
-                                            <li><a href="product-details-affiliate.html">Product Details
-                                                Affiliate</a></li>
-                                            <li><a href="product-details-group.html">Product Details Group</a>
-                                            </li>
-                                            <li><a href="product-details-variable.html">Product Details
-                                                Variables</a></li>
+                                            <li><a th:href="@{product-details.html}">Product Details Page</a></li>
+                                            <li><a th:href="@{product-details-affiliate.html}">Product Details Affiliate</a></li>
+                                            <li><a th:href="@{product-details-group.html}">Product Details Group</a></li>
+                                            <li><a th:href="@{product-details-variable.html}">Product Details Variables</a></li>
                                         </ul>
                                     </li>
                                     <li class="cus-col-25">
-                                        <h3 class="menu-title"><a href="javascript:void(0)">Product Details
-                                            2</a></h3>
+                                        <h3 class="menu-title"><a href="javascript:void(0)">Product Details 2</a></h3>
                                         <ul class="mega-single-block">
-                                            <li><a href="product-details-left-thumbnail.html">left Thumbnail</a>
-                                            </li>
-                                            <li><a href="product-details-right-thumbnail.html">Right
-                                                Thumbnail</a></li>
-                                            <li><a href="product-details-left-gallery.html">Left Gallery</a>
-                                            </li>
-                                            <li><a href="product-details-right-gallery.html">Right Gallery</a>
-                                            </li>
+                                            <li><a th:href="@{product-details-left-thumbnail.html}">left Thumbnail</a></li>
+                                            <li><a th:href="@{product-details-right-thumbnail.html}">Right Thumbnail</a></li>
+                                            <li><a th:href="@{product-details-left-gallery.html}">Left Gallery</a></li>
+                                            <li><a th:href="@{product-details-right-gallery.html}">Right Gallery</a></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -244,15 +223,15 @@
                                 <a href="javascript:void(0)">Pages <i
                                         class="fas fa-chevron-down dropdown-arrow"></i></a>
                                 <ul class="sub-menu">
-                                    <li><a href="cart.html">Cart</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
-                                    <li><a href="compare.html">Compare</a></li>
-                                    <li><a href="wishlist.html">Wishlist</a></li>
-                                    <li><a href="login.html">Login Register</a></li>
-                                    <li><a href="my-account.html">My Account</a></li>
-                                    <li><a href="order-complete.html">Order Complete</a></li>
-                                    <li><a href="faq.html">Faq</a></li>
-                                    <li><a href="contact-2.html">contact 02</a></li>
+                                    <li><a th:href="@{cart.html}">Cart</a></li>
+                                    <li><a th:href="@{checkout.html}">Checkout</a></li>
+                                    <li><a th:href="@{compare.html}">Compare</a></li>
+                                    <li><a th:href="@{wishlist.html}">Wishlist</a></li>
+                                    <li><a th:href="@{login.html}">Login Register</a></li>
+                                    <li><a th:href="@{my-account.html}">My Account</a></li>
+                                    <li><a th:href="@{order-complete.html}">Order Complete</a></li>
+                                    <li><a th:href="@{faq.html}">Faq</a></li>
+                                    <li><a th:href="@{contact-2.html}">contact 02</a></li>
                                 </ul>
                             </li>
 
