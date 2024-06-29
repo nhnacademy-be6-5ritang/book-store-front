@@ -6,7 +6,7 @@ import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
-import com.nhnacademy.bookstorefront.order.feginclient.OrderServiceClient;
+import com.nhnacademy.bookstorefront.order.feignclient.OrderServiceClient;
 
 import lombok.RequiredArgsConstructor;
 
