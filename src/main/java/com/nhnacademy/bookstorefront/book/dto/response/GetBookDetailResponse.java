@@ -9,7 +9,7 @@ import java.util.Date;
  * @author 김기욱
  * @version 1.0
  */
-public record BookDetailResponse(
+public record GetBookDetailResponse(
 	String authorName,
 	String publisherName,
 	String bookStatusName,

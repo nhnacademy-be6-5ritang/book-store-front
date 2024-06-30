@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
+import com.nhnacademy.bookstorefront.book.service.BookService;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateBookOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderListPost;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
@@ -18,13 +20,11 @@ import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllPaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
-import com.nhnacademy.bookstorefront.order.dto.response.GetBookResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetListWrappingResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetWrappingResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.UpdateBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.service.BookOrderService;
-import com.nhnacademy.bookstorefront.order.service.BookService;
 import com.nhnacademy.bookstorefront.order.service.OrderService;
 import com.nhnacademy.bookstorefront.order.service.PaperTypeService;
 import com.nhnacademy.bookstorefront.order.service.WrappingPaperService;
@@ -44,7 +44,7 @@ public class OrderClientController {
 	@GetMapping("/createBookOrderTest/{book_id}")
 	public ModelAndView createBookOrder(@PathVariable("book_id") Long bookId) {
 		ModelAndView modelAndView = new ModelAndView("order/orderList");
-		GetBookResponse book = bookService.findBookById(bookId);
+		GetBookDetailResponse book = bookService.getBook(bookId);
 		modelAndView.addObject("book", book);
 		modelAndView.addObject("bookId", bookId);
 		return modelAndView;

@@ -2,15 +2,34 @@ package com.nhnacademy.bookstorefront.book.service;
 
 import java.util.List;
 
-import com.nhnacademy.bookstorefront.book.dto.response.BookDetailResponse;
+import org.springframework.stereotype.Service;
+
+import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.response.BookListResponse;
+import com.nhnacademy.bookstorefront.book.dto.response.CreateBookResponse;
+import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
+import com.nhnacademy.bookstorefront.book.feignclient.BookServiceClient;
 
-public interface BookService {
-	BookDetailResponse findBookById(Long bookId);
+import lombok.RequiredArgsConstructor;
 
-	List<BookListResponse> findAllBooks();
+@Service
+@RequiredArgsConstructor
+public class BookService {
+	private final BookServiceClient bookServiceClient;
 
-	BookDetailResponse findBookByIsbn(String isbn);
+	public GetBookDetailResponse getBook(Long bookId) {
+		return bookServiceClient.getBook(bookId).getBody();
+	}
 
-	// BookDetailResponse getBookDetailResponse(Book book);
+	public List<BookListResponse> findAllBooks() {
+		return bookServiceClient.findAllBooks();
+	}
+
+	public CreateBookResponse createBook(CreateBookRequest request) {
+		return bookServiceClient.createBook(request).getBody();
+	}
+
+	public void deleteBook(Long bookId) {
+		bookServiceClient.deleteBook(bookId);
+	}
 }

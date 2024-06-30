@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>책 파는 오리탕집 - 도서 추가</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/plugins.css}" />
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}" />
+</head>
+
+<body>
+<div class="site-wrapper" id="top">
+    <!-- Header -->
+    <div th:insert="~{/global/header.html}"></div>
+
+    <!-- Breadcrumb -->
+    <section class="breadcrumb-section">
+        <div class="container">
+            <div class="breadcrumb-contents">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a th:href="@{/books}">홈</a></li>
+                        <li class="breadcrumb-item active">도서 추가</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </section>
+
+    <!-- Page Content -->
+    <div class="page-section inner-page-sec-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <!-- Side Menu -->
+                        <div class="col-lg-3 col-12">
+                            <div class="myaccount-tab-menu nav" role="tablist">
+                                <!-- Admin Account Menu -->
+                                <div th:insert="~{/fragments/admin-account-menu.html}"></div>
+                            </div>
+                        </div>
+                        <!-- Side Menu End -->
+
+                        <!-- Content Area -->
+                        <div class="col-lg-9 col-12 mt--30 mt-lg--0">
+                            <div class="tab-content" id="myaccountContent">
+                                <!-- Book Tab Content -->
+                                <div class="tab-pane fade show active" id="delivery" role="tabpanel">
+                                    <div class="myaccount-content">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h3>도서 추가</h3>
+                                        </div>
+                                        <div class="card mt-4">
+                                            <div class="card-body">
+                                                <!-- Book Form -->
+                                                <form action="/books" method="post">
+                                                    <div class="form-group">
+                                                        <label for="authorName">저자 이름</label>
+                                                        <input type="text" class="form-control" id="authorName" name="authorName" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="publisherName">출판사 이름</label>
+                                                        <input type="text" class="form-control" id="publisherName" name="publisherName" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="bookStatusName">도서 상태</label>
+                                                        <input type="text" class="form-control" id="bookStatusName" name="bookStatusName" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="bookTitle">도서 제목</label>
+                                                        <input type="text" class="form-control" id="bookTitle" name="bookTitle" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="bookIndex">도서 목차</label>
+                                                        <input type="text" class="form-control" id="bookIndex" name="bookIndex">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="bookDescription">도서 설명</label>
+                                                        <textarea class="form-control" id="bookDescription" name="bookDescription" rows="3"></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="bookQuantity">재고 수량</label>
+                                                        <input type="number" class="form-control" id="bookQuantity" name="bookQuantity" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="bookPackaging">포장 여부</label>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" id="bookPackaging" name="bookPackaging">
+                                                            <label class="form-check-label" for="bookPackaging">
+                                                                포장됨
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="bookPublishDate">출판일</label>
+                                                        <input type="date" class="form-control" id="bookPublishDate" name="bookPublishDate" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="bookIsbn">도서 ISBN</label>
+                                                        <input type="text" class="form-control" id="bookIsbn" name="bookIsbn" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="bookPrice">도서 정가</label>
+                                                        <input type="number" class="form-control" id="bookPrice" name="bookPrice" step="0.01" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="bookSalePrice">도서 할인가</label>
+                                                        <input type="number" class="form-control" id="bookSalePrice" name="bookSalePrice" step="0.01">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="bookSalePercent">도서 할인율</label>
+                                                        <input type="number" class="form-control" id="bookSalePercent" name="bookSalePercent" step="0.01">
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">추가</button>
+                                                </form>
+                                                <!-- End Book Form -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Book Tab Content End -->
+                            </div>
+                        </div>
+                        <!-- Content Area End -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Page Content End -->
+
+</div>
+<!-- Footer -->
+<div th:insert="~{/global/footer.html}"></div>
+
+<!-- JavaScript -->
+<script th:src="@{/js/plugins.js}"></script>
+<script th:src="@{/js/ajax-mail.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+</body>
+
+</html>
