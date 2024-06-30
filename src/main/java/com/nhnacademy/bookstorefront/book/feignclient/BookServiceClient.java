@@ -3,6 +3,7 @@ package com.nhnacademy.bookstorefront.book.feignclient;
 import java.util.List;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -16,7 +17,7 @@ public interface BookServiceClient {
 	List<BookListResponse> findAllBooks();
 
 	@GetMapping("/books/{bookId}")
-	BookDetailResponse getBook(@PathVariable Long bookId);
+	ResponseEntity<BookDetailResponse> getBook(@PathVariable Long bookId);
 
 	@GetMapping("/books/details/{isbn}")
 	BookDetailResponse findBookByIsbn(@PathVariable String isbn);

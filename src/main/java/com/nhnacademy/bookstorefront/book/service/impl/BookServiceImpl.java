@@ -18,7 +18,7 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public BookDetailResponse findBookById(Long bookId) {
-		return bookServiceClient.getBook(bookId);
+		return bookServiceClient.getBook(bookId).getBody();
 	}
 
 	@Override

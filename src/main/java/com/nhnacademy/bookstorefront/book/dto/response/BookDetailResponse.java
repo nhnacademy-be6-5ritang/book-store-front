@@ -12,7 +12,7 @@ import java.util.Date;
 public record BookDetailResponse(
 	String authorName,
 	String publisherName,
-	String bookStatus,
+	String bookStatusName,
 	String bookTitle,
 	String bookDescription,
 	String bookIndex,

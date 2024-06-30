@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>책 파는 오리탕집</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+</head>
+
+
+<body>
+<div class="site-wrapper" id="top">
+    <!--=================================
+    Header Area
+    ===================================== -->
+    <div th:insert="~{/global/header.html}"></div>
+
+    <section class="breadcrumb-section">
+        <h2 class="sr-only">Site Breadcrumb</h2>
+        <div class="container">
+            <div class="breadcrumb-contents">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a th:href="@{/books}">홈</a></li>
+                        <li class="breadcrumb-item active">태그 업데이트</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </section>
+
+    <div class="page-section inner-page-sec-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <!-- My Account Tab Menu Start -->
+                        <div class="col-lg-3 col-12">
+                            <div class="myaccount-tab-menu nav" role="tablist">
+                                <!-- 관리자 계정 메뉴 -->
+                                <div th:insert="~{/fragments/admin-account-menu.html}"></div>
+                            </div>
+                        </div>
+                        <!-- My Account Tab Menu End -->
+                        <!-- My Account Tab Content Start -->
+                        <div class="col-lg-9 col-12 mt--30 mt-lg--0">
+                            <div class="tab-content" id="myaccountContent">
+                                <!-- Delivery Status Tab Content Start -->
+                                <div class="tab-pane fade show active" id="delivery" role="tabpanel">
+                                    <div class="myaccount-content">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h3>태그</h3>
+                                        </div>
+                                        <div class="card mt-4">
+                                            <div class="card-body">
+                                                <!-- 태그 수정 폼 -->
+                                                <form th:action="@{/tags/{tagId}(tagId=${tag.tagId})}" th:method="put" th:object="${tag}">
+                                                    <div class="form-group">
+                                                        <label for="tagName">태그 이름</label>
+                                                        <input type="text" class="form-control" id="tagName" th:field="*{tagName}" required>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">수정</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Delivery Status Tab Content End -->
+                            </div>
+                        </div>
+                        <!-- My Account Tab Content End -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!--=================================
+Footer Area
+===================================== -->
+<div th:insert="~{/global/footer.html}"></div>
+
+<!-- Use Minified Plugins Version For Fast Page Load -->
+<script th:src="@{/js/plugins.js}"></script>
+<script th:src="@{/js/ajax-mail.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+</body>
+
+</html>

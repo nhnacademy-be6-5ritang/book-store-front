@@ -101,7 +101,7 @@
                             <li>출판일: <a th:href="@{#}" class="list-value font-weight-bold" th:text="${#dates.format(book.bookPublishDate, 'yyyy-MM-dd')}"></a></li>
                             <li>ISBN: <span class="list-value" th:text="${book.bookIsbn}"></span></li>
                             <li>지급 포인트: <span class="list-value"> 200</span></li>
-                            <li>상태: <span class="list-value" th:text="${book.bookStatus}"></span></li>
+                            <li>상태: <span class="list-value" th:text="${book.bookStatusName}"></span></li>
                             <li>재고: <span class="list-value" th:text="${book.bookQuantity} + '권'"></span></li>
                             <li>포장여부: <span class="list-value" th:text="${book.bookPackaging}"></span></li>
                         </ul>
