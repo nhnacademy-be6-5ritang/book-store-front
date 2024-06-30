@@ -800,10 +800,11 @@
                                                     <p class="card-text"><strong>배송비:</strong> <span th:text="${deliveryPolicy.deliveryPolicyPrice}"></span></p>
                                                     <p class="card-text"><strong>배송비 정책 기준 금액:</strong> <span th:text="${deliveryPolicy.deliveryPolicyStandardPrice}"></span></p>
                                                     <div class="d-flex justify-content-end">
-                                                        <a href="#" th:href="@{'/deliveries-policies/update/' + ${deliveryPolicy.deliveryPolicyId}}" class="btn btn-warning">편집</a>
+                                                        <a th:href="@{'/deliveries-policies/update/' + ${deliveryPolicy.deliveryPolicyId}}" class="btn btn-warning">편집</a>
                                                         <form th:action="@{/deliveries-policies/{deliveryPolicyId}(deliveryPolicyId=${deliveryPolicy.deliveryPolicyId})}" th:method="delete">
                                                             <button type="submit" class="btn btn-danger">삭제</button>
                                                         </form>
+                                                        <a class="btn btn-secondary" onclick="history.back()">뒤로가기</a>
                                                     </div>
                                                 </div>
                                             </div>
