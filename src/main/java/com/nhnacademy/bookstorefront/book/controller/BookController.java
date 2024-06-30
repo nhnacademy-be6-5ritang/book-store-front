@@ -49,6 +49,12 @@ public class BookController {
 		return "book/get-book";
 	}
 
+	@GetMapping("/detail/{bookId}")
+	public String getBookDetail(@PathVariable Long bookId, Model model) {
+		model.addAttribute("book", bookService.getBook(bookId));
+		return "book/get-book-detail";
+	}
+
 	@PostMapping
 	public String createBook(@ModelAttribute CreateBookRequest request) {
 		bookService.createBook(request);

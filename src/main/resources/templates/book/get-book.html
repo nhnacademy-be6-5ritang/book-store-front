@@ -94,11 +94,12 @@
                 </div>
                 <div class="col-lg-7">
                     <div class="product-details-info pl-lg--30 ">
-                        <p class="tag-block">도서: <a th:href="@{#}">Movado</a>, <a th:href="@{#}">Omega</a></p>
+                        <p class="tag-block">태그: <a th:href="@{#}">Movado</a>, <a th:href="@{#}">Omega</a></p>
                         <h3 class="product-title" th:text="${book.bookTitle}"></h3>
                         <ul class="list-unstyled">
-                            <li>출판사: <a th:href="@{#}" class="list-value font-weight-bold" th:text="${book.publisherName}"></a></li>
-                            <li>출판일: <a th:href="@{#}" class="list-value font-weight-bold" th:text="${#dates.format(book.bookPublishDate, 'yyyy-MM-dd')}"></a></li>
+                            <li>작가: <a class="list-value font-weight-bold" th:text="${book.authorName}"></a></li>
+                            <li>출판사: <a class="list-value font-weight-bold" th:text="${book.publisherName}"></a></li>
+                            <li>출판일: <a class="list-value font-weight-bold" th:text="${#dates.format(book.bookPublishDate, 'yyyy-MM-dd')}"></a></li>
                             <li>ISBN: <span class="list-value" th:text="${book.bookIsbn}"></span></li>
                             <li>지급 포인트: <span class="list-value"> 200</span></li>
                             <li>상태: <span class="list-value" th:text="${book.bookStatusName}"></span></li>
@@ -173,8 +174,7 @@
                                     </div>
                                     <h6 class="author">ADMIN – <span class="font-weight-400">March 23, 2015</span>
                                     </h6>
-                                    <p>Lorem et placerat vestibulum, metus nisi posuere nisl, in accumsan elit odio
-                                        quis mi.</p>
+                                    <p>Lorem et placerat vestibulum, metus nisi posuere nisl, in accumsan elit odio quis mi.</p>
                                 </div>
                             </div>
 

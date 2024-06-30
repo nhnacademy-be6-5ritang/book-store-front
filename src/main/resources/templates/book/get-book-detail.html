@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>책 파는 오리탕집</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+</head>
+
+<body>
+<div class="site-wrapper" id="top">
+    <!--=================================
+    Header Area
+    ===================================== -->
+    <div th:insert="~{/global/header.html}"></div>
+
+    <section class="breadcrumb-section">
+        <h2 class="sr-only">Site Breadcrumb</h2>
+        <div class="container">
+            <div class="breadcrumb-contents">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a th:href="@{/books/main}">홈</a></li>
+                        <li class="breadcrumb-item active">도서상세 보기</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </section>
+
+    <div class="page-section inner-page-sec-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <!-- My Account Tab Menu Start -->
+                        <div class="col-lg-3 col-12">
+                            <!-- 관리자 계정 메뉴 -->
+                            <div th:insert="~{/fragments/admin-account-menu.html}"></div>
+                        </div>
+                        <!-- My Account Tab Menu End -->
+                        <!-- My Account Tab Content Start -->
+                        <div class="col-lg-9 col-12 mt--30 mt-lg--0">
+                            <div class="tab-content" id="myaccountContent">
+                                <!-- 도서 Tab Content Start -->
+                                <main class="inner-page-sec-padding-bottom">
+                                    <div class="container">
+                                        <div class="row  mb--60">
+                                            <div class="col-lg-5 mb--30">
+                                                <!-- Product Details Slider Big Image-->
+                                                <div class="product-details-slider sb-slick-slider arrow-type-two"
+                                                     data-slick-setting='{
+                                                     "slidesToShow": 1,
+                                                     "arrows": false,
+                                                     "fade": true,
+                                                     "draggable": false,
+                                                     "swipe": false,
+                                                     "asNavFor": ".product-slider-nav"
+                                                     }'>
+                                                    <div class="single-slide">
+                                                        <img th:src="@{/image/products/product-details-1.jpg}" alt="">
+                                                    </div>
+                                                    <div class="single-slide">
+                                                        <img th:src="@{/image/products/product-details-2.jpg}" alt="">
+                                                    </div>
+                                                    <div class="single-slide">
+                                                        <img th:src="@{/image/products/product-details-3.jpg}" alt="">
+                                                    </div>
+                                                    <div class="single-slide">
+                                                        <img th:src="@{/image/products/product-details-4.jpg}" alt="">
+                                                    </div>
+                                                    <div class="single-slide">
+                                                        <img th:src="@{/image/products/product-details-5.jpg}" alt="">
+                                                    </div>
+                                                </div>
+                                                <!-- Product Details Slider Nav -->
+                                                <div class="mt--30 product-slider-nav sb-slick-slider arrow-type-two"
+                                                     data-slick-setting='{
+                                                     "infinite":true,
+                                                     "autoplay": true,
+                                                     "autoplaySpeed": 8000,
+                                                     "slidesToShow": 4,
+                                                     "arrows": true,
+                                                     "prevArrow":{"buttonClass": "slick-prev","iconClass":"fa fa-chevron-left"},
+                                                     "nextArrow":{"buttonClass": "slick-next","iconClass":"fa fa-chevron-right"},
+                                                     "asNavFor": ".product-details-slider",
+                                                     "focusOnSelect": true
+                                                     }'>
+                                                    <div class="single-slide">
+                                                        <img th:src="@{/image/products/product-details-1.jpg}" alt="">
+                                                    </div>
+                                                    <div class="single-slide">
+                                                        <img th:src="@{/image/products/product-details-2.jpg}" alt="">
+                                                    </div>
+                                                    <div class="single-slide">
+                                                        <img th:src="@{/image/products/product-details-3.jpg}" alt="">
+                                                    </div>
+                                                    <div class="single-slide">
+                                                        <img th:src="@{/image/products/product-details-4.jpg}" alt="">
+                                                    </div>
+                                                    <div class="single-slide">
+                                                        <img th:src="@{/image/products/product-details-5.jpg}" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-7">
+                                                <div class="product-details-info pl-lg--30 ">
+                                                    <p class="tag-block">태그: <a th:href="@{#}">Movado</a>, <a th:href="@{#}">Omega</a></p>
+                                                    <h3 class="product-title" th:text="${book.bookTitle}"></h3>
+                                                    <ul class="list-unstyled">
+                                                        <li>작가: <a class="list-value font-weight-bold" th:text="${book.authorName}"></a></li>
+                                                        <li>출판사: <a class="list-value font-weight-bold" th:text="${book.publisherName}"></a></li>
+                                                        <li>출판일: <a class="list-value font-weight-bold" th:text="${#dates.format(book.bookPublishDate, 'yyyy-MM-dd')}"></a></li>
+                                                        <li>ISBN: <span class="list-value" th:text="${book.bookIsbn}"></span></li>
+                                                        <li>지급 포인트: <span class="list-value"> 200</span></li>
+                                                        <li>상태: <span class="list-value" th:text="${book.bookStatusName}"></span></li>
+                                                        <li>재고: <span class="list-value" th:text="${book.bookQuantity} + '권'"></span></li>
+                                                        <li>포장여부: <span class="list-value" th:text="${book.bookPackaging}"></span></li>
+                                                    </ul>
+                                                    <div>할인율: <span class="price-discount" th:text="${book.bookSalePercent + '%'}">할인율 정보 없음</span></div>
+                                                    <div class="price-block">
+                                                        할인가: <span class="price-new" th:text="${book.bookSalePrice} + '₩'"></span>
+                                                        정가: <span class="price-old" th:text="${book.bookPrice} + '₩'"></span>
+                                                    </div>
+
+                                                    <div class="rating-widget">
+                                                        <div class="rating-block">
+                                                            <span class="fas fa-star star_on"></span>
+                                                            <span class="fas fa-star star_on"></span>
+                                                            <span class="fas fa-star star_on"></span>
+                                                            <span class="fas fa-star star_on"></span>
+                                                            <span class="fas fa-star "></span>
+                                                        </div>
+                                                        <div class="review-widget">
+                                                            <a th:href="@{/}">3.5점 (3개 리뷰)</a>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="d-flex justify-content-end">
+                                                        <a th:href="@{/books/update/{bookId} (bookId=${book.bookId})}" class="btn btn-warning">편집</a>
+                                                        <form th:action="@{/books/{bookId} (bookId=${book.bookId})}" th:method="delete">
+                                                            <button type="submit" class="btn btn-danger">삭제</button>
+                                                        </form>
+                                                        <a class="btn btn-secondary" onclick="history.back()">뒤로가기</a>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="sb-custom-tab review-tab section-padding">
+                                            <ul class="nav nav-tabs nav-style-2" id="myTab2" role="tablist">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" id="tab1" data-bs-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">설명</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" id="tab2" data-bs-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="true">리뷰 리스트 (1)</a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content space-db--20" id="myTabContent">
+                                                <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="tab1">
+                                                    <article class="review-article">
+                                                        <h1 class="sr-only">Tab Article</h1>
+                                                        <p th:text="${book.bookDescription}"></p>
+                                                    </article>
+                                                </div>
+                                                <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="tab2">
+                                                    <div class="review-wrapper">
+                                                        <h2 class="title-lg mb--20">1 REVIEW FOR AUCTOR GRAVIDA ENIM</h2>
+                                                        <div class="review-comment mb--20">
+                                                            <div class="avatar">
+                                                                <img src="image/icon/author-logo.png" alt="">
+                                                            </div>
+                                                            <div class="text">
+                                                                <div class="rating-block mb--15">
+                                                                    <span class="ion-android-star-outline star_on"></span>
+                                                                    <span class="ion-android-star-outline star_on"></span>
+                                                                    <span class="ion-android-star-outline star_on"></span>
+                                                                    <span class="ion-android-star-outline"></span>
+                                                                    <span class="ion-android-star-outline"></span>
+                                                                </div>
+                                                                <h6 class="author">ADMIN – <span class="font-weight-400">March 23, 2015</span>
+                                                                </h6>
+                                                                <p>Lorem et placerat vestibulum, metus nisi posuere nisl, in accumsan elit odio quis mi.</p>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </main>
+                                <!-- 도서 Tab Content End -->
+                            </div>
+                        </div>
+                        <!-- My Account Tab Content End -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!--=================================
+Footer Area
+===================================== -->
+<div th:insert="~{/global/footer.html}"></div>
+
+<!-- Use Minified Plugins Version For Fast Page Load -->
+<script th:src="@{/js/plugins.js}"></script>
+<script th:src="@{/js/ajax-mail.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+</body>
+
+</html>

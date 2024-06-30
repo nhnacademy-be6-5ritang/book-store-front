@@ -68,7 +68,7 @@
                                                     <td th:text="${index.index + 1}">1</td>
                                                     <td th:text="${book.bookTitle}">도서 이름</td>
                                                     <td style="display: flex; align-items: center;">
-                                                        <a href="#" th:href="@{/books/{bookId} (bookId=${book.bookId})}" class="btn btn-primary">상세보기</a>
+                                                        <a href="#" th:href="@{/books/detail/{bookId} (bookId=${book.bookId})}" class="btn btn-primary">상세보기</a>
                                                         <a href="#" th:href="@{/books/update/{bookId} (bookId=${book.bookId})}" class="btn btn-warning">편집</a>
                                                         <form th:action="@{/books/{bookId}(bookId=${book.bookId})}" th:method="delete">
                                                             <button type="submit" class="btn btn-danger">삭제</button>

@@ -10,6 +10,7 @@ import java.util.Date;
  * @version 1.0
  */
 public record GetBookDetailResponse(
+	Long bookId,
 	String authorName,
 	String publisherName,
 	String bookStatusName,
