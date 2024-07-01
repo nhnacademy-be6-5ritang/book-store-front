@@ -94,7 +94,6 @@
                 </div>
                 <div class="col-lg-7">
                     <div class="product-details-info pl-lg--30 ">
-                        <p class="tag-block">태그: <a th:href="@{#}">Movado</a>, <a th:href="@{#}">Omega</a></p>
                         <h3 class="product-title" th:text="${book.bookTitle}"></h3>
                         <ul class="list-unstyled">
                             <li>작가: <a class="list-value font-weight-bold" th:text="${book.authorName}"></a></li>
@@ -106,11 +105,19 @@
                             <li>재고: <span class="list-value" th:text="${book.bookQuantity} + '권'"></span></li>
                             <li>포장여부: <span class="list-value" th:text="${book.bookPackaging}"></span></li>
                         </ul>
+
                         <div>할인율: <span class="price-discount" th:text="${book.bookSalePercent + '%'}">할인율 정보 없음</span></div>
+
                         <div class="price-block">
                             할인가: <span class="price-new" th:text="${book.bookSalePrice} + '₩'"></span>
                             정가: <span class="price-old" th:text="${book.bookPrice} + '₩'"></span>
                         </div>
+
+                        <p class="tag-block">태그:
+                            <span th:each="tag : ${tags}">
+                                <a th:href="@{#}" th:text="'#' + ${tag.tagName}"></a>&nbsp;
+                            </span>
+                        </p>
                         <div class="rating-widget">
                             <div class="rating-block">
                                 <span class="fas fa-star star_on"></span>
@@ -162,7 +169,7 @@
                             <h2 class="title-lg mb--20">1 REVIEW FOR AUCTOR GRAVIDA ENIM</h2>
                             <div class="review-comment mb--20">
                                 <div class="avatar">
-                                    <img src="image/icon/author-logo.png" alt="">
+                                    <img th:src="@{image/icon/author-logo.png}" alt="">
                                 </div>
                                 <div class="text">
                                     <div class="rating-block mb--15">

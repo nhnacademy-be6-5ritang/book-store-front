@@ -18,6 +18,10 @@ public class TagService {
 		return tagServiceClient.getTags().getBody();
 	}
 
+	public List<TagDto> getTagsByBookId(Long bookId) {
+		return tagServiceClient.getTagsByBookId(bookId).getBody();
+	}
+
 	public TagDto getTag(Long tagId) {
 		return tagServiceClient.getTag(tagId).getBody();
 	}
