@@ -775,52 +775,37 @@
     <div class="cart_area inner-page-sec-padding-bottom">
         <div class="container">
             <div class="page-section-title">
-                <h1>주문 상세 확인</h1>
+                <h1>결제 상세 확인</h1>
             </div>
-            <div th:if="${order != null}">
+            <div>
                     <table class="table">
                         <!-- Head Row -->
                         <thead>
-                        <tr style="width: 100%">
-                            <th class="pro-title">주문 번호</th>
-                            <th class="pro-name" style="width:10%">결제자 이름</th>
-                            <th class="pro-email">결제자 이메일</th>
-                            <th class="pro-address" >결제자 주소</th>
-                            <th class="pro-date">주문 날짜</th>
-                            <th class="pro-status" style="width:10%">주문 상태</th>
-                            <th class="pro-price">총 가격</th>
-                            <th class="pro-payment"></th>
+                        <tr>
+                            <th class="pro-id">주문 아이디</th>
+                            <th class="pro-name">주문 내용</th>
+                            <th class="pro-provider">결제 방법</th>
+                            <th class="pro-status">결제 상태</th>
+                            <th class="pro-date">결제 가격</th>
                         </tr>
                         </thead>
                         <tbody>
                         <!-- Product Row -->
                         <tr>
                             <td class="pro-title"><span
-                                    th:text="${order.infoId()}"></span></td>
+                                    th:text="${paymentInfo.orderId()}"></span></td>
                             <td class="pro-name"> <span
-                                    th:text="${order.payername()}"></span></td>
+                                    th:text="${paymentInfo.orderName()}"></span></td>
                             <td class="pro-email"><span
-                                    th:text="${order.payerEmail()}"></span></td>
+                                    th:text="${paymentInfo.provider()}"></span></td>
                             <td class="pro-address"><span
-                                    th:text="${order.payerAddress()}"></span></td>
+                                    th:text="${paymentInfo.status()}"></span></td>
                             <td class="pro-date"><span
-                                    th:text="${order.orderDate()}"></span></td>
-                            <td class="pro-status"><span
-                                    th:text="${order.status()}"></span></td>
-                            <td class="pro-price"><span
-                                    th:text="${order.price()}"></span></td>
-                            <td class="pro-payment">
-                                <a th:href="@{/payment/transactions/{order_info_id}(order_info_id=${order.infoId()})}">
-                                    <button type="button">결제 정보 보기</button>
-                                </a>
-                            </td>
+                                    th:text="${paymentInfo.amount()}"></span></td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-            </div>
-            <div th:if="${order == null}">
-                <p>주문 목록이 없습니다.</p>
             </div>
         </div>
     </div>

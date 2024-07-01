@@ -57,7 +57,7 @@ public class OrderClientController {
 		if (bookOrder.getBookResponse().bookPackaging()) {
 			return "redirect:/createOrderTestPaper/" + createBookOrderResponse.orderListId();
 		}
-		return "redirect:/createOrderTest/" + createBookOrderResponse.orderListId();
+		return "redirect:/createOrderTest2/" + createBookOrderResponse.orderListId();
 	}
 
 	@GetMapping("/createOrderTestPaper/{order_list_id}")
@@ -72,7 +72,13 @@ public class OrderClientController {
 	@PostMapping("/createOrderTestPaper/{order_list_id}")
 	public String createOrderTestPaperPost(@PathVariable("order_list_id") Long orderListId,
 		@ModelAttribute CreateOrderListPost createOrderListPost) {
+
 		GetBookOrderResponse bookOrder = bookOrderService.getBookOrder(orderListId);
+		if (createOrderListPost.paperId() == null) {
+			wrappingPaperService.createWrappingPapers(6L, orderListId, bookOrder.quantity());
+			return "redirect:/createOrderTest2/" + orderListId;
+		}
+
 		int count = bookOrder.quantity();
 		for (int i = 0; i < createOrderListPost.paperId().size(); i++) {
 			count -= createOrderListPost.quantity().get(i);
@@ -91,6 +97,7 @@ public class OrderClientController {
 	@GetMapping("/createOrderTest/{order_list_id}")
 	public ModelAndView createOrder(@PathVariable("order_list_id") Long orderListId) {
 		ModelAndView modelAndView = new ModelAndView();
+		GetBookOrderResponse bookOrder = bookOrderService.getBookOrder(orderListId);
 		GetListWrappingResponse list = wrappingPaperService.getWrappingPaperByOrderListId(orderListId);
 		BigDecimal total = BigDecimal.ZERO;
 		for (GetWrappingResponse getWrappingResponse : list.wrapping()) {
@@ -98,7 +105,7 @@ public class OrderClientController {
 			BigDecimal multiply = getWrappingResponse.price().multiply(paperQuantity);
 			total = total.add(multiply);
 		}
-		modelAndView.addObject("orderList", bookOrderService.getBookOrder(orderListId));
+		modelAndView.addObject("orderList", bookOrder);
 		modelAndView.addObject("orderListId", orderListId);
 		modelAndView.addObject("wrappingList", wrappingPaperService.getWrappingPaperByOrderListId(orderListId));
 		modelAndView.addObject("total", total);
@@ -110,8 +117,9 @@ public class OrderClientController {
 	public ModelAndView createOrder2(@PathVariable("order_list_id") Long orderListId) {
 		ModelAndView modelAndView = new ModelAndView();
 		Long paperTypeId = 3L;
+		GetBookOrderResponse bookOrder = bookOrderService.getBookOrder(orderListId);
 		GetWrappingResponse getWrappingResponse = wrappingPaperService.createWrappingPapers(paperTypeId, orderListId,
-			null);
+			bookOrder.quantity());
 		modelAndView.addObject("orderList", bookOrderService.getBookOrder(orderListId));
 		modelAndView.addObject("orderListId", orderListId);
 		modelAndView.addObject("wrapping", getWrappingResponse);
@@ -124,12 +132,15 @@ public class OrderClientController {
 		@PathVariable("order_list_id") Long orderListId
 	) {
 		CreateOrderResponse createOrderResponse = orderService.createOrder(createOrderRequest);
-		return "redirect:/complete/" + orderListId + "/" + createOrderResponse.orderId();
+		bookOrderService.updateOrder(orderListId, createOrderResponse.orderId());
+		return "redirect:/payment/" + createOrderResponse.infoId();
 	}
 
 	@GetMapping("/complete/{order_list_id}/{order_id}")
 	public ModelAndView completeOrder(@PathVariable("order_list_id") Long orderListId,
 		@PathVariable("order_id") Long orderId) {
+
+		//업데이트 빼고 오더리스트아이디로 가져오기 변경 예정
 		UpdateBookOrderResponse bookOrder = bookOrderService.updateOrder(orderListId, orderId);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("bookOrder", bookOrder);
