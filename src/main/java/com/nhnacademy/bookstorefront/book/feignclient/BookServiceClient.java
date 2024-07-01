@@ -28,8 +28,8 @@ public interface BookServiceClient {
 	GetBookDetailResponse findBookByIsbn(@PathVariable String isbn);
 
 	@PostMapping("/books")
-	public ResponseEntity<CreateBookResponse> createBook(@RequestBody CreateBookRequest request);
+	ResponseEntity<CreateBookResponse> createBook(@RequestBody CreateBookRequest request);
 
 	@DeleteMapping("/books/{bookId}")
-	public ResponseEntity<Void> deleteBook(@PathVariable Long bookId);
+	ResponseEntity<Void> deleteBook(@PathVariable Long bookId);
 }
