@@ -62,9 +62,9 @@
                                                     <div class="form-group" id="categorySelectionGroup">
                                                         <!-- 초기 카테고리 선택란 -->
                                                         <div class="category-select-row">
-                                                            <label for="parentCategoryId1" class="mr-2">카테고리 1</label>
+                                                            <label for="categories" class="mr-2">카테고리 1</label>
                                                             <div class="d-flex align-items-center">
-                                                                <select class="form-control" id="parentCategoryId1" name="parentCategoryId1">
+                                                                <select class="form-control" id="categories" name="categories">
                                                                     <option value="">카테고리 선택</option>
                                                                     <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.categoryName}">카테고리 선택</option>
                                                                 </select>
@@ -79,9 +79,9 @@
                                                     <div class="form-group" id="tagSelectionGroup">
                                                         <!-- 초기 태그 선택란 -->
                                                         <div class="tag-select-row">
-                                                            <label for="tagId1" class="mr-2">태그 1</label>
+                                                            <label for="tags" class="mr-2">태그 1</label>
                                                             <div class="d-flex align-items-center">
-                                                                <select class="form-control" id="tagId1" name="tagId1">
+                                                                <select class="form-control" id="tags" name="tags">
                                                                     <option value="">태그 선택</option>
                                                                     <option th:each="tag : ${tags}" th:value="${tag.tagId}" th:text="${tag.tagName}">태그 선택</option>
                                                                 </select>
@@ -190,7 +190,7 @@
         categorySelectRow.classList.add('category-select-row');
 
         var label = document.createElement('label');
-        label.setAttribute('for', 'parentCategoryId' + categoryCount);
+        label.setAttribute('for', 'categories');
         label.classList.add('mr-2');
         label.textContent = '카테고리 ' + categoryCount;
 
@@ -199,8 +199,8 @@
 
         var select = document.createElement('select');
         select.classList.add('form-control');
-        select.setAttribute('id', 'parentCategoryId' + categoryCount);
-        select.setAttribute('name', 'parentCategoryId' + categoryCount);
+        select.setAttribute('id', 'categories');
+        select.setAttribute('name', 'categories');
 
         var defaultOption = document.createElement('option');
         defaultOption.setAttribute('value', '');
@@ -248,7 +248,7 @@
         tagSelectRow.classList.add('tag-select-row');
 
         var label = document.createElement('label');
-        label.setAttribute('for', 'tagId' + tagCount);
+        label.setAttribute('for', 'tags');
         label.classList.add('mr-2');
         label.textContent = '태그 ' + tagCount;
 
@@ -257,8 +257,8 @@
 
         var select = document.createElement('select');
         select.classList.add('form-control');
-        select.setAttribute('id', 'tagId' + tagCount);
-        select.setAttribute('name', 'tagId' + tagCount);
+        select.setAttribute('id', 'tags');
+        select.setAttribute('name', 'tags');
 
         var defaultOption = document.createElement('option');
         defaultOption.setAttribute('value', '');
@@ -297,55 +297,6 @@
         // 태그 수를 줄이는 처리는 여기에 추가 가능
     }
 
-    function saveBook() {
-        // 선택된 카테고리와 태그 수집
-        var selectedCategories = [];
-        var selectedTags = [];
-
-        // 카테고리 수집
-        var categoryRows = document.querySelectorAll('.category-select-row');
-        categoryRows.forEach(function(row) {
-            var categoryId = row.querySelector('select').value;
-            if (categoryId !== '') {
-                selectedCategories.push({
-                    categoryId: categoryId
-                });
-            }
-        });
-
-        // 태그 수집
-        var tagRows = document.querySelectorAll('.tag-select-row');
-        tagRows.forEach(function(row) {
-            var tagId = row.querySelector('select').value;
-            if (tagId !== '') {
-                selectedTags.push({
-                    tagId: tagId
-                });
-            }
-        });
-
-        // Ajax 요청으로 선택된 카테고리와 태그를 컨트롤러로 전송
-        var xhr = new XMLHttpRequest();
-        var url = '/saveBook'; // 저장 API 엔드포인트 URL
-        xhr.open('POST', url, true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                // 성공 처리 로직
-                console.log('Book saved successfully.');
-            } else {
-                // 오류 처리 로직
-                console.error('Failed to save book.');
-            }
-        };
-
-        var data = {
-            categories: selectedCategories,
-            tags: selectedTags
-        };
-
-        xhr.send(JSON.stringify(data));
-    }
 </script>
 </body>
 

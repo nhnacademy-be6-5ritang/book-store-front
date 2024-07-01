@@ -6,9 +6,6 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.nhnacademy.bookstorefront.category.dto.response.GetCategoryResponse;
-import com.nhnacademy.bookstorefront.tag.dto.response.TagDto;
-
 /**
  * 책 상세페이지 응답 DTO
  *
@@ -17,8 +14,8 @@ import com.nhnacademy.bookstorefront.tag.dto.response.TagDto;
  */
 public record CreateBookRequest(
 	String bookIsbn,
-	List<GetCategoryResponse> categories,
-	List<TagDto> tags,
+	List<Long> categories,
+	List<Long> tags,
 	String bookTitle,
 	String authorName,
 	String publisherName,
