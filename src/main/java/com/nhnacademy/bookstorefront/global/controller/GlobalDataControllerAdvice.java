@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 @ControllerAdvice
 @RequiredArgsConstructor
-public class GlobalControllerAdvice {
+public class GlobalDataControllerAdvice {
 	private final CategoryService categoryService;
 
 	@ModelAttribute
