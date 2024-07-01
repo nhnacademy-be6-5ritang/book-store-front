@@ -28505,3 +28505,15 @@ p.form-messege.error {
 .accordion .card .card-body {
   padding: 0 30px 30px;
 }
+
+.category-select-row, .tag-select-row {
+  margin-bottom: 10px;
+}
+
+.category-select-row label, .tag-select-row {
+  display: inline-block;
+}
+
+.category-select-row, .tag-select-row .btn-danger {
+  white-space: nowrap; /* 버튼 텍스트 줄 바꿈 방지 */
+}

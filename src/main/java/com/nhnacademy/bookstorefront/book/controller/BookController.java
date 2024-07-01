@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
 import com.nhnacademy.bookstorefront.book.service.BookService;
+import com.nhnacademy.bookstorefront.bookstatus.service.BookStatusService;
+import com.nhnacademy.bookstorefront.category.service.CategoryService;
+import com.nhnacademy.bookstorefront.tag.service.TagService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,9 +22,15 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/books")
 public class BookController {
 	private final BookService bookService;
+	private final CategoryService categoryService;
+	private final BookStatusService bookStatusService;
+	private final TagService tagService;
 
 	@GetMapping("/create")
-	public String createBookForm() {
+	public String createBookForm(Model model) {
+		model.addAttribute("bookStatuses", bookStatusService.getBookStatuses());
+		model.addAttribute("categories", categoryService.getCategories());
+		model.addAttribute("tags", tagService.getTags());
 		return "book/create-book";
 	}
 

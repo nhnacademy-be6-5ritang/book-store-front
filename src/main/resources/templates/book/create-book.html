@@ -57,7 +57,46 @@
                                         <div class="card mt-4">
                                             <div class="card-body">
                                                 <!-- Book Form -->
-                                                <form action="/books" method="post">
+                                                <form th:action="@{/books}" method="post">
+
+                                                    <div class="form-group" id="categorySelectionGroup">
+                                                        <!-- 초기 카테고리 선택란 -->
+                                                        <div class="category-select-row">
+                                                            <label for="parentCategoryId1" class="mr-2">카테고리 1</label>
+                                                            <div class="d-flex align-items-center">
+                                                                <select class="form-control" id="parentCategoryId1" name="parentCategoryId1">
+                                                                    <option value="">카테고리 선택</option>
+                                                                    <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.categoryName}">카테고리 선택</option>
+                                                                </select>
+                                                                <button type="button" class="btn btn-danger ml-2" onclick="removeCategorySelect(this)">삭제</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- 카테고리 추가 선택 버튼 -->
+                                                    <button type="button" class="btn btn-primary mt-2" onclick="addCategorySelect()">카테고리 추가 선택</button>
+
+                                                    <div class="form-group" id="tagSelectionGroup">
+                                                        <!-- 초기 태그 선택란 -->
+                                                        <div class="tag-select-row">
+                                                            <label for="tagId1" class="mr-2">태그 1</label>
+                                                            <div class="d-flex align-items-center">
+                                                                <select class="form-control" id="tagId1" name="tagId1">
+                                                                    <option value="">태그 선택</option>
+                                                                    <option th:each="tag : ${tags}" th:value="${tag.tagId}" th:text="${tag.tagName}">태그 선택</option>
+                                                                </select>
+                                                                <button type="button" class="btn btn-danger ml-2" onclick="removeTagSelect(this)">삭제</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- 태그 추가 버튼 -->
+                                                    <button type="button" class="btn btn-primary mt-2" onclick="addTagSelect()">태그 추가 선택</button>
+
+                                                    <div class="form-group">
+                                                        <label for="bookTitle">도서 제목</label>
+                                                        <input type="text" class="form-control" id="bookTitle" name="bookTitle" required>
+                                                    </div>
                                                     <div class="form-group">
                                                         <label for="authorName">저자 이름</label>
                                                         <input type="text" class="form-control" id="authorName" name="authorName" required>
@@ -67,13 +106,16 @@
                                                         <input type="text" class="form-control" id="publisherName" name="publisherName" required>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="bookStatusName">도서 상태</label>
-                                                        <input type="text" class="form-control" id="bookStatusName" name="bookStatusName" required>
+                                                        <label for="bookPublishDate">출판일</label>
+                                                        <input type="date" class="form-control" id="bookPublishDate" name="bookPublishDate" required>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="bookTitle">도서 제목</label>
-                                                        <input type="text" class="form-control" id="bookTitle" name="bookTitle" required>
+                                                        <label for="bookStatusName">도서 상태</label>
+                                                        <select class="form-control" id="bookStatusName" name="bookStatusName" required>
+                                                            <option th:each="bookStatus : ${bookStatuses}" th:value="${bookStatus.bookStatusName}" th:text="${bookStatus.bookStatusName}">카테고리 선택</option>
+                                                        </select>
                                                     </div>
+
                                                     <div class="form-group">
                                                         <label for="bookIndex">도서 목차</label>
                                                         <input type="text" class="form-control" id="bookIndex" name="bookIndex">
@@ -90,14 +132,8 @@
                                                         <label for="bookPackaging">포장 여부</label>
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="checkbox" id="bookPackaging" name="bookPackaging">
-                                                            <label class="form-check-label" for="bookPackaging">
-                                                                포장됨
-                                                            </label>
+                                                            <label class="form-check-label" for="bookPackaging">포장됨</label>
                                                         </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="bookPublishDate">출판일</label>
-                                                        <input type="date" class="form-control" id="bookPublishDate" name="bookPublishDate" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="bookIsbn">도서 ISBN</label>
@@ -108,13 +144,14 @@
                                                         <input type="number" class="form-control" id="bookPrice" name="bookPrice" step="0.01" required>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="bookSalePrice">도서 할인가</label>
-                                                        <input type="number" class="form-control" id="bookSalePrice" name="bookSalePrice" step="0.01">
-                                                    </div>
-                                                    <div class="form-group">
                                                         <label for="bookSalePercent">도서 할인율</label>
                                                         <input type="number" class="form-control" id="bookSalePercent" name="bookSalePercent" step="0.01">
                                                     </div>
+                                                    <div class="form-group">
+                                                        <label for="bookSalePrice">도서 할인가</label>
+                                                        <input type="number" class="form-control" id="bookSalePrice" name="bookSalePrice" step="0.01">
+                                                    </div>
+
                                                     <button type="submit" class="btn btn-primary">추가</button>
                                                     <a class="btn btn-secondary" onclick="history.back()">취소</a>
                                                 </form>
@@ -142,6 +179,174 @@
 <script th:src="@{/js/plugins.js}"></script>
 <script th:src="@{/js/ajax-mail.js}"></script>
 <script th:src="@{/js/custom.js}"></script>
+
+<script th:inline="javascript">
+    var categoryCount = 1;
+
+    function addCategorySelect() {
+        categoryCount++;
+
+        var categorySelectRow = document.createElement('div');
+        categorySelectRow.classList.add('category-select-row');
+
+        var label = document.createElement('label');
+        label.setAttribute('for', 'parentCategoryId' + categoryCount);
+        label.classList.add('mr-2');
+        label.textContent = '카테고리 ' + categoryCount;
+
+        var flexContainer = document.createElement('div');
+        flexContainer.classList.add('d-flex', 'align-items-center');
+
+        var select = document.createElement('select');
+        select.classList.add('form-control');
+        select.setAttribute('id', 'parentCategoryId' + categoryCount);
+        select.setAttribute('name', 'parentCategoryId' + categoryCount);
+
+        var defaultOption = document.createElement('option');
+        defaultOption.setAttribute('value', '');
+        defaultOption.textContent = '카테고리 선택';
+        select.appendChild(defaultOption);
+
+        /* 카테고리 옵션들 추가 */
+        var categories = /*[[${categories}]]*/ [];
+        categories.forEach(function(category) {
+            var option = document.createElement('option');
+            option.setAttribute('value', category.categoryId);
+            option.textContent = category.categoryName;
+            select.appendChild(option);
+        });
+
+        var deleteButton = document.createElement('button');
+        deleteButton.setAttribute('type', 'button');
+        deleteButton.classList.add('btn', 'btn-danger', 'ml-2');
+        deleteButton.textContent = '삭제';
+        deleteButton.onclick = function() {
+            removeCategorySelect(deleteButton);
+        };
+
+        flexContainer.appendChild(select);
+        flexContainer.appendChild(deleteButton);
+
+        categorySelectRow.appendChild(label);
+        categorySelectRow.appendChild(flexContainer);
+
+        document.getElementById('categorySelectionGroup').appendChild(categorySelectRow);
+    }
+
+    function removeCategorySelect(buttonElement) {
+        var selectRow = buttonElement.closest('.category-select-row');
+        selectRow.remove();
+        // 카테고리 수를 줄이는 처리는 여기에 추가 가능
+    }
+
+    var tagCount = 1;
+
+    function addTagSelect() {
+        tagCount++;
+
+        var tagSelectRow = document.createElement('div');
+        tagSelectRow.classList.add('tag-select-row');
+
+        var label = document.createElement('label');
+        label.setAttribute('for', 'tagId' + tagCount);
+        label.classList.add('mr-2');
+        label.textContent = '태그 ' + tagCount;
+
+        var flexContainer = document.createElement('div');
+        flexContainer.classList.add('d-flex', 'align-items-center');
+
+        var select = document.createElement('select');
+        select.classList.add('form-control');
+        select.setAttribute('id', 'tagId' + tagCount);
+        select.setAttribute('name', 'tagId' + tagCount);
+
+        var defaultOption = document.createElement('option');
+        defaultOption.setAttribute('value', '');
+        defaultOption.textContent = '태그 선택';
+        select.appendChild(defaultOption);
+
+        /* 태그 옵션들 추가 */
+        var tags = /*[[${tags}]]*/ [];
+        tags.forEach(function(tag) {
+            var option = document.createElement('option');
+            option.setAttribute('value', tag.tagId);
+            option.textContent = tag.tagName;
+            select.appendChild(option);
+        });
+
+        var deleteButton = document.createElement('button');
+        deleteButton.setAttribute('type', 'button');
+        deleteButton.classList.add('btn', 'btn-danger', 'ml-2');
+        deleteButton.textContent = '삭제';
+        deleteButton.onclick = function() {
+            removeTagSelect(deleteButton);
+        };
+
+        flexContainer.appendChild(select);
+        flexContainer.appendChild(deleteButton);
+
+        tagSelectRow.appendChild(label);
+        tagSelectRow.appendChild(flexContainer);
+
+        document.getElementById('tagSelectionGroup').appendChild(tagSelectRow);
+    }
+
+    function removeTagSelect(buttonElement) {
+        var selectRow = buttonElement.closest('.tag-select-row');
+        selectRow.remove();
+        // 태그 수를 줄이는 처리는 여기에 추가 가능
+    }
+
+    function saveBook() {
+        // 선택된 카테고리와 태그 수집
+        var selectedCategories = [];
+        var selectedTags = [];
+
+        // 카테고리 수집
+        var categoryRows = document.querySelectorAll('.category-select-row');
+        categoryRows.forEach(function(row) {
+            var categoryId = row.querySelector('select').value;
+            if (categoryId !== '') {
+                selectedCategories.push({
+                    categoryId: categoryId
+                });
+            }
+        });
+
+        // 태그 수집
+        var tagRows = document.querySelectorAll('.tag-select-row');
+        tagRows.forEach(function(row) {
+            var tagId = row.querySelector('select').value;
+            if (tagId !== '') {
+                selectedTags.push({
+                    tagId: tagId
+                });
+            }
+        });
+
+        // Ajax 요청으로 선택된 카테고리와 태그를 컨트롤러로 전송
+        var xhr = new XMLHttpRequest();
+        var url = '/saveBook'; // 저장 API 엔드포인트 URL
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // 성공 처리 로직
+                console.log('Book saved successfully.');
+            } else {
+                // 오류 처리 로직
+                console.error('Failed to save book.');
+            }
+        };
+
+        var data = {
+            categories: selectedCategories,
+            tags: selectedTags
+        };
+
+        xhr.send(JSON.stringify(data));
+    }
+</script>
 </body>
 
 </html>
