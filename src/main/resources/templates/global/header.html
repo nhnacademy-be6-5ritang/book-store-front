@@ -68,104 +68,14 @@
                         <div>
                             <a href="javascript:void(0)" class="category-trigger"><i class="fa fa-bars"></i>카테고리 목록</a>
                             <ul class="category-menu">
-                                <li class="cat-item has-children">
-                                    <a th:href="@{#}">Arts & Photography</a>
+                                <li th:each="category : ${categories}" th:if="${#strings.isEmpty(category.parentCategoryName)}" class="cat-item has-children">
+                                    <a th:href="@{#}" th:text="${category.categoryName}"></a>
                                     <ul class="sub-menu">
-                                        <li><a th:href="@{#}">Bags & Cases</a></li>
-                                        <li><a th:href="@{#}">Binoculars & Scopes</a></li>
-                                        <li><a th:href="@{#}">Digital Cameras</a></li>
-                                        <li><a th:href="@{#}">Film Photography</a></li>
-                                        <li><a th:href="@{#}">Lighting & Studio</a></li>
-                                    </ul>
-                                </li>
-                                <li class="cat-item has-children mega-menu"><a th:href="@{#}">Biographies</a>
-                                    <ul class="sub-menu">
-                                        <li class="single-block">
-                                            <h3 class="title">WHEEL SIMULATORS</h3>
-                                            <ul>
-                                                <li><a th:href="@{#}">Bags & Cases</a></li>
-                                                <li><a th:href="@{#}">Binoculars & Scopes</a></li>
-                                                <li><a th:href="@{#}">Digital Cameras</a></li>
-                                                <li><a th:href="@{#}">Film Photography</a></li>
-                                                <li><a th:href="@{#}">Lighting & Studio</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="single-block">
-                                            <h3 class="title">WHEEL SIMULATORS</h3>
-                                            <ul>
-                                                <li><a th:href="@{#}">Bags & Cases</a></li>
-                                                <li><a th:href="@{#}">Binoculars & Scopes</a></li>
-                                                <li><a th:href="@{#}">Digital Cameras</a></li>
-                                                <li><a th:href="@{#}">Film Photography</a></li>
-                                                <li><a th:href="@{#}">Lighting & Studio</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="single-block">
-                                            <h3 class="title">WHEEL SIMULATORS</h3>
-                                            <ul>
-                                                <li><a th:href="@{#}">Bags & Cases</a></li>
-                                                <li><a th:href="@{#}">Binoculars & Scopes</a></li>
-                                                <li><a th:href="@{#}">Digital Cameras</a></li>
-                                                <li><a th:href="@{#}">Film Photography</a></li>
-                                                <li><a th:href="@{#}">Lighting & Studio</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="single-block">
-                                            <h3 class="title">WHEEL SIMULATORS</h3>
-                                            <ul>
-                                                <li><a th:href="@{#}">Bags & Cases</a></li>
-                                                <li><a th:href="@{#}">Binoculars & Scopes</a></li>
-                                                <li><a th:href="@{#}">Digital Cameras</a></li>
-                                                <li><a th:href="@{#}">Film Photography</a></li>
-                                                <li><a th:href="@{#}">Lighting & Studio</a></li>
-                                            </ul>
+                                        <li th:each="subCategory : ${categories}" th:if="${subCategory.parentCategoryName == category.categoryName}">
+                                            <a th:href="@{#}" th:text="${subCategory.categoryName}"></a>
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="cat-item has-children"><a th:href="@{#}">Business & Money</a>
-                                    <ul class="sub-menu">
-                                        <li><a th:href="@{#}">Brake Tools</a></li>
-                                        <li><a th:href="@{#}">Driveshafts</a></li>
-                                        <li><a th:href="@{#}">Emergency Brake</a></li>
-                                        <li><a th:href="@{#}">Spools</a></li>
-                                    </ul>
-                                </li>
-                                <li class="cat-item has-children"><a th:href="@{#}">Calendars</a>
-                                    <ul class="sub-menu">
-                                        <li><a th:href="@{#}">Brake Tools</a></li>
-                                        <li><a th:href="@{#}">Driveshafts</a></li>
-                                        <li><a th:href="@{#}">Emergency Brake</a></li>
-                                        <li><a th:href="@{#}">Spools</a></li>
-                                    </ul>
-                                </li>
-                                <li class="cat-item has-children"><a th:href="@{#}">Children's Books</a>
-                                    <ul class="sub-menu">
-                                        <li><a th:href="@{#}">Brake Tools</a></li>
-                                        <li><a th:href="@{#}">Driveshafts</a></li>
-                                        <li><a th:href="@{#}">Emergency Brake</a></li>
-                                        <li><a th:href="@{#}">Spools</a></li>
-                                    </ul>
-                                </li>
-                                <li class="cat-item has-children"><a th:href="@{#}">Comics</a>
-                                    <ul class="sub-menu">
-                                        <li><a th:href="@{#}">Brake Tools</a></li>
-                                        <li><a th:href="@{#}">Driveshafts</a></li>
-                                        <li><a th:href="@{#}">Emergency Brake</a></li>
-                                        <li><a th:href="@{#}">Spools</a></li>
-                                    </ul>
-                                </li>
-                                <li class="cat-item"><a th:href="@{#}">Perfomance Filters</a></li>
-                                <li class="cat-item has-children"><a th:href="@{#}">Cookbooks</a>
-                                    <ul class="sub-menu">
-                                        <li><a th:href="@{#}">Brake Tools</a></li>
-                                        <li><a th:href="@{#}">Driveshafts</a></li>
-                                        <li><a th:href="@{#}">Emergency Brake</a></li>
-                                        <li><a th:href="@{#}">Spools</a></li>
-                                    </ul>
-                                </li>
-                                <li class="cat-item "><a th:href="@{#}">Accessories</a></li>
-                                <li class="cat-item "><a th:href="@{#}">Education</a></li>
-                                <li class="cat-item hidden-menu-item"><a th:href="@{#}">Indoor Living</a></li>
                                 <li class="cat-item"><a th:href="@{#}" class="js-expand-hidden-menu">More Categories</a></li>
                             </ul>
                         </div>
