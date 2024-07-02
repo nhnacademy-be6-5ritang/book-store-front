@@ -32,7 +32,7 @@ import com.nhnacademy.bookstorefront.order.service.WrappingPaperService;
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequestMapping
+@RequestMapping("/api/orders")
 @RequiredArgsConstructor
 public class OrderClientController {
 	private final BookOrderService bookOrderService;
@@ -55,9 +55,9 @@ public class OrderClientController {
 		CreateBookOrderResponse createBookOrderResponse = bookOrderService.createBookOrder(request);
 		GetBookOrderResponse bookOrder = bookOrderService.getBookOrder(createBookOrderResponse.orderListId());
 		if (bookOrder.getBookResponse().bookPackaging()) {
-			return "redirect:/createOrderTestPaper/" + createBookOrderResponse.orderListId();
+			return "redirect:/api/orders/createOrderTestPaper/" + createBookOrderResponse.orderListId();
 		}
-		return "redirect:/createOrderTest2/" + createBookOrderResponse.orderListId();
+		return "redirect:/api/orders/createOrderTest2/" + createBookOrderResponse.orderListId();
 	}
 
 	@GetMapping("/createOrderTestPaper/{order_list_id}")
@@ -76,7 +76,7 @@ public class OrderClientController {
 		GetBookOrderResponse bookOrder = bookOrderService.getBookOrder(orderListId);
 		if (createOrderListPost.paperId() == null) {
 			wrappingPaperService.createWrappingPapers(6L, orderListId, bookOrder.quantity());
-			return "redirect:/createOrderTest2/" + orderListId;
+			return "redirect:/api/orders/createOrderTest2/" + orderListId;
 		}
 
 		int count = bookOrder.quantity();
@@ -84,14 +84,14 @@ public class OrderClientController {
 			count -= createOrderListPost.quantity().get(i);
 		}
 		if (count < 0) {
-			return "redirect:/createOrderTestPaper/" + orderListId;
+			return "redirect:/api/orders/createOrderTestPaper/" + orderListId;
 		}
 		// 수량이 허용된 한도를 초과하지 않은 경우 wrapping paper 생성
 		for (int i = 0; i < createOrderListPost.paperId().size(); i++) {
 			wrappingPaperService.createWrappingPapers(
 				createOrderListPost.paperId().get(i), orderListId, createOrderListPost.quantity().get(i));
 		}
-		return "redirect:/createOrderTest/" + orderListId;
+		return "redirect:/api/orders/createOrderTest/" + orderListId;
 	}
 
 	@GetMapping("/createOrderTest/{order_list_id}")
@@ -133,7 +133,7 @@ public class OrderClientController {
 	) {
 		CreateOrderResponse createOrderResponse = orderService.createOrder(createOrderRequest);
 		bookOrderService.updateOrder(orderListId, createOrderResponse.orderId());
-		return "redirect:/payments/" + createOrderResponse.infoId();
+		return "redirect:/api/payments/" + createOrderResponse.infoId();
 	}
 
 	@GetMapping("/complete/{order_list_id}/{order_id}")
