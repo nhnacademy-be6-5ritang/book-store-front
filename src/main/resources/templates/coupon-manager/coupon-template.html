@@ -23,6 +23,7 @@
                     <th>Type</th>
                     <th>Expired Date</th>
                     <th>Issue Date</th>
+                    <th>Coupon Policy isUsed</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -49,6 +50,7 @@
                     </td>
                     <td><input type="text" class="form-control expiredDate" th:value="${coupon.expiredDate}"></td>
                     <td><input type="text" class="form-control issueDate" th:value="${coupon.issueDate}"></td>
+                    <td><input type="text" class="form-control couponPolicyId" th:value="${coupon.couponPolicy.isUsed}"></td>
                 </tr>
                 </tbody>
             </table>

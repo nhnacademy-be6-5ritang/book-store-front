@@ -38,16 +38,10 @@ public class CouponTemplateController {
 	public String getAllCouponTemplates(Model model) {
 		List<CouponTemplateResponseDTO> coupons = couponTemplateService.getAllCouponTemplates();
 		model.addAttribute("coupons", coupons);
-		return "/coupon-manager/coupon-template";
+		return "coupon-manager/coupon-template";
 	}
 
 
-	// @GetMapping("/issue")
-	// public String getAllCouponsIssuePage(Model model) {
-	// 	List<CouponResponseDTO> coupons = couponService.getAllCoupons();
-	// 	model.addAttribute("coupons", coupons);
-	// 	return "user-coupon-issue";
-	// }
 
 
 	// 쿠폰발급페이지 페이징처리
@@ -55,14 +49,20 @@ public class CouponTemplateController {
 	public String getAllCouponTemplatesIssuePaging(@PageableDefault(page=1)Pageable pageable,Model model) {
 		Page<CouponTemplateResponseDTO> couponTemplates = couponTemplateService.getAllCouponTemplatesPaging(pageable);
 		int blockLimit = 3;
-		int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
-		int endPage = Math.min((startPage + blockLimit - 1), couponTemplates.getTotalPages());
+		int startPage = 1; // 1 4 7 10 ~~
+		int endPage = 1;
 
+
+		if (!couponTemplates.isEmpty()) {
+			// 검색 결과가 있는 경우에만 페이지 번호 계산
+			startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+			endPage = Math.min((startPage + blockLimit - 1), couponTemplates.getTotalPages());
+		}
 
 		model.addAttribute("coupontemplates", couponTemplates);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
-		return "/coupon-user/user-coupon-issue";
+		return "coupon-user/user-coupon-issue";
 	}
 
 

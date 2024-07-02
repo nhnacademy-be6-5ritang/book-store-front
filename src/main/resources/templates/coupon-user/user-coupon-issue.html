@@ -81,6 +81,11 @@
                                     <input type="text" id="issueDate-${coupon.id}" class="form-control"
                                            th:value="${coupontemplate.issueDate}" readonly>
                                 </div>
+                                <div class="coupon-field">
+                                    <label for="isUsed-${coupon.id}">CouponPolicy Used</label>
+                                    <input type="text" id="isUsed-${coupon.id}" class="form-control"
+                                           th:value="${coupontemplate.couponPolicy.isUsed}" readonly>
+                                </div>
                             </div>
                             <div class="card-footer issue-btn">
                                 <form th:action="@{/coupons/{couponTemplateId}(couponTemplateId=${coupontemplate.id})}" th:method="post">
