@@ -23,6 +23,9 @@ import com.nhnacademy.bookstorefront.book.dto.response.UpdateBookResponse;
 public interface BookServiceClient {
 
 	@GetMapping("/books")
+	ResponseEntity<Page<GetBookDetailResponse>> findAllBooks();
+
+	@GetMapping("/books/page")
 	ResponseEntity<Page<GetBookDetailResponse>> findAllBooks(Pageable pageable);
 
 	@GetMapping("/books/{bookId}")
@@ -34,8 +37,8 @@ public interface BookServiceClient {
 	@PutMapping("/books/{bookId}")
 	UpdateBookResponse updateBookById(@PathVariable Long bookId, @RequestBody UpdateBookRequest request);
 
-	@PatchMapping("/books/{bookId}")
-	GetBookDetailResponse updateBook(@PathVariable Long bookId, @RequestBody BookUpdateRequest request);
+	@PatchMapping("/books/{isbn}")
+	GetBookDetailResponse updateBookByIsbn(@PathVariable String isbn, @RequestBody BookUpdateRequest request);
 
 	@DeleteMapping("/books/{bookId}")
 	ResponseEntity<Void> deleteBook(@PathVariable Long bookId);

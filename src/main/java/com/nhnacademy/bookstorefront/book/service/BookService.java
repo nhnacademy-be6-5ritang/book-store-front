@@ -23,6 +23,10 @@ public class BookService {
 		return bookServiceClient.getBook(bookId).getBody();
 	}
 
+	public Page<GetBookDetailResponse> findAllBooks() {
+		return bookServiceClient.findAllBooks().getBody();
+	}
+
 	public Page<GetBookDetailResponse> findAllBooks(Pageable pageable) {
 		return bookServiceClient.findAllBooks(pageable).getBody();
 	}
@@ -35,8 +39,8 @@ public class BookService {
 		return bookServiceClient.updateBookById(bookId, request);
 	}
 
-	public GetBookDetailResponse updateBook(Long bookId, BookUpdateRequest request) {
-		return bookServiceClient.updateBook(bookId, request);
+	public GetBookDetailResponse updateBookByIsbn(String isbn, BookUpdateRequest request) {
+		return bookServiceClient.updateBookByIsbn(isbn, request);
 	}
 
 	public void deleteBook(Long bookId) {

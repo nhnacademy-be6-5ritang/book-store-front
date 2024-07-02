@@ -54,13 +54,13 @@ public class BookController {
 	}
 
 	@GetMapping("/main")
-	public String mainPage(@PageableDefault(page = 1) Pageable pageable, Model model) {
-		model.addAttribute("books", bookService.findAllBooks(pageable));
+	public String mainPage(Model model) {
+		model.addAttribute("books", bookService.findAllBooks());
 		return "index";
 	}
 
-	@GetMapping
-	public String getBooks(@PageableDefault(page = 1) Pageable pageable, Model model) {
+	@GetMapping("/page")
+	public String findAllBooks(@PageableDefault(page = 1) Pageable pageable, Model model) {
 		Page<GetBookDetailResponse> books = bookService.findAllBooks(pageable);
 		model.addAttribute("books", books);
 		model.addAttribute("objects", books); // 공통 객체 이름
@@ -79,7 +79,7 @@ public class BookController {
 	}
 
 	@GetMapping("/{bookId}")
-	public String getBook(@PathVariable Long bookId, Model model) {
+	public String findAllBooks(@PathVariable Long bookId, Model model) {
 		model.addAttribute("bookCategories", categoryService.getCategoriesByBookId(bookId));
 		model.addAttribute("bookTags", tagService.getTagsByBookId(bookId));
 		model.addAttribute("book", bookService.getBook(bookId));
@@ -106,9 +106,9 @@ public class BookController {
 		return "redirect:/books/detail/" + bookId;
 	}
 
-	@PatchMapping("/{bookId}")
-	public GetBookDetailResponse updateBook(@PathVariable Long bookId, @ModelAttribute BookUpdateRequest request) {
-		return bookService.updateBook(bookId, request);
+	@PatchMapping("/{isbn}")
+	public GetBookDetailResponse updateBookByIsbn(@PathVariable String isbn, @ModelAttribute BookUpdateRequest request) {
+		return bookService.updateBookByIsbn(isbn, request);
 	}
 
 	@DeleteMapping("/{bookId}")
