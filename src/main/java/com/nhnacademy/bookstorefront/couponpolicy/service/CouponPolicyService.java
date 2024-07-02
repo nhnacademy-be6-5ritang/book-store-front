@@ -4,22 +4,22 @@ import java.util.List;
 
 import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.request.CouponPolicyCreateRequestDTO;
 import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.request.CouponPolicyUpdateRequestDTO;
-import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.response.CouponPolicyResponseDTO;
+import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.response.CouponPolicyResponseDTO2;
 
 public interface CouponPolicyService {
-	CouponPolicyResponseDTO issueWelcomeCoupon(CouponPolicyCreateRequestDTO requestDTO);
+	void issueWelcomeCoupon(CouponPolicyCreateRequestDTO requestDTO);
 
-	CouponPolicyResponseDTO issueBirthdayCoupon(CouponPolicyCreateRequestDTO requestDTO);
+	void issueBirthdayCoupon(CouponPolicyCreateRequestDTO requestDTO);
 
-	CouponPolicyResponseDTO issueBookCoupon(Long bookId, CouponPolicyCreateRequestDTO requestDTO);
+	void issueBookCoupon(Long bookId, CouponPolicyCreateRequestDTO requestDTO);
 
-	CouponPolicyResponseDTO issueCategoryCoupon(Long categoryId, CouponPolicyCreateRequestDTO requestDTO);
+	void issueCategoryCoupon(Long categoryId, CouponPolicyCreateRequestDTO requestDTO);
 
-	CouponPolicyResponseDTO issueSaleCoupon(CouponPolicyCreateRequestDTO requestDTO);
+	void issueSaleCoupon(CouponPolicyCreateRequestDTO requestDTO);
 
-	List<CouponPolicyResponseDTO> getAllCouponPolicies();
+	List<CouponPolicyResponseDTO2> getAllCouponPolicies();
 
-	CouponPolicyResponseDTO updateCouponPolicy(Long id, CouponPolicyUpdateRequestDTO requestDTO);
+	void updateCouponPolicy(Long id, CouponPolicyUpdateRequestDTO requestDTO);
 
 
 

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.request.CouponPolicyCreateRequestDTO;
 import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.request.CouponPolicyUpdateRequestDTO;
-import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.response.CouponPolicyResponseDTO;
+import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.response.CouponPolicyResponseDTO2;
 import com.nhnacademy.bookstorefront.couponpolicy.service.impl.CouponPolicyServiceImpl;
 
 @Controller
@@ -33,25 +33,32 @@ public class CouponPolicyController {
 		@ModelAttribute CouponPolicyCreateRequestDTO requestDTO,
 		Model model) {
 		try {
-			CouponPolicyResponseDTO response = switch (requestDTO.type().toLowerCase()) {
-				case "welcome" -> couponPolicyService.issueWelcomeCoupon(requestDTO);
-				case "birthday" -> couponPolicyService.issueBirthdayCoupon(requestDTO);
-				case "book" -> {
+			switch (requestDTO.type().toLowerCase()) {
+				case "welcome":
+					couponPolicyService.issueWelcomeCoupon(requestDTO);
+					break;
+				case "birthday":
+					couponPolicyService.issueBirthdayCoupon(requestDTO);
+					break;
+				case "book":
 					if (requestDTO.bookId() == null) {
 						throw new IllegalArgumentException("Book ID is required for book coupons");
 					}
-					yield couponPolicyService.issueBookCoupon(requestDTO.bookId(), requestDTO);
-				}
-				case "category" -> {
+					couponPolicyService.issueBookCoupon(requestDTO.bookId(), requestDTO);
+					break;
+				case "category":
 					if (requestDTO.categoryId() == null) {
 						throw new IllegalArgumentException("Category ID is required for category coupons");
 					}
-					yield couponPolicyService.issueCategoryCoupon(requestDTO.categoryId(), requestDTO);
-				}
-				case "sale" -> couponPolicyService.issueSaleCoupon(requestDTO);
-				default -> throw new IllegalArgumentException("Invalid coupon type: " + requestDTO.type());
-			};
-			model.addAttribute("response", response);
+					couponPolicyService.issueCategoryCoupon(requestDTO.categoryId(), requestDTO);
+					break;
+				case "sale":
+					couponPolicyService.issueSaleCoupon(requestDTO);
+					break;
+				default:
+					throw new IllegalArgumentException("Invalid coupon type: " + requestDTO.type());
+			}
+
 			model.addAttribute("message", "Coupon policy created successfully!");
 		} catch (Exception e) {
 			model.addAttribute("error", "Error creating coupon policy: " + e.getMessage());
@@ -63,8 +70,7 @@ public class CouponPolicyController {
 	@PatchMapping("/{couponPolicyId}")
 	public String updateCouponPolicy(@PathVariable("couponPolicyId") Long couponPolicyId, @ModelAttribute CouponPolicyUpdateRequestDTO requestDTO , Model model) {
 		try {
-			CouponPolicyResponseDTO response = couponPolicyService.updateCouponPolicy(couponPolicyId, requestDTO);
-			model.addAttribute("response", response);
+			couponPolicyService.updateCouponPolicy(couponPolicyId, requestDTO);
 			model.addAttribute("message", "Coupon policy updated successfully!");
 		} catch (Exception e) {
 			model.addAttribute("error", "Error updating coupon policy: " + e.getMessage());
@@ -78,8 +84,9 @@ public class CouponPolicyController {
 	@GetMapping
 	public String getCouponPolicies(Model model) {
 		try {
-			List<CouponPolicyResponseDTO> policies = couponPolicyService.getAllCouponPolicies();
+			List<CouponPolicyResponseDTO2> policies = couponPolicyService.getAllCouponPolicies();
 			model.addAttribute("policies", policies);
+
 		} catch (Exception e) {
 			model.addAttribute("error", "Error fetching coupon policies: " + e.getMessage());
 		}

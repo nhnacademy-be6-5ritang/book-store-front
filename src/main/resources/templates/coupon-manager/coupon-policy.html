@@ -58,7 +58,9 @@
                         <th>Max Sale Price</th>
                         <th>Type</th>
                         <th>Used</th>
-                        <th>Action</th>
+                        <th>categoryID</th>
+                        <th>bookID</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -73,6 +75,8 @@
                         <td><input type="text" class="form-control maxSalePrice" th:value="${policy.maxSalePrice}"></td>
                         <td><input type="text" class="form-control type" th:value="${policy.type}" readonly></td>
                         <td><input type="text" class="form-control isUsed" th:value="${policy.isUsed}" readonly></td>
+                        <td><input type="text" class="form-control categoryId" th:value="${policy.categoryId}" readonly></td>
+                        <td><input type="text" class="form-control bookId" th:value="${policy.bookId}" readonly></td>
                         <td>
                             <div class="btn-group" role="group">
                                 <button class="btn btn-primary btn-sm editBtn"
@@ -148,6 +152,8 @@
         } else if (isUsedValue === "false") {
             $('#isUsedFalse').prop('checked', true);
         }
+        $('#categoryIdEdit').val(row.find('.categoryId').val());
+        $('#bookIdEdit').val(row.find('.bookId').val());
 
         // `th:action` URL 업데이트
         $('#editCouponForm').attr('action', '/coupons/policies/' + policyId);
@@ -206,6 +212,14 @@
                             <input type="radio" class="form-check-input" id="isUsedFalse" name="isUsed" value="false">
                             <label class="form-check-label" for="isUsedFalse">False</label>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="categoryIdEdit">categoryId</label>
+                        <input type="text" class="form-control" id="categoryIdEdit" name="categoryId" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookIdEdit">bookId</label>
+                        <input type="text" class="form-control" id="bookIdEdit" name="bookId" readonly>
                     </div>
                 </div>
                 <div class="modal-footer">
