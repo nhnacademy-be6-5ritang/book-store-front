@@ -27,6 +27,8 @@ public class ReviewController {
 	public String getReviews(@PageableDefault(page = 1) Pageable pageable, Model model) {
 		Page<GetReviewResponse> reviews = reviewService.getReviews(pageable);
 		model.addAttribute("reviews", reviews);
+		model.addAttribute("objects", reviews); // 공통 객체 이름
+		model.addAttribute("baseUrl", "/reviews/page"); // 페이징 URL
 
 		int blockLimit = 3;
 		int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~

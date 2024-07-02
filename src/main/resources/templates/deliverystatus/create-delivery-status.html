@@ -56,7 +56,7 @@
                                         <div class="card mt-4">
                                             <div class="card-body">
                                                 <!-- 상태 추가 폼 -->
-                                                <form action="/deliveries-statuses" method="post">
+                                                <form th:action="@{/deliveries-statuses}" method="post">
                                                     <div class="form-group">
                                                         <label for="deliveryStatusName">상태 이름</label>
                                                         <input type="text" class="form-control" id="deliveryStatusName" name="deliveryStatusName" required>

@@ -1,5 +1,7 @@
 package com.nhnacademy.bookstorefront.book.feignclient;
 
+import java.util.List;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +25,7 @@ import com.nhnacademy.bookstorefront.book.dto.response.UpdateBookResponse;
 public interface BookServiceClient {
 
 	@GetMapping("/books")
-	ResponseEntity<Page<GetBookDetailResponse>> findAllBooks();
+	ResponseEntity<List<GetBookDetailResponse>> findAllBooks();
 
 	@GetMapping("/books/page")
 	ResponseEntity<Page<GetBookDetailResponse>> findAllBooks(Pageable pageable);

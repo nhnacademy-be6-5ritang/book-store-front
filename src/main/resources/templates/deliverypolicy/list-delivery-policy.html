@@ -53,7 +53,7 @@
                                         <h3>배송비정책</h3>
                                         <a th:href="@{/deliveries-policies/create}" class="btn btn-primary">정책 추가</a>
                                     </div>
-                                    <div th:if="${deliveryPolicies != null}">
+                                    <div th:if="${deliveryPolicies.size() > 0}">
                                         <table class="table table-bordered">
                                             <thead>
                                             <tr class="inline-text">
@@ -73,7 +73,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div th:if="${deliveryPolicies == null}">
+                                    <div th:if="${deliveryPolicies.size() == 0}">
                                         <p>배송비 정책이 없음</p>
                                     </div>
                                 </div>

@@ -54,7 +54,7 @@
                                             <h3>배송상태</h3>
                                             <a th:href="@{/deliveries-statuses/create}" class="btn btn-primary">상태 추가</a>
                                         </div>
-                                        <div th:if="${deliveryStatuses != null}">
+                                        <div th:if="${deliveryStatuses.size() > 0}">
                                             <table class="table table-bordered">
                                                 <thead>
                                                 <tr class="inline-text">
@@ -77,7 +77,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <div th:if="${deliveryStatuses == null}">
+                                        <div th:if="${deliveryStatuses.size() == 0}">
                                             <p>배송 상태가 없습니다.</p>
                                         </div>
                                     </div>

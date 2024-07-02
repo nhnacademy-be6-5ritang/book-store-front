@@ -46,7 +46,7 @@
                         <!-- My Account Tab Menu End -->
                         <!-- My Account Tab Content Start -->
                         <div class="col-lg-9 col-12 mt--30 mt-lg--0">
-                            <div class="tab-content" id="myaccountContent">
+                            <div class="tab-content" id="myccountContent">
                                 <!-- 작가 Tab Content Start -->
                                 <div class="tab-pane fade show active" id="delivery" role="tabpanel">
                                     <div class="myaccount-content">
@@ -56,7 +56,7 @@
                                         <div class="card mt-4">
                                             <div class="card-body">
                                                 <!-- 상태 추가 폼 -->
-                                                <form action="/authors" method="post">
+                                                <form th:action="@{/authors}" method="post">
                                                     <div class="form-group">
                                                         <label for="authorName">작가 이름</label>
                                                         <input type="text" class="form-control" id="authorName" name="authorName" required>

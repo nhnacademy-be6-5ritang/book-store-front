@@ -56,7 +56,7 @@
                                         <div class="card mt-4">
                                             <div class="card-body">
                                                 <!-- 정책 추가 폼 -->
-                                                <form action="/deliveries-policies" method="post">
+                                                <form th:action="@{/deliveries-policies}" method="post">
                                                     <div class="form-group">
                                                         <label for="deliveryPolicyName">정책 이름</label>
                                                         <input type="text" class="form-control" id="deliveryPolicyName" name="deliveryPolicyName" required>

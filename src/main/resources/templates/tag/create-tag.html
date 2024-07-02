@@ -56,7 +56,7 @@
                                         <div class="card mt-4">
                                             <div class="card-body">
                                                 <!-- 상태 추가 폼 -->
-                                                <form action="/tags" method="post">
+                                                <form th:action="@{/tags}" method="post">
                                                     <div class="form-group">
                                                         <label for="tagName">태그 이름</label>
                                                         <input type="text" class="form-control" id="tagName" name="tagName" required>

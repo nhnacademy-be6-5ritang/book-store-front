@@ -52,7 +52,7 @@
                                         <div class="d-flex justify-content-between align-items-center">
                                             <h3>배송비정책</h3>
                                         </div>
-                                        <div th:if="${deliveryPolicy != null}">
+                                        <div th:object="${deliveryPolicy}">
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h5 class="card-title" th:text="${deliveryPolicy.deliveryPolicyName}"></h5>

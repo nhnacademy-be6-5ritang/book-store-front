@@ -1,5 +1,7 @@
 package com.nhnacademy.bookstorefront.book.service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,7 @@ public class BookService {
 		return bookServiceClient.getBook(bookId).getBody();
 	}
 
-	public Page<GetBookDetailResponse> findAllBooks() {
+	public List<GetBookDetailResponse> findAllBooks() {
 		return bookServiceClient.findAllBooks().getBody();
 	}
 
