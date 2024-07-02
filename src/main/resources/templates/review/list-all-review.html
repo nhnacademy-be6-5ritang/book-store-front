@@ -60,8 +60,15 @@
                     <!-- 페이징 처리 시작-->
                     <div th:insert="~{/global/paging.html}"></div>
                     <!-- 페이징 처리 끝-->
-
                 </div>
+            </div>
+            <div th:if="${reviews.getContent().size() == 0}">
+                <div class="review-list">
+                    <div class="tabs">
+                        <button class="active">전체 리뷰 (0)</button>
+                        <button>일반 리뷰 (0)</button>
+                        <button>포토 리뷰 (0)</button>
+                    </div>
             </div>
         </div>
     </div>
