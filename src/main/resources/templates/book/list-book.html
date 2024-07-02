@@ -57,10 +57,10 @@
                                         <div th:if="${books != null}">
                                             <table class="table table-bordered">
                                                 <thead>
-                                                <tr>
+                                                <tr class="inline-text">
                                                     <th>번호</th>
                                                     <th>도서 이름</th>
-                                                    <td></td>
+                                                    <th></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -68,10 +68,10 @@
                                                     <td th:text="${index.index + 1}">1</td>
                                                     <td th:text="${book.bookTitle}">도서 이름</td>
                                                     <td style="display: flex; align-items: center;">
-                                                        <a href="#" th:href="@{/books/detail/{bookId} (bookId=${book.bookId})}" class="btn btn-primary">보기</a>
-                                                        <a href="#" th:href="@{/books/update/{bookId} (bookId=${book.bookId})}" class="btn btn-warning">편집</a>
+                                                        <a href="#" th:href="@{/books/detail/{bookId} (bookId=${book.bookId})}" class="btn btn-primary inline-text">보기</a>
+                                                        <a href="#" th:href="@{/books/update/{bookId} (bookId=${book.bookId})}" class="btn btn-warning inline-text">편집</a>
                                                         <form th:action="@{/books/{bookId}(bookId=${book.bookId})}" th:method="delete">
-                                                            <button type="submit" class="btn btn-danger">삭제</button>
+                                                            <button type="submit" class="btn btn-danger inline-text">삭제</button>
                                                         </form>
                                                     </td>
                                                 </tr>

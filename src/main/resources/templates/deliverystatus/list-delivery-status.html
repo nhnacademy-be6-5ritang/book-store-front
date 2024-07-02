@@ -52,15 +52,15 @@
                                     <div class="myaccount-content">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <h3>배송상태</h3>
-                                            <a href="/deliveries-statuses/create" class="btn btn-primary">상태 추가</a>
+                                            <a th:href="@{/deliveries-statuses/create}" class="btn btn-primary">상태 추가</a>
                                         </div>
                                         <div th:if="${deliveryStatuses != null}">
                                             <table class="table table-bordered">
                                                 <thead>
-                                                <tr>
+                                                <tr class="inline-text">
                                                     <th>번호</th>
                                                     <th>상태 이름</th>
-                                                    <td></td>
+                                                    <th></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -68,9 +68,9 @@
                                                     <td th:text="${index.index + 1}">1</td>
                                                     <td th:text="${deliveryStatus.deliveryStatusName}">상태 이름</td>
                                                     <td style="display: flex; align-items: center;">
-                                                        <a href="#" th:href="@{'/deliveries-statuses/update/' + ${deliveryStatus.deliveryStatusId}}" class="btn btn-warning">편집</a>
+                                                        <a href="#" th:href="@{'/deliveries-statuses/update/' + ${deliveryStatus.deliveryStatusId}}" class="btn btn-warning inline-text">편집</a>
                                                         <form th:action="@{/deliveries-statuses/{deliveryStatusId}(deliveryStatusId=${deliveryStatus.deliveryStatusId})}" th:method="delete">
-                                                            <button type="submit" class="btn btn-danger">삭제</button>
+                                                            <button type="submit" class="btn btn-danger inline-text">삭제</button>
                                                         </form>
                                                     </td>
                                                 </tr>

@@ -57,10 +57,10 @@
                                         <div th:if="${authors != null}">
                                             <table class="table table-bordered">
                                                 <thead>
-                                                <tr>
+                                                <tr class="inline-text">
                                                     <th>번호</th>
                                                     <th>작가 이름</th>
-                                                    <td></td>
+                                                    <th></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -68,9 +68,9 @@
                                                     <td th:text="${index.index + 1}">1</td>
                                                     <td th:text="${author.authorName}">작가 이름</td>
                                                     <td style="display: flex; align-items: center;">
-                                                        <a th:href="@{'/authors/update/' + ${author.authorId}}" class="btn btn-warning">편집</a>
+                                                        <a th:href="@{'/authors/update/' + ${author.authorId}}" class="btn btn-warning inline-text">편집</a>
                                                         <form th:action="@{/authors/{authorId}(authorId=${author.authorId})}" th:method="delete">
-                                                            <button type="submit" class="btn btn-danger">삭제</button>
+                                                            <button type="submit" class="btn btn-danger inline-text">삭제</button>
                                                         </form>
                                                     </td>
                                                 </tr>
