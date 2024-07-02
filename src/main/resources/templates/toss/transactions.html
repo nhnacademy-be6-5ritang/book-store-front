@@ -786,22 +786,25 @@
                             <th class="pro-name">주문 내용</th>
                             <th class="pro-provider">결제 방법</th>
                             <th class="pro-status">결제 상태</th>
-                            <th class="pro-date">결제 가격</th>
+                            <th class="pro-price">결제 가격</th>
+                            <th class="pro-date">결제 날짜</th>
                         </tr>
                         </thead>
                         <tbody>
                         <!-- Product Row -->
                         <tr>
-                            <td class="pro-title"><span
+                            <td class="pro-id"><span
                                     th:text="${paymentInfo.orderId()}"></span></td>
                             <td class="pro-name"> <span
                                     th:text="${paymentInfo.orderName()}"></span></td>
-                            <td class="pro-email"><span
+                            <td class="pro-provider"><span
                                     th:text="${paymentInfo.provider()}"></span></td>
-                            <td class="pro-address"><span
+                            <td class="pro-status"><span
                                     th:text="${paymentInfo.status()}"></span></td>
-                            <td class="pro-date"><span
+                            <td class="pro-price"><span
                                     th:text="${paymentInfo.amount()}"></span></td>
+                            <td class="pro-date"><span
+                                    th:text="${paymentInfo.date()}"></span></td>
                         </tr>
                         </tbody>
                     </table>

@@ -133,7 +133,7 @@ public class OrderClientController {
 	) {
 		CreateOrderResponse createOrderResponse = orderService.createOrder(createOrderRequest);
 		bookOrderService.updateOrder(orderListId, createOrderResponse.orderId());
-		return "redirect:/payment/" + createOrderResponse.infoId();
+		return "redirect:/payments/" + createOrderResponse.infoId();
 	}
 
 	@GetMapping("/complete/{order_list_id}/{order_id}")

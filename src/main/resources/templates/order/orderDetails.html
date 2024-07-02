@@ -810,7 +810,7 @@
                             <td class="pro-price"><span
                                     th:text="${order.price()}"></span></td>
                             <td class="pro-payment">
-                                <a th:href="@{/payment/transactions/{order_info_id}(order_info_id=${order.infoId()})}">
+                                <a th:href="@{/payments/transactions/{order_info_id}(order_info_id=${order.infoId()})}">
                                     <button type="button">결제 정보 보기</button>
                                 </a>
                             </td>

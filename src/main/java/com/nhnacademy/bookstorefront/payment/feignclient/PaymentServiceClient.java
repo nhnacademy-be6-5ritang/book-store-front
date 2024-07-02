@@ -14,15 +14,15 @@ import com.nhnacademy.bookstorefront.payment.dto.response.TransactionsResponse;
 
 @FeignClient(name = "payment-feign-service", url = "http://localhost:8083")
 public interface PaymentServiceClient {
-	@GetMapping("/payment/books-orders/{order_info_id}")
+	@GetMapping("/payments/books-orders/{order_info_id}")
 	ResponseEntity<GetBookOrderByInfoIdResponse> bookOrder(@PathVariable("order_info_id") String orderInfoId);
 
-	@GetMapping("/payment/order-info/{order_info_id}")
+	@GetMapping("/payments/order-info/{order_info_id}")
 	ResponseEntity<GetOrderByInfoResponse> findByOrderInfoId(@PathVariable("order_info_id") String orderInfoId);
 
-	@PostMapping("/payment")
+	@PostMapping("/payments")
 	ResponseEntity<PaymentSaveResponse> savePayment(@RequestBody String paymentResponseJson);
 
-	@PostMapping("/payment/transactions")
+	@PostMapping("/payments/transactions")
 	ResponseEntity<TransactionsResponse> transactions(@RequestBody String paymentResponseJson);
 }
