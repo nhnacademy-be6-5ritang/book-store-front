@@ -4,10 +4,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.nhnacademy.bookstorefront.book.dto.request.BookUpdateRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
+import com.nhnacademy.bookstorefront.book.dto.request.UpdateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.response.BookListResponse;
 import com.nhnacademy.bookstorefront.book.dto.response.CreateBookResponse;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
+import com.nhnacademy.bookstorefront.book.dto.response.UpdateBookResponse;
 import com.nhnacademy.bookstorefront.book.feignclient.BookServiceClient;
 
 import lombok.RequiredArgsConstructor;
@@ -27,6 +30,14 @@ public class BookService {
 
 	public CreateBookResponse createBook(CreateBookRequest request) {
 		return bookServiceClient.createBook(request).getBody();
+	}
+
+	public UpdateBookResponse updateBookById(Long bookId, UpdateBookRequest request) {
+		return bookServiceClient.updateBookById(bookId, request);
+	}
+
+	public GetBookDetailResponse updateBook(Long bookId, BookUpdateRequest request) {
+		return bookServiceClient.updateBook(bookId, request);
 	}
 
 	public void deleteBook(Long bookId) {

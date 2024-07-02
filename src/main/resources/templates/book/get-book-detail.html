@@ -110,8 +110,8 @@
                                             <div class="col-lg-7">
                                                 <div class="product-details-info pl-lg--30 ">
                                                     <p class="tag-block">카테고리:
-                                                        <span th:each="category : ${categories}">
-                                                            <a th:href="@{#}" th:text="'>' + ${category.categoryName}"></a>
+                                                        <span th:each="bookCategory : ${bookCategories}">
+                                                            <a th:href="@{#}" th:text="${bookCategory.categoryName}"></a>&nbsp;
                                                         </span>
                                                     </p>
 
@@ -134,8 +134,8 @@
                                                     </div>
 
                                                     <p class="tag-block">태그:
-                                                        <span th:each="tag : ${tags}">
-                                                            <a th:href="@{#}" th:text="'#' + ${tag.tagName}"></a>&nbsp;
+                                                        <span th:each="bookTag : ${bookTags}">
+                                                            <a th:href="@{#}" th:text="'#' + ${bookTag.tagName}"></a>&nbsp;
                                                         </span>
                                                     </p>
 

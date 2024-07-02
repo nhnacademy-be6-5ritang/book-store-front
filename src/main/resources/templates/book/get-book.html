@@ -94,6 +94,12 @@
                 </div>
                 <div class="col-lg-7">
                     <div class="product-details-info pl-lg--30 ">
+                        <p class="tag-block">카테고리:
+                            <span th:each="bookCategory : ${bookCategories}">
+                                <a th:href="@{#}" th:text="${bookCategory.categoryName}"></a>&nbsp;
+                            </span>
+                        </p>
+
                         <h3 class="product-title" th:text="${book.bookTitle}"></h3>
                         <ul class="list-unstyled">
                             <li>작가: <a class="list-value font-weight-bold" th:text="${book.authorName}"></a></li>
@@ -114,8 +120,8 @@
                         </div>
 
                         <p class="tag-block">태그:
-                            <span th:each="tag : ${tags}">
-                                <a th:href="@{#}" th:text="'#' + ${tag.tagName}"></a>&nbsp;
+                            <span th:each="bookTag : ${bookTags}">
+                                <a th:href="@{#}" th:text="'#' + ${bookTag.tagName}"></a>&nbsp;
                             </span>
                         </p>
                         <div class="rating-widget">
