@@ -12,19 +12,19 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @author 김기욱
  * @version 1.0
  */
-public record CreateBookRequest(
-	String bookIsbn,
+public record UpdateBookRequest(
 	List<Long> categories,
 	List<Long> tags,
-	String bookTitle,
 	String authorName,
 	String publisherName,
-	@DateTimeFormat(pattern = "yyyy-MM-dd") Date bookPublishDate,
 	String bookStatusName,
+	String bookTitle,
 	String bookIndex,
 	String bookDescription,
 	int bookQuantity,
 	boolean bookPackaging,
+	@DateTimeFormat(pattern = "yyyy-MM-dd") Date bookPublishDate,
+	String bookIsbn,
 	BigDecimal bookPrice,
 	BigDecimal bookSalePrice,
 	BigDecimal bookSalePercent) {

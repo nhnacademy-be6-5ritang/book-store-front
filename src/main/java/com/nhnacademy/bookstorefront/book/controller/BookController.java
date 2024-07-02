@@ -5,12 +5,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.nhnacademy.bookstorefront.book.dto.request.BookUpdateRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
+import com.nhnacademy.bookstorefront.book.dto.request.UpdateBookRequest;
+import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.service.BookService;
+import com.nhnacademy.bookstorefront.bookstatus.service.BookStatusService;
+import com.nhnacademy.bookstorefront.category.service.CategoryService;
+import com.nhnacademy.bookstorefront.tag.service.TagService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,20 +27,31 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/books")
 public class BookController {
 	private final BookService bookService;
+	private final CategoryService categoryService;
+	private final BookStatusService bookStatusService;
+	private final TagService tagService;
 
 	@GetMapping("/create")
-	public String createBookForm() {
+	public String createBookForm(Model model) {
+		model.addAttribute("bookStatuses", bookStatusService.getBookStatuses());
+		model.addAttribute("categories", categoryService.getCategories());
+		model.addAttribute("tags", tagService.getTags());
 		return "book/create-book";
 	}
 
 	@GetMapping("/update/{bookId}")
 	public String updateBookForm(@PathVariable Long bookId, Model model) {
+		model.addAttribute("bookStatuses", bookStatusService.getBookStatuses());
+		model.addAttribute("categories", categoryService.getCategories());
+		model.addAttribute("tags", tagService.getTags());
+		model.addAttribute("bookCategories", categoryService.getCategoriesByBookId(bookId));
+		model.addAttribute("bookTags", tagService.getTagsByBookId(bookId));
 		model.addAttribute("book", bookService.getBook(bookId));
 		return "book/update-book";
 	}
 
 	@GetMapping("/main")
-	public String main(Model model) {
+	public String mainPage(Model model) {
 		model.addAttribute("books", bookService.findAllBooks());
 		return "index";
 	}
@@ -45,12 +64,16 @@ public class BookController {
 
 	@GetMapping("/{bookId}")
 	public String getBook(@PathVariable Long bookId, Model model) {
+		model.addAttribute("bookCategories", categoryService.getCategoriesByBookId(bookId));
+		model.addAttribute("bookTags", tagService.getTagsByBookId(bookId));
 		model.addAttribute("book", bookService.getBook(bookId));
 		return "book/get-book";
 	}
 
 	@GetMapping("/detail/{bookId}")
 	public String getBookDetail(@PathVariable Long bookId, Model model) {
+		model.addAttribute("bookCategories", categoryService.getCategoriesByBookId(bookId));
+		model.addAttribute("bookTags", tagService.getTagsByBookId(bookId));
 		model.addAttribute("book", bookService.getBook(bookId));
 		return "book/get-book-detail";
 	}
@@ -61,11 +84,16 @@ public class BookController {
 		return "redirect:/books";
 	}
 
-	// @PutMapping("/{bookId}")
-	// public String updateBook(@PathVariable Long bookId, @ModelAttribute BookUpdateRequest request) {
-	// 	bookService.updateBook(bookId, request);
-	// 	return "redirect:/books";
-	// }
+	@PutMapping("/{bookId}")
+	public String updateBookById(@PathVariable Long bookId, @ModelAttribute UpdateBookRequest request) {
+		bookService.updateBookById(bookId, request);
+		return "redirect:/books/detail/" + bookId;
+	}
+
+	@PatchMapping("/{bookId}")
+	public GetBookDetailResponse updateBook(@PathVariable Long bookId, @ModelAttribute BookUpdateRequest request) {
+		return bookService.updateBook(bookId, request);
+	}
 
 	@DeleteMapping("/{bookId}")
 	public String deleteBook(@PathVariable Long bookId) {

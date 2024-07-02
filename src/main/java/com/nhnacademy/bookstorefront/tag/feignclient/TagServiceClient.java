@@ -19,6 +19,9 @@ public interface TagServiceClient {
 	@GetMapping("/tags")
 	ResponseEntity<List<TagDto>> getTags();
 
+	@GetMapping("/books/{bookId}/tags")
+	ResponseEntity<List<TagDto>> getTagsByBookId(@PathVariable Long bookId);
+
 	@GetMapping("/tags/{tagId}")
 	ResponseEntity<TagDto> getTag(@PathVariable Long tagId);
 

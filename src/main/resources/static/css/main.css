@@ -28505,3 +28505,8 @@ p.form-messege.error {
 .accordion .card .card-body {
   padding: 0 30px 30px;
 }
+
+.btn-inline-text {
+  display: inline-block; /* 버튼을 인라인 블록 요소로 변경 */
+  white-space: nowrap; /* 텍스트가 넘칠 경우 줄 바꿈 방지 */
+}
