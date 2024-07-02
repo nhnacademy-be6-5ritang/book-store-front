@@ -65,7 +65,7 @@
                                                 </thead>
                                                 <tbody>
                                                 <tr th:each="tag, index : ${tags}">
-                                                    <td th:text="${index.index + 1}">1</td>
+                                                    <td th:text="${index.index + 1 + (pageable.pageNumber - 1) * pageable.pageSize}">1</td>
                                                     <td th:text="${tag.tagName}">태그 이름</td>
                                                     <td style="display: flex; align-items: center;">
                                                         <a href="#" th:href="@{'/tags/update/' + ${tag.tagId}}" class="btn btn-warning inline-text">편집</a>
@@ -80,6 +80,9 @@
                                         <div th:if="${tags == null}">
                                             <p>태그가 없습니다.</p>
                                         </div>
+                                        <!-- 페이징 처리 시작-->
+                                        <div th:insert="~{/global/paging.html}"></div>
+                                        <!-- 페이징 처리 끝-->
                                     </div>
                                 </div>
                                 <!-- 태그 Tab Content End -->

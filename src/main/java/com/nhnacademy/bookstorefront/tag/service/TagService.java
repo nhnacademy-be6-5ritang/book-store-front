@@ -2,6 +2,8 @@ package com.nhnacademy.bookstorefront.tag.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.tag.dto.response.TagDto;
@@ -16,6 +18,10 @@ public class TagService {
 
 	public List<TagDto> getTags() {
 		return tagServiceClient.getTags().getBody();
+	}
+
+	public Page<TagDto> getTags(Pageable pageable) {
+		return tagServiceClient.getTags(pageable).getBody();
 	}
 
 	public List<TagDto> getTagsByBookId(Long bookId) {

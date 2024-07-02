@@ -82,44 +82,9 @@
                                             <p>도서가 없습니다.</p>
                                         </div>
 
-                                        <!-- 페이징 처리 -->
-                                        <div>
-                                            <ul class="pagination justify-content-center mt-4">
-                                                <!-- 첫번째 페이지로 이동 -->
-                                                <li class="page-item" th:classappend="${books.first} ? 'disabled'">
-                                                    <a class="page-link" th:href="@{/books(page=1)}" aria-label="First">
-                                                        <span aria-hidden="true">&laquo; 처음</span>
-                                                    </a>
-                                                </li>
-                                                <!-- 이전 페이지로 이동 -->
-                                                <li class="page-item" th:classappend="${books.first} ? 'disabled'">
-                                                    <a class="page-link" th:href="@{/books (page=${books.number})}" aria-label="Previous">
-                                                        <span aria-hidden="true">&lsaquo; 이전</span>
-                                                    </a>
-                                                </li>
-
-                                                <!-- 페이지 번호 링크 -->
-                                                <li class="page-item" th:each="page: ${#numbers.sequence(startPage, endPage)}"
-                                                    th:classappend="${page == books.number + 1} ? 'active'">
-                                                    <a class="page-link" th:href="@{/books (page=${page})}" th:text="${page}"></a>
-                                                </li>
-
-                                                <!-- 다음 페이지로 이동 -->
-                                                <li class="page-item" th:classappend="${books.last} ? 'disabled'">
-                                                    <a class="page-link" th:href="@{/books (page=${books.number+2})}" aria-label="Next">
-                                                        <span aria-hidden="true">다음 &rsaquo;</span>
-                                                    </a>
-                                                </li>
-
-                                                <!-- 마지막 페이지로 이동 -->
-                                                <li class="page-item" th:classappend="${books.last} ? 'disabled'">
-                                                    <a class="page-link" th:href="@{/books (page=${books.totalPages})}" aria-label="Last">
-                                                        <span aria-hidden="true">끝 &raquo;</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        
+                                        <!-- 페이징 처리 시작-->
+                                        <div th:insert="~{/global/paging.html}"></div>
+                                        <!-- 페이징 처리 끝-->
                                     </div>
                                 </div>
                                 <!-- 도서 Tab Content End -->

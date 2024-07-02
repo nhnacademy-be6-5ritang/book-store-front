@@ -2,6 +2,8 @@ package com.nhnacademy.bookstorefront.category.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.category.dto.request.CreateCategoryRequest;
@@ -20,6 +22,10 @@ public class CategoryService {
 
 	public List<GetCategoryResponse> getCategories() {
 		return categoryServiceClient.getCategories().getBody();
+	}
+
+	public Page<GetCategoryResponse> getCategories(Pageable pageable) {
+		return categoryServiceClient.getCategories(pageable).getBody();
 	}
 
 	public List<GetCategoryResponse> getCategoriesByBookId(Long bookId) {

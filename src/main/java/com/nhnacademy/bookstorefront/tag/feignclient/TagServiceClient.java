@@ -3,6 +3,8 @@ package com.nhnacademy.bookstorefront.tag.feignclient;
 import java.util.List;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,9 @@ public interface TagServiceClient {
 
 	@GetMapping("/tags")
 	ResponseEntity<List<TagDto>> getTags();
+
+	@GetMapping("/tags/page")
+	ResponseEntity<Page<TagDto>> getTags(Pageable pageable);
 
 	@GetMapping("/books/{bookId}/tags")
 	ResponseEntity<List<TagDto>> getTagsByBookId(@PathVariable Long bookId);

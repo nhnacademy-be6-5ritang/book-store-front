@@ -25,7 +25,7 @@
             <div class="breadcrumb-contents">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a th:href="@{/books/main}">홈</a></li>
+                        <li class="breadcrumb-item"><a th:href="@{/categories/main}">홈</a></li>
                         <li class="breadcrumb-item active">카테고리 리스트</li>
                     </ol>
                 </nav>
@@ -66,7 +66,7 @@
                                                 </thead>
                                                 <tbody>
                                                 <tr th:each="category, index : ${categories}">
-                                                    <td th:text="${index.index + 1}">1</td>
+                                                    <td th:text="${index.index + 1 + (pageable.pageNumber - 1) * pageable.pageSize}">1</td>
                                                     <td th:text="${category.parentCategoryName}">상위 카테고리 이름</td>
                                                     <td th:text="${category.categoryName}">카테고리 이름</td>
                                                     <td style="display: flex; align-items: center;">
@@ -82,6 +82,9 @@
                                         <div th:if="${categories == null}">
                                             <p>카테고리가 없습니다.</p>
                                         </div>
+                                        <!-- 페이징 처리 시작-->
+                                        <div th:insert="~{/global/paging.html}"></div>
+                                        <!-- 페이징 처리 끝-->
                                     </div>
                                 </div>
                                 <!-- 카테고리 Tab Content End -->
