@@ -14,7 +14,7 @@ import com.nhnacademy.bookstorefront.payment.dto.response.PaymentSaveResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.TransactionsResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.UpdatePaymentResponse;
 
-@FeignClient(name = "payment-feign-service", url = "http://localhost:8083")
+@FeignClient(name = "payment-feign-service", url = "http://localhost:8090")
 public interface PaymentServiceClient {
 	@GetMapping("/api/payments/books-orders/{order_info_id}")
 	ResponseEntity<GetBookOrderByInfoIdResponse> bookOrder(@PathVariable("order_info_id") String orderInfoId);

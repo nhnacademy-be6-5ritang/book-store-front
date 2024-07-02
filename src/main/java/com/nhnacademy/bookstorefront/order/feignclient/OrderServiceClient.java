@@ -22,7 +22,7 @@ import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetWrappingResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.UpdateBookOrderResponse;
 
-@FeignClient(name = "order-feign-service", url = "http://localhost:8083")
+@FeignClient(name = "order-feign-service", url = "http://localhost:8090")
 public interface OrderServiceClient {
 
 	@GetMapping("/api/orders/books/{book_id}")
