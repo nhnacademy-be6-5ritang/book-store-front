@@ -1,5 +1,8 @@
 package com.nhnacademy.bookstorefront.book.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -51,14 +54,25 @@ public class BookController {
 	}
 
 	@GetMapping("/main")
-	public String mainPage(Model model) {
-		model.addAttribute("books", bookService.findAllBooks());
+	public String mainPage(@PageableDefault(page = 1) Pageable pageable, Model model) {
+		model.addAttribute("books", bookService.findAllBooks(pageable));
 		return "index";
 	}
 
 	@GetMapping
-	public String getBooks(Model model) {
-		model.addAttribute("books", bookService.findAllBooks());
+	public String getBooks(@PageableDefault(page = 1) Pageable pageable, Model model) {
+		Page<GetBookDetailResponse> books = bookService.findAllBooks(pageable);
+		model.addAttribute("books", books);
+
+		int blockLimit = 3;
+		int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
+		int endPage = Math.min((startPage + blockLimit - 1), books.getTotalPages());
+
+		model.addAttribute("pageable", pageable);
+		model.addAttribute("blockLimit", blockLimit);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
+
 		return "book/list-book";
 	}
 

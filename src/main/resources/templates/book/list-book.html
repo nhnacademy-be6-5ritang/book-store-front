@@ -57,21 +57,21 @@
                                         <div th:if="${books != null}">
                                             <table class="table table-bordered">
                                                 <thead>
-                                                <tr>
+                                                <tr class="inline-text">
                                                     <th>번호</th>
                                                     <th>도서 이름</th>
-                                                    <td></td>
+                                                    <th></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 <tr th:each="book, index : ${books}">
-                                                    <td th:text="${index.index + 1}">1</td>
+                                                    <td th:text="${index.index + 1 + (pageable.pageNumber - 1) * pageable.pageSize}">1</td>
                                                     <td th:text="${book.bookTitle}">도서 이름</td>
                                                     <td style="display: flex; align-items: center;">
-                                                        <a href="#" th:href="@{/books/detail/{bookId} (bookId=${book.bookId})}" class="btn btn-primary">보기</a>
-                                                        <a href="#" th:href="@{/books/update/{bookId} (bookId=${book.bookId})}" class="btn btn-warning">편집</a>
+                                                        <a href="#" th:href="@{/books/detail/{bookId} (bookId=${book.bookId})}" class="btn btn-primary inline-text">보기</a>
+                                                        <a href="#" th:href="@{/books/update/{bookId} (bookId=${book.bookId})}" class="btn btn-warning inline-text">편집</a>
                                                         <form th:action="@{/books/{bookId}(bookId=${book.bookId})}" th:method="delete">
-                                                            <button type="submit" class="btn btn-danger">삭제</button>
+                                                            <button type="submit" class="btn btn-danger inline-text">삭제</button>
                                                         </form>
                                                     </td>
                                                 </tr>
@@ -81,6 +81,45 @@
                                         <div th:if="${books == null}">
                                             <p>도서가 없습니다.</p>
                                         </div>
+
+                                        <!-- 페이징 처리 -->
+                                        <div>
+                                            <ul class="pagination justify-content-center mt-4">
+                                                <!-- 첫번째 페이지로 이동 -->
+                                                <li class="page-item" th:classappend="${books.first} ? 'disabled'">
+                                                    <a class="page-link" th:href="@{/books(page=1)}" aria-label="First">
+                                                        <span aria-hidden="true">&laquo; 처음</span>
+                                                    </a>
+                                                </li>
+                                                <!-- 이전 페이지로 이동 -->
+                                                <li class="page-item" th:classappend="${books.first} ? 'disabled'">
+                                                    <a class="page-link" th:href="@{/books (page=${books.number})}" aria-label="Previous">
+                                                        <span aria-hidden="true">&lsaquo; 이전</span>
+                                                    </a>
+                                                </li>
+
+                                                <!-- 페이지 번호 링크 -->
+                                                <li class="page-item" th:each="page: ${#numbers.sequence(startPage, endPage)}"
+                                                    th:classappend="${page == books.number + 1} ? 'active'">
+                                                    <a class="page-link" th:href="@{/books (page=${page})}" th:text="${page}"></a>
+                                                </li>
+
+                                                <!-- 다음 페이지로 이동 -->
+                                                <li class="page-item" th:classappend="${books.last} ? 'disabled'">
+                                                    <a class="page-link" th:href="@{/books (page=${books.number+2})}" aria-label="Next">
+                                                        <span aria-hidden="true">다음 &rsaquo;</span>
+                                                    </a>
+                                                </li>
+
+                                                <!-- 마지막 페이지로 이동 -->
+                                                <li class="page-item" th:classappend="${books.last} ? 'disabled'">
+                                                    <a class="page-link" th:href="@{/books (page=${books.totalPages})}" aria-label="Last">
+                                                        <span aria-hidden="true">끝 &raquo;</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        
                                     </div>
                                 </div>
                                 <!-- 도서 Tab Content End -->

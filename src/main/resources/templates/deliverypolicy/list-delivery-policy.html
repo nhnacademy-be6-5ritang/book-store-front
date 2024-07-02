@@ -51,15 +51,15 @@
                                 <div class="myaccount-content">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <h3>배송비정책</h3>
-                                        <a href="/deliveries-policies/create" class="btn btn-primary">정책 추가</a>
+                                        <a th:href="@{/deliveries-policies/create}" class="btn btn-primary">정책 추가</a>
                                     </div>
                                     <div th:if="${deliveryPolicies != null}">
                                         <table class="table table-bordered">
                                             <thead>
-                                            <tr>
+                                            <tr class="inline-text">
                                                 <th>번호</th>
                                                 <th>정책 이름</th>
-                                                <td></td>
+                                                <th></th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -67,7 +67,7 @@
                                                 <td th:text="${index.index + 1}">1</td>
                                                 <td th:text="${policy.deliveryPolicyName}">Policy Name</td>
                                                 <td style="display: flex; align-items: center;">
-                                                    <a th:href="@{'/deliveries-policies/' + ${policy.deliveryPolicyId()}}" class="btn btn-info">보기</a>
+                                                    <a th:href="@{'/deliveries-policies/' + ${policy.deliveryPolicyId()}}" class="btn btn-info inline-text">보기</a>
                                                 </td>
                                             </tr>
                                             </tbody>

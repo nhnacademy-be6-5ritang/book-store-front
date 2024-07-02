@@ -28506,7 +28506,8 @@ p.form-messege.error {
   padding: 0 30px 30px;
 }
 
-.btn-inline-text {
-  display: inline-block; /* 버튼을 인라인 블록 요소로 변경 */
+.inline-text {
   white-space: nowrap; /* 텍스트가 넘칠 경우 줄 바꿈 방지 */
+  width: 20px;
+  height: 10px;
 }

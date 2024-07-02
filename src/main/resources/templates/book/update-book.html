@@ -69,7 +69,7 @@
                                                                         <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.categoryName}"
                                                                                 th:selected="${category.categoryId == bookCategory.categoryId}"></option>
                                                                     </select>
-                                                                    <button class="btn btn-danger ml-2 btn-inline-text" onclick="removeCategorySelect(this)">삭제</button>
+                                                                    <button class="btn btn-danger ml-2 inline-text" onclick="removeCategorySelect(this)">삭제</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -88,7 +88,7 @@
                                                                         <option th:each="tag : ${tags}" th:value="${tag.tagId}" th:text="${tag.tagName}"
                                                                                 th:selected="${tag.tagId == bookTag.tagId}"></option>
                                                                     </select>
-                                                                    <button class="btn btn-danger ml-2 btn-inline-text" onclick="removeTagSelect(this)">삭제</button>
+                                                                    <button class="btn btn-danger ml-2 inline-text" onclick="removeTagSelect(this)">삭제</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -222,7 +222,7 @@ Footer Area
 
         var deleteButton = document.createElement('button');
         deleteButton.setAttribute('type', 'button');
-        deleteButton.classList.add('btn', 'btn-danger', 'ml-2', 'btn-inline-text');
+        deleteButton.classList.add('btn', 'btn-danger', 'ml-2', 'inline-text');
         deleteButton.textContent = '삭제';
         deleteButton.onclick = function() {
             removeCategorySelect(deleteButton);
@@ -290,7 +290,7 @@ Footer Area
 
         var deleteButton = document.createElement('button');
         deleteButton.setAttribute('type', 'button');
-        deleteButton.classList.add('btn', 'btn-danger', 'ml-2', 'btn-inline-text');
+        deleteButton.classList.add('btn', 'btn-danger', 'ml-2', 'inline-text');
         deleteButton.textContent = '삭제';
         deleteButton.onclick = function() {
             removeTagSelect(deleteButton);
