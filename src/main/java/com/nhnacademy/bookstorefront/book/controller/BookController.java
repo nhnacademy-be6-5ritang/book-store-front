@@ -54,6 +54,7 @@ public class BookController {
 
 	@GetMapping("/{bookId}")
 	public String getBook(@PathVariable Long bookId, Model model) {
+		model.addAttribute("categories", categoryService.getCategoriesByBookId(bookId));
 		model.addAttribute("tags", tagService.getTagsByBookId(bookId));
 		model.addAttribute("book", bookService.getBook(bookId));
 		return "book/get-book";
@@ -61,6 +62,7 @@ public class BookController {
 
 	@GetMapping("/detail/{bookId}")
 	public String getBookDetail(@PathVariable Long bookId, Model model) {
+		model.addAttribute("categories", categoryService.getCategoriesByBookId(bookId));
 		model.addAttribute("tags", tagService.getTagsByBookId(bookId));
 		model.addAttribute("book", bookService.getBook(bookId));
 		return "book/get-book-detail";

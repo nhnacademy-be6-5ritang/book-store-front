@@ -68,10 +68,10 @@
                         <div>
                             <a href="javascript:void(0)" class="category-trigger"><i class="fa fa-bars"></i>카테고리 목록</a>
                             <ul class="category-menu">
-                                <li th:each="category : ${categories}" th:if="${#strings.isEmpty(category.parentCategoryName)}" class="cat-item has-children">
+                                <li th:each="category : ${categoriesDisplay}" th:if="${#strings.isEmpty(category.parentCategoryName)}" class="cat-item has-children">
                                     <a th:href="@{#}" th:text="${category.categoryName}"></a>
                                     <ul class="sub-menu">
-                                        <li th:each="subCategory : ${categories}" th:if="${subCategory.parentCategoryName == category.categoryName}">
+                                        <li th:each="subCategory : ${categoriesDisplay}" th:if="${subCategory.parentCategoryName == category.categoryName}">
                                             <a th:href="@{#}" th:text="${subCategory.categoryName}"></a>
                                         </li>
                                     </ul>

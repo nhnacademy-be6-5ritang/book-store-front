@@ -23,6 +23,9 @@ public interface CategoryServiceClient {
 	@GetMapping("/categories")
 	ResponseEntity<List<GetCategoryResponse>> getCategories();
 
+	@GetMapping("/books/{bookId}/categories")
+	ResponseEntity<List<GetCategoryResponse>> getCategoriesByBookId(@PathVariable Long bookId);
+
 	@GetMapping("/categories/{categoryId}")
 	ResponseEntity<GetCategoryResponse> getCategory(@PathVariable Long categoryId);
 

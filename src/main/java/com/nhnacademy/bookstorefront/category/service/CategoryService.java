@@ -22,6 +22,10 @@ public class CategoryService {
 		return categoryServiceClient.getCategories().getBody();
 	}
 
+	public List<GetCategoryResponse> getCategoriesByBookId(Long bookId) {
+		return categoryServiceClient.getCategoriesByBookId(bookId).getBody();
+	}
+
 	public GetCategoryResponse getCategory(Long categoryId) {
 		return categoryServiceClient.getCategory(categoryId).getBody();
 	}

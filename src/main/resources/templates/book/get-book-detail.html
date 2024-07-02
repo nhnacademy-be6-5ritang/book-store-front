@@ -109,6 +109,12 @@
                                             </div>
                                             <div class="col-lg-7">
                                                 <div class="product-details-info pl-lg--30 ">
+                                                    <p class="tag-block">카테고리:
+                                                        <span th:each="category : ${categories}">
+                                                            <a th:href="@{#}" th:text="'>' + ${category.categoryName}"></a>
+                                                        </span>
+                                                    </p>
+
                                                     <h3 class="product-title" th:text="${book.bookTitle}"></h3>
                                                     <ul class="list-unstyled">
                                                         <li>작가: <a class="list-value font-weight-bold" th:text="${book.authorName}"></a></li>
@@ -178,7 +184,7 @@
                                                         <h2 class="title-lg mb--20">1 REVIEW FOR AUCTOR GRAVIDA ENIM</h2>
                                                         <div class="review-comment mb--20">
                                                             <div class="avatar">
-                                                                <img th:src="@{image/icon/author-logo.png}" alt="">
+                                                                <img th:src="@{/image/icon/author-logo.png}" alt="">
                                                             </div>
                                                             <div class="text">
                                                                 <div class="rating-block mb--15">
