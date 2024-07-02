@@ -38,7 +38,7 @@ public class CouponTemplateController {
 	public String getAllCouponTemplates(Model model) {
 		List<CouponTemplateResponseDTO> coupons = couponTemplateService.getAllCouponTemplates();
 		model.addAttribute("coupons", coupons);
-		return "/coupon-manager/coupon-template";
+		return "coupon-manager/coupon-template";
 	}
 
 
@@ -62,7 +62,7 @@ public class CouponTemplateController {
 		model.addAttribute("coupontemplates", couponTemplates);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
-		return "/coupon-user/user-coupon-issue";
+		return "coupon-user/user-coupon-issue";
 	}
 
 
