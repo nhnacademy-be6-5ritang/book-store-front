@@ -21,8 +21,6 @@ public interface CouponPolicyService {
 
 	CouponPolicyResponseDTO updateCouponPolicy(Long id, CouponPolicyUpdateRequestDTO requestDTO);
 
-	void deleteCouponPolicy(Long id);
 
-	CouponPolicyResponseDTO getCouponPolicy(Long couponPolicyId);
 
 }

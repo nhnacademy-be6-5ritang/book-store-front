@@ -51,19 +51,11 @@ public class CouponPolicyServiceImpl implements CouponPolicyService {
 		return couponPolicyServiceFeignClient.updateCouponPolicy(id, requestDTO).getBody();
 	}
 
-	@Override
-	public void deleteCouponPolicy(Long id) {
-		couponPolicyServiceFeignClient.deleteCouponPolicy(id);
-	}
+
 
 	@Override
 	public List<CouponPolicyResponseDTO> getAllCouponPolicies() {
 		return couponPolicyServiceFeignClient.getAllCouponPolicies().getBody();
 	}
 
-
-	@Override
-	public CouponPolicyResponseDTO getCouponPolicy(Long couponPolicyId) {
-		return couponPolicyServiceFeignClient.getCouponPolicyById(couponPolicyId).getBody();
-	}
 }

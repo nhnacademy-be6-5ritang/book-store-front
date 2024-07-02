@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb--30 mb-lg--0">
                 <!-- Create Coupon Policy Form -->
-                <form action="/coupons/policies/create" method="post">
+                <form action="/coupons/policies" method="post">
                     <div class="form-group">
                         <h4 class="form-title">쿠폰 정책 발행</h4>
                         <label for="minOrderPrice">Min Order Price</label>
@@ -57,6 +57,7 @@
                         <th>Sale Rate</th>
                         <th>Max Sale Price</th>
                         <th>Type</th>
+                        <th>Used</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -71,16 +72,12 @@
                         <td><input type="text" class="form-control saleRate" th:value="${policy.saleRate}"></td>
                         <td><input type="text" class="form-control maxSalePrice" th:value="${policy.maxSalePrice}"></td>
                         <td><input type="text" class="form-control type" th:value="${policy.type}" readonly></td>
+                        <td><input type="text" class="form-control isUsed" th:value="${policy.isUsed}" readonly></td>
                         <td>
                             <div class="btn-group" role="group">
                                 <button class="btn btn-primary btn-sm editBtn"
                                         th:data-policy-id="${policy.couponPolicyId}">Edit
                                 </button>
-                                <form th:action="@{/coupons/policies/delete/{couponPolicyId}(couponPolicyId=${policy.couponPolicyId})}"
-                                      th:method="delete">
-                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                </form>
-
                                 <button class="btn btn-success btn-sm addBtn" th:data-policy-id="${policy.couponPolicyId}" data-toggle="modal" data-target="#addCouponModal"
                                         th:if="${policy.type == 'sale' or policy.type == 'book' or policy.type == 'category'}">
                                     Add Coupon
@@ -135,6 +132,7 @@
         var row = $(this).closest('tr');
 
 
+
         // 폼 데이터 채우기
         $('#policyIdEdit').val(row.find('.couponPolicyId').val());
         $('#minOrderPriceEdit').val(row.find('.minOrderPrice').val());
@@ -143,9 +141,16 @@
         $('#maxSalePriceEdit').val(row.find('.maxSalePrice').val());
         $('#typeEdit').val(row.find('.type').val());
 
+        var isUsedValue = row.find('.isUsed').val();
+        // Set the radio button based on the value
+        if (isUsedValue === "true") {
+            $('#isUsedTrue').prop('checked', true);
+        } else if (isUsedValue === "false") {
+            $('#isUsedFalse').prop('checked', true);
+        }
 
         // `th:action` URL 업데이트
-        $('#editCouponForm').attr('action', '/coupons/policies/update/' + policyId);
+        $('#editCouponForm').attr('action', '/coupons/policies/' + policyId);
 
         $('#editModal').modal('show'); // 수정 모달 표시
     });
@@ -190,6 +195,17 @@
                     <div class="form-group">
                         <label for="typeEdit">Type</label>
                         <input type="text" class="form-control" id="typeEdit" name="type" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Used</label><br>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" id="isUsedTrue" name="isUsed" value="true" required>
+                            <label class="form-check-label" for="isUsedTrue">True</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" id="isUsedFalse" name="isUsed" value="false">
+                            <label class="form-check-label" for="isUsedFalse">False</label>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
