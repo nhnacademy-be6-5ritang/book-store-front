@@ -1,18 +1,10 @@
 package com.nhnacademy.bookstorefront.order.service;
 
-import org.springframework.stereotype.Service;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllPaperResponse;
-import com.nhnacademy.bookstorefront.order.feignclient.OrderServiceClient;
+import com.nhnacademy.bookstorefront.order.dto.response.GetPaperResponse;
 
-import lombok.RequiredArgsConstructor;
+public interface PaperTypeService {
 
-@RequiredArgsConstructor
-@Service
-public class PaperTypeService {
-	private final OrderServiceClient orderServiceClient;
-
-	public GetAllPaperResponse getAllPaperTypes() {
-		return orderServiceClient.getAllWrappingPapers().getBody();
-	}
+	GetAllPaperResponse getAllPaperTypes();
 
 }

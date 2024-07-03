@@ -1,4 +1,4 @@
-package com.nhnacademy.bookstorefront.order.service;
+package com.nhnacademy.bookstorefront.order.service.Impl;
 
 
 import org.springframework.stereotype.Service;
