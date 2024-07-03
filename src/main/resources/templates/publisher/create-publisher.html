@@ -56,7 +56,7 @@
                                         <div class="card mt-4">
                                             <div class="card-body">
                                                 <!-- 상태 추가 폼 -->
-                                                <form action="/publishers" method="post">
+                                                <form th:action="@{/api/publishers}" method="post">
                                                     <div class="form-group">
                                                         <label for="publisherName">출판사 이름</label>
                                                         <input type="text" class="form-control" id="publisherName" name="publisherName" required>

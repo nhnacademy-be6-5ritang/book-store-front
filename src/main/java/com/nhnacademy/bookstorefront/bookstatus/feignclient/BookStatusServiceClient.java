@@ -13,22 +13,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.nhnacademy.bookstorefront.bookstatus.dto.response.BookStatusDto;
 
-@FeignClient(name = "bookStatus-feign-client", url = "http://localhost:8083")
+@FeignClient(name = "bookStatus-feign-client", url = "http://localhost:8083/api/bookStatuses")
 public interface BookStatusServiceClient {
 
-	@GetMapping("/bookStatuses")
+	@GetMapping
 	ResponseEntity<List<BookStatusDto>> getBookStatuses();
 
-	@GetMapping("/bookStatuses/{bookStatusId}")
+	@GetMapping("/{bookStatusId}")
 	ResponseEntity<BookStatusDto> getBookStatus(@PathVariable Long bookStatusId);
 
-	@PostMapping("/bookStatuses")
+	@PostMapping
 	ResponseEntity<BookStatusDto> createBookStatus(@RequestBody BookStatusDto request);
 
-	@PutMapping("/bookStatuses/{bookStatusId}")
+	@PutMapping("/{bookStatusId}")
 	ResponseEntity<BookStatusDto> updateBookStatus(@PathVariable Long bookStatusId,
 		@RequestBody BookStatusDto request);
 
-	@DeleteMapping("/bookStatuses/{bookStatusId}")
+	@DeleteMapping("/{bookStatusId}")
 	ResponseEntity<Void> deleteBookStatus(@PathVariable Long bookStatusId);
 }

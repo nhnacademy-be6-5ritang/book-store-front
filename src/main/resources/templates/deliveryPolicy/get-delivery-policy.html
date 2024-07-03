@@ -11,7 +11,6 @@
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
 </head>
 
-
 <body>
 <div class="site-wrapper" id="top">
     <!--=================================
@@ -26,7 +25,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a th:href="@{/books/main}">홈</a></li>
-                        <li class="breadcrumb-item active">배송비정책 수정</li>
+                        <li class="breadcrumb-item active">배송비정책 보기</li>
                     </ol>
                 </nav>
             </div>
@@ -47,40 +46,32 @@
                         <!-- My Account Tab Content Start -->
                         <div class="col-lg-9 col-12 mt--30 mt-lg--0">
                             <div class="tab-content" id="myaccountContent">
-                                <!-- Delivery Tab Content Start -->
+                                <!-- 배송비정책 Tab Content Start -->
                                 <div class="tab-pane fade show active" id="delivery" role="tabpanel">
                                     <div class="myaccount-content">
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <h3>Delivery Policy</h3>
+                                            <h3>배송비정책</h3>
                                         </div>
-                                        <div class="card mt-4">
-                                            <div class="card-body">
-                                                <!-- 정책 수정 폼 -->
-                                                <form th:action="@{/deliveries-policies/{deliveryPolicyId}(deliveryPolicyId=${deliveryPolicy.deliveryPolicyId})}" th:method="put" th:object="${deliveryPolicy}">
-                                                    <div class="form-group">
-                                                        <label for="deliveryPolicyName">정책 이름</label>
-                                                        <input type="text" class="form-control" id="deliveryPolicyName" th:field="*{deliveryPolicyName}" required>
+                                        <div th:object="${deliveryPolicy}">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5 class="card-title" th:text="${deliveryPolicy.deliveryPolicyName}"></h5>
+                                                    <p class="card-text"><strong>정책 내용:</strong> <span th:text="${deliveryPolicy.deliveryPolicyContent}"></span></p>
+                                                    <p class="card-text"><strong>배송비:</strong> <span th:text="${deliveryPolicy.deliveryPolicyPrice}"></span></p>
+                                                    <p class="card-text"><strong>배송비 정책 기준 금액:</strong> <span th:text="${deliveryPolicy.deliveryPolicyStandardPrice}"></span></p>
+                                                    <div class="d-flex justify-content-end">
+                                                        <a th:href="@{/api/deliveryPolicies/update/{deliveryPolicyId} (deliveryPolicyId=${deliveryPolicy.deliveryPolicyId})}" class="btn btn-warning">편집</a>
+                                                        <form th:action="@{/api/deliveryPolicies/{deliveryPolicyId}(deliveryPolicyId=${deliveryPolicy.deliveryPolicyId})}" th:method="delete">
+                                                            <button type="submit" class="btn btn-danger">삭제</button>
+                                                        </form>
+                                                        <a class="btn btn-secondary" onclick="history.back()">뒤로가기</a>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="deliveryPolicyContent">정책 내용</label>
-                                                        <textarea class="form-control" id="deliveryPolicyContent" th:field="*{deliveryPolicyContent}" rows="4" required></textarea>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="deliveryPolicyPrice">배송비</label>
-                                                        <input type="text" class="form-control" id="deliveryPolicyPrice" th:field="*{deliveryPolicyPrice}" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="deliveryPolicyStandardPrice">정책 기준 가격</label>
-                                                        <input type="text" class="form-control" id="deliveryPolicyStandardPrice" th:field="*{deliveryPolicyStandardPrice}" required>
-                                                    </div>
-                                                    <button type="submit" class="btn btn-primary">수정</button>
-                                                    <a class="btn btn-secondary" onclick="history.back()">취소</a>
-                                                </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Delivery Tab Content End -->
+                                <!-- 배송비정책 Tab Content End -->
                             </div>
                         </div>
                         <!-- My Account Tab Content End -->

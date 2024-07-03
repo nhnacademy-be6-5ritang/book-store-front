@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/categories")
+@RequestMapping("/api/categories")
 public class CategoryController {
 	private final CategoryService categoryService;
 
@@ -50,7 +50,7 @@ public class CategoryController {
 		Page<GetCategoryResponse> categories = categoryService.getCategories(pageable);
 		model.addAttribute("categories", categories);
 		model.addAttribute("objects", categories); // 공통 객체 이름
-		model.addAttribute("baseUrl", "/categories/page"); // 페이징 URL
+		model.addAttribute("baseUrl", "/api/categories/page"); // 페이징 URL
 
 		int blockLimit = 3;
 		int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
@@ -67,18 +67,18 @@ public class CategoryController {
 	@PostMapping
 	public String createCategory(@ModelAttribute CreateCategoryRequest request) {
 		categoryService.createCategory(request);
-		return "redirect:/categories/page";
+		return "redirect:/api/categories/page";
 	}
 
 	@PutMapping("/{categoryId}")
 	public String updateCategory(@PathVariable Long categoryId, @ModelAttribute UpdateCategoryRequest request) {
 		categoryService.updateCategory(categoryId, request);
-		return "redirect:/categories/page";
+		return "redirect:/api/categories/page";
 	}
 
 	@DeleteMapping("/{categoryId}")
 	public String deleteCategory(@PathVariable Long categoryId) {
 		categoryService.deleteCategory(categoryId);
-		return "redirect:/categories/page";
+		return "redirect:/api/categories/page";
 	}
 }

@@ -56,7 +56,7 @@
                                            <div class="card mt-4">
                                             <div class="card-body">
                                                 <!-- 도서상태 수정 폼 -->
-                                                <form th:action="@{/bookStatuses/{bookStatusId}(bookStatusId=${bookStatus.bookStatusId})}" th:method="put" th:object="${bookStatus}">
+                                                <form th:action="@{/api/bookStatuses/{bookStatusId}(bookStatusId=${bookStatus.bookStatusId})}" th:method="put" th:object="${bookStatus}">
                                                     <div class="form-group">
                                                         <label for="bookStatusName">도서상태 이름</label>
                                                         <input type="text" class="form-control" id="bookStatusName" th:field="*{bookStatusName}" required>

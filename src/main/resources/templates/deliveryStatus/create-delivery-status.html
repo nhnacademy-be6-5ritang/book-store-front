@@ -15,8 +15,8 @@
 <body>
 <div class="site-wrapper" id="top">
     <!--=================================
-        Header Area
-        ===================================== -->
+    Header Area
+    ===================================== -->
     <div th:insert="~{/global/header.html}"></div>
 
     <section class="breadcrumb-section">
@@ -26,7 +26,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a th:href="@{/books/main}">홈</a></li>
-                        <li class="breadcrumb-item active">배송상태 리스트</li>
+                        <li class="breadcrumb-item active">배송상태 추가</li>
                     </ol>
                 </nav>
             </div>
@@ -52,33 +52,19 @@
                                     <div class="myaccount-content">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <h3>배송상태</h3>
-                                            <a th:href="@{/deliveries-statuses/create}" class="btn btn-primary">상태 추가</a>
                                         </div>
-                                        <div th:if="${deliveryStatuses.size() > 0}">
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                <tr class="inline-text">
-                                                    <th>번호</th>
-                                                    <th>상태 이름</th>
-                                                    <th></th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr th:each="deliveryStatus, index : ${deliveryStatuses}">
-                                                    <td th:text="${index.index + 1}">1</td>
-                                                    <td th:text="${deliveryStatus.deliveryStatusName}">상태 이름</td>
-                                                    <td style="display: flex; align-items: center;">
-                                                        <a href="#" th:href="@{'/deliveries-statuses/update/' + ${deliveryStatus.deliveryStatusId}}" class="btn btn-warning inline-text">편집</a>
-                                                        <form th:action="@{/deliveries-statuses/{deliveryStatusId}(deliveryStatusId=${deliveryStatus.deliveryStatusId})}" th:method="delete">
-                                                            <button type="submit" class="btn btn-danger inline-text">삭제</button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div th:if="${deliveryStatuses.size() == 0}">
-                                            <p>배송 상태가 없습니다.</p>
+                                        <div class="card mt-4">
+                                            <div class="card-body">
+                                                <!-- 상태 추가 폼 -->
+                                                <form th:action="@{/api/deliveryStatuses}" method="post">
+                                                    <div class="form-group">
+                                                        <label for="deliveryStatusName">상태 이름</label>
+                                                        <input type="text" class="form-control" id="deliveryStatusName" name="deliveryStatusName" required>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">추가</button>
+                                                    <a class="btn btn-secondary" onclick="history.back()">취소</a>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

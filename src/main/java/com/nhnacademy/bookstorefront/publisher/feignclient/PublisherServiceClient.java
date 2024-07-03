@@ -13,23 +13,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.nhnacademy.bookstorefront.publisher.dto.response.PublisherDto;
 
-@FeignClient(name = "publisher-feign-client", url = "http://localhost:8083")
+@FeignClient(name = "publisher-feign-client", url = "http://localhost:8083/api/publishers")
 public interface PublisherServiceClient {
 
-	@GetMapping("/publishers")
+	@GetMapping
 	ResponseEntity<List<PublisherDto>> getPublishers();
 
-	@GetMapping("/publishers/{publisherId}")
+	@GetMapping("/{publisherId}")
 	ResponseEntity<PublisherDto> getPublisher(@PathVariable Long publisherId);
 
-	@PostMapping("/publishers")
+	@PostMapping
 	ResponseEntity<PublisherDto> createPublisher(
 		@RequestBody PublisherDto request);
 
-	@PutMapping("/publishers/{publisherId}")
+	@PutMapping("/{publisherId}")
 	ResponseEntity<PublisherDto> updatePublisher(@PathVariable Long publisherId,
 		@RequestBody PublisherDto request);
 
-	@DeleteMapping("/publishers/{publisherId}")
+	@DeleteMapping("/{publisherId}")
 	ResponseEntity<Void> deletePublisher(@PathVariable Long publisherId);
 }

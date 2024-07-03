@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/bookStatuses")
+@RequestMapping("/api/bookStatuses")
 public class BookStatusController {
 	private final BookStatusService bookStatusService;
 
@@ -41,18 +41,18 @@ public class BookStatusController {
 	@PostMapping
 	public String createBookStatus(@ModelAttribute BookStatusDto request) {
 		bookStatusService.createBookStatus(request);
-		return "redirect:/bookStatuses";
+		return "redirect:/api/bookStatuses";
 	}
 
 	@PutMapping("/{bookStatusId}")
 	public String updateBookStatus(@PathVariable Long bookStatusId, @ModelAttribute BookStatusDto request) {
 		bookStatusService.updateBookStatus(bookStatusId, request);
-		return "redirect:/bookStatuses";
+		return "redirect:/api/bookStatuses";
 	}
 
 	@DeleteMapping("/{bookStatusId}")
 	public String deleteBookStatus(@PathVariable Long bookStatusId) {
 		bookStatusService.deleteBookStatus(bookStatusId);
-		return "redirect:/bookStatuses";
+		return "redirect:/api/bookStatuses";
 	}
 }

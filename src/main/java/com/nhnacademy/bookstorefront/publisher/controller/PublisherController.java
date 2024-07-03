@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/publishers")
+@RequestMapping("/api/publishers")
 public class PublisherController {
 	private final PublisherService publisherService;
 
@@ -41,18 +41,18 @@ public class PublisherController {
 	@PostMapping
 	public String createPublisher(@ModelAttribute PublisherDto request) {
 		publisherService.createPublisher(request);
-		return "redirect:/publishers";
+		return "redirect:/api/publishers";
 	}
 
 	@PutMapping("/{publisherId}")
 	public String updatePublisher(@PathVariable Long publisherId, @ModelAttribute PublisherDto request) {
 		publisherService.updatePublisher(publisherId, request);
-		return "redirect:/publishers";
+		return "redirect:/api/publishers";
 	}
 
 	@DeleteMapping("/{publisherId}")
 	public String deletePublisher(@PathVariable Long publisherId) {
 		publisherService.deletePublisher(publisherId);
-		return "redirect:/publishers";
+		return "redirect:/api/publishers";
 	}
 }

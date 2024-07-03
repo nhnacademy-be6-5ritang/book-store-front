@@ -18,43 +18,43 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/deliveries-statuses")
+@RequestMapping("/api/deliveryStatuses")
 public class DeliveryStatusController {
 	private final DeliveryStatusService deliveryStatusService;
 
 	@GetMapping("/create")
 	public String createDeliveryStatusForm() {
-		return "/deliverystatus/create-delivery-status";
+		return "deliveryStatus/create-delivery-status";
 	}
 
 	@GetMapping("/update/{deliveryStatusId}")
 	public String updateDeliveryStatusForm(@PathVariable Long deliveryStatusId, Model model) {
 		model.addAttribute("deliveryStatus", deliveryStatusService.getDeliveryStatus(deliveryStatusId));
-		return "/deliverystatus/update-delivery-status";
+		return "deliveryStatus/update-delivery-status";
 	}
 
 	@GetMapping
 	public String listDeliveryStatuses(Model model) {
 		model.addAttribute("deliveryStatuses", deliveryStatusService.getDeliveryStatuses());
-		return "deliverystatus/list-delivery-status";
+		return "deliveryStatus/list-delivery-status";
 	}
 
 	@PostMapping
 	public String createDeliveryStatus(@ModelAttribute CreateDeliveryStatusRequest request) {
 		deliveryStatusService.createDeliveryStatus(request);
-		return "redirect:/deliveries-statuses";
+		return "redirect:/api/deliveryStatuses";
 	}
 
 	@PutMapping("/{deliveryStatusId}")
 	public String updateDeliveryStatus(@PathVariable Long deliveryStatusId,
 		@ModelAttribute UpdateDeliveryStatusRequest request) {
 		deliveryStatusService.updateDeliveryStatus(deliveryStatusId, request);
-		return "redirect:/deliveries-statuses";
+		return "redirect:/api/deliveryStatuses";
 	}
 
 	@DeleteMapping("/{deliveryStatusId}")
 	public String deleteDeliveryStatus(@PathVariable Long deliveryStatusId) {
 		deliveryStatusService.deleteDeliveryStatus(deliveryStatusId);
-		return "redirect:/deliveries-statuses";
+		return "redirect:/api/deliveryStatuses";
 	}
 }

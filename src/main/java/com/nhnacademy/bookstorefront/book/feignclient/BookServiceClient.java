@@ -21,27 +21,27 @@ import com.nhnacademy.bookstorefront.book.dto.response.CreateBookResponse;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.dto.response.UpdateBookResponse;
 
-@FeignClient(name = "book-feign-client", url = "http://localhost:8083")
+@FeignClient(name = "book-feign-client", url = "http://localhost:8083/api/books")
 public interface BookServiceClient {
 
-	@GetMapping("/books")
+	@GetMapping
 	ResponseEntity<List<GetBookDetailResponse>> findAllBooks();
 
-	@GetMapping("/books/page")
+	@GetMapping("/page")
 	ResponseEntity<Page<GetBookDetailResponse>> findAllBooks(Pageable pageable);
 
-	@GetMapping("/books/{bookId}")
+	@GetMapping("/{bookId}")
 	ResponseEntity<GetBookDetailResponse> getBook(@PathVariable Long bookId);
 
-	@PostMapping("/books")
+	@PostMapping
 	ResponseEntity<CreateBookResponse> createBook(@RequestBody CreateBookRequest request);
 
-	@PutMapping("/books/{bookId}")
+	@PutMapping("/{bookId}")
 	UpdateBookResponse updateBookById(@PathVariable Long bookId, @RequestBody UpdateBookRequest request);
 
-	@PatchMapping("/books/{isbn}")
+	@PatchMapping("/{isbn}")
 	GetBookDetailResponse updateBookByIsbn(@PathVariable String isbn, @RequestBody BookUpdateRequest request);
 
-	@DeleteMapping("/books/{bookId}")
+	@DeleteMapping("/{bookId}")
 	ResponseEntity<Void> deleteBook(@PathVariable Long bookId);
 }

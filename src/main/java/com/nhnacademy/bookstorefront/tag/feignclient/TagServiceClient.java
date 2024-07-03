@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.nhnacademy.bookstorefront.tag.dto.response.TagDto;
 
-@FeignClient(name = "tag-feign-client", url = "http://localhost:8083")
+@FeignClient(name = "tag-feign-client", url = "http://localhost:8083/api")
 public interface TagServiceClient {
 
 	@GetMapping("/tags")

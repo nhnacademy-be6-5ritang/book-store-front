@@ -67,24 +67,24 @@
                                     <div class="product-card">
                                         <div class="product-header">
 <!--                                            <a href="" class="author"><span th:text="${book.author}">작가 정보 없음</span></a>-->
-                                            <h3><a th:href="@{/books/{bookId}(bookId=${book.bookId})}" th:text="${book.bookTitle}">제목 없음</a></h3>
+                                            <h3><a th:href="@{api/books/{bookId}(bookId=${book.bookId})}" th:text="${book.bookTitle}">제목 없음</a></h3>
                                         </div>
                                         <div class="product-card--body">
                                             <div class="card-image">
                                                 <!-- 이미지 경로 설정 -->
-                                                <img th:src="@{image/products/product-1.jpg}" th:alt="${book.bookTitle}">
+                                                <img th:src="@{/image/products/product-1.jpg}" th:alt="${book.bookTitle}">
                                                 <div class="hover-contents">
-                                                    <a th:href="@{/books/{bookId}(bookId=${book.bookId})}" class="hover-image">
+                                                    <a th:href="@{/api/books/{bookId}(bookId=${book.bookId})}" class="hover-image">
                                                         <img th:src="@{image/products/product-1.jpg}" th:alt="${book.bookTitle}">
                                                     </a>
                                                     <div class="hover-btns">
-                                                        <a th:href="@{/cart/book-cart}" class="single-btn">
+                                                        <a th:href="@{/api/users/me/cart/book-cart}" class="single-btn">
                                                             <i class="fas fa-shopping-basket"></i>
                                                         </a>
-                                                        <a th:href="@{/wishlist}" class="single-btn">
+                                                        <a th:href="@{/api/users/me/wishlist}" class="single-btn">
                                                             <i class="fas fa-heart"></i>
                                                         </a>
-                                                        <a th:href="@{/books/{bookId} (bookId=${book.bookId})}" class="single-btn">
+                                                        <a th:href="@{/api/books/{bookId} (bookId=${book.bookId})}" class="single-btn">
                                                             <i class="fas fa-eye"></i>
                                                         </a>
                                                     </div>
@@ -127,24 +127,24 @@
                                     <div class="product-card">
                                         <div class="product-header">
                                             <!--                                            <a href="" class="author"><span th:text="${book.author}">작가 정보 없음</span></a>-->
-                                            <h3><a th:href="@{/books/bookId (bookId=${book.bookId})}" th:text="${book.bookTitle}">제목 없음</a></h3>
+                                            <h3><a th:href="@{/api/books/bookId (bookId=${book.bookId})}" th:text="${book.bookTitle}">제목 없음</a></h3>
                                         </div>
                                         <div class="product-card--body">
                                             <div class="card-image">
                                                 <!-- 이미지 경로 설정 -->
-                                                <img th:src="@{image/products/product-1.jpg}" th:alt="${book.bookTitle}">
+                                                <img th:src="@{/image/products/product-1.jpg}" th:alt="${book.bookTitle}">
                                                 <div class="hover-contents">
-                                                    <a th:href="@{/books/bookId (bookId=${book.bookId})}" class="hover-image">
-                                                        <img th:src="@{image/products/product-1.jpg}" th:alt="${book.bookTitle}">
+                                                    <a th:href="@{/api/books/bookId (bookId=${book.bookId})}" class="hover-image">
+                                                        <img th:src="@{/image/products/product-1.jpg}" th:alt="${book.bookTitle}">
                                                     </a>
                                                     <div class="hover-btns">
-                                                        <a th:href="@{/cart/book-cart}" class="single-btn">
+                                                        <a th:href="@{/api/users/me/cart/book-cart}" class="single-btn">
                                                             <i class="fas fa-shopping-basket"></i>
                                                         </a>
-                                                        <a th:href="@{/wishlist}" class="single-btn">
+                                                        <a th:href="@{/api/users/me/wishlist}" class="single-btn">
                                                             <i class="fas fa-heart"></i>
                                                         </a>
-                                                        <a th:href="@{/books/{bookId} (bookId=${book.bookId})}" class="single-btn">
+                                                        <a th:href="@{/api/books/{bookId} (bookId=${book.bookId})}" class="single-btn">
                                                             <i class="fas fa-eye"></i>
                                                         </a>
                                                     </div>
@@ -195,19 +195,19 @@
                                         <div class="product-card--body">
                                             <div class="card-image">
                                                 <!-- 이미지 경로 설정 -->
-                                                <img th:src="@{image/products/product-1.jpg}" th:alt="${book.bookTitle}">
+                                                <img th:src="@{/image/products/product-1.jpg}" th:alt="${book.bookTitle}">
                                                 <div class="hover-contents">
                                                     <a th:href="@{product-details.html}" class="hover-image">
-                                                        <img th:src="@{image/products/product-1.jpg}" th:alt="${book.bookTitle}">
+                                                        <img th:src="@{/image/products/product-1.jpg}" th:alt="${book.bookTitle}">
                                                     </a>
                                                     <div class="hover-btns">
-                                                        <a th:href="@{/cart/book-cart}" class="single-btn">
+                                                        <a th:href="@{/api/users/me/cart/book-cart}" class="single-btn">
                                                             <i class="fas fa-shopping-basket"></i>
                                                         </a>
-                                                        <a th:href="@{/wishlist}" class="single-btn">
+                                                        <a th:href="@{/api/users/me/wishlist}" class="single-btn">
                                                             <i class="fas fa-heart"></i>
                                                         </a>
-                                                        <a th:href="@{/books/{bookId} (bookId=${book.bookId})}" class="single-btn">
+                                                        <a th:href="@{/api/users/me/books/{bookId} (bookId=${book.bookId})}" class="single-btn">
                                                             <i class="fas fa-eye"></i>
                                                         </a>
                                                     </div>

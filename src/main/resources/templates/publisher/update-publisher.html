@@ -56,7 +56,7 @@
                                         <div class="card mt-4">
                                             <div class="card-body">
                                                 <!-- 출판사 수정 폼 -->
-                                                <form th:action="@{/publishers/{publisherId}(publisherId=${publisher.publisherId})}" th:method="put" th:object="${publisher}">
+                                                <form th:action="@{/api/publishers/{publisherId} (publisherId=${publisher.publisherId})}" th:method="put" th:object="${publisher}">
                                                     <div class="form-group">
                                                         <label for="publisherName">출판사 이름</label>
                                                         <input type="text" class="form-control" id="publisherName" th:field="*{publisherName}" required>

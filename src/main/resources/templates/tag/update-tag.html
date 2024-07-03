@@ -56,7 +56,7 @@
                                         <div class="card mt-4">
                                             <div class="card-body">
                                                 <!-- 태그 수정 폼 -->
-                                                <form th:action="@{/tags/{tagId}(tagId=${tag.tagId})}" th:method="put" th:object="${tag}">
+                                                <form th:action="@{/api/tags/{tagId} (tagId=${tag.tagId})}" th:method="put" th:object="${tag}">
                                                     <div class="form-group">
                                                         <label for="tagName">태그 이름</label>
                                                         <input type="text" class="form-control" id="tagName" th:field="*{tagName}" required>

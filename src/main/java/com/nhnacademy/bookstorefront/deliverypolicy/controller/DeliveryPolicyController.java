@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/deliveries-policies")
+@RequestMapping("/api/deliveryPolicies")
 public class DeliveryPolicyController {
 	private final DeliveryPolicyService deliveryPolicyService;
 
@@ -30,36 +30,36 @@ public class DeliveryPolicyController {
 	@GetMapping("/update/{deliveryPolicyId}")
 	public String updateDeliveryPolicyForm(@PathVariable Long deliveryPolicyId, Model model) {
 		model.addAttribute("deliveryPolicy", deliveryPolicyService.getDeliveryPolicy(deliveryPolicyId));
-		return "/deliverypolicy/update-delivery-policy";
+		return "/deliveryPolicy/update-delivery-policy";
 	}
 
 	@GetMapping("/{deliveryPolicyId}")
 	public String getDeliveryPolicy(@PathVariable Long deliveryPolicyId, Model model) {
 		model.addAttribute("deliveryPolicy", deliveryPolicyService.getDeliveryPolicy(deliveryPolicyId));
-		return "deliverypolicy/get-delivery-policy";
+		return "deliveryPolicy/get-delivery-policy";
 	}
 
 	@GetMapping
 	public String listDeliveryPolicies(Model model) {
 		model.addAttribute("deliveryPolicies", deliveryPolicyService.getDeliveryPolicies());
-		return "deliverypolicy/list-delivery-policy";
+		return "deliveryPolicy/list-delivery-policy";
 	}
 
 	@PostMapping
 	public String createDeliveryPolicy(@ModelAttribute CreateDeliveryPolicyRequest request){
 		deliveryPolicyService.createDeliveryPolicy(request);
-		return "redirect:/deliveries-policies";
+		return "redirect:/api/deliveryPolicies";
 	}
 
 	@PutMapping("/{deliveryPolicyId}")
 	public String updateDeliveryPolicy(@PathVariable Long deliveryPolicyId, @ModelAttribute UpdateDeliveryPolicyRequest request){
 		deliveryPolicyService.updateDeliveryPolicy(deliveryPolicyId, request);
-		return "redirect:/deliveries-policies";
+		return "redirect:/api/deliveryPolicies";
 	}
 
 	@DeleteMapping("/{deliveryPolicyId}")
 	public String deleteDeliveryPolicy(@PathVariable Long deliveryPolicyId) {
 		deliveryPolicyService.deleteDeliveryPolicy(deliveryPolicyId);
-		return "redirect:/deliveries-policies";
+		return "redirect:/api/deliveryPolicies";
 	}
 }

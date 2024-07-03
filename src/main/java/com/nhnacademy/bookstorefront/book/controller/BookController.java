@@ -27,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/books")
+@RequestMapping("/api/books")
 public class BookController {
 	private final BookService bookService;
 	private final CategoryService categoryService;
@@ -64,7 +64,7 @@ public class BookController {
 		Page<GetBookDetailResponse> books = bookService.findAllBooks(pageable);
 		model.addAttribute("books", books);
 		model.addAttribute("objects", books); // 공통 객체 이름
-		model.addAttribute("baseUrl", "/categories/page"); // 페이징 URL
+		model.addAttribute("baseUrl", "/api/books/page"); // 페이징 URL
 
 		int blockLimit = 3;
 		int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
@@ -97,13 +97,13 @@ public class BookController {
 	@PostMapping
 	public String createBook(@ModelAttribute CreateBookRequest request) {
 		bookService.createBook(request);
-		return "redirect:/books";
+		return "redirect:/api/books";
 	}
 
 	@PutMapping("/{bookId}")
 	public String updateBookById(@PathVariable Long bookId, @ModelAttribute UpdateBookRequest request) {
 		bookService.updateBookById(bookId, request);
-		return "redirect:/books/detail/" + bookId;
+		return "redirect:/api/books/detail/" + bookId;
 	}
 
 	@PatchMapping("/{isbn}")
@@ -114,6 +114,6 @@ public class BookController {
 	@DeleteMapping("/{bookId}")
 	public String deleteBook(@PathVariable Long bookId) {
 		bookService.deleteBook(bookId);
-		return "redirect:/books";
+		return "redirect:/api/books";
 	}
 }

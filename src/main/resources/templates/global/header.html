@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-3">
-                    <a th:href="@{/books/main}" class="site-brand">
+                    <a th:href="@{/api/books/main}" class="site-brand">
                         <img th:src="@{/image/oritang.png}" alt="">
                     </a>
                 </div>
@@ -43,7 +43,7 @@
                                     </div>
                                     <div class=" single-cart-block ">
                                         <div class="btn-block">
-                                            <a th:href="@{/cart}" class="btn">View Cart <i class="fas fa-chevron-right"></i></a>
+                                            <a th:href="@{/api/users/me/cart}" class="btn">View Cart <i class="fas fa-chevron-right"></i></a>
                                             <a th:href="@{/checkout}" class="btn btn--primary">Check Out <i class="fas fa-chevron-right"></i></a>
                                         </div>
                                     </div>
@@ -132,11 +132,11 @@
                             <li class="menu-item has-children">
                                 <a href="javascript:void(0)">페이지 <i class="fas fa-chevron-down dropdown-arrow"></i></a>
                                 <ul class="sub-menu">
-                                    <li><a th:href="@{/carts}">카트</a></li>
+                                    <li><a th:href="@{/api/users/me/carts}">카트</a></li>
                                     <li><a th:href="@{/checkout}">주문</a></li>
-                                    <li><a th:href="@{/wishLists}">위시리스트</a></li>
-                                    <li><a th:href="@{/admin}">관리자페이지</a></li>
-                                    <li><a th:href="@{/user}">마이페이지</a></li>
+                                    <li><a th:href="@{/api/users/me/wishLists}">위시리스트</a></li>
+                                    <li><a th:href="@{/api/users/admin}">관리자페이지</a></li>
+                                    <li><a th:href="@{/api/users/me}">마이페이지</a></li>
                                 </ul>
                             </li>
 

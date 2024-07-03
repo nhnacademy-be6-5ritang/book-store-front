@@ -26,7 +26,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a th:href="@{/books/main}">홈</a></li>
-                        <li class="breadcrumb-item active">배송상태 추가</li>
+                        <li class="breadcrumb-item active">배송비정책 리스트</li>
                     </ol>
                 </nav>
             </div>
@@ -47,28 +47,37 @@
                         <!-- My Account Tab Content Start -->
                         <div class="col-lg-9 col-12 mt--30 mt-lg--0">
                             <div class="tab-content" id="myaccountContent">
-                                <!-- 배송상태 Tab Content Start -->
-                                <div class="tab-pane fade show active" id="delivery" role="tabpanel">
-                                    <div class="myaccount-content">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <h3>배송상태</h3>
-                                        </div>
-                                        <div class="card mt-4">
-                                            <div class="card-body">
-                                                <!-- 상태 추가 폼 -->
-                                                <form th:action="@{/deliveries-statuses}" method="post">
-                                                    <div class="form-group">
-                                                        <label for="deliveryStatusName">상태 이름</label>
-                                                        <input type="text" class="form-control" id="deliveryStatusName" name="deliveryStatusName" required>
-                                                    </div>
-                                                    <button type="submit" class="btn btn-primary">추가</button>
-                                                    <a class="btn btn-secondary" onclick="history.back()">취소</a>
-                                                </form>
-                                            </div>
-                                        </div>
+                                <!-- 배송비정책 Tab Content Start -->
+                                <div class="myaccount-content">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h3>배송비정책</h3>
+                                        <a th:href="@{/api/deliveryPolicies/create}" class="btn btn-primary">정책 추가</a>
+                                    </div>
+                                    <div th:if="${deliveryPolicies.size() > 0}">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                            <tr class="inline-text">
+                                                <th>번호</th>
+                                                <th>정책 이름</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="policy, index : ${deliveryPolicies}">
+                                                <td th:text="${index.index + 1}">1</td>
+                                                <td th:text="${policy.deliveryPolicyName}">Policy Name</td>
+                                                <td style="display: flex; align-items: center;">
+                                                    <a th:href="@{/api/deliveryPolicies/{deliveryPolicyId} (deliveryPolicyId=${policy.deliveryPolicyId})}" class="btn btn-info inline-text">보기</a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div th:if="${deliveryPolicies.size() == 0}">
+                                        <p>배송비 정책이 없음</p>
                                     </div>
                                 </div>
-                                <!-- 배송상태 Tab Content End -->
+                                <!-- 배송비정책 Tab Content End -->
                             </div>
                         </div>
                         <!-- My Account Tab Content End -->

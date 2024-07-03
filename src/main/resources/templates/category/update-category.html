@@ -56,7 +56,7 @@
                                         <div class="card mt-4">
                                             <div class="card-body">
                                                 <!-- 카테고리 수정 폼 -->
-                                                <form th:action="@{/categories/{categoryId} (categoryId=${category.categoryId})}" th:method="put" th:object="${category}">
+                                                <form th:action="@{/api/categories/{categoryId} (categoryId=${category.categoryId})}" th:method="put" th:object="${category}">
                                                     <div class="form-group">
                                                         <label for="categoryName">카테고리 이름</label>
                                                         <input type="text" class="form-control" id="categoryName" th:field="*{categoryName}" required>

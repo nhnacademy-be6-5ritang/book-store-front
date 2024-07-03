@@ -24,7 +24,7 @@
             <div class="breadcrumb-contents">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a th:href="@{/books/main}">홈</a></li>
+                        <li class="breadcrumb-item"><a th:href="@{/api/books/main}">홈</a></li>
                         <li class="breadcrumb-item active">도서상세 보기</li>
                     </ol>
                 </nav>
@@ -153,8 +153,8 @@
                                                     </div>
 
                                                     <div class="d-flex justify-content-end">
-                                                        <a th:href="@{/books/update/{bookId} (bookId=${book.bookId})}" class="btn btn-warning">편집</a>
-                                                        <form th:action="@{/books/{bookId} (bookId=${book.bookId})}" th:method="delete">
+                                                        <a th:href="@{/api/books/update/{bookId} (bookId=${book.bookId})}" class="btn btn-warning">편집</a>
+                                                        <form th:action="@{/api/books/{bookId} (bookId=${book.bookId})}" th:method="delete">
                                                             <button type="submit" class="btn btn-danger">삭제</button>
                                                         </form>
                                                         <a class="btn btn-secondary" onclick="history.back()">뒤로가기</a>

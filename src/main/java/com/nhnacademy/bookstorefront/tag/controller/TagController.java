@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/tags")
+@RequestMapping("/api/tags")
 public class TagController {
 	private final TagService tagService;
 
@@ -46,7 +46,7 @@ public class TagController {
 		Page<TagDto> tags = tagService.getTags(pageable);
 		model.addAttribute("tags", tags);
 		model.addAttribute("objects", tags); // 공통 객체 이름
-		model.addAttribute("baseUrl", "/tags/page"); // 페이징 URL
+		model.addAttribute("baseUrl", "/api/tags/page"); // 페이징 URL
 
 		int blockLimit = 3;
 		int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
@@ -62,18 +62,18 @@ public class TagController {
 	@PostMapping
 	public String createTag(@ModelAttribute TagDto request) {
 		tagService.createTag(request);
-		return "redirect:/tags/page";
+		return "redirect:/api/tags/page";
 	}
 
 	@PutMapping("/{tagId}")
 	public String updateTag(@PathVariable Long tagId, @ModelAttribute TagDto request) {
 		tagService.updateTag(tagId, request);
-		return "redirect:/tags/page";
+		return "redirect:/api/tags/page";
 	}
 
 	@DeleteMapping("/{tagId}")
 	public String deleteTag(@PathVariable Long tagId) {
 		tagService.deleteTag(tagId);
-		return "redirect:/tags/page";
+		return "redirect:/api/tags/page";
 	}
 }

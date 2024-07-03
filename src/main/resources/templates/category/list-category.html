@@ -25,7 +25,7 @@
             <div class="breadcrumb-contents">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a th:href="@{/categories/main}">홈</a></li>
+                        <li class="breadcrumb-item"><a th:href="@{/api/categories/main}">홈</a></li>
                         <li class="breadcrumb-item active">카테고리 리스트</li>
                     </ol>
                 </nav>
@@ -52,7 +52,7 @@
                                     <div class="myaccount-content">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <h3>카테고리</h3>
-                                            <a th:href="@{/categories/create}" class="btn btn-primary">카테고리 추가</a>
+                                            <a th:href="@{/api/categories/create}" class="btn btn-primary">카테고리 추가</a>
                                         </div>
                                         <div th:if="${categories.getContent().size() > 0}">
                                             <table class="table table-bordered">
@@ -70,8 +70,8 @@
                                                     <td th:text="${category.parentCategoryName}">상위 카테고리 이름</td>
                                                     <td th:text="${category.categoryName}">카테고리 이름</td>
                                                     <td style="display: flex; align-items: center;">
-                                                        <a th:href="@{/categories/update/{categoryId} (categoryId=${category.categoryId})}" class="btn btn-warning">편집</a>
-                                                        <form th:action="@{/categories/{categoryId} (categoryId=${category.categoryId})}" th:method="delete">
+                                                        <a th:href="@{/api/categories/update/{categoryId} (categoryId=${category.categoryId})}" class="btn btn-warning">편집</a>
+                                                        <form th:action="@{/api/categories/{categoryId} (categoryId=${category.categoryId})}" th:method="delete">
                                                             <button type="submit" class="btn btn-danger">삭제</button>
                                                         </form>
                                                     </td>

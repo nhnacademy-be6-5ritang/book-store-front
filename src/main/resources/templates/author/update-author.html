@@ -56,7 +56,7 @@
                                         <div class="card mt-4">
                                             <div class="card-body">
                                                 <!-- 작가 수정 폼 -->
-                                                <form th:action="@{/authors/{authorId}(authorId=${author.authorId})}" th:method="put" th:object="${author}">
+                                                <form th:action="@{/api/authors/{authorId}(authorId=${author.authorId})}" th:method="put" th:object="${author}">
                                                     <div class="form-group">
                                                         <label for="authorName">작가 이름</label>
                                                         <input type="text" class="form-control" id="authorName" th:field="*{authorName}" required>

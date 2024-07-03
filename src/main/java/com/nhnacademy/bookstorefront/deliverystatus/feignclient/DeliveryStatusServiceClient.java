@@ -17,23 +17,23 @@ import com.nhnacademy.bookstorefront.deliverystatus.dto.response.CreateDeliveryS
 import com.nhnacademy.bookstorefront.deliverystatus.dto.response.GetDeliveryStatusResponse;
 import com.nhnacademy.bookstorefront.deliverystatus.dto.response.UpdateDeliveryStatusResponse;
 
-@FeignClient(name = "delivery-status-feign-client", url = "http://localhost:8083")
+@FeignClient(name = "delivery-status-feign-client", url = "http://localhost:8083/api/deliveryStatuses")
 public interface DeliveryStatusServiceClient {
 
-	@GetMapping("/deliveries-statuses")
+	@GetMapping
 	ResponseEntity<List<GetDeliveryStatusResponse>> getDeliveryStatuses();
 
-	@GetMapping("/deliveries-statuses/{deliveryStatusId}")
+	@GetMapping("/{deliveryStatusId}")
 	ResponseEntity<GetDeliveryStatusResponse> getDeliveryStatus(@PathVariable Long deliveryStatusId);
 
-	@PostMapping("/deliveries-statuses")
+	@PostMapping
 	ResponseEntity<CreateDeliveryStatusResponse> createDeliveryStatus(
 		@RequestBody CreateDeliveryStatusRequest request);
 
-	@PutMapping("/deliveries-statuses/{deliveryStatusId}")
+	@PutMapping("/{deliveryStatusId}")
 	ResponseEntity<UpdateDeliveryStatusResponse> updateDeliveryStatus(@PathVariable Long deliveryStatusId,
 		@RequestBody UpdateDeliveryStatusRequest request);
 
-	@DeleteMapping("/deliveries-statuses/{deliveryStatusId}")
+	@DeleteMapping("/{deliveryStatusId}")
 	ResponseEntity<Void> deleteDeliveryStatus(@PathVariable Long deliveryStatusId);
 }

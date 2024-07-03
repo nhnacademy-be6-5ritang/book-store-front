@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/authors")
+@RequestMapping("/api/authors")
 public class AuthorController {
 	private final AuthorService authorService;
 
@@ -41,18 +41,18 @@ public class AuthorController {
 	@PostMapping
 	public String createAuthor(@ModelAttribute AuthorDto request) {
 		authorService.createAuthor(request);
-		return "redirect:/authors";
+		return "redirect:/api/authors";
 	}
 
 	@PutMapping("/{authorId}")
 	public String updateAuthor(@PathVariable Long authorId, @ModelAttribute AuthorDto request) {
 		authorService.updateAuthor(authorId, request);
-		return "redirect:/authors";
+		return "redirect:/api/authors";
 	}
 
 	@DeleteMapping("/{authorId}")
 	public String deleteAuthor(@PathVariable Long authorId) {
 		authorService.deleteAuthor(authorId);
-		return "redirect:/authors";
+		return "redirect:/api/authors";
 	}
 }

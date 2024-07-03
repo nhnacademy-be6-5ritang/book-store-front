@@ -52,7 +52,7 @@
                                     <div class="myaccount-content">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <h3>출판사</h3>
-                                            <a th:href="@{/publishers/create}" class="btn btn-primary">출판사 추가</a>
+                                            <a th:href="@{/api/publishers/create}" class="btn btn-primary">출판사 추가</a>
                                         </div>
                                         <div th:if="${publishers.size() > 0}">
                                             <table class="table table-bordered">
@@ -68,8 +68,8 @@
                                                     <td th:text="${index.index + 1}">1</td>
                                                     <td th:text="${publisher.publisherName}">출판사 이름</td>
                                                     <td style="display: flex; align-items: center;">
-                                                        <a th:href="@{'/publishers/update/' + ${publisher.publisherId}}" class="btn btn-warning inline-text">편집</a>
-                                                        <form th:action="@{/publishers/{publisherId}(publisherId=${publisher.publisherId})}" th:method="delete">
+                                                        <a th:href="@{/api/publishers/update/{publisherId} (publisherId=${publisher.publisherId})}" class="btn btn-warning inline-text">편집</a>
+                                                        <form th:action="@{/api/publishers/{publisherId} (publisherId=${publisher.publisherId})}" th:method="delete">
                                                             <button type="submit" class="btn btn-danger inline-text">삭제</button>
                                                         </form>
                                                     </td>

@@ -19,29 +19,29 @@ import com.nhnacademy.bookstorefront.category.dto.response.CreateCategoryRespons
 import com.nhnacademy.bookstorefront.category.dto.response.GetCategoryResponse;
 import com.nhnacademy.bookstorefront.category.dto.response.UpdateCategoryResponse;
 
-@FeignClient(name = "category-feign-client", url = "http://localhost:8083")
+@FeignClient(name = "category-feign-client", url = "http://localhost:8083/api/categories")
 public interface CategoryServiceClient {
 
-	@GetMapping("/categories")
+	@GetMapping
 	ResponseEntity<List<GetCategoryResponse>> getCategories();
 
-	@GetMapping("/categories/page")
+	@GetMapping("/page")
 	ResponseEntity<Page<GetCategoryResponse>> getCategories(Pageable pageable);
 
-	@GetMapping("/books/{bookId}/categories")
+	@GetMapping("/books/{bookId}")
 	ResponseEntity<List<GetCategoryResponse>> getCategoriesByBookId(@PathVariable Long bookId);
 
-	@GetMapping("/categories/{categoryId}")
+	@GetMapping("/{categoryId}")
 	ResponseEntity<GetCategoryResponse> getCategory(@PathVariable Long categoryId);
 
-	@PostMapping("/categories")
+	@PostMapping
 	ResponseEntity<CreateCategoryResponse> createCategory(
 		@RequestBody CreateCategoryRequest request);
 
-	@PutMapping("/categories/{categoryId}")
+	@PutMapping("/{categoryId}")
 	ResponseEntity<UpdateCategoryResponse> updateCategory(@PathVariable Long categoryId,
 		@RequestBody UpdateCategoryRequest request);
 
-	@DeleteMapping("/categories/{categoryId}")
+	@DeleteMapping("/{categoryId}")
 	ResponseEntity<Void> deleteCategory(@PathVariable Long categoryId);
 }

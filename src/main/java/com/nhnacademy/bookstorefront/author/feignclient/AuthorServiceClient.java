@@ -13,21 +13,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.nhnacademy.bookstorefront.author.dto.response.AuthorDto;
 
-@FeignClient(name = "author-feign-client", url = "http://localhost:8083")
+@FeignClient(name = "author-feign-client", url = "http://localhost:8083/api/authors")
 public interface AuthorServiceClient {
 
-	@GetMapping("/authors")
+	@GetMapping
 	ResponseEntity<List<AuthorDto>> getAuthors();
 
-	@GetMapping("/authors/{authorId}")
+	@GetMapping("/{authorId}")
 	ResponseEntity<AuthorDto> getAuthor(@PathVariable Long authorId);
 
-	@PostMapping("/authors")
+	@PostMapping
 	ResponseEntity<AuthorDto> createAuthor(@RequestBody AuthorDto request);
 
-	@PutMapping("/authors/{authorId}")
+	@PutMapping("/{authorId}")
 	ResponseEntity<AuthorDto> updateAuthor(@PathVariable Long authorId, @RequestBody AuthorDto request);
 
-	@DeleteMapping("/authors/{authorId}")
+	@DeleteMapping("/{authorId}")
 	ResponseEntity<Void> deleteAuthor(@PathVariable Long authorId);
 }

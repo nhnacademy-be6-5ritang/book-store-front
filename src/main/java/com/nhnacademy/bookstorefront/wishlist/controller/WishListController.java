@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/wishLists")
+@RequestMapping("/api/users/me/wishLists")
 public class WishListController {
 	private final WishListService wishListService;
 
@@ -32,10 +32,10 @@ public class WishListController {
 		wishListService.createWishList(request);
 	}
 
-	@DeleteMapping("{wishListId}")
+	@DeleteMapping("/{wishListId}")
 	public String deleteWishList(@PathVariable Long wishListId) {
 		wishListService.deleteWishList(wishListId);
-		return "redirect:/wishLists";
+		return "redirect:/api/users/me/wishLists";
 	}
 
 }

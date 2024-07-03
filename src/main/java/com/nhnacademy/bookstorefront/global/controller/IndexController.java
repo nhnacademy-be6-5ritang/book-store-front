@@ -8,15 +8,15 @@ public class IndexController {
 
 	@GetMapping
 	public String indexPage() {
-		return "redirect:/books/main";
+		return "redirect:/api/books/main";
 	}
 
-	@GetMapping("/admin")
+	@GetMapping("/api/users/admin")
 	public String adminPage() {
 		return "admin/admin-account";
 	}
 
-	@GetMapping("/user")
+	@GetMapping("/api/users/me")
 	public String userPage() {
 		return "user/user-account";
 	}
