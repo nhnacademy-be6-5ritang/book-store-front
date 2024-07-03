@@ -1,0 +1,35 @@
+package com.nhnacademy.bookstorefront.order.service.Impl;
+
+import org.springframework.stereotype.Service;
+
+import com.nhnacademy.bookstorefront.order.dto.request.CreateBookOrderRequest;
+import com.nhnacademy.bookstorefront.order.dto.response.CreateBookOrderResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.UpdateBookOrderResponse;
+import com.nhnacademy.bookstorefront.order.feignclient.OrderServiceClient;
+import com.nhnacademy.bookstorefront.order.service.BookOrderService;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class BookOrderServiceImpl implements BookOrderService {
+
+	private final OrderServiceClient orderServiceClient;
+
+	@Override
+	public CreateBookOrderResponse createBookOrder(CreateBookOrderRequest createBookOrderRequest) {
+		return orderServiceClient.createBookOrder(createBookOrderRequest).getBody();
+	}
+
+	@Override
+	public UpdateBookOrderResponse updateOrder(Long bookOrderId, Long orderId) {
+		return orderServiceClient.updateBookOrder(bookOrderId, orderId).getBody();
+	}
+
+	@Override
+	public GetBookOrderResponse getBookOrder(Long bookOrderId) {
+		return orderServiceClient.getBookOrder(bookOrderId).getBody();
+	}
+
+}

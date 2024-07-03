@@ -21,7 +21,7 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 
 	@Override
 	public UserAndCouponResponseDTO createUserAndCoupon(Long couponTemplateId) {
-		Long userId=2L;
+		Long userId=1L;
 		UserAndCouponRequestCreateDTO requestDTO = new UserAndCouponRequestCreateDTO(userId, false);
 
 		return userAndCouponFeignClient.createUserAndCoupon(couponTemplateId ,requestDTO).getBody();

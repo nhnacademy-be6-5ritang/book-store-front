@@ -771,7 +771,6 @@
             </div>
         </div>
     </section>
-    <!-- Wishlist Page Start -->
     <div class="cart_area inner-page-sec-padding-bottom">
         <div class="container">
             <div class="page-section-title">
@@ -808,13 +807,14 @@
                         </tr>
                         </tbody>
                     </table>
+                <a th:if="${paymentInfo.status() != 'CANCELED'}"
+                   th:href="@{/api/payments/cancel/{order_info_id}(order_info_id=${paymentInfo.orderId()})}"
+                   class="btn btn-primary">결제 취소</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Wishlist Page End -->
-</div>
 <!--=================================
 Brands Slider
 ===================================== -->
