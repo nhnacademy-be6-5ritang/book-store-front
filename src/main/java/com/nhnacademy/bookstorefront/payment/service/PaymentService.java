@@ -2,10 +2,13 @@ package com.nhnacademy.bookstorefront.payment.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
+import com.nhnacademy.bookstorefront.payment.dto.response.CancelResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.GetBookOrderByInfoIdResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.PaymentSaveResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.TransactionsResponse;
+import com.nhnacademy.bookstorefront.payment.dto.response.UpdatePaymentResponse;
 import com.nhnacademy.bookstorefront.payment.feignclient.PaymentServiceClient;
 
 import lombok.RequiredArgsConstructor;
@@ -33,5 +36,14 @@ public class PaymentService {
 	@Transactional(readOnly = true)
 	public TransactionsResponse transactions(String paymentResponseJson) {
 		return paymentServiceClient.transactions(paymentResponseJson).getBody();
+	}
+
+	@Transactional(readOnly = true)
+	public CancelResponse paymentFindByOrderInfoId(String orderInfoId) {
+		return paymentServiceClient.cancel(orderInfoId).getBody();
+	}
+	//나중에 dto 사용 안할 시 삭제
+	public UpdatePaymentResponse updatePayment(String paymentResponseJson, Long paymentId) {
+		return paymentServiceClient.cancel(paymentResponseJson, paymentId).getBody();
 	}
 }

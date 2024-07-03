@@ -793,7 +793,7 @@
                         <!-- Product Row -->
                         <tr>
                             <td class="pro-title">
-                                <a th:href="@{/orderDetails/{order_info_id}(order_info_id=${order.orderInfoId()})}"
+                                <a th:href="@{/api/orders/orderDetails/{order_info_id}(order_info_id=${order.orderInfoId()})}"
                                    th:text="${order.orderInfoId()}"></a>
                             </td>
                             <td class="pro-price"> <span
