@@ -54,7 +54,7 @@
                                             <h3>작가</h3>
                                             <a th:href="@{/api/authors/create}" class="btn btn-primary">작가 추가</a>
                                         </div>
-                                        <div th:if="${authors.size() > 0}">
+                                        <div th:if="${authors.getContent().size() > 0}">
                                             <table class="table table-bordered">
                                                 <thead>
                                                 <tr class="inline-text">
@@ -65,7 +65,7 @@
                                                 </thead>
                                                 <tbody>
                                                 <tr th:each="author, index : ${authors}">
-                                                    <td th:text="${index.index + 1}">1</td>
+                                                    <td th:text="${index.index + 1  + (pageable.pageNumber - 1) * pageable.pageSize}">1</td>
                                                     <td th:text="${author.authorName}">작가 이름</td>
                                                     <td style="display: flex; align-items: center;">
                                                         <a th:href="@{/api/authors/update/{authorId} (authorId=${author.authorId})}" class="btn btn-warning inline-text">편집</a>
@@ -77,9 +77,12 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <div th:if="${authors.size() == 0}">
+                                        <div th:if="${authors.getContent().size() == 0}">
                                             <p>작가가 없습니다.</p>
                                         </div>
+                                        <!-- 페이징 처리 시작-->
+                                        <div th:insert="~{/global/paging.html}"></div>
+                                        <!-- 페이징 처리 끝-->
                                     </div>
                                 </div>
                                 <!-- 작가 Tab Content End -->

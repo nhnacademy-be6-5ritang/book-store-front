@@ -1,5 +1,8 @@
 package com.nhnacademy.bookstorefront.author.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -64,6 +67,31 @@ public class AuthorController {
 	}
 
 	/**
+	 * 페이지네이션을 포함하여 모든 저자 정보를 조회합니다.
+	 *
+	 * @param pageable 페이지네이션 정보
+	 * @param model    모델 객체
+	 * @return 저자 리스트 뷰 이름
+	 */
+	@GetMapping("/page")
+	public String getAuthors(@PageableDefault(page = 1) Pageable pageable, Model model) {
+		Page<AuthorDto> authors = authorService.getAuthors(pageable);
+		model.addAttribute("authors", authors);
+		model.addAttribute("objects", authors); // 공통 객체 이름
+		model.addAttribute("baseUrl", "/api/authors/page"); // 페이징 URL
+
+		int blockLimit = 3;
+		int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
+		int endPage = Math.min((startPage + blockLimit - 1), authors.getTotalPages());
+
+		model.addAttribute("pageable", pageable);
+		model.addAttribute("blockLimit", blockLimit);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
+		return "author/list-author";
+	}
+
+	/**
 	 * 새로운 저자 정보를 생성합니다.
 	 *
 	 * @param request 생성할 저자 정보 DTO
@@ -72,7 +100,7 @@ public class AuthorController {
 	@PostMapping
 	public String createAuthor(@ModelAttribute AuthorDto request) {
 		authorService.createAuthor(request);
-		return "redirect:/api/authors";
+		return "redirect:/api/authors/page";
 	}
 
 	/**
@@ -85,7 +113,7 @@ public class AuthorController {
 	@PutMapping("/{authorId}")
 	public String updateAuthor(@PathVariable Long authorId, @ModelAttribute AuthorDto request) {
 		authorService.updateAuthor(authorId, request);
-		return "redirect:/api/authors";
+		return "redirect:/api/authors/page";
 	}
 
 	/**
@@ -97,6 +125,6 @@ public class AuthorController {
 	@DeleteMapping("/{authorId}")
 	public String deleteAuthor(@PathVariable Long authorId) {
 		authorService.deleteAuthor(authorId);
-		return "redirect:/api/authors";
+		return "redirect:/api/authors/page";
 	}
 }

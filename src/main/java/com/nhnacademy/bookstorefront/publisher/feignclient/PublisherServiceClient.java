@@ -3,6 +3,8 @@ package com.nhnacademy.bookstorefront.publisher.feignclient;
 import java.util.List;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,9 @@ public interface PublisherServiceClient {
 
 	@GetMapping
 	ResponseEntity<List<PublisherDto>> getPublishers();
+
+	@GetMapping("/page")
+	ResponseEntity<Page<PublisherDto>> getPublishers(Pageable pageable);
 
 	@GetMapping("/{publisherId}")
 	ResponseEntity<PublisherDto> getPublisher(@PathVariable Long publisherId);

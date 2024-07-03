@@ -3,6 +3,8 @@ package com.nhnacademy.bookstorefront.author.feignclient;
 import java.util.List;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,9 @@ public interface AuthorServiceClient {
 
 	@GetMapping
 	ResponseEntity<List<AuthorDto>> getAuthors();
+
+	@GetMapping("/page")
+	ResponseEntity<Page<AuthorDto>> getAuthors(Pageable pageable);
 
 	@GetMapping("/{authorId}")
 	ResponseEntity<AuthorDto> getAuthor(@PathVariable Long authorId);

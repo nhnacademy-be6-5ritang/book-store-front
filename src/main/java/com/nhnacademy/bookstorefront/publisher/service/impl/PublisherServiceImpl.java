@@ -2,6 +2,8 @@ package com.nhnacademy.bookstorefront.publisher.service.impl;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.publisher.dto.response.PublisherDto;
@@ -18,6 +20,11 @@ public class PublisherServiceImpl implements PublisherService {
 	@Override
 	public List<PublisherDto> getPublishers() {
 		return publisherServiceClient.getPublishers().getBody();
+	}
+
+	@Override
+	public Page<PublisherDto> getPublishers(Pageable pageable) {
+		return publisherServiceClient.getPublishers(pageable).getBody();
 	}
 
 	@Override

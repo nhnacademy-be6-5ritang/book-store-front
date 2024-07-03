@@ -2,6 +2,8 @@ package com.nhnacademy.bookstorefront.author.service.impl;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.author.dto.response.AuthorDto;
@@ -18,6 +20,11 @@ public class AuthorServiceImpl implements AuthorService {
 	@Override
 	public List<AuthorDto> getAuthors() {
 		return authorServiceClient.getAuthors().getBody();
+	}
+
+	@Override
+	public Page<AuthorDto> getAuthors(Pageable pageable) {
+		return authorServiceClient.getAuthors(pageable).getBody();
 	}
 
 	@Override
