@@ -150,7 +150,7 @@ public class BookController {
 	@PostMapping
 	public String createBook(@ModelAttribute CreateBookRequest request) {
 		bookService.createBook(request);
-		return "redirect:/api/books";
+		return "redirect:/api/books/page";
 	}
 
 	/**
@@ -187,6 +187,6 @@ public class BookController {
 	@DeleteMapping("/{bookId}")
 	public String deleteBook(@PathVariable Long bookId) {
 		bookService.deleteBook(bookId);
-		return "redirect:/api/books";
+		return "redirect:/api/books/page";
 	}
 }
