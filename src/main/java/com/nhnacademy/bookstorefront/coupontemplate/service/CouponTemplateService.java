@@ -1,7 +1,5 @@
 package com.nhnacademy.bookstorefront.coupontemplate.service;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -10,9 +8,8 @@ import com.nhnacademy.bookstorefront.coupontemplate.domain.dto.response.CouponTe
 
 public interface CouponTemplateService {
 
-    CouponTemplateResponseDTO createCouponTemplate(CouponTemplateCreateRequestDTO requestDTO);
-    List<CouponTemplateResponseDTO> getAllCouponTemplates();
-    // CouponResponseDTO getCouponById(Long id);
+    void createCouponTemplate(CouponTemplateCreateRequestDTO requestDTO);
+    Page<CouponTemplateResponseDTO> getAllCouponTemplatesByManagerPaging(Pageable pageable);
 
-    Page<CouponTemplateResponseDTO> getAllCouponTemplatesPaging(Pageable pageable);
+    Page<CouponTemplateResponseDTO> getAllCouponTemplatesByUserPaging(Pageable pageable);
 }

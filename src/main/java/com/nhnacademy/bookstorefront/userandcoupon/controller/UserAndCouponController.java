@@ -29,9 +29,9 @@ public class UserAndCouponController {
 
     // TODO : 서비스에서 유저아이디  Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     //  이걸로 가져오기. 지금은 임시방편으로 아이디 1이라고 하고 하기
-    @PostMapping("/{couponTemplateId}")
-    public String createUserAndCoupon(@PathVariable("couponTemplateId") Long couponTemplateId) {
-        UserAndCouponResponseDTO responseDTO = userAndCouponService.createUserAndCoupon(couponTemplateId);
+    @PostMapping("/{couponId}")
+    public String createUserAndCoupon(@PathVariable("couponId") Long couponTemplateId) {
+        userAndCouponService.createUserAndCoupon(couponTemplateId);
         return "redirect:/coupons/issue";
     }
 
@@ -55,7 +55,7 @@ public class UserAndCouponController {
     // }
 
     @GetMapping("/users/{userId}")
-    public String getUserAndCouponByIdPaging( @PathVariable("userId") Long userId, @PageableDefault(page = 1)Pageable pageable,Model model) {
+    public String getUserAndCouponByIdPaging( @PathVariable("userId") Long userId, @PageableDefault(page = 1, size = 3)Pageable pageable,Model model) {
         Page<UserAndCouponResponseDTO> userAndCoupon = userAndCouponService.getUserAndCouponByIdPaging(userId, pageable);
 
         int blockLimit = 3;
@@ -71,7 +71,6 @@ public class UserAndCouponController {
 
 
 
-        userAndCoupon.forEach(userAndCouponDTO -> model.addAttribute("user", userAndCouponDTO));
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("userAndCoupon", userAndCoupon);
@@ -83,7 +82,7 @@ public class UserAndCouponController {
     public String getAllUserAndCouponPaging(
         @RequestParam(required = false) Long userId,
         @RequestParam(required = false) String type,
-        @PageableDefault(page = 1)Pageable pageable,Model model) {
+        @PageableDefault(page = 1, size = 3)Pageable pageable,Model model) {
         Page<UserAndCouponResponseDTO> userAndCoupon = userAndCouponService.getAllUserAndCouponPaging(userId, type, pageable);
 
         int blockLimit = 3;

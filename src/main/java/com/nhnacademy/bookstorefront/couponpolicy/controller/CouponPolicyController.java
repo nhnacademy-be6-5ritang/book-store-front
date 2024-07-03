@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.request.CouponPolicyCreateRequestDTO;
 import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.request.CouponPolicyUpdateRequestDTO;
-import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.response.CouponPolicyResponseDTO2;
+import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.response.CouponPolicyResponseDTO;
 import com.nhnacademy.bookstorefront.couponpolicy.service.impl.CouponPolicyServiceImpl;
 
 @Controller
@@ -84,7 +84,7 @@ public class CouponPolicyController {
 	@GetMapping
 	public String getCouponPolicies(Model model) {
 		try {
-			List<CouponPolicyResponseDTO2> policies = couponPolicyService.getAllCouponPolicies();
+			List<CouponPolicyResponseDTO> policies = couponPolicyService.getAllCouponPolicies();
 			model.addAttribute("policies", policies);
 
 		} catch (Exception e) {

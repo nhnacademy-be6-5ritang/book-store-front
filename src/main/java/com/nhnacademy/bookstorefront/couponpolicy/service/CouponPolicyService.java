@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.request.CouponPolicyCreateRequestDTO;
 import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.request.CouponPolicyUpdateRequestDTO;
-import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.response.CouponPolicyResponseDTO2;
+import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.response.CouponPolicyResponseDTO;
 
 public interface CouponPolicyService {
 	void issueWelcomeCoupon(CouponPolicyCreateRequestDTO requestDTO);
@@ -17,7 +17,7 @@ public interface CouponPolicyService {
 
 	void issueSaleCoupon(CouponPolicyCreateRequestDTO requestDTO);
 
-	List<CouponPolicyResponseDTO2> getAllCouponPolicies();
+	List<CouponPolicyResponseDTO> getAllCouponPolicies();
 
 	void updateCouponPolicy(Long id, CouponPolicyUpdateRequestDTO requestDTO);
 

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.request.CouponPolicyCreateRequestDTO;
 import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.request.CouponPolicyUpdateRequestDTO;
 import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.response.CouponPolicyResponseDTO;
-import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.response.CouponPolicyResponseDTO2;
 import com.nhnacademy.bookstorefront.global.config.FeignClientConfig;
 
 @FeignClient(name = "coupon-feign-client", url = "http://localhost:8090", configuration = FeignClientConfig.class)
@@ -37,12 +36,12 @@ public interface CouponPolicyServiceFeignClient {
 		ResponseEntity<CouponPolicyResponseDTO> issueDiscountCoupon(@RequestBody CouponPolicyCreateRequestDTO requestDTO);
 
 		@GetMapping("/coupons/policies")
-		ResponseEntity<List<CouponPolicyResponseDTO2>> getAllCouponPolicies();
+		ResponseEntity<List<CouponPolicyResponseDTO>> getAllCouponPolicies();
 
 
 
 		@PatchMapping("/coupons/policies/{couponPolicyId}")
-		ResponseEntity<CouponPolicyResponseDTO> updateCouponPolicy(@PathVariable("couponPolicyId") Long couponPolicyId, @RequestBody CouponPolicyUpdateRequestDTO requestDTO);
+		ResponseEntity<Void> updateCouponPolicy(@PathVariable("couponPolicyId") Long couponPolicyId, @RequestBody CouponPolicyUpdateRequestDTO requestDTO);
 
 
 	}
