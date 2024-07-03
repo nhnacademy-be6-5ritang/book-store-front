@@ -3,6 +3,8 @@ package com.nhnacademy.bookstorefront.book.dto.response;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * 책 상세페이지 응답 DTO
  *
@@ -19,7 +21,7 @@ public record GetBookDetailResponse(
 	String bookIndex,
 	boolean bookPackaging,
 	int bookQuantity,
-	Date bookPublishDate,
+	@DateTimeFormat(pattern = "yyyy-MM-dd") Date bookPublishDate,
 	String bookIsbn,
 	BigDecimal bookPrice,
 	BigDecimal bookSalePrice,
