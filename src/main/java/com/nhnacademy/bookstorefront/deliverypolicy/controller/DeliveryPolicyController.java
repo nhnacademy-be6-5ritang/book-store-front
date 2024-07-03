@@ -24,7 +24,7 @@ public class DeliveryPolicyController {
 
 	@GetMapping("/create")
 	public String createDeliveryPolicyForm() {
-		return "/deliverypolicy/create-delivery-policy";
+		return "/deliveryPolicy/create-delivery-policy";
 	}
 
 	@GetMapping("/update/{deliveryPolicyId}")
