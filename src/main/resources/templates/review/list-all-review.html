@@ -34,41 +34,69 @@
         </div>
     </section>
     <!-- List Review Page Start -->
-    <div class="cart_area inner-page-sec-padding-bottom">
+    <div class="page-section inner-page-sec-padding">
         <div class="container">
-            <div th:if="${reviews.getContent().size() > 0}">
-                <div class="review-list">
-                    <div class="tabs">
-                        <button class="active">전체 리뷰 (<span th:text="${reviews.getContent().size()}"></span>)</button>
-                        <button>일반 리뷰 (2)</button>
-                        <button>포토 리뷰 (1)</button>
-                    </div>
-                    <div th:each="review : ${reviews}" class="review">
-                        <div class="review-header">
-                            <div class="info">
-                                <span th:text="${review.userId}"></span>
-                                <span th:text="${review.reviewCreatedAt}"></span>
-                                <span th:each="star : ${#numbers.sequence(1, review.reviewScore)}" class="star">&#9733;</span>
-                                <span th:if="${review.reviewScore < 5}" th:each="star : ${#numbers.sequence(1, 5 - review.reviewScore)}" class="star">&#9734;</span>
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <!-- My Account Tab Menu Start -->
+                        <div class="col-lg-3 col-12">
+                            <!-- 관리자 계정 메뉴 -->
+                            <div th:insert="~{/fragments/admin-account-menu.html}"></div>
+                        </div>
+                        <!-- My Account Tab Menu End -->
+                        <!-- My Account Tab Content Start -->
+                        <div class="col-lg-9 col-12 mt--30 mt-lg--0">
+                            <div class="tab-content" id="myaccountContent">
+                                <!-- 리뷰 Tab Content Start -->
+                                <div class="tab-pane fade show active" id="delivery" role="tabpanel">
+                                    <div class="myaccount-content">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h3>리뷰</h3>
+                                        </div>
+                                        <div th:if="${reviews.getContent().size() > 0}">
+                                            <div class="review-list">
+                                                <div class="tabs">
+                                                    <button class="active">전체 리뷰 (<span th:text="${reviews.getContent().size()}"></span>)</button>
+                                                    <button>일반 리뷰 (2)</button>
+                                                    <button>포토 리뷰 (1)</button>
+                                                </div>
+                                                <div th:each="review : ${reviews}" class="review">
+                                                    <div class="review-header">
+                                                        <div class="info">
+                                                            <span th:text="${review.userId}"></span>
+                                                            <span th:text="${review.reviewCreatedAt}"></span>
+                                                            <span th:each="star : ${#numbers.sequence(1, review.reviewScore)}" class="star">&#9733;</span>
+                                                            <span th:if="${review.reviewScore < 5}" th:each="star : ${#numbers.sequence(1, 5 - review.reviewScore)}" class="star">&#9734;</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="review-body">
+                                                        <span th:text="${review.reviewComment}"></span>
+                                                        <span class="more">더보기</span>
+                                                    </div>
+                                                </div>
+                                                <!-- 페이징 처리 시작-->
+                                                <div th:insert="~{/global/paging.html}"></div>
+                                                <!-- 페이징 처리 끝-->
+                                            </div>
+                                        </div>
+                                        <div th:if="${reviews.getContent().size() == 0}">
+                                            <div class="review-list">
+                                                <div class="tabs">
+                                                    <button class="active">전체 리뷰 (0)</button>
+                                                    <button>일반 리뷰 (0)</button>
+                                                    <button>포토 리뷰 (0)</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 리뷰 Tab Content End -->
+                                </div>
                             </div>
-                        </div>
-                        <div class="review-body">
-                            <span th:text="${review.reviewComment}"></span>
-                            <span class="more">더보기</span>
+                            <!-- My Account Tab Content End -->
                         </div>
                     </div>
-                    <!-- 페이징 처리 시작-->
-                    <div th:insert="~{/global/paging.html}"></div>
-                    <!-- 페이징 처리 끝-->
                 </div>
-            </div>
-            <div th:if="${reviews.getContent().size() == 0}">
-                <div class="review-list">
-                    <div class="tabs">
-                        <button class="active">전체 리뷰 (0)</button>
-                        <button>일반 리뷰 (0)</button>
-                        <button>포토 리뷰 (0)</button>
-                    </div>
             </div>
         </div>
     </div>

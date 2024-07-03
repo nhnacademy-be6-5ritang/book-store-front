@@ -19,7 +19,7 @@ import com.nhnacademy.bookstorefront.category.dto.response.CreateCategoryRespons
 import com.nhnacademy.bookstorefront.category.dto.response.GetCategoryResponse;
 import com.nhnacademy.bookstorefront.category.dto.response.UpdateCategoryResponse;
 
-@FeignClient(name = "category-feign-client", url = "http://localhost:8083/api/categories")
+@FeignClient(name = "category-feign-client", url = "http://localhost:8090/api/categories")
 public interface CategoryServiceClient {
 
 	@GetMapping

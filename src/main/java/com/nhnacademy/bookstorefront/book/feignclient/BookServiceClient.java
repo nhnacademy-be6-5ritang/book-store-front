@@ -21,7 +21,7 @@ import com.nhnacademy.bookstorefront.book.dto.response.CreateBookResponse;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.dto.response.UpdateBookResponse;
 
-@FeignClient(name = "book-feign-client", url = "http://localhost:8083/api/books")
+@FeignClient(name = "book-feign-client", url = "http://localhost:8090/api/books")
 public interface BookServiceClient {
 
 	@GetMapping

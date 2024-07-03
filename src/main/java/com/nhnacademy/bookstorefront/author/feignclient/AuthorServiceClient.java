@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.nhnacademy.bookstorefront.author.dto.response.AuthorDto;
 
-@FeignClient(name = "author-feign-client", url = "http://localhost:8083/api/authors")
+@FeignClient(name = "author-feign-client", url = "http://localhost:8090/api/authors")
 public interface AuthorServiceClient {
 
 	@GetMapping

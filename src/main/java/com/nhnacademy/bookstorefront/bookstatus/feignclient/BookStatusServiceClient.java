@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.nhnacademy.bookstorefront.bookstatus.dto.response.BookStatusDto;
 
-@FeignClient(name = "bookStatus-feign-client", url = "http://localhost:8083/api/bookStatuses")
+@FeignClient(name = "bookStatus-feign-client", url = "http://localhost:8090/api/bookStatuses")
 public interface BookStatusServiceClient {
 
 	@GetMapping
