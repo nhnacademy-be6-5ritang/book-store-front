@@ -95,35 +95,35 @@
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center mt-4">
                         <!-- 첫번째 페이지로 이동 -->
-                        <li class="page-item" th:classappend="${coupons.first} ? 'disabled'">
-                            <a class="page-link" th:href="@{/coupons(page=1, size=${coupons.size})}" aria-label="First">
+                        <li class="page-item" th:classappend="${policies.first} ? 'disabled'">
+                            <a class="page-link" th:href="@{/coupons/policies(page=1, size=${policies.size})}" aria-label="First">
                                 <span aria-hidden="true">&laquo; First</span>
                             </a>
                         </li>
 
 
-                        <li class="page-item" th:classappend="${coupons.first} ? 'disabled'">
-                            <a class="page-link" th:href="${coupons.first} ? '#' : '/coupons?page=' + ${coupons.number}+'&size='+${coupons.size}" aria-label="Previous">
+                        <li class="page-item" th:classappend="${policies.first} ? 'disabled'">
+                            <a class="page-link" th:href="${policies.first} ? '#' : '/coupons/policies?page=' + ${policies.number}+'&size='+${policies.size}" aria-label="Previous">
                                 <span aria-hidden="true">&lsaquo; Previous</span>
                             </a>
                         </li>
 
                         <!-- 페이지 번호 링크 -->
                         <li class="page-item" th:each="page: ${#numbers.sequence(startPage, endPage)}"
-                            th:classappend="${page == coupons.number + 1} ? 'active'">
-                            <a class="page-link" th:href="@{/coupons(page=${page}, size=${coupons.size})}" th:text="${page}"></a>
+                            th:classappend="${page == policies.number + 1} ? 'active'">
+                            <a class="page-link" th:href="@{/coupons/policies(page=${page}, size=${policies.size})}" th:text="${page}"></a>
                         </li>
 
                         <!-- 다음 페이지로 이동  둘다 가능한 방법 -->
-                        <li class="page-item" th:classappend="${coupons.last} ? 'disabled'">
-                            <a class="page-link" th:href="${coupons.last} ? '#' : '/coupons?page=' + (${coupons.number} + 2)+'&size='+${coupons.size}" aria-label="Next">
+                        <li class="page-item" th:classappend="${policies.last} ? 'disabled'">
+                            <a class="page-link" th:href="${policies.last} ? '#' : '/coupons/policies?page=' + (${policies.number} + 2)+'&size='+${policies.size}" aria-label="Next">
                                 <span aria-hidden="true">Next &rsaquo;</span>
                             </a>
                         </li>
 
                         <!-- 마지막 페이지로 이동 -->
-                        <li class="page-item" th:classappend="${coupons.last} ? 'disabled'">
-                            <a class="page-link" th:href="@{/coupons(page=${coupons.totalPages}, size=${coupons.size})}" aria-label="Last">
+                        <li class="page-item" th:classappend="${policies.last} ? 'disabled'">
+                            <a class="page-link" th:href="@{/coupons/policies(page=${policies.totalPages}, size=${policies.size})}" aria-label="Last">
                                 <span aria-hidden="true">Last &raquo;</span>
                             </a>
                         </li>

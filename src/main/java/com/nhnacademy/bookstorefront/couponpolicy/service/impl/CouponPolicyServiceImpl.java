@@ -1,7 +1,7 @@
 package com.nhnacademy.bookstorefront.couponpolicy.service.impl;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.request.CouponPolicyCreateRequestDTO;
@@ -54,8 +54,8 @@ public class CouponPolicyServiceImpl implements CouponPolicyService {
 
 
 	@Override
-	public List<CouponPolicyResponseDTO> getAllCouponPolicies() {
-		return couponPolicyServiceFeignClient.getAllCouponPolicies().getBody();
+	public Page<CouponPolicyResponseDTO> getAllCouponPolicies(Pageable pageable) {
+		return couponPolicyServiceFeignClient.getAllCouponPolicies(pageable).getBody();
 	}
 
 }
