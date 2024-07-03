@@ -15,41 +15,85 @@ import com.nhnacademy.bookstorefront.author.service.AuthorService;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * 저자 관리 웹 페이지 컨트롤러입니다.
+ * 이 컨트롤러는 저자 정보를 생성, 조회, 수정, 삭제하는 기능을 제공합니다.
+ * 또한 웹 페이지에서 사용할 뷰를 반환합니다.
+ *
+ * @version 1.0
+ */
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/authors")
 public class AuthorController {
 	private final AuthorService authorService;
 
+	/**
+	 * 저자 생성 폼을 반환합니다.
+	 *
+	 * @return 저자 생성 폼 뷰 이름
+	 */
 	@GetMapping("/create")
 	public String createAuthorForm() {
 		return "author/create-author";
 	}
 
+	/**
+	 * 주어진 저자 ID에 해당하는 저자 정보를 수정하는 폼을 반환합니다.
+	 *
+	 * @param authorId 수정할 저자 ID
+	 * @param model    모델 객체
+	 * @return 저자 수정 폼 뷰 이름
+	 */
 	@GetMapping("/update/{authorId}")
 	public String updateAuthorForm(@PathVariable Long authorId, Model model) {
 		model.addAttribute("author", authorService.getAuthor(authorId));
 		return "author/update-author";
 	}
 
+	/**
+	 * 모든 저자 정보를 조회하여 리스트로 반환합니다.
+	 *
+	 * @param model 모델 객체
+	 * @return 저자 리스트 뷰 이름
+	 */
 	@GetMapping
 	public String getAuthors(Model model) {
 		model.addAttribute("authors", authorService.getAuthors());
 		return "author/list-author";
 	}
 
+	/**
+	 * 새로운 저자 정보를 생성합니다.
+	 *
+	 * @param request 생성할 저자 정보 DTO
+	 * @return 저자 리스트 페이지로 리다이렉트
+	 */
 	@PostMapping
 	public String createAuthor(@ModelAttribute AuthorDto request) {
 		authorService.createAuthor(request);
 		return "redirect:/api/authors";
 	}
 
+	/**
+	 * 주어진 저자 ID에 해당하는 저자 정보를 수정합니다.
+	 *
+	 * @param authorId 수정할 저자 ID
+	 * @param request  수정할 저자 정보 DTO
+	 * @return 저자 리스트 페이지로 리다이렉트
+	 */
 	@PutMapping("/{authorId}")
 	public String updateAuthor(@PathVariable Long authorId, @ModelAttribute AuthorDto request) {
 		authorService.updateAuthor(authorId, request);
 		return "redirect:/api/authors";
 	}
 
+	/**
+	 * 주어진 저자 ID에 해당하는 저자 정보를 삭제합니다.
+	 *
+	 * @param authorId 삭제할 저자 ID
+	 * @return 저자 리스트 페이지로 리다이렉트
+	 */
 	@DeleteMapping("/{authorId}")
 	public String deleteAuthor(@PathVariable Long authorId) {
 		authorService.deleteAuthor(authorId);
