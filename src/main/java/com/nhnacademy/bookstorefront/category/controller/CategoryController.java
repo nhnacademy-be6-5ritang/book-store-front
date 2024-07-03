@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.nhnacademy.bookstorefront.category.dto.request.CreateCategoryRequest;
 import com.nhnacademy.bookstorefront.category.dto.request.UpdateCategoryRequest;
 import com.nhnacademy.bookstorefront.category.dto.response.GetCategoryResponse;
-import com.nhnacademy.bookstorefront.category.service.CategoryService;
+import com.nhnacademy.bookstorefront.category.service.impl.CategoryServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,7 +34,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/api/categories")
 public class CategoryController {
-	private final CategoryService categoryService;
+	private final CategoryServiceImpl categoryService;
 
 	/**
 	 * 새로운 카테고리 생성 폼을 반환합니다.

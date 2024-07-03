@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nhnacademy.bookstorefront.tag.dto.response.TagDto;
-import com.nhnacademy.bookstorefront.tag.service.TagService;
+import com.nhnacademy.bookstorefront.tag.service.impl.TagServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +33,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/api/tags")
 public class TagController {
-	private final TagService tagService;
+	private final TagServiceImpl tagService;
 
 	/**
 	 * 새로운 태그 생성 폼을 반환합니다.

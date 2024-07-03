@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nhnacademy.bookstorefront.bookstatus.dto.response.BookStatusDto;
-import com.nhnacademy.bookstorefront.bookstatus.service.BookStatusService;
+import com.nhnacademy.bookstorefront.bookstatus.service.impl.BookStatusServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/api/bookStatuses")
 public class BookStatusController {
-	private final BookStatusService bookStatusService;
+	private final BookStatusServiceImpl bookStatusService;
 
 	/**
 	 * 책 상태 생성 폼을 반환합니다.

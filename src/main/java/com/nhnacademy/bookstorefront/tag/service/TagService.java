@@ -4,43 +4,68 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.tag.dto.response.TagDto;
-import com.nhnacademy.bookstorefront.tag.feignclient.TagServiceClient;
 
-import lombok.RequiredArgsConstructor;
+/**
+ * 외부 Tag 서비스와 통신하여 카테고리 정보를 관리하는 인터페이스입니다.
+ *
+ * @version 1.0
+ */
+public interface TagService {
 
-@Service
-@RequiredArgsConstructor
-public class TagService {
-	private final TagServiceClient tagServiceClient;
+	/**
+	 * 모든 태그 목록을 조회합니다.
+	 *
+	 * @return 태그 목록
+	 */
+	List<TagDto> getTags();
 
-	public List<TagDto> getTags() {
-		return tagServiceClient.getTags().getBody();
-	}
+	/**
+	 * 지정된 페이지 정보에 따른 태그 목록을 조회합니다.
+	 *
+	 * @param pageable 페이징 정보
+	 * @return 페이징된 태그 목록
+	 */
+	Page<TagDto> getTags(Pageable pageable);
 
-	public Page<TagDto> getTags(Pageable pageable) {
-		return tagServiceClient.getTags(pageable).getBody();
-	}
+	/**
+	 * 지정된 책 ID에 해당하는 태그 목록을 조회합니다.
+	 *
+	 * @param bookId 책 ID
+	 * @return 책에 대한 태그 목록
+	 */
+	List<TagDto> getTagsByBookId(Long bookId);
 
-	public List<TagDto> getTagsByBookId(Long bookId) {
-		return tagServiceClient.getTagsByBookId(bookId).getBody();
-	}
+	/**
+	 * 지정된 태그 ID에 해당하는 태그 정보를 조회합니다.
+	 *
+	 * @param tagId 태그 ID
+	 * @return 태그 정보
+	 */
+	TagDto getTag(Long tagId);
 
-	public TagDto getTag(Long tagId) {
-		return tagServiceClient.getTag(tagId).getBody();
-	}
+	/**
+	 * 새로운 태그를 생성합니다.
+	 *
+	 * @param tagDto 생성할 태그 정보
+	 * @return 생성된 태그 정보
+	 */
+	TagDto createTag(TagDto tagDto);
 
-	public TagDto createTag(TagDto tagDto) {
-		return tagServiceClient.createTag(tagDto).getBody();
-	}
+	/**
+	 * 지정된 태그 ID에 해당하는 태그 정보를 수정합니다.
+	 *
+	 * @param tagId   수정할 태그 ID
+	 * @param tagDto 수정할 태그 정보
+	 * @return 수정된 태그 정보
+	 */
+	TagDto updateTag(Long tagId, TagDto tagDto);
 
-	public TagDto updateTag(Long tagId, TagDto tagDto) {
-		return tagServiceClient.updateTag(tagId, tagDto).getBody();
-	}
-
-	public void deleteTag(Long tagId) {
-		tagServiceClient.deleteTag(tagId);
-	}
+	/**
+	 * 지정된 태그 ID에 해당하는 태그를 삭제합니다.
+	 *
+	 * @param tagId 삭제할 태그 ID
+	 */
+	void deleteTag(Long tagId);
 }

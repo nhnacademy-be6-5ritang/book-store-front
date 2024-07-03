@@ -18,10 +18,10 @@ import com.nhnacademy.bookstorefront.book.dto.request.BookUpdateRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.UpdateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
-import com.nhnacademy.bookstorefront.book.service.BookService;
-import com.nhnacademy.bookstorefront.bookstatus.service.BookStatusService;
-import com.nhnacademy.bookstorefront.category.service.CategoryService;
-import com.nhnacademy.bookstorefront.tag.service.TagService;
+import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
+import com.nhnacademy.bookstorefront.bookstatus.service.impl.BookStatusServiceImpl;
+import com.nhnacademy.bookstorefront.category.service.impl.CategoryServiceImpl;
+import com.nhnacademy.bookstorefront.tag.service.impl.TagServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,10 +36,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/api/books")
 public class BookController {
-	private final BookService bookService;
-	private final CategoryService categoryService;
-	private final BookStatusService bookStatusService;
-	private final TagService tagService;
+	private final BookServiceImpl bookService;
+	private final CategoryServiceImpl categoryService;
+	private final BookStatusServiceImpl bookStatusService;
+	private final TagServiceImpl tagService;
 
 	/**
 	 * 책 생성 폼을 반환합니다.

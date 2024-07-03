@@ -4,47 +4,72 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.category.dto.request.CreateCategoryRequest;
 import com.nhnacademy.bookstorefront.category.dto.request.UpdateCategoryRequest;
 import com.nhnacademy.bookstorefront.category.dto.response.CreateCategoryResponse;
 import com.nhnacademy.bookstorefront.category.dto.response.GetCategoryResponse;
 import com.nhnacademy.bookstorefront.category.dto.response.UpdateCategoryResponse;
-import com.nhnacademy.bookstorefront.category.feignclient.CategoryServiceClient;
 
-import lombok.RequiredArgsConstructor;
+/**
+ * 외부 Category 서비스와 통신하여 카테고리 정보를 관리하는 인터페이스입니다.
+ *
+ * @version 1.0
+ */
+public interface CategoryService {
 
-@Service
-@RequiredArgsConstructor
-public class CategoryService {
-	private final CategoryServiceClient categoryServiceClient;
+	/**
+	 * 모든 카테고리 정보를 조회합니다.
+	 *
+	 * @return 모든 카테고리 정보 목록
+	 */
+	List<GetCategoryResponse> getCategories();
 
-	public List<GetCategoryResponse> getCategories() {
-		return categoryServiceClient.getCategories().getBody();
-	}
+	/**
+	 * 주어진 페이지 정보에 따라 카테고리 정보를 조회합니다.
+	 *
+	 * @param pageable 페이지 정보
+	 * @return 페이지에 해당하는 카테고리 정보 목록
+	 */
+	Page<GetCategoryResponse> getCategories(Pageable pageable);
 
-	public Page<GetCategoryResponse> getCategories(Pageable pageable) {
-		return categoryServiceClient.getCategories(pageable).getBody();
-	}
+	/**
+	 * 주어진 책 ID에 해당하는 카테고리 정보를 조회합니다.
+	 *
+	 * @param bookId 책 ID
+	 * @return 해당 책에 속한 카테고리 정보 목록
+	 */
+	List<GetCategoryResponse> getCategoriesByBookId(Long bookId);
 
-	public List<GetCategoryResponse> getCategoriesByBookId(Long bookId) {
-		return categoryServiceClient.getCategoriesByBookId(bookId).getBody();
-	}
+	/**
+	 * 주어진 카테고리 ID에 해당하는 카테고리 정보를 조회합니다.
+	 *
+	 * @param categoryId 카테고리 ID
+	 * @return 카테고리 정보
+	 */
+	GetCategoryResponse getCategory(Long categoryId);
 
-	public GetCategoryResponse getCategory(Long categoryId) {
-		return categoryServiceClient.getCategory(categoryId).getBody();
-	}
+	/**
+	 * 새로운 카테고리를 생성합니다.
+	 *
+	 * @param request 생성할 카테고리 정보 DTO
+	 * @return 생성된 카테고리 정보 DTO
+	 */
+	CreateCategoryResponse createCategory(CreateCategoryRequest request);
 
-	public CreateCategoryResponse createCategory(CreateCategoryRequest request) {
-		return categoryServiceClient.createCategory(request).getBody();
-	}
+	/**
+	 * 주어진 카테고리 ID에 해당하는 카테고리를 업데이트합니다.
+	 *
+	 * @param categoryId 카테고리 ID
+	 * @param request   업데이트할 카테고리 정보 DTO
+	 * @return 업데이트된 카테고리 정보 DTO
+	 */
+	UpdateCategoryResponse updateCategory(Long categoryId, UpdateCategoryRequest request);
 
-	public UpdateCategoryResponse updateCategory(Long categoryId, UpdateCategoryRequest request) {
-		return categoryServiceClient.updateCategory(categoryId, request).getBody();
-	}
-
-	public void deleteCategory(Long categoryId) {
-		categoryServiceClient.deleteCategory(categoryId);
-	}
+	/**
+	 * 주어진 카테고리 ID에 해당하는 카테고리를 삭제합니다.
+	 *
+	 * @param categoryId 삭제할 카테고리 ID
+	 */
+	void deleteCategory(Long categoryId);
 }

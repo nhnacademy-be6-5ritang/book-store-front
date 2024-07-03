@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nhnacademy.bookstorefront.publisher.dto.response.PublisherDto;
-import com.nhnacademy.bookstorefront.publisher.service.PublisherService;
+import com.nhnacademy.bookstorefront.publisher.service.impl.PublisherServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/api/publishers")
 public class PublisherController {
-	private final PublisherService publisherService;
+	private final PublisherServiceImpl publisherService;
 
 	/**
 	 * 새로운 출판사 생성 폼을 반환합니다.

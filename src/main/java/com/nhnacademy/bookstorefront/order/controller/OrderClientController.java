@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
-import com.nhnacademy.bookstorefront.book.service.BookService;
+import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateBookOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderListPost;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
@@ -37,7 +37,7 @@ import lombok.RequiredArgsConstructor;
 public class OrderClientController {
 	private final BookOrderService bookOrderService;
 	private final OrderService orderService;
-	private final BookService bookService;
+	private final BookServiceImpl bookService;
 	private final PaperTypeService paperTypeService;
 	private final WrappingPaperService wrappingPaperService;
 

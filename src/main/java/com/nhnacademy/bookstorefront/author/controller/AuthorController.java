@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nhnacademy.bookstorefront.author.dto.response.AuthorDto;
-import com.nhnacademy.bookstorefront.author.service.AuthorService;
+import com.nhnacademy.bookstorefront.author.service.impl.AuthorServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/api/authors")
 public class AuthorController {
-	private final AuthorService authorService;
+	private final AuthorServiceImpl authorService;
 
 	/**
 	 * 저자 생성 폼을 반환합니다.
