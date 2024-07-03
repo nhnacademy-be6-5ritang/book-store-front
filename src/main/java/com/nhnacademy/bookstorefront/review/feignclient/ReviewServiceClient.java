@@ -17,17 +17,17 @@ import com.nhnacademy.bookstorefront.review.dto.response.CreateReviewResponse;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
 import com.nhnacademy.bookstorefront.review.dto.response.UpdateReviewResponse;
 
-@FeignClient(name = "review-feign-client", url = "http://localhost:8083")
+@FeignClient(name = "review-feign-client", url = "http://localhost:8090/api")
 public interface ReviewServiceClient {
 
-	@GetMapping("/reviews")
+	@GetMapping("/reviews/page")
 	ResponseEntity<Page<GetReviewResponse>> getReviews(Pageable pageable);
 
-	@GetMapping("/books/{bookId}/reviews")
+	@GetMapping("/books/{bookId}/reviews/page")
 	ResponseEntity<Page<GetReviewResponse>> getReviewsByBookId(Pageable pageable,
 		@PathVariable Long bookId);
 
-	@GetMapping("/users/me/reviews")
+	@GetMapping("/users/me/reviews/page")
 	ResponseEntity<Page<GetReviewResponse>> getReviewsByUserId(Pageable pageable);
 
 	@PostMapping("/reviews")

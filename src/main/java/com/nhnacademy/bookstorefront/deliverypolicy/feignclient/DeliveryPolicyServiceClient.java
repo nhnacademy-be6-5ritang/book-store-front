@@ -18,23 +18,23 @@ import com.nhnacademy.bookstorefront.deliverypolicy.dto.response.GetDeliveryPoli
 import com.nhnacademy.bookstorefront.deliverypolicy.dto.response.GetDeliveryPolicyResponse;
 import com.nhnacademy.bookstorefront.deliverypolicy.dto.response.UpdateDeliveryPolicyResponse;
 
-@FeignClient(name = "delivery-policy-feign-client", url = "http://localhost:8083")
+@FeignClient(name = "delivery-policy-feign-client", url = "http://localhost:8090/api/deliveryPolicies")
 public interface DeliveryPolicyServiceClient {
 
-	@GetMapping("/deliveries-policies")
+	@GetMapping
 	ResponseEntity<List<GetDeliveryPoliciesResponse>> getDeliveryPolicies();
 
-	@GetMapping("/deliveries-policies/{deliveryPolicyId}")
+	@GetMapping("/{deliveryPolicyId}")
 	ResponseEntity<GetDeliveryPolicyResponse> getDeliveryPolicy(@PathVariable Long deliveryPolicyId);
 
-	@PostMapping("/deliveries-policies")
+	@PostMapping
 	ResponseEntity<CreateDeliveryPolicyResponse> createDeliveryPolicy(
 		@RequestBody CreateDeliveryPolicyRequest request);
 
-	@PutMapping("/deliveries-policies/{deliveryPolicyId}")
+	@PutMapping("/{deliveryPolicyId}")
 	ResponseEntity<UpdateDeliveryPolicyResponse> updateDeliveryPolicy(@PathVariable Long deliveryPolicyId,
 		@RequestBody UpdateDeliveryPolicyRequest request);
 
-	@DeleteMapping("/deliveries-policies/{deliveryPolicyId}")
+	@DeleteMapping("/{deliveryPolicyId}")
 	ResponseEntity<Void> deleteDeliveryPolicy(@PathVariable Long deliveryPolicyId);
 }

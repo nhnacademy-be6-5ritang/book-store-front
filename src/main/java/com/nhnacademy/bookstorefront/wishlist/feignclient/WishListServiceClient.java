@@ -14,10 +14,10 @@ import com.nhnacademy.bookstorefront.wishlist.dto.request.CreateWishListRequest;
 import com.nhnacademy.bookstorefront.wishlist.dto.response.CreateWishListResponse;
 import com.nhnacademy.bookstorefront.wishlist.dto.response.GetWishListResponse;
 
-@FeignClient(name = "wishList-service", url = "http://localhost:8083")
+@FeignClient(name = "wishList-service", url = "http://localhost:8090/api/users/me/wishLists")
 public interface WishListServiceClient {
 
-	@GetMapping("/wishLists")
+	@GetMapping
 	ResponseEntity<List<GetWishListResponse>> getWishLists();
 
 	@PostMapping("/wishLists")
