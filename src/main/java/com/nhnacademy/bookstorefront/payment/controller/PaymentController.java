@@ -34,6 +34,11 @@ public class PaymentController {
 	private final PaymentServiceImpl paymentServiceImpl;
 	private final RestTemplate restTemplate;
 
+	/**
+	 * 주문 결제 전 주문 보안 아이디로 주문을 html에 설정
+	 * @param orderInfoId 주문 보안 아이디
+	 * @return 토스 페이먼츠 결제창 html 이동
+	 */
 	@GetMapping("{order_info_id}")
 	public ModelAndView payment(@PathVariable("order_info_id") String orderInfoId) {
 		GetOrderByInfoResponse orderInfo = paymentServiceImpl.findByOrder(orderInfoId);
@@ -47,6 +52,13 @@ public class PaymentController {
 		return view;
 	}
 
+	/**
+	 * 주문 성공 시 결제 승인 요청
+	 * @param orderId 주문 보안 아이디
+	 * @param paymentKey 토스 페이먼츠 키
+	 * @param amount 결제 금액
+	 * @return 주문 완료 페이지로 이동
+	 */
 	@GetMapping("/success")
 	public ModelAndView paymentSuccess(@RequestParam String orderId, @RequestParam String paymentKey,
 		@RequestParam String amount) {
@@ -69,15 +81,24 @@ public class PaymentController {
 		view.setViewName("redirect:/api/orders/complete/" + bookOrder.orderListId() + "/" + order.orderId());
 		return view;
 	}
+
+	/**
+	 * 결제 실패 시 실패 페이지로 이동
+	 * 변경 예정
+	 * @return 실패 페이지로 이동
+	 */
 	@GetMapping("/fail")
 	public ModelAndView paymentFail() {
 		ModelAndView view = new ModelAndView();
-
-		//나중에 메인 페이지로 바꿀예정
 		view.setViewName("toss/fail");
 		return view;
 	}
 
+	/**
+	 * 주문 보안 아이디로 결제 조회
+	 * @param orderInfoId 주문 보안 아이디
+	 * @return 결제 조회 정보 페이지로 이동
+	 */
 	@GetMapping("/transactions/{order_info_id}")
 	public ModelAndView paymentTransactions(@PathVariable("order_info_id") String orderInfoId) {
 		String url = "https://api.tosspayments.com/v1/payments/orders/" + orderInfoId;
@@ -95,6 +116,11 @@ public class PaymentController {
 		return modelAndView;
 	}
 
+	/**
+	 * 결제 취소 페이지로 이동
+	 * @param orderInfoId 주문 보안 아이디
+	 * @return 결제 취소 페이지 이동
+	 */
 	@GetMapping("/cancel/{order_info_id}")
 	public ModelAndView paymentCancel(@PathVariable("order_info_id") String orderInfoId) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -103,6 +129,12 @@ public class PaymentController {
 		return modelAndView;
 	}
 
+	/**
+	 * 주문 보안 아이디로 결제 취소
+	 * @param orderInfoId 주문 보안 아이디
+	 * @param cancelTextRequest 결제 취소 사유
+	 * @return 결제 조회 페이지로 이동
+	 */
 	@PostMapping("/cancel/test/{order_info_id}")
 	public ModelAndView paymentCancel(@PathVariable("order_info_id") String orderInfoId , @ModelAttribute
 		CancelTextRequest cancelTextRequest) {
