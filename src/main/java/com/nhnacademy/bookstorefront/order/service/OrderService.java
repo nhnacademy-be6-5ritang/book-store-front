@@ -6,9 +6,25 @@ import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
 
 public interface OrderService {
+	/**
+	 * 주문 생성
+	 * @param createOrderRequest 입력 받은 주문 정보
+	 * @return 일부 주문 정보 리턴
+	 */
 	CreateOrderResponse createOrder(CreateOrderRequest createOrderRequest);
 
+	/**
+	 * 카트 아이디로 모든 주문 가져오기
+	 * 페이징 처리 예정
+	 * @param cartId 카트아이디
+	 * @return 일부 주문 정보를 가진 리스트 리턴
+	 */
 	GetAllListOrderResponse findAllByCartId(Long cartId);
 
+	/**
+	 * 주문 보안 아이디로 주문 찾기
+	 * @param orderInfoId 주문 보안 아이디
+	 * @return 일부 주문 정보 리턴
+	 */
 	GetOrderByInfoResponse findByOrderInfoId(String orderInfoId);
 }
