@@ -20,7 +20,7 @@ import com.nhnacademy.bookstorefront.payment.dto.request.CancelTextRequest;
 import com.nhnacademy.bookstorefront.payment.dto.request.PaymentConfirmationRequest;
 import com.nhnacademy.bookstorefront.payment.dto.response.CancelResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.GetBookOrderByInfoIdResponse;
-import com.nhnacademy.bookstorefront.payment.service.PaymentService;
+import com.nhnacademy.bookstorefront.payment.service.Impl.PaymentServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,13 +31,18 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class PaymentController {
 
-	private final PaymentService paymentService;
+	private final PaymentServiceImpl paymentServiceImpl;
 	private final RestTemplate restTemplate;
 
+	/**
+	 * 주문 결제 전 주문 보안 아이디로 주문을 html에 설정
+	 * @param orderInfoId 주문 보안 아이디
+	 * @return 토스 페이먼츠 결제창 html 이동
+	 */
 	@GetMapping("{order_info_id}")
 	public ModelAndView payment(@PathVariable("order_info_id") String orderInfoId) {
-		GetOrderByInfoResponse orderInfo = paymentService.findByOrder(orderInfoId);
-		GetBookOrderByInfoIdResponse bookOrder =paymentService.findByOrderInfoId(orderInfoId);
+		GetOrderByInfoResponse orderInfo = paymentServiceImpl.findByOrder(orderInfoId);
+		GetBookOrderByInfoIdResponse bookOrder = paymentServiceImpl.findByOrderInfoId(orderInfoId);
 		ModelAndView view = new ModelAndView();
 		view.addObject("orderName", bookOrder.getBookResponse().bookTitle());
 		view.addObject("orderId", orderInfoId);
@@ -47,6 +52,13 @@ public class PaymentController {
 		return view;
 	}
 
+	/**
+	 * 주문 성공 시 결제 승인 요청
+	 * @param orderId 주문 보안 아이디
+	 * @param paymentKey 토스 페이먼츠 키
+	 * @param amount 결제 금액
+	 * @return 주문 완료 페이지로 이동
+	 */
 	@GetMapping("/success")
 	public ModelAndView paymentSuccess(@RequestParam String orderId, @RequestParam String paymentKey,
 		@RequestParam String amount) {
@@ -62,22 +74,31 @@ public class PaymentController {
 			PaymentConfirmationRequest.form(paymentKey, Integer.parseInt(amount), orderId), headers);
 		String response = restTemplate.postForObject(apiUrl, entity, String.class);
 
-		paymentService.savePaymentResponse(response);
-		GetOrderByInfoResponse order = paymentService.findByOrder(orderId);
-		GetBookOrderByInfoIdResponse bookOrder = paymentService.findByOrderInfoId(orderId);
+		paymentServiceImpl.savePaymentResponse(response);
+		GetOrderByInfoResponse order = paymentServiceImpl.findByOrder(orderId);
+		GetBookOrderByInfoIdResponse bookOrder = paymentServiceImpl.findByOrderInfoId(orderId);
 		ModelAndView view = new ModelAndView();
 		view.setViewName("redirect:/api/orders/complete/" + bookOrder.orderListId() + "/" + order.orderId());
 		return view;
 	}
+
+	/**
+	 * 결제 실패 시 실패 페이지로 이동
+	 * 변경 예정
+	 * @return 실패 페이지로 이동
+	 */
 	@GetMapping("/fail")
 	public ModelAndView paymentFail() {
 		ModelAndView view = new ModelAndView();
-
-		//나중에 메인 페이지로 바꿀예정
 		view.setViewName("toss/fail");
 		return view;
 	}
 
+	/**
+	 * 주문 보안 아이디로 결제 조회
+	 * @param orderInfoId 주문 보안 아이디
+	 * @return 결제 조회 정보 페이지로 이동
+	 */
 	@GetMapping("/transactions/{order_info_id}")
 	public ModelAndView paymentTransactions(@PathVariable("order_info_id") String orderInfoId) {
 		String url = "https://api.tosspayments.com/v1/payments/orders/" + orderInfoId;
@@ -90,11 +111,16 @@ public class PaymentController {
 		String responseBody = response.getBody();
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("paymentInfo", paymentService.transactions(responseBody));
+		modelAndView.addObject("paymentInfo", paymentServiceImpl.transactions(responseBody));
 		modelAndView.setViewName("toss/transactions");
 		return modelAndView;
 	}
 
+	/**
+	 * 결제 취소 페이지로 이동
+	 * @param orderInfoId 주문 보안 아이디
+	 * @return 결제 취소 페이지 이동
+	 */
 	@GetMapping("/cancel/{order_info_id}")
 	public ModelAndView paymentCancel(@PathVariable("order_info_id") String orderInfoId) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -103,10 +129,16 @@ public class PaymentController {
 		return modelAndView;
 	}
 
+	/**
+	 * 주문 보안 아이디로 결제 취소
+	 * @param orderInfoId 주문 보안 아이디
+	 * @param cancelTextRequest 결제 취소 사유
+	 * @return 결제 조회 페이지로 이동
+	 */
 	@PostMapping("/cancel/test/{order_info_id}")
 	public ModelAndView paymentCancel(@PathVariable("order_info_id") String orderInfoId , @ModelAttribute
 		CancelTextRequest cancelTextRequest) {
-		CancelResponse cancelResponse = paymentService.paymentFindByOrderInfoId(orderInfoId);
+		CancelResponse cancelResponse = paymentServiceImpl.paymentFindByOrderInfoId(orderInfoId);
 
 		String url = "https://api.tosspayments.com/v1/payments/" + cancelResponse.paymentKey() + "/cancel";
 
@@ -121,9 +153,9 @@ public class PaymentController {
 		ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 		String responseBody = response.getBody();
 
-		paymentService.updatePayment(responseBody, cancelResponse.paymentId());
+		paymentServiceImpl.updatePayment(responseBody, cancelResponse.paymentId());
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("paymentInfo", paymentService.transactions(responseBody));
+		modelAndView.addObject("paymentInfo", paymentServiceImpl.transactions(responseBody));
 		modelAndView.setViewName("toss/transactions");
 		return modelAndView;
 	}

@@ -1,18 +1,14 @@
 package com.nhnacademy.bookstorefront.order.service;
 
-import org.springframework.stereotype.Service;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllPaperResponse;
-import com.nhnacademy.bookstorefront.order.feignclient.OrderServiceClient;
 
-import lombok.RequiredArgsConstructor;
+public interface PaperTypeService {
 
-@RequiredArgsConstructor
-@Service
-public class PaperTypeService {
-	private final OrderServiceClient orderServiceClient;
-
-	public GetAllPaperResponse getAllPaperTypes() {
-		return orderServiceClient.getAllWrappingPapers().getBody();
-	}
+	/**
+	 * 모든 포장지 가져오기
+	 * 페이징 처리 예정
+	 * @return 모든 포장지 리턴
+	 */
+	GetAllPaperResponse getAllPaperTypes();
 
 }

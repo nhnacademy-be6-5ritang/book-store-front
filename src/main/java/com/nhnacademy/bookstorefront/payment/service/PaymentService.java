@@ -1,49 +1,54 @@
 package com.nhnacademy.bookstorefront.payment.service;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.CancelResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.GetBookOrderByInfoIdResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.PaymentSaveResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.TransactionsResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.UpdatePaymentResponse;
-import com.nhnacademy.bookstorefront.payment.feignclient.PaymentServiceClient;
 
-import lombok.RequiredArgsConstructor;
+public interface PaymentService {
+	/**
+	 * 결제 생성
+	 * @param paymentResponseJson 결제 요청으로 받은 Json 객체
+	 * @return 페이먼츠 키 리턴
+	 */
+	PaymentSaveResponse savePaymentResponse(String paymentResponseJson);
 
-@Service
-@RequiredArgsConstructor
-public class PaymentService {
-	private final PaymentServiceClient paymentServiceClient;
+	/**
+	 * 결제 조회
+	 * @param paymentResponseJson 결제 조회로 받은 Json 객체
+	 * @return 결제 정보 리턴
+	 */
+	TransactionsResponse transactions(String paymentResponseJson);
 
-	//나중에 dto 사용 안할 시 삭제
-	public PaymentSaveResponse savePaymentResponse(String paymentResponseJson) {
-		return paymentServiceClient.savePayment(paymentResponseJson).getBody();
-	}
+	/**
+	 * 주문 보안 아이디로 주문 리스트 찾기
+	 * @param orderInfoId 주문 보안 아이디
+	 * @return 주문리스트 리턴
+	 */
+	GetBookOrderByInfoIdResponse findByOrderInfoId(String orderInfoId);
 
-	@Transactional(readOnly = true)
-	public GetBookOrderByInfoIdResponse findByOrderInfoId(String orderInfoId) {
-		return paymentServiceClient.bookOrder(orderInfoId).getBody();
-	}
+	/**
+	 * 주문 보안 아이디로 주문 찾기
+	 * @param orderInfoId 주문 보안 아이디
+	 * @return 주문 정보 리턴
+	 */
+	GetOrderByInfoResponse findByOrder(String orderInfoId);
 
-	@Transactional(readOnly = true)
-	public GetOrderByInfoResponse findByOrder(String orderInfoId) {
-		return paymentServiceClient.findByOrderInfoId(orderInfoId).getBody();
-	}
+	/**
+	 * 주문 보안 아이디 결제 취소 하기
+	 * @param orderInfoId 주문 보안 아이디
+	 * @return 결제 페이먼츠 키 , 결제 아이디 리턴
+	 */
+	CancelResponse paymentFindByOrderInfoId(String orderInfoId);
 
-	@Transactional(readOnly = true)
-	public TransactionsResponse transactions(String paymentResponseJson) {
-		return paymentServiceClient.transactions(paymentResponseJson).getBody();
-	}
+	/**
+	 * 결제 업데이트
+	 * @param paymentResponseJson  결제 취소로 받은 Json 객체
+	 * @param paymentId 결제 아이디 리턴
+	 * @return 결제 취소된 결제 정보 리턴
+	 */
+	UpdatePaymentResponse updatePayment(String paymentResponseJson, Long paymentId);
 
-	@Transactional(readOnly = true)
-	public CancelResponse paymentFindByOrderInfoId(String orderInfoId) {
-		return paymentServiceClient.cancel(orderInfoId).getBody();
-	}
-	//나중에 dto 사용 안할 시 삭제
-	public UpdatePaymentResponse updatePayment(String paymentResponseJson, Long paymentId) {
-		return paymentServiceClient.cancel(paymentResponseJson, paymentId).getBody();
-	}
 }
