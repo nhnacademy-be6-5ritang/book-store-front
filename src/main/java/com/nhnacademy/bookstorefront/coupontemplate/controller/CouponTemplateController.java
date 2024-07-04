@@ -41,8 +41,8 @@ public class CouponTemplateController {
 
 
 		if (!coupons.isEmpty()) {
-			// 검색 결과가 있는 경우에만 페이지 번호 계산
-			startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+			int adjustedPage = Math.max(pageable.getPageNumber(), 1);
+			startPage = (((int)(Math.ceil((double)adjustedPage / blockLimit))) - 1) * blockLimit + 1;
 			endPage = Math.min((startPage + blockLimit - 1), coupons.getTotalPages());
 		}
 
@@ -67,8 +67,8 @@ public class CouponTemplateController {
 
 
 		if (!couponTemplates.isEmpty()) {
-			// 검색 결과가 있는 경우에만 페이지 번호 계산
-			startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+			int adjustedPage = Math.max(pageable.getPageNumber(), 1);
+			startPage = (((int)(Math.ceil((double)adjustedPage / blockLimit))) - 1) * blockLimit + 1;
 			endPage = Math.min((startPage + blockLimit - 1), couponTemplates.getTotalPages());
 		}
 

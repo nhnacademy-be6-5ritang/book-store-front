@@ -19,7 +19,7 @@
                     <div class="main-navigation flex-lg-right">
                         <div class="cart-widget">
                             <div class="login-block">
-                                <a th:href="@{/login}" class="font-weight-bold">로그인</a> <br>
+                                <a th:href="@{/auth/login}" class="font-weight-bold">로그인</a> <br>
                                 <span>or</span><a th:href="@{/login}">회원가입</a>
                             </div>
                             <div class="cart-block">
@@ -35,7 +35,8 @@
                                                 <img th:src="@{/image/products/cart-product-1.jpg}" alt="">
                                             </a>
                                             <div class="content">
-                                                <h3 class="title"><a th:href="@{/product-details}">Kodak PIXPRO Astro Zoom AZ421 16 MP</a></h3>
+                                                <h3 class="title"><a th:href="@{/product-details}">Kodak PIXPRO Astro
+                                                    Zoom AZ421 16 MP</a></h3>
                                                 <p class="price"><span class="qty">1 ×</span> £87.34</p>
                                                 <button class="cross-btn"><i class="fas fa-times"></i></button>
                                             </div>
@@ -43,8 +44,10 @@
                                     </div>
                                     <div class=" single-cart-block ">
                                         <div class="btn-block">
-                                            <a th:href="@{/api/users/me/cart}" class="btn">View Cart <i class="fas fa-chevron-right"></i></a>
-                                            <a th:href="@{/checkout}" class="btn btn--primary">Check Out <i class="fas fa-chevron-right"></i></a>
+                                            <a th:href="@{/api/users/me/cart}" class="btn">View Cart <i
+                                                    class="fas fa-chevron-right"></i></a>
+                                            <a th:href="@{/checkout}" class="btn btn--primary">Check Out <i
+                                                    class="fas fa-chevron-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -68,7 +71,7 @@
                         <div>
                             <a href="javascript:void(0)" class="category-trigger"><i class="fa fa-bars"></i>카테고리 목록</a>
                             <ul class="category-menu">
-                                <li th:each="category : ${categoriesCache}" th:if="${#strings.isEmpty(category.parentCategoryName)}" class="cat-item has-children">
+                                <li th:each="category : ${categoriesDisplay}" th:if="${#strings.isEmpty(category.parentCategoryName)}" class="cat-item has-children">
                                     <a th:href="@{#}" th:text="${category.categoryName}"></a>
                                     <ul class="sub-menu">
                                         <li th:each="subCategory : ${categoriesDisplay}" th:if="${subCategory.parentCategoryName == category.categoryName}">
