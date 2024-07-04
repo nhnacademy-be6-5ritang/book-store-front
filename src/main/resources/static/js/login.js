@@ -3,7 +3,11 @@ document.addEventListener('DOMContentLoaded', function () {
     if (localStorage.getItem('accessToken')) {
         profileContainer.innerHTML = '<button class="logout-button" id="logout">로그아웃</button>';
     } else {
-        profileContainer.innerHTML = '<button class="login-button" id="login">로그인</button>';
+        profileContainer.innerHTML = '<div>' +
+            '<button class="login-button" id="login">로그인</button>' +
+            '<span class="divider">&nbsp&nbsp|&nbsp&nbsp</span>' +
+            '<button class="sign-up-button" id="sign-up">회원가입</button>' +
+            '</div>';
     }
 
     document.getElementById('logout')?.addEventListener('click', event => {
@@ -25,8 +29,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    document.getElementById('login')?.addEventListener('click', function (event) {
+    document.getElementById('login')?.addEventListener('click', event => {
         event.preventDefault();
         window.location.href = '/auth/login';
     });
+
+    document.getElementById('sign-up')?.addEventListener('click', event => {
+        event.preventDefault();
+        window.location.href = '/auth/sign-up';
+    })
 });
