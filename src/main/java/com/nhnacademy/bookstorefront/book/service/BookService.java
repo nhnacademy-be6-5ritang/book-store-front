@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 
-import com.nhnacademy.bookstorefront.book.dto.request.BookUpdateRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.UpdateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.response.CreateBookResponse;
@@ -61,13 +61,13 @@ public interface BookService {
 	UpdateBookResponse updateBookById(Long bookId, UpdateBookRequest request);
 
 	/**
-	 * 주어진 ISBN에 해당하는 책을 업데이트합니다.
+	 * 외부 API에서 지정된 개수의 도서를 가져와 저장하는 메서드입니다.
 	 *
-	 * @param isbn    업데이트할 책의 ISBN
-	 * @param request 업데이트할 책 정보 DTO
-	 * @return 업데이트된 책의 상세 정보 DTO
+	 * @param count 가져와 저장할 도서의 개수
+	 * @return 도서 목록 저장이 성공적으로 완료된 경우 성공 메시지를 포함한 ResponseEntity,
+	 *         예외가 발생한 경우 적절한 HTTP 상태 코드와 오류 메시지를 포함한 ResponseEntity를 반환합니다.
 	 */
-	GetBookDetailResponse updateBookByIsbn(String isbn, BookUpdateRequest request);
+	ResponseEntity<String> fetchAndSaveBooks(Long count);
 
 	/**
 	 * 주어진 책 ID에 해당하는 책을 삭제합니다.

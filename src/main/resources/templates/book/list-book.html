@@ -52,6 +52,17 @@
                                     <div class="myaccount-content">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <h3>도서</h3>
+
+                                            <div class="form-group mb-0">
+                                                <form th:action="@{/api/books/fetch/book-lists}" method="post" class="d-flex">
+                                                    <div class="input-group">
+                                                        <label for="bookCount" class="sr-only">추가할 책의 개수</label>
+                                                        <input type="number" class="form-control" placeholder="책의 개수를 입력" id="bookCount" name="count" required>
+                                                        <button type="submit" class="btn btn-primary">외부 API 도서 추가</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+
                                             <a th:href="@{/api/books/create}" class="btn btn-primary">도서 추가</a>
                                         </div>
                                         <div th:if="${books.getContent().size() > 0}">

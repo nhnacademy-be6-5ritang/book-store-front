@@ -8,13 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.nhnacademy.bookstorefront.book.dto.request.BookUpdateRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.UpdateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
@@ -142,6 +141,18 @@ public class BookController {
 	}
 
 	/**
+	 * 주어진 개수(count)에 따라 외부 API에서 도서 목록을 가져와서 저장하는 메서드입니다.
+	 *
+	 * @param count 가져올 도서 목록의 개수
+	 * @return 도서 목록을 가져와 저장한 후, 도서 목록 페이지로 리다이렉트합니다.
+	 */
+	@PostMapping("/fetch/book-lists")
+	String fetchAndSaveBooks(@RequestParam Long count){
+		bookService.fetchAndSaveBooks(count);
+		return "redirect:/api/books/page";
+	}
+
+	/**
 	 * 새로운 책을 생성합니다.
 	 *
 	 * @param request 생성할 책 정보 DTO
@@ -164,18 +175,6 @@ public class BookController {
 	public String updateBookById(@PathVariable Long bookId, @ModelAttribute UpdateBookRequest request) {
 		bookService.updateBookById(bookId, request);
 		return "redirect:/api/books/detail/" + bookId;
-	}
-
-	/**
-	 * 주어진 ISBN에 해당하는 책 정보를 일부 수정합니다.
-	 *
-	 * @param isbn    책 ISBN
-	 * @param request 책 일부 정보를 포함한 DTO
-	 * @return 수정된 책 정보
-	 */
-	@PatchMapping("/{isbn}")
-	public GetBookDetailResponse updateBookByIsbn(@PathVariable String isbn, @ModelAttribute BookUpdateRequest request) {
-		return bookService.updateBookByIsbn(isbn, request);
 	}
 
 	/**
