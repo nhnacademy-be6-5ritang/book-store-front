@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>로그인 중...</title>
+</head>
+<body>
+<script th:inline="javascript">
+    const accessToken = [[${accessToken != null ? '"' + accessToken + '"' : null}]];
+
+    if (accessToken) {
+        localStorage.setItem('accessToken', accessToken);
+        window.location.href = '/';
+    } else {
+        console.error('Access token is not available');
+    }
+</script>
+</body>
+</html>
