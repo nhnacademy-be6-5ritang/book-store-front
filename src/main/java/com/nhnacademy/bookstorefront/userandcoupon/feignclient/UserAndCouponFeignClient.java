@@ -19,8 +19,8 @@ import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCo
 @FeignClient(name = "user-and-coupon-feign-client", url = "http://localhost:8090", configuration = FeignClientConfig.class)
 public interface UserAndCouponFeignClient {
 
-	@PostMapping("/coupons/{couponTemplateId}")
-	ResponseEntity<UserAndCouponResponseDTO> createUserAndCoupon(@PathVariable("couponTemplateId") Long couponId, @RequestBody
+	@PostMapping("/coupons/{couponId}")
+	ResponseEntity<Void> createUserAndCoupon(@PathVariable("couponId") Long couponId, @RequestBody
 		UserAndCouponRequestCreateDTO createDTO);
 
 	@PatchMapping("/coupons/users/{userId}")
@@ -29,12 +29,12 @@ public interface UserAndCouponFeignClient {
 
 
 	@GetMapping("/coupons/users")
-	ResponseEntity<Page<UserAndCouponResponseDTO>> getAllUserAndCouponPaging(@RequestParam(required = false)Long userId,@RequestParam(required = false)  String type, Pageable pageable);
+	ResponseEntity<Page<UserAndCouponResponseDTO>> getAllUsersAndCouponsByManagerPaging(@RequestParam(required = false)Long userId,@RequestParam(required = false)  String type, Pageable pageable);
 
 
 
 	@GetMapping("/coupons/users/{userId}")
-	ResponseEntity<Page<UserAndCouponResponseDTO>> getUserAndCouponByIdPaging(@PathVariable("userId") Long userId, Pageable pageable);
+	ResponseEntity<Page<UserAndCouponResponseDTO>> getAllUserAndCouponsByUserPaging(@PathVariable("userId") Long userId, Pageable pageable);
 }
 
 

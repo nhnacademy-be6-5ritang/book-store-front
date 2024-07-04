@@ -44,32 +44,32 @@
                                 <div class="coupon-field">
                                     <label for="couponPolicyId-${coupon.id}">Coupon PolicyId</label>
                                     <input type="text" id="couponPolicyId-${coupon.id}" class="form-control"
-                                           th:value="${coupontemplate.couponPolicy.couponPolicyId}" readonly>
+                                           th:value="${coupontemplate.couponPolicyId}" readonly>
                                 </div>
                                 <div class="coupon-field">
                                     <label for="minOrderPrice-${coupon.id}">Min Order Price</label>
                                     <input type="text" id="minOrderPrice-${coupon.id}" class="form-control"
-                                           th:value="${coupontemplate.couponPolicy.minOrderPrice}" readonly>
+                                           th:value="${coupontemplate.minOrderPrice}" readonly>
                                 </div>
                                 <div class="coupon-field">
                                     <label for="salePrice-${coupon.id}">Sale Price</label>
                                     <input type="text" id="salePrice-${coupon.id}" class="form-control"
-                                           th:value="${coupontemplate.couponPolicy.salePrice}" readonly>
+                                           th:value="${coupontemplate.salePrice}" readonly>
                                 </div>
                                 <div class="coupon-field">
                                     <label for="saleRate-${coupon.id}">Sale Rate</label>
                                     <input type="text" id="saleRate-${coupon.id}" class="form-control"
-                                           th:value="${coupontemplate.couponPolicy.saleRate}" readonly>
+                                           th:value="${coupontemplate.saleRate}" readonly>
                                 </div>
                                 <div class="coupon-field">
                                     <label for="maxSalePrice-${coupon.id}">Max Sale Price</label>
                                     <input type="text" id="maxSalePrice-${coupon.id}" class="form-control"
-                                           th:value="${coupontemplate.couponPolicy.maxSalePrice}" readonly>
+                                           th:value="${coupontemplate.maxSalePrice}" readonly>
                                 </div>
                                 <div class="coupon-field">
                                     <label for="type-${coupon.id}">Type</label>
                                     <input type="text" id="type-${coupon.id}" class="form-control"
-                                           th:value="${coupontemplate.couponPolicy.type}" readonly>
+                                           th:value="${coupontemplate.type}" readonly>
                                 </div>
                                 <div class="coupon-field">
                                     <label for="expiredDate-${coupon.id}">Expired Date</label>
@@ -84,7 +84,17 @@
                                 <div class="coupon-field">
                                     <label for="isUsed-${coupon.id}">CouponPolicy Used</label>
                                     <input type="text" id="isUsed-${coupon.id}" class="form-control"
-                                           th:value="${coupontemplate.couponPolicy.isUsed}" readonly>
+                                           th:value="${coupontemplate.isUsed}" readonly>
+                                </div>
+                                <div class="coupon-field">
+                                    <label for="bookId-${coupon.id}">book Id</label>
+                                    <input type="text" id="bookId-${coupon.id}" class="form-control"
+                                           th:value="${coupontemplate.bookId}" readonly>
+                                </div>
+                                <div class="coupon-field">
+                                    <label for="categoryId-${coupon.id}">Category Id</label>
+                                    <input type="text" id="categoryId-${coupon.id}" class="form-control"
+                                           th:value="${coupontemplate.categoryId}" readonly>
                                 </div>
                             </div>
                             <div class="card-footer issue-btn">
@@ -102,19 +112,14 @@
                 <ul class="pagination justify-content-center mt-4">
                     <!-- 첫번째 페이지로 이동 -->
                     <li class="page-item" th:classappend="${coupontemplates.first} ? 'disabled'">
-                        <a class="page-link" th:href="@{/coupons/issue(page=1)}" aria-label="First">
+                        <a class="page-link" th:href="@{/coupons/issue(page=1, size=${coupontemplates.size})}" aria-label="First">
                             <span aria-hidden="true">&laquo; First</span>
                         </a>
                     </li>
 
-                    <!-- 이전 페이지로 이동  둘다 가능한 방법-->
-<!--                    <li class="page-item" th:classappend="${coupons.first} ? 'disabled'">-->
-<!--                        <a class="page-link" th:href="${coupons.first} ? '#' : @{/coupons/issue(page=${coupons.number})}" aria-label="Previous">-->
-<!--                            <span aria-hidden="true">&lsaquo; Previous</span>-->
-<!--                        </a>-->
-<!--                    </li>-->
+
                     <li class="page-item" th:classappend="${coupontemplates.first} ? 'disabled'">
-                        <a class="page-link" th:href="${coupontemplates.first} ? '#' : '/coupons/issue?page=' + ${coupontemplates.number}" aria-label="Previous">
+                        <a class="page-link" th:href="${coupontemplates.first} ? '#' : '/coupons/issue?page=' + ${coupontemplates.number}+'&size='+${coupontemplates.size}" aria-label="Previous">
                             <span aria-hidden="true">&lsaquo; Previous</span>
                         </a>
                     </li>
@@ -123,19 +128,13 @@
                     <!-- 페이지 번호 링크 -->
                     <li class="page-item" th:each="page: ${#numbers.sequence(startPage, endPage)}"
                         th:classappend="${page == coupontemplates.number + 1} ? 'active'">
-                        <a class="page-link" th:href="@{/coupons/issue(page=${page})}" th:text="${page}"></a>
+                        <a class="page-link" th:href="@{/coupons/issue(page=${page}, size=${coupontemplates.size})}" th:text="${page}"></a>
                     </li>
 
-                    <!-- 다음 페이지로 이동 -->
-<!--                    <li class="page-item" th:classappend="${coupons.last} ? 'disabled'">-->
-<!--                        <a class="page-link" th:href="${coupons.last} ? '#' : @{/coupons/issue(page=${coupons.number + 2})}" aria-label="Next">-->
-<!--                            <span aria-hidden="true">Next &rsaquo;</span>-->
-<!--                        </a>-->
-<!--                    </li>-->
 
                     <!-- 다음 페이지로 이동  둘다 가능한 방법 -->
                     <li class="page-item" th:classappend="${coupontemplates.last} ? 'disabled'">
-                        <a class="page-link" th:href="${coupontemplates.last} ? '#' : '/coupons/issue?page=' + (${coupontemplates.number} + 2)" aria-label="Next">
+                        <a class="page-link" th:href="${coupontemplates.last} ? '#' : '/coupons/issue?page=' + (${coupontemplates.number} + 2)+'&size='+${coupontemplates.size}" aria-label="Next">
                             <span aria-hidden="true">Next &rsaquo;</span>
                         </a>
                     </li>
@@ -143,7 +142,7 @@
 
                     <!-- 마지막 페이지로 이동 -->
                     <li class="page-item" th:classappend="${coupontemplates.last} ? 'disabled'">
-                        <a class="page-link" th:href="@{/coupons/issue(page=${coupontemplates.totalPages})}" aria-label="Last">
+                        <a class="page-link" th:href="@{/coupons/issue(page=${coupontemplates.totalPages}, size=${coupontemplates.size})}" aria-label="Last">
                             <span aria-hidden="true">Last &raquo;</span>
                         </a>
                     </li>

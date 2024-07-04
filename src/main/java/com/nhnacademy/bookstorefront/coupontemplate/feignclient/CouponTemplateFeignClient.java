@@ -1,7 +1,5 @@
 package com.nhnacademy.bookstorefront.coupontemplate.feignclient;
 
-import java.util.List;
-
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,13 +16,13 @@ import com.nhnacademy.bookstorefront.global.config.FeignClientConfig;
 public interface CouponTemplateFeignClient {
 
 	@PostMapping("/coupons")
-	ResponseEntity<CouponTemplateResponseDTO> createCouponTemplate(@RequestBody CouponTemplateCreateRequestDTO requestDTO);
+	ResponseEntity<Void> createCouponTemplate(@RequestBody CouponTemplateCreateRequestDTO requestDTO);
 
 	@GetMapping("/coupons")
-	ResponseEntity<List<CouponTemplateResponseDTO>> getAllCouponTemplates();
+	ResponseEntity<Page<CouponTemplateResponseDTO>> getAllCouponTemplatesByManagerPaging(Pageable pageable);
 
 	@GetMapping("/coupons/issue")
-	ResponseEntity<Page<CouponTemplateResponseDTO>> getAllCouponTemplatePaging(Pageable pageable);
+	ResponseEntity<Page<CouponTemplateResponseDTO>> getAllCouponTemplatesByUserPaging(Pageable pageable);
 
 }
 

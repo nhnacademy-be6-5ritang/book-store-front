@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
+import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateBookOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderListPost;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
@@ -18,13 +20,11 @@ import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllPaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
-import com.nhnacademy.bookstorefront.order.dto.response.GetBookResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetListWrappingResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetWrappingResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.UpdateBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.service.Impl.BookOrderServiceImpl;
-import com.nhnacademy.bookstorefront.order.service.Impl.BookService;
 import com.nhnacademy.bookstorefront.order.service.Impl.OrderServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.PaperTypeServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.WrappingPaperServiceImpl;
@@ -37,14 +37,14 @@ import lombok.RequiredArgsConstructor;
 public class OrderClientController {
 	private final BookOrderServiceImpl bookOrderServiceImpl;
 	private final OrderServiceImpl orderServiceImpl;
-	private final BookService bookService;
+	private final BookServiceImpl bookService;
 	private final PaperTypeServiceImpl paperTypeServiceImpl;
 	private final WrappingPaperServiceImpl wrappingPaperServiceImpl;
 
 	@GetMapping("/createBookOrderTest/{book_id}")
 	public ModelAndView createBookOrder(@PathVariable("book_id") Long bookId) {
 		ModelAndView modelAndView = new ModelAndView("order/orderList");
-		GetBookResponse book = bookService.findBookById(bookId);
+		GetBookDetailResponse book = bookService.getBook(bookId);
 		modelAndView.addObject("book", book);
 		modelAndView.addObject("bookId", bookId);
 		return modelAndView;
@@ -54,18 +54,17 @@ public class OrderClientController {
 	public String createBookOrderTest(@ModelAttribute CreateBookOrderRequest request) {
 		CreateBookOrderResponse createBookOrderResponse = bookOrderServiceImpl.createBookOrder(request);
 		GetBookOrderResponse bookOrder = bookOrderServiceImpl.getBookOrder(createBookOrderResponse.orderListId());
-		if (bookOrder.getBookResponse().bookPackaging()) {
-			return "redirect:/api/orders/createOrderTestPaper/" + createBookOrderResponse.orderListId();
-		}
-		return "redirect:/api/orders/createOrderTest2/" + createBookOrderResponse.orderListId();
+		return "redirect:/api/orders/createOrderTestPaper/" + createBookOrderResponse.orderListId();
 	}
 
 	@GetMapping("/createOrderTestPaper/{order_list_id}")
 	public ModelAndView createOrderTestPaperGet(@PathVariable("order_list_id") Long orderListId) {
 		ModelAndView modelAndView = new ModelAndView("order/selectPaper");
 		GetAllPaperResponse getAllPaperResponse = paperTypeServiceImpl.getAllPaperTypes();
+		GetBookOrderResponse bookOrder = bookOrderServiceImpl.getBookOrder(orderListId);
 		modelAndView.addObject("getAllPaperResponse", getAllPaperResponse.papers());
 		modelAndView.addObject("orderListId", orderListId);
+		modelAndView.addObject("bookOrder", bookOrder);
 		return modelAndView;
 	}
 
@@ -79,17 +78,10 @@ public class OrderClientController {
 			return "redirect:/api/orders/createOrderTest2/" + orderListId;
 		}
 
-		int count = bookOrder.quantity();
-		for (int i = 0; i < createOrderListPost.paperId().size(); i++) {
-			count -= createOrderListPost.quantity().get(i);
-		}
-		if (count < 0) {
-			return "redirect:/api/orders/createOrderTestPaper/" + orderListId;
-		}
 		// 수량이 허용된 한도를 초과하지 않은 경우 wrapping paper 생성
 		for (int i = 0; i < createOrderListPost.paperId().size(); i++) {
 			wrappingPaperServiceImpl.createWrappingPapers(
-				createOrderListPost.paperId().get(i), orderListId, createOrderListPost.quantity().get(i));
+				createOrderListPost.paperId().get(i), orderListId, 1);
 		}
 		return "redirect:/api/orders/createOrderTest/" + orderListId;
 	}
@@ -109,20 +101,6 @@ public class OrderClientController {
 		modelAndView.addObject("orderListId", orderListId);
 		modelAndView.addObject("wrappingList", wrappingPaperServiceImpl.getWrappingPaperByOrderListId(orderListId));
 		modelAndView.addObject("total", total);
-		modelAndView.setViewName("order/checkout2");
-		return modelAndView;
-	}
-
-	@GetMapping("/createOrderTest2/{order_list_id}")
-	public ModelAndView createOrder2(@PathVariable("order_list_id") Long orderListId) {
-		ModelAndView modelAndView = new ModelAndView();
-		Long paperTypeId = 3L;
-		GetBookOrderResponse bookOrder = bookOrderServiceImpl.getBookOrder(orderListId);
-		GetWrappingResponse getWrappingResponse = wrappingPaperServiceImpl.createWrappingPapers(paperTypeId, orderListId,
-			bookOrder.quantity());
-		modelAndView.addObject("orderList", bookOrderServiceImpl.getBookOrder(orderListId));
-		modelAndView.addObject("orderListId", orderListId);
-		modelAndView.addObject("wrapping", getWrappingResponse);
 		modelAndView.setViewName("order/checkout");
 		return modelAndView;
 	}

@@ -21178,6 +21178,7 @@ input[type=number] {
   text-align: center;
 }
 .product-card .product-header {
+  height: 80px; /* 추가 */
   padding: 0 15px;
 }
 .product-card .author {
@@ -28503,4 +28504,10 @@ p.form-messege.error {
 }
 .accordion .card .card-body {
   padding: 0 30px 30px;
+}
+
+.inline-text {
+  white-space: nowrap; /* 텍스트가 넘칠 경우 줄 바꿈 방지 */
+  width: 20px;
+  height: 10px;
 }

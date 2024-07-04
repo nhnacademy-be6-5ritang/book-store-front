@@ -787,24 +787,33 @@
                                     <!-- Head Row -->
                                     <thead>
                                     <tr>
-                                        <th class="pro-paper">포장지</th>
-                                        <th class="pro-title">포장지 이름</th>
-                                        <th class="pro-description">포장지 설명</th>
-                                        <th class="pro-price">포장지 가격</th>
+                                        <th class="pro-thumbnail">도서 이미지</th>
+                                        <th class="pro-title">도서 이름</th>
                                         <th class="pro-quantity">선택</th>
                                     </tr>
                                     </thead>
                                     <tbody>
+
                                     <!-- GetAllPaperResponse 객체의 papers 리스트 순회 -->
-                                    <tr th:each="response : ${getAllPaperResponse}">
-                                        <td class="pro-paper"><span th:text="${response.paperId()}"></span></td>
-                                        <td class="pro-title"><span th:text="${response.paperName()}"></span></td>
-                                        <td class="pro-description"><span th:text="${response.paperContent()}"></span>
-                                        </td>
-                                        <td class="pro-price"><span th:text="${response.paperPrice()}"></span></td>
-                                        <td class="pro-quantity">
-                                            <input type="checkbox" th:name="paperId" th:value="${response.paperId()}"/>
-                                            <input type="text" th:name="quantity">
+<!--                                    <tr th:each="response : ${getAllPaperResponse}">-->
+<!--                                        <td class="pro-paper"><span th:text="${response.paperId()}"></span></td>-->
+<!--                                        <td class="pro-title"><span th:text="${response.paperName()}"></span></td>-->
+<!--                                        <td class="pro-description"><span th:text="${response.paperContent()}"></span>-->
+<!--                                        </td>-->
+<!--                                        <td class="pro-price"><span th:text="${response.paperPrice()}"></span></td>-->
+<!--                                        <td class="pro-quantity">-->
+<!--                                            <input type="checkbox" th:name="paperId" th:value="${response.paperId()}"/>-->
+<!--                                            <input type="text" th:name="quantity">-->
+<!--                                        </td>-->
+                                    <tr th:each="i : ${#numbers.sequence(1, bookOrder.quantity())}">
+                                        <td class="pro-thumbnail"><a href="#"><img
+                                                src="/image/products/product-1.jpg" alt="Product"></a></td>
+                                        <td class="pro-title"><span
+                                                th:text="${bookOrder.getBookResponse().bookTitle()}"></span></td>
+                                        <td class="form-group">
+                                            <select class="form-control" id="paperId" name="paperId" required>
+                                                <option th:each="paper : ${getAllPaperResponse}" th:value="${paper.paperId()}" th:text="${paper.paperName() + '(' + paper.paperPrice() +')'}"></option>
+                                            </select>
                                         </td>
                                     </tr>
                                     </tbody>

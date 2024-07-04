@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateBookOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateBookOrderResponse;
@@ -16,7 +17,6 @@ import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllPaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
-import com.nhnacademy.bookstorefront.order.dto.response.GetBookResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetListWrappingResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetWrappingResponse;
@@ -24,9 +24,6 @@ import com.nhnacademy.bookstorefront.order.dto.response.UpdateBookOrderResponse;
 
 @FeignClient(name = "order-feign-service", url = "http://localhost:8090")
 public interface OrderServiceClient {
-
-	@GetMapping("/api/orders/books/{book_id}")
-	ResponseEntity<GetBookResponse> getBook(@PathVariable("book_id") Long bookId);
 
 	@GetMapping("/api/orders/books-orders/{order_list_id}")
 	ResponseEntity<GetBookOrderResponse> getBookOrder(@PathVariable("order_list_id") Long orderListId);
