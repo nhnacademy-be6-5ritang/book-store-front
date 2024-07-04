@@ -18,7 +18,7 @@
     <!--=================================
     Header Area
     ===================================== -->
-    <div th:insert="~{/global/header.html}"></div>
+    <div th:insert="~{global/header}"></div>
 
     <section class="breadcrumb-section">
         <h2 class="sr-only">Site Breadcrumb</h2>
@@ -58,7 +58,7 @@
                         </div>
                     </div>
                     <!-- 페이징 처리 시작-->
-                    <div th:insert="~{/global/paging.html}"></div>
+                    <div th:insert="~{global/paging.html}"></div>
                     <!-- 페이징 처리 끝-->
 
                 </div>
@@ -71,7 +71,7 @@
 <!--=================================
 Footer Area
 ===================================== -->
-<div th:insert="~{/global/footer.html}"></div>
+<div th:insert="~{global/footer}"></div>
 
 <!-- Use Minified Plugins Version For Fast Page Load -->
 <script th:src="@{/js/plugins.js}"></script>

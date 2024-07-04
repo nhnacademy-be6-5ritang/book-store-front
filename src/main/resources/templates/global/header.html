@@ -19,7 +19,7 @@
                     <div class="main-navigation flex-lg-right">
                         <div class="cart-widget">
                             <div class="login-block">
-                                <a th:href="@{/login}" class="font-weight-bold">로그인</a> <br>
+                                <a th:href="@{/auth/login}" class="font-weight-bold">로그인</a> <br>
                                 <span>or</span><a th:href="@{/login}">회원가입</a>
                             </div>
                             <div class="cart-block">
@@ -35,7 +35,8 @@
                                                 <img th:src="@{/image/products/cart-product-1.jpg}" alt="">
                                             </a>
                                             <div class="content">
-                                                <h3 class="title"><a th:href="@{/product-details}">Kodak PIXPRO Astro Zoom AZ421 16 MP</a></h3>
+                                                <h3 class="title"><a th:href="@{/product-details}">Kodak PIXPRO Astro
+                                                    Zoom AZ421 16 MP</a></h3>
                                                 <p class="price"><span class="qty">1 ×</span> £87.34</p>
                                                 <button class="cross-btn"><i class="fas fa-times"></i></button>
                                             </div>
@@ -43,8 +44,10 @@
                                     </div>
                                     <div class=" single-cart-block ">
                                         <div class="btn-block">
-                                            <a th:href="@{/api/users/me/cart}" class="btn">View Cart <i class="fas fa-chevron-right"></i></a>
-                                            <a th:href="@{/checkout}" class="btn btn--primary">Check Out <i class="fas fa-chevron-right"></i></a>
+                                            <a th:href="@{/api/users/me/cart}" class="btn">View Cart <i
+                                                    class="fas fa-chevron-right"></i></a>
+                                            <a th:href="@{/checkout}" class="btn btn--primary">Check Out <i
+                                                    class="fas fa-chevron-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -68,15 +71,19 @@
                         <div>
                             <a href="javascript:void(0)" class="category-trigger"><i class="fa fa-bars"></i>카테고리 목록</a>
                             <ul class="category-menu">
-                                <li th:each="category : ${categoriesDisplay}" th:if="${#strings.isEmpty(category.parentCategoryName)}" class="cat-item has-children">
+                                <li th:each="category : ${categoriesDisplay}"
+                                    th:if="${#strings.isEmpty(category.parentCategoryName)}"
+                                    class="cat-item has-children">
                                     <a th:href="@{#}" th:text="${category.categoryName}"></a>
                                     <ul class="sub-menu">
-                                        <li th:each="subCategory : ${categoriesDisplay}" th:if="${subCategory.parentCategoryName == category.categoryName}">
+                                        <li th:each="subCategory : ${categoriesDisplay}"
+                                            th:if="${subCategory.parentCategoryName == category.categoryName}">
                                             <a th:href="@{#}" th:text="${subCategory.categoryName}"></a>
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="cat-item"><a th:href="@{#}" class="js-expand-hidden-menu">More Categories</a></li>
+                                <li class="cat-item"><a th:href="@{#}" class="js-expand-hidden-menu">More Categories</a>
+                                </li>
                             </ul>
                         </div>
                     </nav>
@@ -112,18 +119,24 @@
                                             1</a></h3>
                                         <ul class="mega-single-block">
                                             <li><a th:href="@{product-details.html}">Product Details Page</a></li>
-                                            <li><a th:href="@{product-details-affiliate.html}">Product Details Affiliate</a></li>
-                                            <li><a th:href="@{product-details-group.html}">Product Details Group</a></li>
-                                            <li><a th:href="@{product-details-variable.html}">Product Details Variables</a></li>
+                                            <li><a th:href="@{product-details-affiliate.html}">Product Details
+                                                Affiliate</a></li>
+                                            <li><a th:href="@{product-details-group.html}">Product Details Group</a>
+                                            </li>
+                                            <li><a th:href="@{product-details-variable.html}">Product Details
+                                                Variables</a></li>
                                         </ul>
                                     </li>
                                     <li class="cus-col-25">
                                         <h3 class="menu-title"><a href="javascript:void(0)">Product Details 2</a></h3>
                                         <ul class="mega-single-block">
-                                            <li><a th:href="@{product-details-left-thumbnail.html}">left Thumbnail</a></li>
-                                            <li><a th:href="@{product-details-right-thumbnail.html}">Right Thumbnail</a></li>
+                                            <li><a th:href="@{product-details-left-thumbnail.html}">left Thumbnail</a>
+                                            </li>
+                                            <li><a th:href="@{product-details-right-thumbnail.html}">Right Thumbnail</a>
+                                            </li>
                                             <li><a th:href="@{product-details-left-gallery.html}">Left Gallery</a></li>
-                                            <li><a th:href="@{product-details-right-gallery.html}">Right Gallery</a></li>
+                                            <li><a th:href="@{product-details-right-gallery.html}">Right Gallery</a>
+                                            </li>
                                         </ul>
                                     </li>
                                 </ul>

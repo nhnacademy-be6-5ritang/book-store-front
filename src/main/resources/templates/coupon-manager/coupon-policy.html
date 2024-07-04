@@ -66,7 +66,7 @@
                     <tbody>
                     <!-- Loop through coupon policies and display each policy -->
                     <tr th:each="policy : ${policies}" id="policy-row">
-                        <td><input type="text" class="form-control couponPolicyId" th:value="${policy.couponPolicyId}"
+                        <td><input type="text" class="form-control couponPolicyId" th:value="${policy.id}"
                                    readonly></td>
                         <td><input type="text" class="form-control minOrderPrice" th:value="${policy.minOrderPrice}">
                         </td>
@@ -80,9 +80,9 @@
                         <td>
                             <div class="btn-group" role="group">
                                 <button class="btn btn-primary btn-sm editBtn"
-                                        th:data-policy-id="${policy.couponPolicyId}">Edit
+                                        th:data-policy-id="${policy.id}">Edit
                                 </button>
-                                <button class="btn btn-success btn-sm addBtn" th:data-policy-id="${policy.couponPolicyId}" data-toggle="modal" data-target="#addCouponModal"
+                                <button class="btn btn-success btn-sm addBtn" th:data-policy-id="${policy.id}" data-toggle="modal" data-target="#addCouponModal"
                                         th:if="${policy.type == 'sale' or policy.type == 'book' or policy.type == 'category'}">
                                     Add Coupon
                                 </button>
@@ -90,7 +90,46 @@
                         </td>
                     </tr>
                     </tbody>
+
                 </table>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center mt-4">
+                        <!-- 첫번째 페이지로 이동 -->
+                        <li class="page-item" th:classappend="${policies.first} ? 'disabled'">
+                            <a class="page-link" th:href="@{/coupons/policies(page=1, size=${policies.size})}" aria-label="First">
+                                <span aria-hidden="true">&laquo; First</span>
+                            </a>
+                        </li>
+
+
+                        <li class="page-item" th:classappend="${policies.first} ? 'disabled'">
+                            <a class="page-link" th:href="${policies.first} ? '#' : '/coupons/policies?page=' + ${policies.number}+'&size='+${policies.size}" aria-label="Previous">
+                                <span aria-hidden="true">&lsaquo; Previous</span>
+                            </a>
+                        </li>
+
+                        <!-- 페이지 번호 링크 -->
+                        <li class="page-item" th:each="page: ${#numbers.sequence(startPage, endPage)}"
+                            th:classappend="${page == policies.number + 1} ? 'active'">
+                            <a class="page-link" th:href="@{/coupons/policies(page=${page}, size=${policies.size})}" th:text="${page}"></a>
+                        </li>
+
+                        <!-- 다음 페이지로 이동  둘다 가능한 방법 -->
+                        <li class="page-item" th:classappend="${policies.last} ? 'disabled'">
+                            <a class="page-link" th:href="${policies.last} ? '#' : '/coupons/policies?page=' + (${policies.number} + 2)+'&size='+${policies.size}" aria-label="Next">
+                                <span aria-hidden="true">Next &rsaquo;</span>
+                            </a>
+                        </li>
+
+                        <!-- 마지막 페이지로 이동 -->
+                        <li class="page-item" th:classappend="${policies.last} ? 'disabled'">
+                            <a class="page-link" th:href="@{/coupons/policies(page=${policies.totalPages}, size=${policies.size})}" aria-label="Last">
+                                <span aria-hidden="true">Last &raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
             </div>
         </div>
     </main>
