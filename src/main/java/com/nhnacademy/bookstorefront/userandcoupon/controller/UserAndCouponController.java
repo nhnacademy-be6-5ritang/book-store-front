@@ -65,7 +65,8 @@ public class UserAndCouponController {
 
         if (!userAndCoupon.isEmpty()) {
             // 검색 결과가 있는 경우에만 페이지 번호 계산
-            startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+            int adjustedPage = Math.max(pageable.getPageNumber(), 1);
+            startPage = (((int)(Math.ceil((double)adjustedPage / blockLimit))) - 1) * blockLimit + 1;
             endPage = Math.min((startPage + blockLimit - 1), userAndCoupon.getTotalPages());
         }
 
@@ -85,13 +86,17 @@ public class UserAndCouponController {
         @PageableDefault(page = 1, size = 3)Pageable pageable,Model model) {
         Page<UserAndCouponResponseDTO> userAndCoupon = userAndCouponService.getAllUserAndCouponPaging(userId, type, pageable);
 
+
+
+
         int blockLimit = 3;
         int startPage = 1; // 시작 페이지 기본값 설정
         int endPage = 1; // 끝 페이지 기본값 설정
 
         if (!userAndCoupon.isEmpty()) {
             // 검색 결과가 있는 경우에만 페이지 번호 계산
-            startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+            int adjustedPage = Math.max(pageable.getPageNumber(), 1);
+            startPage = (((int)(Math.ceil((double)adjustedPage / blockLimit))) - 1) * blockLimit + 1;
             endPage = Math.min((startPage + blockLimit - 1), userAndCoupon.getTotalPages());
         }
 
