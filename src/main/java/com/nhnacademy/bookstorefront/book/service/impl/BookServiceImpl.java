@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
@@ -43,7 +44,12 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public UpdateBookResponse updateBookById(Long bookId, UpdateBookRequest request) {
-		return bookServiceClient.updateBookById(bookId, request);
+		return bookServiceClient.updateBookById(bookId, request).getBody();
+	}
+
+	@Override
+	public ResponseEntity<String> fetchAndSaveBooks(Long count) {
+		return bookServiceClient.fetchAndSaveBooks(count);
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.UpdateBookRequest;
@@ -137,6 +138,18 @@ public class BookController {
 		model.addAttribute("bookTags", tagService.getTagsByBookId(bookId));
 		model.addAttribute("book", bookService.getBook(bookId));
 		return "book/get-book-detail";
+	}
+
+	/**
+	 * 주어진 개수(count)에 따라 외부 API에서 도서 목록을 가져와서 저장하는 메서드입니다.
+	 *
+	 * @param count 가져올 도서 목록의 개수
+	 * @return 도서 목록을 가져와 저장한 후, 도서 목록 페이지로 리다이렉트합니다.
+	 */
+	@PostMapping("/fetch/book-lists")
+	String fetchAndSaveBooks(@RequestParam Long count){
+		bookService.fetchAndSaveBooks(count);
+		return "redirect:/api/books/page";
 	}
 
 	/**
