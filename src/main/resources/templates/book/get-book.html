@@ -109,7 +109,6 @@
                             <li>지급 포인트: <span class="list-value"> 200</span></li>
                             <li>상태: <span class="list-value" th:text="${book.bookStatusName}"></span></li>
                             <li>재고: <span class="list-value" th:text="${book.bookQuantity} + '권'"></span></li>
-                            <li>포장여부: <span class="list-value" th:text="${book.bookPackaging}"></span></li>
                         </ul>
 
                         <div>할인율: <span class="price-discount" th:text="${book.bookSalePercent + '%'}">할인율 정보 없음</span></div>
@@ -137,17 +136,10 @@
                                 <a th:href="@{/}">리뷰 쓰기</a>
                             </div>
                         </div>
-
                         <div class="add-to-cart-row">
-                            <div class="count-input-block">
-                                <span class="widget-label">수량</span>
-                                <label>
-                                    <input type="number" class="form-control text-center" value="1">
-                                </label>
-                            </div>
                             <div class="add-cart-btn">
                                 <a th:href="@{/}" class="btn btn-outlined--primary"><span class="plus-icon">+</span>카트에 담기</a>
-                                <a th:href="@{/}" class="btn btn-primary"><span class="plus-icon">+</span>주문하기</a>
+                                <a th:href="@{/api/orders/createBookOrderTest/{book_id}(book_id=${book.bookId()})}" class="btn btn-primary"><span class="plus-icon">+</span>주문하기</a>
                             </div>
                         </div>
                         <div class="compare-wishlist-row">

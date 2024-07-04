@@ -18,8 +18,6 @@ public record GetBookDetailResponse(
 	String bookStatusName,
 	String bookTitle,
 	String bookDescription,
-	String bookIndex,
-	boolean bookPackaging,
 	int bookQuantity,
 	@DateTimeFormat(pattern = "yyyy-MM-dd") Date bookPublishDate,
 	String bookIsbn,

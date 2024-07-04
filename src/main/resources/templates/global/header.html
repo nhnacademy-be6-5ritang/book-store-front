@@ -71,19 +71,15 @@
                         <div>
                             <a href="javascript:void(0)" class="category-trigger"><i class="fa fa-bars"></i>카테고리 목록</a>
                             <ul class="category-menu">
-                                <li th:each="category : ${categoriesDisplay}"
-                                    th:if="${#strings.isEmpty(category.parentCategoryName)}"
-                                    class="cat-item has-children">
+                                <li th:each="category : ${categoriesDisplay}" th:if="${#strings.isEmpty(category.parentCategoryName)}" class="cat-item has-children">
                                     <a th:href="@{#}" th:text="${category.categoryName}"></a>
                                     <ul class="sub-menu">
-                                        <li th:each="subCategory : ${categoriesDisplay}"
-                                            th:if="${subCategory.parentCategoryName == category.categoryName}">
+                                        <li th:each="subCategory : ${categoriesDisplay}" th:if="${subCategory.parentCategoryName == category.categoryName}">
                                             <a th:href="@{#}" th:text="${subCategory.categoryName}"></a>
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="cat-item"><a th:href="@{#}" class="js-expand-hidden-menu">More Categories</a>
-                                </li>
+                                <li class="cat-item"><a th:href="@{#}" class="js-expand-hidden-menu">More Categories</a></li>
                             </ul>
                         </div>
                     </nav>
@@ -119,24 +115,18 @@
                                             1</a></h3>
                                         <ul class="mega-single-block">
                                             <li><a th:href="@{product-details.html}">Product Details Page</a></li>
-                                            <li><a th:href="@{product-details-affiliate.html}">Product Details
-                                                Affiliate</a></li>
-                                            <li><a th:href="@{product-details-group.html}">Product Details Group</a>
-                                            </li>
-                                            <li><a th:href="@{product-details-variable.html}">Product Details
-                                                Variables</a></li>
+                                            <li><a th:href="@{product-details-affiliate.html}">Product Details Affiliate</a></li>
+                                            <li><a th:href="@{product-details-group.html}">Product Details Group</a></li>
+                                            <li><a th:href="@{product-details-variable.html}">Product Details Variables</a></li>
                                         </ul>
                                     </li>
                                     <li class="cus-col-25">
                                         <h3 class="menu-title"><a href="javascript:void(0)">Product Details 2</a></h3>
                                         <ul class="mega-single-block">
-                                            <li><a th:href="@{product-details-left-thumbnail.html}">left Thumbnail</a>
-                                            </li>
-                                            <li><a th:href="@{product-details-right-thumbnail.html}">Right Thumbnail</a>
-                                            </li>
+                                            <li><a th:href="@{product-details-left-thumbnail.html}">left Thumbnail</a></li>
+                                            <li><a th:href="@{product-details-right-thumbnail.html}">Right Thumbnail</a></li>
                                             <li><a th:href="@{product-details-left-gallery.html}">Left Gallery</a></li>
-                                            <li><a th:href="@{product-details-right-gallery.html}">Right Gallery</a>
-                                            </li>
+                                            <li><a th:href="@{product-details-right-gallery.html}">Right Gallery</a></li>
                                         </ul>
                                     </li>
                                 </ul>

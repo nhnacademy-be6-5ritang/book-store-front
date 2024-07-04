@@ -103,6 +103,11 @@
             <version>11.8</version>
         </dependency>
 
+        <!-- Spring Boot Starter Cache for caching support -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
 
     </dependencies>
 

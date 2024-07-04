@@ -120,31 +120,12 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="bookIndex">도서 목차</label>
-                                                        <input type="text" class="form-control" id="bookIndex" th:field="*{bookIndex}">
-                                                    </div>
-                                                    <div class="form-group">
                                                         <label for="bookDescription">도서 설명</label>
                                                         <textarea class="form-control" id="bookDescription" th:field="*{bookDescription}" required></textarea>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="bookQuantity">재고 수량</label>
                                                         <input type="number" class="form-control" id="bookQuantity" th:field="*{bookQuantity}" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>포장 여부</label>
-                                                        <div>
-                                                            <div class="form-check form-check-inline">
-                                                                <input class="form-check-input" type="radio" id="bookPackagingYes" name="bookPackaging" value="true"
-                                                                       th:checked="${book.bookPackaging == true}">
-                                                                <label class="form-check-label" for="bookPackagingYes">예</label>
-                                                            </div>
-                                                            <div class="form-check form-check-inline">
-                                                                <input class="form-check-input" type="radio" id="bookPackagingNo" name="bookPackaging" value="false"
-                                                                       th:checked="${book.bookPackaging == false}">
-                                                                <label class="form-check-label" for="bookPackagingNo">아니오</label>
-                                                            </div>
-                                                        </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="bookIsbn">도서 ISBN</label>
