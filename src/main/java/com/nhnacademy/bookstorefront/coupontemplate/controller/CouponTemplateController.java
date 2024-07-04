@@ -1,7 +1,5 @@
 package com.nhnacademy.bookstorefront.coupontemplate.controller;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -35,9 +33,24 @@ public class CouponTemplateController {
 
 
 	@GetMapping
-	public String getAllCouponTemplates(Model model) {
-		List<CouponTemplateResponseDTO> coupons = couponTemplateService.getAllCouponTemplates();
+	public String getAllCouponTemplates(@PageableDefault(page=1, size = 3)Pageable pageable, Model model) {
+		Page<CouponTemplateResponseDTO> coupons = couponTemplateService.getAllCouponTemplatesByManagerPaging(pageable);
+		int blockLimit = 3;
+		int startPage = 1;
+		int endPage = 1;
+
+
+		if (!coupons.isEmpty()) {
+			// 검색 결과가 있는 경우에만 페이지 번호 계산
+			startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+			endPage = Math.min((startPage + blockLimit - 1), coupons.getTotalPages());
+		}
+
 		model.addAttribute("coupons", coupons);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
+
+
 		return "coupon-manager/coupon-template";
 	}
 
@@ -46,10 +59,10 @@ public class CouponTemplateController {
 
 	// 쿠폰발급페이지 페이징처리
 	@GetMapping("/issue")
-	public String getAllCouponTemplatesIssuePaging(@PageableDefault(page=1)Pageable pageable,Model model) {
-		Page<CouponTemplateResponseDTO> couponTemplates = couponTemplateService.getAllCouponTemplatesPaging(pageable);
+	public String getAllCouponTemplatesIssuePaging(@PageableDefault(page=1, size = 3)Pageable pageable,Model model) {
+		Page<CouponTemplateResponseDTO> couponTemplates = couponTemplateService.getAllCouponTemplatesByUserPaging(pageable);
 		int blockLimit = 3;
-		int startPage = 1; // 1 4 7 10 ~~
+		int startPage = 1;
 		int endPage = 1;
 
 

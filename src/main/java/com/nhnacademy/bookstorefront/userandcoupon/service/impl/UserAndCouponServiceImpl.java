@@ -20,11 +20,12 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 	}
 
 	@Override
-	public UserAndCouponResponseDTO createUserAndCoupon(Long couponTemplateId) {
-		Long userId=1L;
+	public void createUserAndCoupon(Long couponTemplateId) {
+		Long userId=2L;
 		UserAndCouponRequestCreateDTO requestDTO = new UserAndCouponRequestCreateDTO(userId, false);
 
-		return userAndCouponFeignClient.createUserAndCoupon(couponTemplateId ,requestDTO).getBody();
+		 userAndCouponFeignClient.createUserAndCoupon(couponTemplateId ,requestDTO);
+
 	}
 
 	@Override
@@ -33,20 +34,17 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 	}
 
 
-	// @Override
-	// public Page<UserAndCouponResponseDTO> getAllUserAndCouponPaging(Pageable pageable) {
-	// 	return userAndCouponFeignClient.getAllUserAndCouponPaging(pageable).getBody();
-	// }
+
 
 	@Override
 	public Page<UserAndCouponResponseDTO> getAllUserAndCouponPaging(Long userId, String type, Pageable pageable) {
-		return userAndCouponFeignClient.getAllUserAndCouponPaging(userId, type, pageable).getBody();
+		return userAndCouponFeignClient.getAllUsersAndCouponsByManagerPaging(userId, type, pageable).getBody();
 	}
 
 
 	@Override
 	public Page<UserAndCouponResponseDTO> getUserAndCouponByIdPaging(Long userId, Pageable pageable) {
-		return userAndCouponFeignClient.getUserAndCouponByIdPaging(userId, pageable).getBody();
+		return userAndCouponFeignClient.getAllUserAndCouponsByUserPaging(userId, pageable).getBody();
 
 	}
 
