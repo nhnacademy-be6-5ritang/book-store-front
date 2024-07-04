@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.nhnacademy.bookstorefront.book.dto.request.BookUpdateRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.UpdateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.response.CreateBookResponse;
@@ -45,11 +44,6 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public UpdateBookResponse updateBookById(Long bookId, UpdateBookRequest request) {
 		return bookServiceClient.updateBookById(bookId, request);
-	}
-
-	@Override
-	public GetBookDetailResponse updateBookByIsbn(String isbn, BookUpdateRequest request) {
-		return bookServiceClient.updateBookByIsbn(isbn, request);
 	}
 
 	@Override

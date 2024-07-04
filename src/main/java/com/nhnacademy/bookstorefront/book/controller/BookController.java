@@ -8,13 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.nhnacademy.bookstorefront.book.dto.request.BookUpdateRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.UpdateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
@@ -164,18 +162,6 @@ public class BookController {
 	public String updateBookById(@PathVariable Long bookId, @ModelAttribute UpdateBookRequest request) {
 		bookService.updateBookById(bookId, request);
 		return "redirect:/api/books/detail/" + bookId;
-	}
-
-	/**
-	 * 주어진 ISBN에 해당하는 책 정보를 일부 수정합니다.
-	 *
-	 * @param isbn    책 ISBN
-	 * @param request 책 일부 정보를 포함한 DTO
-	 * @return 수정된 책 정보
-	 */
-	@PatchMapping("/{isbn}")
-	public GetBookDetailResponse updateBookByIsbn(@PathVariable String isbn, @ModelAttribute BookUpdateRequest request) {
-		return bookService.updateBookByIsbn(isbn, request);
 	}
 
 	/**

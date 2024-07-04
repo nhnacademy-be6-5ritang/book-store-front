@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.nhnacademy.bookstorefront.book.dto.request.BookUpdateRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.UpdateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.response.CreateBookResponse;
@@ -59,15 +58,6 @@ public interface BookService {
 	 * @return 업데이트된 책의 응답 DTO
 	 */
 	UpdateBookResponse updateBookById(Long bookId, UpdateBookRequest request);
-
-	/**
-	 * 주어진 ISBN에 해당하는 책을 업데이트합니다.
-	 *
-	 * @param isbn    업데이트할 책의 ISBN
-	 * @param request 업데이트할 책 정보 DTO
-	 * @return 업데이트된 책의 상세 정보 DTO
-	 */
-	GetBookDetailResponse updateBookByIsbn(String isbn, BookUpdateRequest request);
 
 	/**
 	 * 주어진 책 ID에 해당하는 책을 삭제합니다.
