@@ -65,10 +65,13 @@
                 <ul class="pagination justify-content-center mt-4">
                     <!-- 첫번째 페이지로 이동 -->
                     <li class="page-item" th:classappend="${coupons.first} ? 'disabled'">
-                        <a class="page-link" th:href="@{/coupons/(page=1, size=${coupons.size})}" aria-label="First">
+                        <a class="page-link" th:href="@{/coupons(page=1, size=${coupons.size})}" aria-label="First">
                             <span aria-hidden="true">&laquo; First</span>
                         </a>
                     </li>
+
+
+
 
 
                     <li class="page-item" th:classappend="${coupons.first} ? 'disabled'">
