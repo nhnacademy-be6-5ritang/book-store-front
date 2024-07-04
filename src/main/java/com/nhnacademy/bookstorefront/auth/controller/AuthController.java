@@ -5,6 +5,7 @@ import java.util.Objects;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -66,8 +67,8 @@ public class AuthController {
 	}
 
 	@PostMapping("/logout")
-	public String logout(@RequestParam String accessToken, HttpServletResponse response) {
-		authService.logout(accessToken);
+	public String logout(@CookieValue("Refresh-Token") String refreshToken, HttpServletResponse response) {
+		authService.logout(refreshToken);
 
 		Cookie revokedRefreshTokenCookie = new Cookie("Refresh-Token", "");
 		revokedRefreshTokenCookie.setHttpOnly(true);
@@ -75,11 +76,6 @@ public class AuthController {
 		revokedRefreshTokenCookie.setPath("/");
 		response.addCookie(revokedRefreshTokenCookie);
 
-		return "redirect:/auth/remove-token";
-	}
-
-	@GetMapping("/remove-token")
-	public String removeToken() {
-		return "auth/remove-token";
+		return "redirect:/api/books/main";
 	}
 }
