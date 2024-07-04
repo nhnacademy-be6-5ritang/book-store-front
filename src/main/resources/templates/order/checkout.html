@@ -836,6 +836,7 @@
                                 </div>
                             </div>
 
+
                             <form th:action="@{/api/orders/complete/{order_list_id}(order_list_id=${orderListId})}"
                                   method="post">
                                 <div class="col-lg-12 mb--20">
@@ -886,14 +887,19 @@
                                                                 th:text="${orderList.quantity() * orderList.getBookResponse().bookPrice()}"></span>
                                                         </li>
 
+                                                    </ul>
+                                                    <ul th:each=" wrapping : ${wrappingList.wrapping()}">
                                                         <li><strong>포장지</strong> <span
                                                                 th:text="${wrapping.name()}"></span>
+                                                        </li>
+
+                                                        <li><strong>수량</strong> <span
+                                                                th:text="${wrapping.quantity()}"></span>
                                                         </li>
 
                                                         <li><strong>포장비</strong> <span
                                                                 th:text="${wrapping.price()}"></span>
                                                         </li>
-
                                                     </ul>
 
                                                     <!--                           포인트 , 쿠폰 정보 가져와서 사용하게 바꿀 예정                         -->
@@ -903,10 +909,10 @@
                                                     <input type="hidden" name="couponSale" value="1000">
 
                                                     <h4>Grand Total <span
-                                                            th:text="${orderList.quantity() * orderList.getBookResponse().bookPrice() - 20 - wrapping.price()}"></span>
+                                                            th:text="${orderList.quantity() * orderList.getBookResponse().bookPrice() - 20 - total}"></span>
                                                     </h4>
                                                     <input type="hidden" name="orderPrice"
-                                                           th:value="${orderList.quantity() * orderList.getBookResponse().bookPrice() - 20 - wrapping.price()}">
+                                                           th:value="${orderList.quantity() * orderList.getBookResponse().bookPrice() - 20 - total}">
                                                     <button class="place-order w-100" type="submit">Place order</button>
                                                 </div>
                                             </div>

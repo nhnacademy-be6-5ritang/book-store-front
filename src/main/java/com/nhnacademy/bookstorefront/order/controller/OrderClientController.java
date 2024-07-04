@@ -54,18 +54,17 @@ public class OrderClientController {
 	public String createBookOrderTest(@ModelAttribute CreateBookOrderRequest request) {
 		CreateBookOrderResponse createBookOrderResponse = bookOrderServiceImpl.createBookOrder(request);
 		GetBookOrderResponse bookOrder = bookOrderServiceImpl.getBookOrder(createBookOrderResponse.orderListId());
-		if (bookOrder.getBookResponse().bookPackaging()) {
-			return "redirect:/api/orders/createOrderTestPaper/" + createBookOrderResponse.orderListId();
-		}
-		return "redirect:/api/orders/createOrderTest2/" + createBookOrderResponse.orderListId();
+		return "redirect:/api/orders/createOrderTestPaper/" + createBookOrderResponse.orderListId();
 	}
 
 	@GetMapping("/createOrderTestPaper/{order_list_id}")
 	public ModelAndView createOrderTestPaperGet(@PathVariable("order_list_id") Long orderListId) {
 		ModelAndView modelAndView = new ModelAndView("order/selectPaper");
 		GetAllPaperResponse getAllPaperResponse = paperTypeServiceImpl.getAllPaperTypes();
+		GetBookOrderResponse bookOrder = bookOrderServiceImpl.getBookOrder(orderListId);
 		modelAndView.addObject("getAllPaperResponse", getAllPaperResponse.papers());
 		modelAndView.addObject("orderListId", orderListId);
+		modelAndView.addObject("bookOrder", bookOrder);
 		return modelAndView;
 	}
 
@@ -79,17 +78,10 @@ public class OrderClientController {
 			return "redirect:/api/orders/createOrderTest2/" + orderListId;
 		}
 
-		int count = bookOrder.quantity();
-		for (int i = 0; i < createOrderListPost.paperId().size(); i++) {
-			count -= createOrderListPost.quantity().get(i);
-		}
-		if (count < 0) {
-			return "redirect:/api/orders/createOrderTestPaper/" + orderListId;
-		}
 		// 수량이 허용된 한도를 초과하지 않은 경우 wrapping paper 생성
 		for (int i = 0; i < createOrderListPost.paperId().size(); i++) {
 			wrappingPaperServiceImpl.createWrappingPapers(
-				createOrderListPost.paperId().get(i), orderListId, createOrderListPost.quantity().get(i));
+				createOrderListPost.paperId().get(i), orderListId, 1);
 		}
 		return "redirect:/api/orders/createOrderTest/" + orderListId;
 	}
@@ -109,20 +101,6 @@ public class OrderClientController {
 		modelAndView.addObject("orderListId", orderListId);
 		modelAndView.addObject("wrappingList", wrappingPaperServiceImpl.getWrappingPaperByOrderListId(orderListId));
 		modelAndView.addObject("total", total);
-		modelAndView.setViewName("order/checkout2");
-		return modelAndView;
-	}
-
-	@GetMapping("/createOrderTest2/{order_list_id}")
-	public ModelAndView createOrder2(@PathVariable("order_list_id") Long orderListId) {
-		ModelAndView modelAndView = new ModelAndView();
-		Long paperTypeId = 3L;
-		GetBookOrderResponse bookOrder = bookOrderServiceImpl.getBookOrder(orderListId);
-		GetWrappingResponse getWrappingResponse = wrappingPaperServiceImpl.createWrappingPapers(paperTypeId, orderListId,
-			bookOrder.quantity());
-		modelAndView.addObject("orderList", bookOrderServiceImpl.getBookOrder(orderListId));
-		modelAndView.addObject("orderListId", orderListId);
-		modelAndView.addObject("wrapping", getWrappingResponse);
 		modelAndView.setViewName("order/checkout");
 		return modelAndView;
 	}

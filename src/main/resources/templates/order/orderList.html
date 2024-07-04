@@ -791,7 +791,6 @@
                                         <th class="pro-description">도서 설명</th>
                                         <th class="pro-price">도서 가격</th>
                                         <th class="pro-quantity">Quantity</th>
-                                        <th class="pro-packaging">포장 여부</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -813,9 +812,6 @@
                                                            value="1">
                                                 </div>
                                             </div>
-                                        </td>
-                                        <td class="pro-packaging">
-                                            <span th:text="${book.bookPackaging() ? '가능' : '불가능'}"></span>
                                         </td>
                                     </tr>
 
