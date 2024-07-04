@@ -807,7 +807,7 @@
                         </tr>
                         </tbody>
                     </table>
-                <a th:if="${paymentInfo.status() != 'CANCELED' && orderStatus.equals('대기')}"
+                <a th:if="${paymentInfo.status() != 'CANCELED' || orderStatus.equals('대기')}"
                    th:href="@{/api/payments/cancel/{order_info_id}(order_info_id=${paymentInfo.orderId()})}"
                    class="btn btn-primary">결제 취소</a>
                 <a th:if="${paymentInfo.status() == 'READY' || paymentInfo.status() == 'EXPIRED' }"

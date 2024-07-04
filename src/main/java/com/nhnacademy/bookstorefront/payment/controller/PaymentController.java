@@ -112,6 +112,7 @@ public class PaymentController {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("paymentInfo", paymentServiceImpl.transactions(responseBody));
+		modelAndView.addObject("orderStatus", paymentServiceImpl.findByOrder(orderInfoId).status());
 		modelAndView.setViewName("toss/transactions");
 		return modelAndView;
 	}
