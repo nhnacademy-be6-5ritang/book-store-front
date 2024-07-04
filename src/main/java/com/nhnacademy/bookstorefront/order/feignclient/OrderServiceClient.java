@@ -25,9 +25,6 @@ import com.nhnacademy.bookstorefront.order.dto.response.UpdateBookOrderResponse;
 @FeignClient(name = "order-feign-service", url = "http://localhost:8090")
 public interface OrderServiceClient {
 
-	@GetMapping("/api/orders/books/{book_id}")
-	ResponseEntity<GetBookDetailResponse> getBook(@PathVariable("book_id") Long bookId);
-
 	@GetMapping("/api/orders/books-orders/{order_list_id}")
 	ResponseEntity<GetBookOrderResponse> getBookOrder(@PathVariable("order_list_id") Long orderListId);
 
