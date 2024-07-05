@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('logout')?.addEventListener('click', event => {
         event.preventDefault();
 
+        console.log("로그아웃 버튼 클릭");
+
         fetch('/auth/logout', {
             method: 'POST',
             headers: {

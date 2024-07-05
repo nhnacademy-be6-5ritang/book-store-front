@@ -31,7 +31,7 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-	public void logout(String refreshToken) {
-		authClient.requestLogout(refreshToken);
+	public void logout() {
+		authClient.requestLogout();
 	}
 }
