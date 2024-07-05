@@ -1,5 +1,6 @@
 package com.nhnacademy.bookstorefront.user.service.impl;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.user.feignclient.UserClient;
@@ -31,4 +32,8 @@ public class UserServiceImpl implements UserService {
 	// public void logout(String refreshToken) {
 	// 	authClient.requestLogout(refreshToken);
 	// }
+	@Override
+	public ResponseEntity<Void> dormantUser() {
+		return userClient.dormantUser();
+	}
 }

@@ -1,5 +1,7 @@
 package com.nhnacademy.bookstorefront.user.service;
 
+import org.springframework.http.ResponseEntity;
+
 public interface UserService {
 	// ResponseEntity<Void> login(LoginRequest loginRequest);
 	//
@@ -8,4 +10,5 @@ public interface UserService {
 	// void signUp(SignUpRequest signUpRequest);
 	//
 	// ResponseEntity<Boolean> isEmailExist(String email);
+	ResponseEntity<Void> dormantUser();
 }
