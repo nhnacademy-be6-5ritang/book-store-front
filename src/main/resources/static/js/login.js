@@ -20,9 +20,12 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             credentials: 'include',
         }).then(response => {
-            if (response.redirected) {
+            console.log("then() 시작")
+            if (response.ok) {
+                console.log("if() 시작")
                 localStorage.removeItem('accessToken');
-                window.location.href = response.url;
+                console.log("removeItem 끝")
+                window.location.href = '/';
             }
         }).catch(error => {
             console.error(error);
