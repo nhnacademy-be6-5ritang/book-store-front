@@ -9,7 +9,8 @@ public record UpdateBookOrderResponse(
 	BigDecimal totalPrice,
 	String bookTitle,
 	BigDecimal bookPrice,
-	Integer quantity
+	Integer quantity,
+	Long bookId
 ) {
 
 }
