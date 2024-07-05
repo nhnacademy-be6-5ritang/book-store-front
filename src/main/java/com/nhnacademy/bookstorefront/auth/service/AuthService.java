@@ -8,7 +8,7 @@ import com.nhnacademy.bookstorefront.auth.dto.request.SignUpRequest;
 public interface AuthService {
 	ResponseEntity<Void> login(LoginRequest loginRequest);
 
-	void logout(String refreshToken);
+	void logout();
 
 	void signUp(SignUpRequest signUpRequest);
 
