@@ -23,5 +23,6 @@ public record GetBookDetailResponse(
 	String bookIsbn,
 	BigDecimal bookPrice,
 	BigDecimal bookSalePrice,
-	BigDecimal bookSalePercent) {
+	BigDecimal bookSalePercent,
+	String bookImageUrl) {
 }

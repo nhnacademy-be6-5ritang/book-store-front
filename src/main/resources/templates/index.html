@@ -73,10 +73,10 @@
                                                 <div class="product-card--body">
                                                     <div class="card-image">
                                                         <!-- 이미지 경로 설정 -->
-                                                        <img th:src="@{/image/products/product-1.jpg}" th:alt="${book.bookTitle}" th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
+                                                        <img th:src="${book.bookImageUrl}" th:alt="${book.bookTitle}" th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
                                                         <div class="hover-contents">
                                                             <a th:href="@{/api/books/{bookId}(bookId=${book.bookId})}" class="hover-image">
-                                                                <img th:src="@{/image/products/product-1.jpg}" th:alt="${book.bookTitle}">
+                                                                <img th:src="${book.bookImageUrl}" th:alt="${book.bookTitle}">
                                                             </a>
                                                             <div class="hover-btns">
                                                                 <a th:href="@{/api/users/me/cart/book-cart}" class="single-btn">

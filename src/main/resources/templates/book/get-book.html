@@ -47,48 +47,7 @@
                          "asNavFor": ".product-slider-nav"
                          }'>
                         <div class="single-slide">
-                            <img th:src="@{/image/products/product-details-1.jpg}" alt="">
-                        </div>
-                        <div class="single-slide">
-                            <img th:src="@{/image/products/product-details-2.jpg}" alt="">
-                        </div>
-                        <div class="single-slide">
-                            <img th:src="@{/image/products/product-details-3.jpg}" alt="">
-                        </div>
-                        <div class="single-slide">
-                            <img th:src="@{/image/products/product-details-4.jpg}" alt="">
-                        </div>
-                        <div class="single-slide">
-                            <img th:src="@{/image/products/product-details-5.jpg}" alt="">
-                        </div>
-                    </div>
-                    <!-- Product Details Slider Nav -->
-                    <div class="mt--30 product-slider-nav sb-slick-slider arrow-type-two"
-                         data-slick-setting='{
-                         "infinite":true,
-                         "autoplay": true,
-                         "autoplaySpeed": 8000,
-                         "slidesToShow": 4,
-                         "arrows": true,
-                         "prevArrow":{"buttonClass": "slick-prev","iconClass":"fa fa-chevron-left"},
-                         "nextArrow":{"buttonClass": "slick-next","iconClass":"fa fa-chevron-right"},
-                         "asNavFor": ".product-details-slider",
-                         "focusOnSelect": true
-                         }'>
-                        <div class="single-slide">
-                            <img th:src="@{/image/products/product-details-1.jpg}" alt="">
-                        </div>
-                        <div class="single-slide">
-                            <img th:src="@{/image/products/product-details-2.jpg}" alt="">
-                        </div>
-                        <div class="single-slide">
-                            <img th:src="@{/image/products/product-details-3.jpg}" alt="">
-                        </div>
-                        <div class="single-slide">
-                            <img th:src="@{/image/products/product-details-4.jpg}" alt="">
-                        </div>
-                        <div class="single-slide">
-                            <img th:src="@{/image/products/product-details-5.jpg}" alt="">
+                            <img th:src="${book.bookImageUrl}" alt="">
                         </div>
                     </div>
                 </div>
