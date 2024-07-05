@@ -18,14 +18,22 @@ document.getElementById('sign-up-form').addEventListener('submit', (event) => {
 const checkEmailExistence = async () => {
     const email = document.getElementById('email').value
     console.log(email);
-    const response = await fetch(`/auth/check-email?email=${encodeURI(email)}`);
-    if (response.ok) {
-        const emailExists = await response.json();
-        if (emailExists) {
-            alert('이미 사용 중인 이메일입니다.');
-            document.getElementById('email').value = '';
+    try {
+        const response = await fetch(`/auth/check-email?email=${encodeURI(email)}`);
+        if (response.ok) {
+            const emailExists = await response.json();
+            if (emailExists) {
+                alert('이미 사용 중인 이메일입니다.');
+                document.getElementById('email').value = '';
+            } else {
+                alert(`${email}로 인증 번호를 전송했습니다.`);
+            }
         } else {
-            alert(`${email}로 인증 번호를 전송했습니다.`);
+            console.error('이메일 중복 체크 응답 오류:', response.status, response.statusText);
+            alert('이메일 중복 체크 중 오류가 발생했습니다.');
         }
+    } catch (error) {
+        console.error('이메일 중복 체크 중 오류 발생', error);
+        alert('이메일 중복 체크; 서버 통신 중 오류 발생');
     }
 }
