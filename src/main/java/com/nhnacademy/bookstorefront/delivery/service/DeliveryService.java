@@ -7,6 +7,7 @@ import com.nhnacademy.bookstorefront.delivery.dto.request.GetDeliveriesRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.request.UpdateDeliveryRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.response.CreateDeliveryResponse;
 import com.nhnacademy.bookstorefront.delivery.dto.response.GetDeliveryResponse;
+import com.nhnacademy.bookstorefront.delivery.dto.response.UpdateDeliveryAddOrderPolicyResponse;
 import com.nhnacademy.bookstorefront.delivery.dto.response.UpdateDeliveryResponse;
 
 public interface DeliveryService {
@@ -19,4 +20,8 @@ public interface DeliveryService {
 	UpdateDeliveryResponse updateDelivery(Long deliveryId, UpdateDeliveryRequest request);
 
 	void deleteDelivery(Long deliveryId);
+
+	UpdateDeliveryAddOrderPolicyResponse updateDeliveryAddOrder(Long deliveryId, Long orderId);
+
+	GetDeliveryResponse getDeliveryByOrderId(Long orderId);
 }

@@ -1,5 +1,6 @@
 package com.nhnacademy.bookstorefront.deliverypolicy.feignclient;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.cloud.openfeign.FeignClient;
@@ -37,4 +38,7 @@ public interface DeliveryPolicyServiceClient {
 
 	@DeleteMapping("/{deliveryPolicyId}")
 	ResponseEntity<Void> deleteDeliveryPolicy(@PathVariable Long deliveryPolicyId);
+
+	@PutMapping("/{deliveryId}/{price}/addPolicies")
+	ResponseEntity<GetDeliveryPolicyResponse> addPolicy(@PathVariable Long deliveryId, @PathVariable BigDecimal price);
 }

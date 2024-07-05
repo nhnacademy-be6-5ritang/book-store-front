@@ -16,6 +16,7 @@ import com.nhnacademy.bookstorefront.delivery.dto.request.GetDeliveriesRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.request.UpdateDeliveryRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.response.CreateDeliveryResponse;
 import com.nhnacademy.bookstorefront.delivery.dto.response.GetDeliveryResponse;
+import com.nhnacademy.bookstorefront.delivery.dto.response.UpdateDeliveryAddOrderPolicyResponse;
 import com.nhnacademy.bookstorefront.delivery.dto.response.UpdateDeliveryResponse;
 
 @FeignClient(name = "delivery-feign-client", url = "http://localhost:8090/api/deliveries")
@@ -39,4 +40,9 @@ public interface DeliveryServiceClient {
 	@DeleteMapping("/{deliveryId}")
 	ResponseEntity<Void> deleteDelivery(@PathVariable Long deliveryId);
 
+	@PutMapping("/{deliveryId}/{orderId}/orders")
+	ResponseEntity<UpdateDeliveryAddOrderPolicyResponse> addOrder(@PathVariable Long deliveryId, @PathVariable Long orderId);
+
+	@GetMapping("/{orderId}/orders")
+	ResponseEntity<GetDeliveryResponse> getDeliveryByOrder(@PathVariable Long orderId);
 }

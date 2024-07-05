@@ -12,6 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
+import com.nhnacademy.bookstorefront.delivery.service.impl.DeliveryServiceImpl;
+import com.nhnacademy.bookstorefront.deliverypolicy.service.impl.DeliveryPolicyServiceImpl;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateBookOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderListPost;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
@@ -37,14 +39,17 @@ import lombok.RequiredArgsConstructor;
 public class OrderClientController {
 	private final BookOrderServiceImpl bookOrderServiceImpl;
 	private final OrderServiceImpl orderServiceImpl;
-	private final BookServiceImpl bookService;
+
 	private final PaperTypeServiceImpl paperTypeServiceImpl;
 	private final WrappingPaperServiceImpl wrappingPaperServiceImpl;
+	private final DeliveryServiceImpl deliveryServiceImpl;
+	private final BookServiceImpl bookServiceImpl;
+	private final DeliveryPolicyServiceImpl deliveryPolicyServiceImpl;
 
 	@GetMapping("/createBookOrderTest/{book_id}")
 	public ModelAndView createBookOrder(@PathVariable("book_id") Long bookId) {
 		ModelAndView modelAndView = new ModelAndView("order/orderList");
-		GetBookDetailResponse book = bookService.getBook(bookId);
+		GetBookDetailResponse book = bookServiceImpl.getBook(bookId);
 		modelAndView.addObject("book", book);
 		modelAndView.addObject("bookId", bookId);
 		return modelAndView;
@@ -53,7 +58,6 @@ public class OrderClientController {
 	@PostMapping("/createBookOrderTest")
 	public String createBookOrderTest(@ModelAttribute CreateBookOrderRequest request) {
 		CreateBookOrderResponse createBookOrderResponse = bookOrderServiceImpl.createBookOrder(request);
-		GetBookOrderResponse bookOrder = bookOrderServiceImpl.getBookOrder(createBookOrderResponse.orderListId());
 		return "redirect:/api/orders/createOrderTestPaper/" + createBookOrderResponse.orderListId();
 	}
 
@@ -83,11 +87,11 @@ public class OrderClientController {
 			wrappingPaperServiceImpl.createWrappingPapers(
 				createOrderListPost.paperId().get(i), orderListId, 1);
 		}
-		return "redirect:/api/orders/createOrderTest/" + orderListId;
+		return "redirect:/api/deliveries/" + orderListId;
 	}
 
-	@GetMapping("/createOrderTest/{order_list_id}")
-	public ModelAndView createOrder(@PathVariable("order_list_id") Long orderListId) {
+	@GetMapping("/createOrderTest/{order_list_id}/{delivery_id}")
+	public ModelAndView createOrder(@PathVariable("order_list_id") Long orderListId, @PathVariable("delivery_id") Long deliveryId) {
 		ModelAndView modelAndView = new ModelAndView();
 		GetBookOrderResponse bookOrder = bookOrderServiceImpl.getBookOrder(orderListId);
 		GetListWrappingResponse list = wrappingPaperServiceImpl.getWrappingPaperByOrderListId(orderListId);
@@ -97,19 +101,24 @@ public class OrderClientController {
 			BigDecimal multiply = getWrappingResponse.price().multiply(paperQuantity);
 			total = total.add(multiply);
 		}
+		BigDecimal deliveryQuantity = new BigDecimal(bookOrder.quantity());
+		deliveryQuantity = bookOrder.getBookResponse().bookPrice().multiply(deliveryQuantity);
 		modelAndView.addObject("orderList", bookOrder);
 		modelAndView.addObject("orderListId", orderListId);
+		modelAndView.addObject("deliveryId", deliveryId);
 		modelAndView.addObject("wrappingList", wrappingPaperServiceImpl.getWrappingPaperByOrderListId(orderListId));
 		modelAndView.addObject("total", total);
+		modelAndView.addObject("delivery", deliveryPolicyServiceImpl.findByDeliveryPolicyStandardPriceLessThanEqualOrderByDeliveryPolicyStandardPriceDesc(deliveryId, deliveryQuantity));
 		modelAndView.setViewName("order/checkout");
 		return modelAndView;
 	}
 
-	@PostMapping("/complete/{order_list_id}")
+	@PostMapping("/complete/{order_list_id}/{delivery_id}")
 	public String createOrder(@ModelAttribute CreateOrderRequest createOrderRequest,
-		@PathVariable("order_list_id") Long orderListId
+		@PathVariable("order_list_id") Long orderListId, @PathVariable("delivery_id") Long deliveryId
 	) {
 		CreateOrderResponse createOrderResponse = orderServiceImpl.createOrder(createOrderRequest);
+		deliveryServiceImpl.updateDeliveryAddOrder(deliveryId, createOrderResponse.orderId());
 		bookOrderServiceImpl.updateOrder(orderListId, createOrderResponse.orderId());
 		return "redirect:/api/payments/" + createOrderResponse.infoId();
 	}
@@ -120,6 +129,7 @@ public class OrderClientController {
 
 		//업데이트 빼고 오더리스트아이디로 가져오기 변경 예정
 		UpdateBookOrderResponse bookOrder = bookOrderServiceImpl.updateOrder(orderListId, orderId);
+		bookServiceImpl.updateQuantity(bookOrder.bookId(), bookOrder.quantity());
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("bookOrder", bookOrder);
 		modelAndView.setViewName("order/order-complete");
@@ -141,6 +151,7 @@ public class OrderClientController {
 		ModelAndView modelAndView = new ModelAndView();
 		GetOrderByInfoResponse order = orderServiceImpl.findByOrderInfoId(orderInfoId);
 		modelAndView.addObject("order", order);
+		modelAndView.addObject("delivery", deliveryServiceImpl.getDeliveryByOrderId(order.orderId()));
 		modelAndView.setViewName("order/orderDetails");
 		return modelAndView;
 	}

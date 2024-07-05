@@ -818,6 +818,35 @@
                         </tbody>
                     </table>
                 </div>
+            <div th:if="${order != null}">
+                <table class="table">
+                    <!-- Head Row -->
+                    <thead>
+                    <tr>
+                        <th class="pro-name">수령인</th>
+                        <th class="pro-address">주소</th>
+                        <th class="pro-phone">전화번호</th>
+                        <th class="pro-date" >배달 희망일</th>
+                        <th class="pro-status" >배달 상태</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Product Row -->
+                    <tr>
+                        <td class="pro-name"> <span
+                                th:text="${delivery.deliveryReceiver()}"></span></td>
+                        <td class="pro-address"><span
+                                th:text="${delivery.deliveryReceiverAddress()}"></span></td>
+                        <td class="pro-phone"><span
+                                th:text="${delivery.deliveryReceiverPhone()}"></span></td>
+                        <td class="pro-date"><span
+                                th:text="${delivery.deliveryReceiverDate()}"></span></td>
+                        <td class="pro-status"><span
+                                th:text="${delivery.deliveryStatusName()}"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
             </div>
             <div th:if="${order == null}">
                 <p>주문 목록이 없습니다.</p>

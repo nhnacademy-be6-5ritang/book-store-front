@@ -8,6 +8,7 @@ import com.nhnacademy.bookstorefront.delivery.dto.request.GetDeliveriesRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.request.UpdateDeliveryRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.response.CreateDeliveryResponse;
 import com.nhnacademy.bookstorefront.delivery.dto.response.GetDeliveryResponse;
+import com.nhnacademy.bookstorefront.delivery.dto.response.UpdateDeliveryAddOrderPolicyResponse;
 import com.nhnacademy.bookstorefront.delivery.dto.response.UpdateDeliveryResponse;
 import com.nhnacademy.bookstorefront.delivery.feignclient.DeliveryServiceClient;
 import com.nhnacademy.bookstorefront.delivery.service.DeliveryService;
@@ -43,5 +44,15 @@ public class DeliveryServiceImpl implements DeliveryService {
 	@Override
 	public void deleteDelivery(Long deliveryId) {
 		deliveryServiceClient.deleteDelivery(deliveryId);
+	}
+
+	@Override
+	public UpdateDeliveryAddOrderPolicyResponse updateDeliveryAddOrder(Long deliveryId, Long orderId) {
+		return deliveryServiceClient.addOrder(deliveryId, orderId).getBody();
+	}
+
+	@Override
+	public GetDeliveryResponse getDeliveryByOrderId(Long orderId) {
+		return deliveryServiceClient.getDeliveryByOrder(orderId).getBody();
 	}
 }

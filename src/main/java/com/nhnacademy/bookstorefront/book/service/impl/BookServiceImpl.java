@@ -56,4 +56,8 @@ public class BookServiceImpl implements BookService {
 	public void deleteBook(Long bookId) {
 		bookServiceClient.deleteBook(bookId);
 	}
+
+	public void updateQuantity(Long bookId, int quantity) {
+		bookServiceClient.updateQuantity(bookId, quantity);
+	}
 }
