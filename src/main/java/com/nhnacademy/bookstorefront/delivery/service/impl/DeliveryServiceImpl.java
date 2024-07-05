@@ -47,7 +47,12 @@ public class DeliveryServiceImpl implements DeliveryService {
 	}
 
 	@Override
-	public UpdateDeliveryAddOrderPolicyResponse updateDeliveryAddOrderPolicy(Long deliveryId, Long orderId) {
-		return deliveryServiceClient.addOrderPolicy(deliveryId, orderId).getBody();
+	public UpdateDeliveryAddOrderPolicyResponse updateDeliveryAddOrder(Long deliveryId, Long orderId) {
+		return deliveryServiceClient.addOrder(deliveryId, orderId).getBody();
+	}
+
+	@Override
+	public GetDeliveryResponse getDeliveryByOrderId(Long orderId) {
+		return deliveryServiceClient.getDeliveryByOrder(orderId).getBody();
 	}
 }
