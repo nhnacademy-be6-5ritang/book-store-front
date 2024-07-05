@@ -4,7 +4,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import com.nhnacademy.bookstorefront.category.service.impl.CategoryServiceImpl;
+import com.nhnacademy.bookstorefront.global.config.CacheConfig;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,16 +16,10 @@ import lombok.RequiredArgsConstructor;
 @ControllerAdvice
 @RequiredArgsConstructor
 public class GlobalDataControllerAdvice {
-	private final CategoryServiceImpl categoryService;
+	private final CacheConfig cacheConfig;
 
-	/**
-	 * 모든 요청에 대해 카테고리 데이터를 모델에 추가합니다.
-	 *
-	 * @param model 모델 객체
-	 */
 	@ModelAttribute
 	public void categories(Model model) {
-		// 여기서 카테고리 데이터를 로드하고 반환
-		model.addAttribute("categoriesDisplay", categoryService.getCategories());
+		model.addAttribute("categoriesCache", cacheConfig.getCachedCategories());
 	}
 }
