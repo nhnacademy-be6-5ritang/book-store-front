@@ -1,10 +1,13 @@
 package com.nhnacademy.bookstorefront.auth.controller;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nhnacademy.bookstorefront.auth.dto.request.LoginRequest;
+import com.nhnacademy.bookstorefront.auth.dto.request.SignUpRequest;
 import com.nhnacademy.bookstorefront.auth.service.AuthService;
 
 import jakarta.servlet.http.Cookie;
@@ -24,6 +28,37 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/auth")
 public class AuthController {
 	private final AuthService authService;
+
+	@GetMapping("/sign-up")
+	public String signUp() {
+		return "auth/sign-up";
+	}
+
+	@PostMapping("/sign-up")
+	public String signUpProcess(@ModelAttribute SignUpRequest signUpRequest, Model model) {
+		try {
+			authService.signUp(signUpRequest);
+		} catch (Exception e) {
+			if (e.getMessage().contains("409")) {
+				return "redirect:/auth/sign-up?error=" + URLEncoder.encode("해당 이메일은 이미 존재하는 이메일입니다.",
+					StandardCharsets.UTF_8);
+			}
+
+			return "redirect:/auth/sign-up?error=" + URLEncoder.encode("Error signing up: " + e.getMessage(),
+				StandardCharsets.UTF_8);
+		}
+		return "redirect:/auth/login";
+	}
+
+	/**
+	 * 해당 이메일이 존재하는지 확인
+	 * @param email 이메일
+	 * @return 해당 이메일이 존재하면 true, 존재하지 않으면 false
+	 */
+	@GetMapping("/check-email")
+	public ResponseEntity<Boolean> isEmailExist(@RequestParam String email) {
+		return authService.isEmailExist(email);
+	}
 
 	@GetMapping("/login")
 	public String login() {
@@ -66,8 +101,8 @@ public class AuthController {
 	}
 
 	@PostMapping("/logout")
-	public String logout(@RequestParam String accessToken, HttpServletResponse response) {
-		authService.logout(accessToken);
+	public String logout(@CookieValue("Refresh-Token") String refreshToken, HttpServletResponse response) {
+		authService.logout(refreshToken);
 
 		Cookie revokedRefreshTokenCookie = new Cookie("Refresh-Token", "");
 		revokedRefreshTokenCookie.setHttpOnly(true);
@@ -75,11 +110,6 @@ public class AuthController {
 		revokedRefreshTokenCookie.setPath("/");
 		response.addCookie(revokedRefreshTokenCookie);
 
-		return "redirect:/auth/remove-token";
-	}
-
-	@GetMapping("/remove-token")
-	public String removeToken() {
-		return "auth/remove-token";
+		return "redirect:/api/books/main";
 	}
 }
