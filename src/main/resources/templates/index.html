@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
 
 
@@ -31,15 +32,18 @@
                     <div class="sb-custom-tab">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" id="shop-tab" data-bs-toggle="tab" href="#shop" role="tab" aria-controls="shop" aria-selected="true">Featured Products</a>
+                                <a class="nav-link active" id="shop-tab" data-bs-toggle="tab" href="#shop" role="tab"
+                                   aria-controls="shop" aria-selected="true">Featured Products</a>
                                 <span class="arrow-icon"></span>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="men-tab" data-bs-toggle="tab" href="#men" role="tab" aria-controls="men" aria-selected="true">New Arrivals</a>
+                                <a class="nav-link" id="men-tab" data-bs-toggle="tab" href="#men" role="tab"
+                                   aria-controls="men" aria-selected="true">New Arrivals</a>
                                 <span class="arrow-icon"></span>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="woman-tab" data-bs-toggle="tab" href="#woman" role="tab" aria-controls="woman" aria-selected="false">Most view products</a>
+                                <a class="nav-link" id="woman-tab" data-bs-toggle="tab" href="#woman" role="tab"
+                                   aria-controls="woman" aria-selected="false">Most view products</a>
                                 <span class="arrow-icon"></span>
                             </li>
                         </ul>
@@ -68,24 +72,32 @@
                                         <div class="single-slide">
                                             <div class="product-card">
                                                 <div class="product-header">
-                                                    <h3><a th:href="@{/api/books/{bookId}(bookId=${book.bookId})}" th:text="${book.bookTitle}">제목 없음</a></h3>
+                                                    <h3><a th:href="@{/api/books/{bookId}(bookId=${book.bookId})}"
+                                                           th:text="${book.bookTitle}">제목 없음</a></h3>
                                                 </div>
                                                 <div class="product-card--body">
                                                     <div class="card-image">
                                                         <!-- 이미지 경로 설정 -->
-                                                        <img th:src="@{/image/products/product-1.jpg}" th:alt="${book.bookTitle}" th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
+                                                        <img th:src="@{/image/products/product-1.jpg}"
+                                                             th:alt="${book.bookTitle}"
+                                                             th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
                                                         <div class="hover-contents">
-                                                            <a th:href="@{/api/books/{bookId}(bookId=${book.bookId})}" class="hover-image">
-                                                                <img th:src="@{/image/products/product-1.jpg}" th:alt="${book.bookTitle}">
+                                                            <a th:href="@{/api/books/{bookId}(bookId=${book.bookId})}"
+                                                               class="hover-image">
+                                                                <img th:src="@{/image/products/product-1.jpg}"
+                                                                     th:alt="${book.bookTitle}">
                                                             </a>
                                                             <div class="hover-btns">
-                                                                <a th:href="@{/api/users/me/cart/book-cart}" class="single-btn">
+                                                                <a th:href="@{/api/users/me/cart/book-cart}"
+                                                                   class="single-btn">
                                                                     <i class="fas fa-shopping-basket"></i>
                                                                 </a>
-                                                                <a th:href="@{/api/users/me/wishlist}" class="single-btn">
+                                                                <a th:href="@{/api/users/me/wishlist}"
+                                                                   class="single-btn">
                                                                     <i class="fas fa-heart"></i>
                                                                 </a>
-                                                                <a th:href="@{/api/books/{bookId} (bookId=${book.bookId})}" class="single-btn">
+                                                                <a th:href="@{/api/books/{bookId} (bookId=${book.bookId})}"
+                                                                   class="single-btn">
                                                                     <i class="fas fa-eye"></i>
                                                                 </a>
                                                             </div>
@@ -95,7 +107,8 @@
                                                         <!-- 가격 정보 설정 -->
                                                         <span class="price" th:text="${book.bookSalePrice} + '₩'">가격 정보 없음₩</span>
                                                         <del class="price-old" th:text="${book.bookPrice} + '₩'"></del>
-                                                        <span class="price-discount" th:text="${book.bookSalePercent + '%'}">할인율 정보 없음</span>
+                                                        <span class="price-discount"
+                                                              th:text="${book.bookSalePercent + '%'}">할인율 정보 없음</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -127,24 +140,32 @@
                                         <div class="single-slide">
                                             <div class="product-card">
                                                 <div class="product-header">
-                                                    <h3><a th:href="@{/api/books/{bookId}(bookId=${book.bookId})}" th:text="${book.bookTitle}">제목 없음</a></h3>
+                                                    <h3><a th:href="@{/api/books/{bookId}(bookId=${book.bookId})}"
+                                                           th:text="${book.bookTitle}">제목 없음</a></h3>
                                                 </div>
                                                 <div class="product-card--body">
                                                     <div class="card-image">
                                                         <!-- 이미지 경로 설정 -->
-                                                        <img th:src="@{/image/products/product-1.jpg}" th:alt="${book.bookTitle}" th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
+                                                        <img th:src="@{/image/products/product-1.jpg}"
+                                                             th:alt="${book.bookTitle}"
+                                                             th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
                                                         <div class="hover-contents">
-                                                            <a th:href="@{/api/books/{bookId}(bookId=${book.bookId})}" class="hover-image">
-                                                                <img th:src="@{/image/products/product-1.jpg}" th:alt="${book.bookTitle}">
+                                                            <a th:href="@{/api/books/{bookId}(bookId=${book.bookId})}"
+                                                               class="hover-image">
+                                                                <img th:src="@{/image/products/product-1.jpg}"
+                                                                     th:alt="${book.bookTitle}">
                                                             </a>
                                                             <div class="hover-btns">
-                                                                <a th:href="@{/api/users/me/cart/book-cart}" class="single-btn">
+                                                                <a th:href="@{/api/users/me/cart/book-cart}"
+                                                                   class="single-btn">
                                                                     <i class="fas fa-shopping-basket"></i>
                                                                 </a>
-                                                                <a th:href="@{/api/users/me/wishlist}" class="single-btn">
+                                                                <a th:href="@{/api/users/me/wishlist}"
+                                                                   class="single-btn">
                                                                     <i class="fas fa-heart"></i>
                                                                 </a>
-                                                                <a th:href="@{/api/books/{bookId} (bookId=${book.bookId})}" class="single-btn">
+                                                                <a th:href="@{/api/books/{bookId} (bookId=${book.bookId})}"
+                                                                   class="single-btn">
                                                                     <i class="fas fa-eye"></i>
                                                                 </a>
                                                             </div>
@@ -154,14 +175,14 @@
                                                         <!-- 가격 정보 설정 -->
                                                         <span class="price" th:text="${book.bookSalePrice} + '₩'">가격 정보 없음₩</span>
                                                         <del class="price-old" th:text="${book.bookPrice} + '₩'"></del>
-                                                        <span class="price-discount" th:text="${book.bookSalePercent + '%'}">할인율 정보 없음</span>
+                                                        <span class="price-discount"
+                                                              th:text="${book.bookSalePercent + '%'}">할인율 정보 없음</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <!-- 도서 정보 종료 -->
-
 
 
                                 </div>
@@ -189,24 +210,32 @@
                                         <div class="single-slide">
                                             <div class="product-card">
                                                 <div class="product-header">
-                                                    <h3><a th:href="@{/api/books/{bookId} (bookId=${book.bookId})}" th:text="${book.bookTitle}">제목 없음</a></h3>
+                                                    <h3><a th:href="@{/api/books/{bookId} (bookId=${book.bookId})}"
+                                                           th:text="${book.bookTitle}">제목 없음</a></h3>
                                                 </div>
                                                 <div class="product-card--body">
                                                     <div class="card-image">
                                                         <!-- 이미지 경로 설정 -->
-                                                        <img th:src="@{/image/products/product-1.jpg}" th:alt="${book.bookTitle}" th:href="@{/api/books/{bookId} (bookId=${book.bookId})}">
+                                                        <img th:src="@{/image/products/product-1.jpg}"
+                                                             th:alt="${book.bookTitle}"
+                                                             th:href="@{/api/books/{bookId} (bookId=${book.bookId})}">
                                                         <div class="hover-contents">
-                                                            <a th:href="@{/api/books/{bookId} (bookId=${book.bookId})}" class="hover-image">
-                                                                <img th:src="@{/image/products/product-1.jpg}" th:alt="${book.bookTitle}">
+                                                            <a th:href="@{/api/books/{bookId} (bookId=${book.bookId})}"
+                                                               class="hover-image">
+                                                                <img th:src="@{/image/products/product-1.jpg}"
+                                                                     th:alt="${book.bookTitle}">
                                                             </a>
                                                             <div class="hover-btns">
-                                                                <a th:href="@{/api/users/me/cart/book-cart}" class="single-btn">
+                                                                <a th:href="@{/api/users/me/cart/book-cart}"
+                                                                   class="single-btn">
                                                                     <i class="fas fa-shopping-basket"></i>
                                                                 </a>
-                                                                <a th:href="@{/api/users/me/wishlist}" class="single-btn">
+                                                                <a th:href="@{/api/users/me/wishlist}"
+                                                                   class="single-btn">
                                                                     <i class="fas fa-heart"></i>
                                                                 </a>
-                                                                <a th:href="@{/api/users/me/books/{bookId} (bookId=${book.bookId})}" class="single-btn">
+                                                                <a th:href="@{/api/users/me/books/{bookId} (bookId=${book.bookId})}"
+                                                                   class="single-btn">
                                                                     <i class="fas fa-eye"></i>
                                                                 </a>
                                                             </div>
@@ -216,7 +245,8 @@
                                                         <!-- 가격 정보 설정 -->
                                                         <span class="price" th:text="${book.bookSalePrice} + '₩'">가격 정보 없음₩</span>
                                                         <del class="price-old" th:text="${book.bookPrice} + '₩'"></del>
-                                                        <span class="price-discount" th:text="${book.bookSalePercent + '%'}">할인율 정보 없음</span>
+                                                        <span class="price-discount"
+                                                              th:text="${book.bookSalePercent + '%'}">할인율 정보 없음</span>
                                                     </div>
                                                 </div>
                                             </div>
