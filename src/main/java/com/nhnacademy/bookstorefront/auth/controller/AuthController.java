@@ -7,12 +7,12 @@ import java.util.Objects;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nhnacademy.bookstorefront.auth.dto.request.LoginRequest;
@@ -37,7 +37,7 @@ public class AuthController {
 	}
 
 	@PostMapping("/sign-up")
-	public String signUpProcess(@ModelAttribute SignUpRequest signUpRequest, Model model) {
+	public String signUpProcess(@ModelAttribute SignUpRequest signUpRequest) {
 		try {
 			authService.signUp(signUpRequest);
 		} catch (Exception e) {
@@ -102,10 +102,11 @@ public class AuthController {
 		return "auth/store-token";
 	}
 
+	@ResponseBody
 	@PostMapping("/logout")
-	public String logout(@CookieValue("Refresh-Token") String refreshToken, HttpServletResponse response) {
+	public ResponseEntity<?> logout(HttpServletResponse response) {
 		log.error("로그아웃 API 시작");
-		authService.logout(refreshToken);
+		authService.logout();
 		log.error("- 인증서버로 로그아웃 요청");
 
 		Cookie revokedRefreshTokenCookie = new Cookie("Refresh-Token", "");
@@ -115,7 +116,6 @@ public class AuthController {
 		response.addCookie(revokedRefreshTokenCookie);
 		log.error("쿠키 제거 완료");
 		log.error("메인 페이지로 redirect");
-
-		return "redirect:/api/books/main";
+		return ResponseEntity.ok().build();
 	}
 }
