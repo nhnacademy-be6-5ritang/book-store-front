@@ -1,5 +1,6 @@
 package com.nhnacademy.bookstorefront.global.config;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.cache.CacheManager;
@@ -15,6 +16,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import com.nhnacademy.bookstorefront.category.dto.response.GetCategoryResponse;
 import com.nhnacademy.bookstorefront.category.service.CategoryService;
 
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,11 +54,19 @@ public class CacheConfig {
 	}
 
 	/**
-	 * 캐시된 카테고리를 가져오거나, 캐시가 없는 경우 CategoryService에서 가져와서 결과를 캐시합니다.
-	 * @return 카테고리를 나타내는 GetCategoryResponse 객체의 리스트
+	 * 카테고리 목록을 캐시에서 가져오거나, 캐시에 없으면 새로 가져와서 캐시에 저장합니다.
+	 *
+	 * <p>Feign 클라이언트를 통해 카테고리 목록을 가져오며, 만약 가져오는 도중 예외가 발생하면 빈 리스트를 반환합니다.</p>
+	 *
+	 * @return 카테고리 목록 또는 예외 발생 시 빈 리스트
 	 */
 	@Cacheable(value = "categoriesCache")
 	public List<GetCategoryResponse> getCachedCategories() {
-		return categoryService.getCategories();
+		try {
+			return categoryService.getCategories();
+		} catch (FeignException e) {
+			log.warn("카테고리 목록 가져오기 실패: {}", e.getMessage());
+			return Collections.emptyList();
+		}
 	}
 }

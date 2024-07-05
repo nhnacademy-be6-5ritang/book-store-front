@@ -11,6 +11,7 @@ import com.nhnacademy.bookstorefront.cart.dto.request.CreateCartRequest;
 import com.nhnacademy.bookstorefront.cart.dto.response.CreateCartResponse;
 
 @FeignClient(name = "cart-feign-client", url = "http://localhost:8090/api/carts")
+
 public interface CartServiceClient {
 
 	@GetMapping("/{cartId}")
