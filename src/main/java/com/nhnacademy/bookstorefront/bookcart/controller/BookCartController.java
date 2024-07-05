@@ -1,4 +1,4 @@
-package com.nhnacademy.bookstorefront.cart.controller;
+package com.nhnacademy.bookstorefront.bookcart.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,15 +13,15 @@ import com.nhnacademy.bookstorefront.cart.service.CartService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
-
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/carts")
-public class CartController {
+@RequestMapping("/api/carts/me")
+public class BookCartController {
 	private final CartService cartService;
 
-	@GetMapping("/{cartId}")
-	public void getCart(Model model, @PathVariable Long cartId) {
+	@GetMapping
+	public String getCart(Model model, @PathVariable Long cartId) {
+		return "cart/get-cart";
 	}
 
 	@PostMapping

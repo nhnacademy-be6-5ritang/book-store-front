@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.nhnacademy.bookstorefront.cart.dto.CartDto;
 import com.nhnacademy.bookstorefront.cart.dto.request.CreateCartRequest;
+import com.nhnacademy.bookstorefront.cart.dto.response.CreateCartResponse;
 
 @FeignClient(name = "cart-feign-client", url = "http://localhost:8090/api/carts")
 public interface CartServiceClient {
@@ -16,6 +17,6 @@ public interface CartServiceClient {
 	ResponseEntity<CartDto> getCart(@PathVariable Long cartId);
 
 	@PostMapping
-	ResponseEntity<Void> createCart(CreateCartRequest request);
+	ResponseEntity<CreateCartResponse> createCart(CreateCartRequest request);
 
 }
