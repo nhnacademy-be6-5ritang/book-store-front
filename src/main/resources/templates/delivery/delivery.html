@@ -9,6 +9,22 @@
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <script>
+        function setMinDate() {
+            var today = new Date();
+            today.setDate(today.getDate() + 2);
+            var year = today.getFullYear();
+            var month = ('0' + (today.getMonth() + 1)).slice(-2);
+            var day = ('0' + today.getDate()).slice(-2);
+            var hour = ('0' + today.getHours()).slice(-2);
+            var minute = ('0' + today.getMinutes()).slice(-2);
+
+            var minDate = year + '-' + month + '-' + day + 'T' + hour + ':' + minute;
+            document.getElementById('deliveryReceiverDate').setAttribute('min', minDate);
+        }
+
+        window.onload = setMinDate;
+    </script>
 </head>
 
 
@@ -17,7 +33,7 @@
     <!--=================================
     Header Area
     ===================================== -->
-    <div th:insert="~{/global/header.html}"></div>
+    <div th:insert="~{global/header.html}"></div>
 
     <section class="breadcrumb-section">
         <h2 class="sr-only">Site Breadcrumb</h2>
@@ -91,18 +107,17 @@
             </div>
         </div>
     </div>
-
 </div>
 <!--=================================
 Footer Area
 ===================================== -->
-<div th:insert="~{/global/footer.html}"></div>
+<div th:insert="~{global/footer.html}"></div>
 
 <!-- Use Minified Plugins Version For Fast Page Load -->
 <script th:src="@{/js/plugins.js}"></script>
 <script th:src="@{/js/ajax-mail.js}"></script>
 <script th:src="@{/js/custom.js}"></script>
-<!-- 다음 주소 API 스크립트 추가 -->
+ 다음 주소 API 스크립트 추가
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     function execDaumPostcode() {

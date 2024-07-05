@@ -18,7 +18,7 @@ document.getElementById('sign-up-form').addEventListener('submit', (event) => {
 const checkEmailExistence = async () => {
     const email = document.getElementById('email').value
     console.log(email);
-    const response = await fetch(`/auth/check-email?email=${email}`);
+    const response = await fetch(`/auth/check-email?email=${encodeURI(email)}`);
     if (response.ok) {
         const emailExists = await response.json();
         if (emailExists) {
