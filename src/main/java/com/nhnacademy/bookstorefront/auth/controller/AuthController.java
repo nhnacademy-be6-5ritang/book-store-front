@@ -22,7 +22,9 @@ import com.nhnacademy.bookstorefront.auth.service.AuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/auth")
@@ -102,13 +104,17 @@ public class AuthController {
 
 	@PostMapping("/logout")
 	public String logout(@CookieValue("Refresh-Token") String refreshToken, HttpServletResponse response) {
+		log.error("로그아웃 API 시작");
 		authService.logout(refreshToken);
+		log.error("- 인증서버로 로그아웃 요청");
 
 		Cookie revokedRefreshTokenCookie = new Cookie("Refresh-Token", "");
 		revokedRefreshTokenCookie.setHttpOnly(true);
 		revokedRefreshTokenCookie.setMaxAge(0);
 		revokedRefreshTokenCookie.setPath("/");
 		response.addCookie(revokedRefreshTokenCookie);
+		log.error("쿠키 제거 완료");
+		log.error("메인 페이지로 redirect");
 
 		return "redirect:/api/books/main";
 	}
