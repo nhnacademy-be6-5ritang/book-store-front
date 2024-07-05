@@ -38,15 +38,16 @@ import lombok.RequiredArgsConstructor;
 public class OrderClientController {
 	private final BookOrderServiceImpl bookOrderServiceImpl;
 	private final OrderServiceImpl orderServiceImpl;
-	private final BookServiceImpl bookService;
+
 	private final PaperTypeServiceImpl paperTypeServiceImpl;
 	private final WrappingPaperServiceImpl wrappingPaperServiceImpl;
 	private final DeliveryServiceImpl deliveryServiceImpl;
+	private final BookServiceImpl bookServiceImpl;
 
 	@GetMapping("/createBookOrderTest/{book_id}")
 	public ModelAndView createBookOrder(@PathVariable("book_id") Long bookId) {
 		ModelAndView modelAndView = new ModelAndView("order/orderList");
-		GetBookDetailResponse book = bookService.getBook(bookId);
+		GetBookDetailResponse book = bookServiceImpl.getBook(bookId);
 		modelAndView.addObject("book", book);
 		modelAndView.addObject("bookId", bookId);
 		return modelAndView;
@@ -123,6 +124,7 @@ public class OrderClientController {
 
 		//업데이트 빼고 오더리스트아이디로 가져오기 변경 예정
 		UpdateBookOrderResponse bookOrder = bookOrderServiceImpl.updateOrder(orderListId, orderId);
+		bookServiceImpl.updateQuantity(bookOrder.bookId(), bookOrder.quantity());
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("bookOrder", bookOrder);
 		modelAndView.setViewName("order/order-complete");
