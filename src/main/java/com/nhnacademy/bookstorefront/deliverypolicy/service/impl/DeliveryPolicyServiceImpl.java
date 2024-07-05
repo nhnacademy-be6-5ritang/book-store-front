@@ -1,5 +1,6 @@
 package com.nhnacademy.bookstorefront.deliverypolicy.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -42,5 +43,9 @@ public class DeliveryPolicyServiceImpl implements DeliveryPolicyService {
 	@Override
 	public void deleteDeliveryPolicy(Long deliveryPolicyId) {
 		deliveryPolicyServiceClient.deleteDeliveryPolicy(deliveryPolicyId);
+	}
+
+	public GetDeliveryPolicyResponse findByDeliveryPolicyStandardPriceLessThanEqualOrderByDeliveryPolicyStandardPriceDesc(Long deliveryId, BigDecimal price) {
+		return deliveryPolicyServiceClient.addPolicy(deliveryId, price).getBody();
 	}
 }

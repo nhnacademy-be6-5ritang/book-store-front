@@ -9,6 +9,22 @@
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <script>
+        function setMinDate() {
+            var today = new Date();
+            today.setDate(today.getDate() + 2);
+            var year = today.getFullYear();
+            var month = ('0' + (today.getMonth() + 1)).slice(-2);
+            var day = ('0' + today.getDate()).slice(-2);
+            var hour = ('0' + today.getHours()).slice(-2);
+            var minute = ('0' + today.getMinutes()).slice(-2);
+
+            var minDate = year + '-' + month + '-' + day + 'T' + hour + ':' + minute;
+            document.getElementById('deliveryReceiverDate').setAttribute('min', minDate);
+        }
+
+        window.onload = setMinDate;
+    </script>
 </head>
 
 
