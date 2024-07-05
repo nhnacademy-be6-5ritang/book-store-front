@@ -40,7 +40,9 @@ public interface DeliveryServiceClient {
 	@DeleteMapping("/{deliveryId}")
 	ResponseEntity<Void> deleteDelivery(@PathVariable Long deliveryId);
 
-	@PutMapping("/{deliveryId}/{orderId}/Order-Policy")
-	ResponseEntity<UpdateDeliveryAddOrderPolicyResponse> addOrderPolicy(@PathVariable Long deliveryId, @PathVariable Long orderId);
+	@PutMapping("/{deliveryId}/{orderId}/orders")
+	ResponseEntity<UpdateDeliveryAddOrderPolicyResponse> addOrder(@PathVariable Long deliveryId, @PathVariable Long orderId);
 
+	@GetMapping("/{orderId}/orders")
+	ResponseEntity<GetDeliveryResponse> getDeliveryByOrder(@PathVariable Long orderId);
 }

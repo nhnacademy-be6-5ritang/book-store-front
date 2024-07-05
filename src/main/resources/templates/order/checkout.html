@@ -908,11 +908,13 @@
                                                     <p>쿠폰 할인 <span>10</span></p>
                                                     <input type="hidden" name="couponSale" value="1000">
 
+                                                    <p>배송비 <span th:text="${delivery.deliveryPolicyPrice()}"></span></p>
+
                                                     <h4>Grand Total <span
-                                                            th:text="${orderList.quantity() * orderList.getBookResponse().bookPrice() - 20 - total}"></span>
+                                                            th:text="${orderList.quantity() * orderList.getBookResponse().bookPrice() - 20 - total - delivery.deliveryPolicyPrice()}"></span>
                                                     </h4>
                                                     <input type="hidden" name="orderPrice"
-                                                           th:value="${orderList.quantity() * orderList.getBookResponse().bookPrice() - 20 - total}">
+                                                           th:value="${orderList.quantity() * orderList.getBookResponse().bookPrice() - 20 - total - delivery.deliveryPolicyPrice()}">
                                                     <button class="place-order w-100" type="submit">Place order</button>
                                                 </div>
                                             </div>
