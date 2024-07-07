@@ -31,6 +31,14 @@ public class CouponPolicyController {
 		@ModelAttribute CouponPolicyCreateRequestDTO requestDTO,
 		Model model) {
 		try {
+
+			// SalePrice와 SaleRate 유효성 검사 추가
+			if ((requestDTO.salePrice() == null && requestDTO.saleRate() == null) ||
+				(requestDTO.salePrice() != null && requestDTO.saleRate() != null)) {
+				throw new IllegalArgumentException("Either salePrice or saleRate must be provided exclusively.");
+			}
+
+
 			switch (requestDTO.type().toLowerCase()) {
 				case "welcome":
 					couponPolicyService.issueWelcomeCoupon(requestDTO);
@@ -68,6 +76,12 @@ public class CouponPolicyController {
 	public String updateCouponPolicy(@PathVariable("couponPolicyId") Long couponPolicyId,
 		@ModelAttribute CouponPolicyUpdateRequestDTO requestDTO, Model model) {
 		try {
+
+			// SalePrice와 SaleRate 유효성 검사 추가
+			if ((requestDTO.salePrice() == null && requestDTO.saleRate() == null) ||
+				(requestDTO.salePrice() != null && requestDTO.saleRate() != null)) {
+				throw new IllegalArgumentException("Either salePrice or saleRate must be provided exclusively.");
+			}
 			couponPolicyService.updateCouponPolicy(couponPolicyId, requestDTO);
 			model.addAttribute("message", "Coupon policy updated successfully!");
 		} catch (Exception e) {
