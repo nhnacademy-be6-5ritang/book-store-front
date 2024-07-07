@@ -78,22 +78,23 @@
                                                 <div class="product-card--body">
                                                     <div class="card-image">
                                                         <!-- 이미지 경로 설정 -->
-                                                        <img th:src="${book.bookImageUrl}" 
-                                                              th:alt="${book.bookTitle}" 
-                                                              th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
+                                                        <img th:src="${book.bookImageUrl}"
+                                                             th:alt="${book.bookTitle}"
+                                                             th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
                                                         <div class="hover-contents">
-                                                            <a th:href="@{/api/books/{bookId}(bookId=${book.bookId})}" 
+                                                            <a th:href="@{/api/books/{bookId}(bookId=${book.bookId})}"
                                                                class="hover-image">
-                                                                <img th:src="${book.bookImageUrl}" 
+                                                                <img th:src="${book.bookImageUrl}"
                                                                      th:alt="${book.bookTitle}">
                                                             </a>
+                                                            <!-- 메인 간편 버튼 시작-->
                                                             <div class="hover-btns">
-                                                                <a th:href="@{/api/users/me/cart/book-cart}"
+                                                                <a th:href="@{/api/carts/book-cart}"
                                                                    class="single-btn">
                                                                     <i class="fas fa-shopping-basket"></i>
                                                                 </a>
-                                                                <a th:href="@{/api/users/me/wishlist}"
-                                                                   class="single-btn">
+                                                                <a th:attr="data-book-id=${book.bookId}"
+                                                                   class="single-btn add-to-wishlist">
                                                                     <i class="fas fa-heart"></i>
                                                                 </a>
                                                                 <a th:href="@{/api/books/{bookId} (bookId=${book.bookId})}"
@@ -101,6 +102,7 @@
                                                                     <i class="fas fa-eye"></i>
                                                                 </a>
                                                             </div>
+                                                            <!-- 메인 간편 버튼 끝-->
                                                         </div>
                                                     </div>
                                                     <div class="price-block">
@@ -326,6 +328,7 @@ Footer Area
 <script th:src="@{/js/plugins.js}"></script>
 <script th:src="@{/js/ajax-mail.js}"></script>
 <script th:src="@{/js/custom.js}"></script>
+<script th:src="@{/js/create-wishList.js}"></script>
 </body>
 
 </html>

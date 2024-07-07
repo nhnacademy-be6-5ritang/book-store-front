@@ -22,10 +22,4 @@ public class GlobalDataControllerAdvice {
 	public void categories(Model model) {
 		model.addAttribute("categoriesCache", cacheConfig.getCachedCategories());
 	}
-
-	// @ExceptionHandler(FeignException.class)
-	// public String handleFeignException(FeignException e, Model model) {
-	// 	model.addAttribute("categoriesCache", Collections.emptyList());
-	// 	return "error"; // 적절한 뷰 이름 반환
-	// }
 }

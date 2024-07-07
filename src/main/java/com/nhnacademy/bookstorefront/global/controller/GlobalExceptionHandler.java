@@ -1,8 +1,11 @@
 package com.nhnacademy.bookstorefront.global.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import feign.FeignException;
 
 /**
  * 전역 예외 처리를 담당하는 클래스입니다.
@@ -23,6 +26,16 @@ public class GlobalExceptionHandler {
 	public String handleException(Exception exception, Model model) {
 		model.addAttribute("message", exception.getMessage());
 		return "global/error";
+	}
+
+	@ExceptionHandler(FeignException.class)
+	public ResponseEntity<Void> handleFeignStatusException(FeignException exception) {
+		if (exception.status() == 404) {
+			return ResponseEntity.status(404).build();
+		} else if (exception.status() == 409) {
+			return ResponseEntity.status(409).build();
+		}
+		return ResponseEntity.status(exception.status()).build();
 	}
 
 }

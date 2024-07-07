@@ -11,18 +11,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.nhnacademy.bookstorefront.wishlist.dto.request.CreateWishListRequest;
-import com.nhnacademy.bookstorefront.wishlist.dto.response.CreateWishListResponse;
 import com.nhnacademy.bookstorefront.wishlist.dto.response.GetWishListResponse;
 
-@FeignClient(name = "wishList-service", url = "http://localhost:8090/api/users/me/wishLists")
+@FeignClient(name = "wishList-service", url = "http://localhost:8090/api/wishLists")
 public interface WishListServiceClient {
 
 	@GetMapping
 	ResponseEntity<List<GetWishListResponse>> getWishLists();
 
-	@PostMapping("/wishLists")
-	ResponseEntity<CreateWishListResponse> createWishList(@RequestBody CreateWishListRequest request);
+	@PostMapping
+	ResponseEntity<Void> createWishList(@RequestBody CreateWishListRequest request);
 
-	@DeleteMapping("/wishLists/{wishListId}")
+	@DeleteMapping("/{wishListId}")
 	ResponseEntity<Void> deleteWishList(@PathVariable Long wishListId);
 }
