@@ -44,7 +44,7 @@
                         <label for="saleRate">Sale Rate</label>
                         <input type="text" class="form-control" id="saleRate" name="saleRate" >
                         <label for="maxSalePrice">Max Sale Price</label>
-                        <input type="text" class="form-control" id="maxSalePrice" name="maxSalePrice" >
+                        <input type="text" class="form-control" id="maxSalePrice" name="maxSalePrice"  required>
                         <label for="type">Type</label>
                         <select class="form-control" id="type" name="type" required onchange="showFields(this.value)">
                             <option value="">Select Coupon Type</option>
@@ -178,6 +178,33 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script>
 
+    // rate , price 둘중에 한개만 적을 수 있게금 조치
+    document.addEventListener('DOMContentLoaded', function() {
+        const salePriceInput = document.getElementById('salePrice');
+        const saleRateInput = document.getElementById('saleRate');
+
+        salePriceInput.addEventListener('input', function() {
+            if (salePriceInput.value.trim() !== '') {
+                saleRateInput.value = '';
+                saleRateInput.setAttribute('disabled', 'disabled');
+            } else {
+                saleRateInput.removeAttribute('disabled');
+            }
+        });
+
+        saleRateInput.addEventListener('input', function() {
+            if (saleRateInput.value.trim() !== '') {
+                salePriceInput.value = '';
+                salePriceInput.setAttribute('disabled', 'disabled');
+            } else {
+                salePriceInput.removeAttribute('disabled');
+            }
+        });
+    });
+
+
+
+
     // Function to show additional fields based on selected type
     function showFields(selectedType) {
         $('#bookFields').hide();
@@ -275,6 +302,37 @@
         });
     });
 
+
+    // 정책 수정시 정률쿠폰 정액쿠폰 동시에 input 활성화 방지
+    $(document).ready(function() {
+        $('#editModal').on('show.bs.modal', function (event) {
+            // Initialize the modal fields and their interactivity
+            const salePriceInputEdit = $('#salePriceEdit');
+            const saleRateInputEdit = $('#saleRateEdit');
+
+            // Disable the other field if one of them is filled
+            function updateFieldState() {
+                if (salePriceInputEdit.val().trim() !== '') {
+                    saleRateInputEdit.val('').attr('disabled', 'disabled');
+                } else {
+                    saleRateInputEdit.removeAttr('disabled');
+                }
+                if (saleRateInputEdit.val().trim() !== '') {
+                    salePriceInputEdit.val('').attr('disabled', 'disabled');
+                } else {
+                    salePriceInputEdit.removeAttr('disabled');
+                }
+            }
+
+            salePriceInputEdit.on('input', updateFieldState);
+            saleRateInputEdit.on('input', updateFieldState);
+
+            // Initial check when the modal opens
+            updateFieldState();
+        });
+
+
+
     $('#couponTable').on('click', '.editBtn', function (e) {
         e.preventDefault();
         var policyId = $(this).data('policy-id');
@@ -305,6 +363,7 @@
 
         $('#editModal').modal('show'); // 수정 모달 표시
     });
+    });
 
 
 </script>
@@ -333,11 +392,11 @@
                     </div>
                     <div class="form-group">
                         <label for="salePriceEdit">Sale Price</label>
-                        <input type="text" class="form-control" id="salePriceEdit" name="salePrice" required>
+                        <input type="text" class="form-control" id="salePriceEdit" name="salePrice" >
                     </div>
                     <div class="form-group">
                         <label for="saleRateEdit">Sale Rate</label>
-                        <input type="text" class="form-control" id="saleRateEdit" name="saleRate" required>
+                        <input type="text" class="form-control" id="saleRateEdit" name="saleRate" >
                     </div>
                     <div class="form-group">
                         <label for="maxSalePriceEdit">Max Sale Price</label>
