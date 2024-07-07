@@ -1,8 +1,11 @@
 package com.nhnacademy.bookstorefront.book.controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.UpdateBookRequest;
+import com.nhnacademy.bookstorefront.book.dto.response.BookSearchResult;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
 import com.nhnacademy.bookstorefront.bookstatus.service.impl.BookStatusServiceImpl;
@@ -188,4 +192,12 @@ public class BookController {
 		bookService.deleteBook(bookId);
 		return "redirect:/api/books/page";
 	}
+
+
+	@GetMapping("/search/test")
+	public ResponseEntity<List<BookSearchResult>> searchBooks(@RequestParam("key") String search) {
+		List<BookSearchResult> results = bookService.searchBooks(search);
+		return ResponseEntity.ok(results);
+	}
+
 }

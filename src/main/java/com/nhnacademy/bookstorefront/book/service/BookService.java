@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.UpdateBookRequest;
+import com.nhnacademy.bookstorefront.book.dto.response.BookSearchResult;
 import com.nhnacademy.bookstorefront.book.dto.response.CreateBookResponse;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.dto.response.UpdateBookResponse;
@@ -75,4 +76,8 @@ public interface BookService {
 	 * @param bookId 삭제할 책 ID
 	 */
 	void deleteBook(Long bookId);
+
+
+
+	List<BookSearchResult> searchBooks(String query);
 }

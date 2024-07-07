@@ -4,6 +4,29 @@
     <meta charset="UTF-8">
     <title>쿠폰정책관리페이지-관리자</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .search-results {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            position: absolute;
+            width: 100%;
+            z-index: 1000;
+            background-color: #fff;
+        }
+
+        .search-result {
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-result:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -31,15 +54,29 @@
                             <option value="category">카테고리쿠폰</option>
                             <option value="sale">할인쿠폰</option>
                         </select>
-                        <div id="bookFields" style="display: none;">
-                            <label for="bookId">Book ID</label>
-                            <input type="text" class="form-control" id="bookId" name="bookId">
-                        </div>
-                        <div id="categoryFields" style="display: none;">
-                            <label for="categoryId">Category ID</label>
-                            <input type="text" class="form-control" id="categoryId" name="categoryId">
-                        </div>
+                        <!-- Additional Fields for Books and Categories -->
+
                         <button type="submit" class="btn btn-primary mt-2">Create</button>
+                        <div id="bookFields" style="display: none;">
+                            <label for="bookSearch">Search Book</label>
+                            <input type="text" class="form-control" id="bookSearch" name="bookSearch">
+                            <div id="bookSearchResults" class="search-results"></div>
+                            <label for="bookTitle">Book Title</label>
+                            <input type="text" class="form-control" id="bookTitle" name="bookTitle" readonly>
+                            <input type="hidden" id="bookId" name="bookId">
+                        </div>
+
+                        <div id="categoryFields" style="display: none;">
+                            <label for="categorySearch">Search Category</label>
+                            <input type="text" class="form-control" id="categorySearch" name="categorySearch">
+                            <div id="categorySearchResults" class="search-results"></div>
+                            <label for="categoryName">Category Name</label>
+                            <input type="text" class="form-control" id="categoryName" name="categoryName" readonly>
+                            <input type="hidden" id="categoryId" name="categoryId">
+                        </div>
+
+
+
                     </div>
                 </form>
             </div>
@@ -58,8 +95,8 @@
                         <th>Max Sale Price</th>
                         <th>Type</th>
                         <th>Used</th>
-                        <th>categoryID</th>
-                        <th>bookID</th>
+                        <th>categoryName</th>
+                        <th>bookTitle</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -75,8 +112,8 @@
                         <td><input type="text" class="form-control maxSalePrice" th:value="${policy.maxSalePrice}"></td>
                         <td><input type="text" class="form-control type" th:value="${policy.type}" readonly></td>
                         <td><input type="text" class="form-control isUsed" th:value="${policy.isUsed}" readonly></td>
-                        <td><input type="text" class="form-control categoryId" th:value="${policy.categoryId}" readonly></td>
-                        <td><input type="text" class="form-control bookId" th:value="${policy.bookId}" readonly></td>
+                        <td><input type="text" class="form-control categoryName" th:value="${policy.categoryName}" readonly></td>
+                        <td><input type="text" class="form-control bookTitle" th:value="${policy.bookTitle}" readonly></td>
                         <td>
                             <div class="btn-group" role="group">
                                 <button class="btn btn-primary btn-sm editBtn"
@@ -141,20 +178,89 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script>
 
-
     // Function to show additional fields based on selected type
     function showFields(selectedType) {
-        // Hide all additional fields first
         $('#bookFields').hide();
         $('#categoryFields').hide();
 
-        // Show the relevant field based on selectedType
         if (selectedType === 'book') {
             $('#bookFields').show();
         } else if (selectedType === 'category') {
             $('#categoryFields').show();
         }
     }
+
+    // Function to show additional fields based on selected type
+    function showFields(selectedType) {
+        $('#bookFields').hide();
+        $('#categoryFields').hide();
+
+        if (selectedType === 'book') {
+            $('#bookFields').show();
+        } else if (selectedType === 'category') {
+            $('#categoryFields').show();
+        }
+    }
+
+    $(document).ready(function() {
+        // 도서 검색 기능
+        $('#bookSearch').on('input', function() {
+            var query = $(this).val();
+            if (query.length > 1) { // 3자 이상 입력 시 검색
+                $.ajax({
+                    url: '/api/books/search/test',
+                    type: 'GET',
+                    data: { key: query },
+                    success: function(data) {
+                        $('#bookSearchResults').html('');
+                        data.forEach(function(book) {
+                            $('#bookSearchResults').append('<div class="search-result book-result" data-id="' + book.bookId + '" data-title="' + book.bookTitle + '">' + book.bookTitle + '</div>');
+                        });
+                        // 결과 클릭 시 처리
+                        $('.book-result').on('click', function() {
+                            var bookId = $(this).data('id');
+                            var bookTitle = $(this).data('title');
+                            $('#bookId').val(bookId);
+                            $('#bookTitle').val(bookTitle);
+                            $('#bookSearch').val(bookTitle);
+                            $('#bookSearchResults').html('');
+                        });
+                    }
+                });
+            } else {
+                $('#bookSearchResults').html('');
+            }
+        });
+
+        // 카테고리 검색 기능
+        $('#categorySearch').on('input', function() {
+            var query = $(this).val();
+            if (query.length > 1) { // 3자 이상 입력 시 검색
+                $.ajax({
+                    url: '/api/categories/search/test',
+                    type: 'GET',
+                    data: { key: query },
+                    success: function(data) {
+                        $('#categorySearchResults').html('');
+                        data.forEach(function(category) {
+                            $('#categorySearchResults').append('<div class="search-result category-result" data-id="' + category.categoryId + '" data-name="' + category.categoryName+'">' + category.categoryName  +'</div>');
+                        });
+                        // 결과 클릭 시 처리
+                        $('.category-result').on('click', function() {
+                            var categoryId = $(this).data('id');
+                            var categoryName = $(this).data('name');
+                            $('#categoryId').val(categoryId);
+                            $('#categoryName').val(categoryName);
+                            $('#categorySearch').val(categoryName);
+                            $('#categorySearchResults').html('');
+                        });
+                    }
+                });
+            } else {
+                $('#categorySearchResults').html('');
+            }
+        });
+    });
 
     $(document).ready(function() {
         $('#couponTable').on('click', '.addBtn', function(e) {
@@ -191,8 +297,8 @@
         } else if (isUsedValue === "false") {
             $('#isUsedFalse').prop('checked', true);
         }
-        $('#categoryIdEdit').val(row.find('.categoryId').val());
-        $('#bookIdEdit').val(row.find('.bookId').val());
+        $('#categoryNameEdit').val(row.find('.categoryName').val());
+        $('#bookTitleEdit').val(row.find('.bookTitle').val());
 
         // `th:action` URL 업데이트
         $('#editCouponForm').attr('action', '/coupons/policies/' + policyId);
@@ -253,12 +359,12 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="categoryIdEdit">categoryId</label>
-                        <input type="text" class="form-control" id="categoryIdEdit" name="categoryId" readonly>
+                        <label for="categoryNameEdit">categoryName</label>
+                        <input type="text" class="form-control" id="categoryNameEdit" name="categoryName" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="bookIdEdit">bookId</label>
-                        <input type="text" class="form-control" id="bookIdEdit" name="bookId" readonly>
+                        <label for="bookTitleEdit">bookTitle</label>
+                        <input type="text" class="form-control" id="bookTitleEdit" name="bookTitle" readonly>
                     </div>
                 </div>
                 <div class="modal-footer">

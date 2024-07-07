@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.category.dto.request.CreateCategoryRequest;
 import com.nhnacademy.bookstorefront.category.dto.request.UpdateCategoryRequest;
+import com.nhnacademy.bookstorefront.category.dto.response.CategorySearchResult;
 import com.nhnacademy.bookstorefront.category.dto.response.CreateCategoryResponse;
 import com.nhnacademy.bookstorefront.category.dto.response.GetCategoryResponse;
 import com.nhnacademy.bookstorefront.category.dto.response.UpdateCategoryResponse;
@@ -54,5 +55,11 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void deleteCategory(Long categoryId) {
 		categoryServiceClient.deleteCategory(categoryId);
+	}
+
+
+	@Override
+	public List<CategorySearchResult> searchCategories(String query) {
+	 return	categoryServiceClient.searchCategories(query).getBody();
 	}
 }

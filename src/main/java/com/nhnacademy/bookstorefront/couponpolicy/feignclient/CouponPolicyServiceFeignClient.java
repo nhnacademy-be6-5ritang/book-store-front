@@ -26,11 +26,11 @@ public interface CouponPolicyServiceFeignClient {
 		@PostMapping("/coupons/policies/birthday")
 		ResponseEntity<CouponPolicyResponseDTO> issueBirthdayCoupon(@RequestBody CouponPolicyCreateRequestDTO requestDTO);
 
-		@PostMapping("/coupons/policies/books/{bookId}")
-		ResponseEntity<CouponPolicyResponseDTO> issueSpecificBookCoupon(@PathVariable("bookId") Long bookId, @RequestBody CouponPolicyCreateRequestDTO requestDTO);
+		@PostMapping("/coupons/policies/books")
+		ResponseEntity<CouponPolicyResponseDTO> issueSpecificBookCoupon(@RequestBody CouponPolicyCreateRequestDTO requestDTO);
 
-		@PostMapping("/coupons/policies/categories/{categoryId}")
-		ResponseEntity<CouponPolicyResponseDTO> issueSpecificCategoryCoupon(@PathVariable("categoryId") Long categoryId, @RequestBody CouponPolicyCreateRequestDTO requestDTO);
+		@PostMapping("/coupons/policies/categories")
+		ResponseEntity<CouponPolicyResponseDTO> issueSpecificCategoryCoupon(@RequestBody CouponPolicyCreateRequestDTO requestDTO);
 
 		@PostMapping("/coupons/policies/sale")
 		ResponseEntity<CouponPolicyResponseDTO> issueDiscountCoupon(@RequestBody CouponPolicyCreateRequestDTO requestDTO);

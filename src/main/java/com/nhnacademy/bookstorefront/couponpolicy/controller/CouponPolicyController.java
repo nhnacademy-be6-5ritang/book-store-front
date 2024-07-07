@@ -42,13 +42,13 @@ public class CouponPolicyController {
 					if (requestDTO.bookId() == null) {
 						throw new IllegalArgumentException("Book ID is required for book coupons");
 					}
-					couponPolicyService.issueBookCoupon(requestDTO.bookId(), requestDTO);
+					couponPolicyService.issueBookCoupon(requestDTO);
 					break;
 				case "category":
 					if (requestDTO.categoryId() == null) {
 						throw new IllegalArgumentException("Category ID is required for category coupons");
 					}
-					couponPolicyService.issueCategoryCoupon(requestDTO.categoryId(), requestDTO);
+					couponPolicyService.issueCategoryCoupon(requestDTO);
 					break;
 				case "sale":
 					couponPolicyService.issueSaleCoupon(requestDTO);
