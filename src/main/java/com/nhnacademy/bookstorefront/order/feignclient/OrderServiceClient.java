@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateBookOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllPaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
@@ -49,10 +49,15 @@ public interface OrderServiceClient {
 	@PutMapping("/api/orders/books-orders/{book_list_id}/{order_id}")
 	 ResponseEntity<UpdateBookOrderResponse> updateBookOrder(@PathVariable("book_list_id") Long bookListId, @PathVariable("order_id") Long orderId);
 
-	@GetMapping("/api/orders/carts/{cart_id}/orders/all")
-	 ResponseEntity<GetAllListOrderResponse> findAllByCartId(@PathVariable("cart_id") Long cartId);
+	@GetMapping("/api/orders/carts/orders/all")
+	 ResponseEntity<GetAllListOrderResponse> findAllByUserId();
 
 	@GetMapping("/api/orders/order-info/{order_info_id}")
 	 ResponseEntity<GetOrderByInfoResponse> findByOrderInfoId(@PathVariable("order_info_id") String orderInfoId);
 
+	@GetMapping("/api/orders/order-status/wait")
+	ResponseEntity<GetAllListOrderByStatusResponse> getOrderStatusWait();
+
+	@GetMapping("/api/orders/order-status/going")
+	ResponseEntity<GetAllListOrderByStatusResponse> getOrderStatusGoing();
 }

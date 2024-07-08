@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Pustok - Book Store HTML Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Use Minified Plugins Version For Fast Page Load -->
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/pages/wishlist.css}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+</head>
+
+<body>
+<div class="site-wrapper" id="top">
+    <!--=================================
+    Header Area
+    ===================================== -->
+    <div th:insert="~{global/header}"></div>
+
+    <section class="breadcrumb-section">
+        <h2 class="sr-only">Site Breadcrumb</h2>
+        <div class="container">
+            <div class="breadcrumb-contents">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a th:href="@{/api/books/main}">홈</a></li>
+                        <li class="breadcrumb-item active">위시리스트</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+    </section>
+    <!-- Wishlist Page Start -->
+    <div class="cart_area inner-page-sec-padding-bottom">
+        <div class="container">
+            <div class="wishlist-header">
+                <h2 th:text="${wishLists.size()} + '권'"></h2>
+            </div>
+            <div th:if="${wishLists != null}">
+                <div th:each="wishList : ${wishLists}" class="wishlist-item">
+                    <div class="item-details">
+                        <div class="item-image">
+                            <img th:src="${wishList.bookImageUrl}" alt="Book Image" width="100" height="150">
+                        </div>
+                        <div>
+                            <div class="item-title" th:text="${wishList.bookTitle}">Book Title</div>
+                            <div class="item-author" th:text="${wishList.authorName}">Author</div>
+                            <div class="item-publisher" th:text="${wishList.publisherName}">Publisher</div>
+                            <div class="item-rating">평균 ★4(16)</div>
+                            <div class="item-price">
+                                <span th:text="${wishList.bookSalePrice} + '원'"></span>
+                                <span class="item-discount" th:text="${wishList.bookSalePercent} + '%'"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-actions button">
+                        <div>
+                            <button class="btn btn-primary">카트에 담기</button>
+                        </div>
+                        <div>
+                            <form th:action="@{/api/wishLists/{wishListsId} (wishListsId=${wishList.wishListId})}"
+                                  th:method="delete">
+                                <button type="submit" class="btn btn-danger">삭제</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${wishLists == null}">
+                <p>위시리스트가 없습니다.</p>
+            </div>
+        </div>
+    </div>
+    <!-- Wishlist Page End -->
+</div>
+<!--=================================
+Footer Area
+===================================== -->
+<div th:insert="~{global/footer}"></div>
+
+<!-- Use Minified Plugins Version For Fast Page Load -->
+<script th:src="@{/js/plugins.js}"></script>
+<script th:src="@{/js/ajax-mail.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+</body>
+
+</html>
