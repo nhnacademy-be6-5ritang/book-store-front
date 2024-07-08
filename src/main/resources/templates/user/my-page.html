@@ -41,8 +41,56 @@
                     <div th:insert="~{fragments/user-account-menu.html}"></div>
                 </div>
                 <div class="col-lg-9 col-12">
-                    <h5>hello</h5>
-                    <h5>TODO: my page 구현하고, 탈퇴 추가</h5>
+                    <div>
+                        <h5>마이 페이지</h5>
+                        <div th:if="${myUserInfo.userStatusName == 'ACTIVE'}"
+                             style="width: 7px; height: 7px; border-radius: 50%; background-color: #10a400"></div>
+                        <div th:unless="${myUserInfo.userStatusName == 'ACTIVE'}"
+                             style="width: 7px; height: 7px; border-radius: 50%; background-color: #a8a8a8"></div>
+                    </div>
+                    <table>
+                        <tr>
+                            <td>이름</td>
+                            <td th:text="${myUserInfo.name}"></td>
+                            <td>권한</td>
+                            <td th:each="role : ${myUserInfo.roles}" th:text="${role}"></td>
+                        </tr>
+                        <tr>
+                            <td th:text="${myUserInfo.userGradeName}"></td>
+                            <td th:text="${myUserInfo.userStatusName}"></td>
+                        </tr>
+                        <tr>
+                            <td>이메일</td>
+                            <td th:text="${myUserInfo.email}"></td>
+                            <td>
+                                <button id="update-email-button" onclick="alert('아직 구현 중 ...')">이메일 변경</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>비밀번호</td>
+                            <td>********</td>
+                            <td>
+                                <button id="update-password-button" onclick="alert('아직 구현 중 ...')">비밀번호 변경</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>연락처</td>
+                            <td th:text="${myUserInfo.contact}"></td>
+                        </tr>
+                        <tr>
+                            <td>내 주소</td>
+                            <!--<td th:text="${myUserInfo.address}"></td>-->
+                            <td>주소 구현 중...</td>
+                            <td>
+                                <button id="update-address-button" onclick="alert('아직 구현 중 ...')">주소 변경</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>가입일</td>
+                            <td th:text="${myUserInfo.createdAt}"></td>
+                        </tr>
+                    </table>
+                    <button id="update-info-button">정보수정</button>
                     <button id="dormant-button">회원탈퇴</button>
                 </div>
             </div>

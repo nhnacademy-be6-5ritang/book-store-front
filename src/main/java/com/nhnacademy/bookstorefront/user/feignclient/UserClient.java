@@ -6,12 +6,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 
 import com.nhnacademy.bookstorefront.global.config.FeignClientConfig;
+import com.nhnacademy.bookstorefront.user.dto.response.GetMyUserInfoResponse;
 
 @FeignClient(name = "user-feign-client", url = "http://localhost:8090", configuration = FeignClientConfig.class)
 public interface UserClient {
 
 	@GetMapping("/api/users/self")
-	void getMyUserInfo();
+	ResponseEntity<GetMyUserInfoResponse> getMyUserInfo();
 
 	@PatchMapping("/api/users/dormant")
 	ResponseEntity<Void> dormantUser();
