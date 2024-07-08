@@ -26,6 +26,6 @@ public class GlobalDataControllerAdvice {
 	@ModelAttribute
 	public void categories(Model model) {
 		// 여기서 카테고리 데이터를 로드하고 반환
-		model.addAttribute("categoriesDisplay", null);
+		model.addAttribute("categoriesDisplay", categoryService.getCategories());
 	}
 }
