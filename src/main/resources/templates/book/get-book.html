@@ -99,7 +99,9 @@
                         </div>
                         <div class="add-to-cart-row">
                             <div class="add-cart-btn">
-                                <a th:href="@{/}" class="btn btn-outlined--primary"><span class="plus-icon">+</span>카트에
+                                <a th:attr="data-book-id=${book.bookId}"
+                                   class="btn btn-outlined--primary add-to-bookCart"><span
+                                        class="plus-icon">+</span>카트에
                                     담기</a>
                                 <a th:href="@{/api/orders/createBookOrderTest/{book_id}(book_id=${book.bookId()})}"
                                    class="btn btn-primary"><span class="plus-icon">+</span>주문하기</a>
@@ -172,6 +174,7 @@ Footer Area
 <script th:src="@{/js/ajax-mail.js}"></script>
 <script th:src="@{/js/custom.js}"></script>
 <script th:src="@{/js/create-wishList.js}"></script>
+<script th:src="@{/js/create-bookCart.js}"></script>
 </body>
 
 </html>

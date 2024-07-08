@@ -9,6 +9,5 @@ public record GetWishListResponse(
 	String authorName,
 	String publisherName,
 	BigDecimal bookSalePrice,
-	BigDecimal bookSalePercent,
-	int bookQuantity) {
+	BigDecimal bookSalePercent) {
 }

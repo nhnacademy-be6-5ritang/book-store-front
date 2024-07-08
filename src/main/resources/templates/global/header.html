@@ -9,6 +9,9 @@
                         <a th:href="@{/api/books/main}" class="site-brand">
                             <img th:src="@{/image/oritang.png}" alt="">
                         </a>
+                        <form th:action="@{/api/carts}" method="post">
+                            <button type="submit" class="btn btn-primary">카트 추가</button>
+                        </form>
                     </div>
                     <div class="col-lg-5">
                         <div class="header-search-block">
@@ -44,7 +47,7 @@
                                         </div>
                                         <div class=" single-cart-block ">
                                             <div class="btn-block">
-                                                <a th:href="@{/api/users/me/cart}" class="btn">View Cart <i
+                                                <a th:href="@{/api/carts/me}" class="btn">View Cart <i
                                                         class="fas fa-chevron-right"></i></a>
                                                 <a th:href="@{/checkout}" class="btn btn--primary">Check Out <i
                                                         class="fas fa-chevron-right"></i></a>
@@ -150,7 +153,7 @@
                                 <li class="menu-item has-children">
                                     <a href="javascript:void(0)">페이지 <i class="fas fa-chevron-down dropdown-arrow"></i></a>
                                     <ul class="sub-menu">
-                                        <li><a th:href="@{/api/users/me/carts}">카트</a></li>
+                                        <li><a th:href="@{/api/carts/me}">카트</a></li>
                                         <li><a th:href="@{/checkout}">주문</a></li>
                                         <li><a th:href="@{/api/wishLists}">위시리스트</a></li>
                                         <li><a th:href="@{/api/users/admin}">관리자페이지</a></li>

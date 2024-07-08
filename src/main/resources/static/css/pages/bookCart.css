@@ -1,0 +1,92 @@
+.bookCart_table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd; /* 테이블 전체 테두리 추가 */
+}
+
+.bookCart_table th, .bookCart_table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.bookCart_table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    text-align: center; /* 텍스트 가운데 정렬 추가 */
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.bookCart_info_wrapper {
+    display: flex;
+    align-items: flex-start;
+}
+
+.bookCart_image {
+    margin-right: 20px;
+}
+
+.bookCart_details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.bookCart_book_info img {
+    width: 100px;
+    height: 150px;
+}
+
+.bookCart_title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.bookCart_price {
+    display: flex;
+    align-items: baseline;
+}
+
+.bookCart_regular_price {
+    text-decoration: line-through;
+    margin-left: 10px;
+    color: #888;
+}
+
+.bookCart_discount {
+    margin-left: 10px;
+    color: red;
+}
+
+.bookCart_quantity button {
+    padding: 5px;
+    background-color: #0073e6;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin: 2px;
+}
+
+.bookCart_quantity button:hover {
+    background-color: #005bb5;
+}
+
+.bookCart_quantity input {
+    width: 50px;
+    text-align: center;
+}
+
+.add-to-bookCart button {
+    width: 100%;
+    margin-bottom: 5px; /* 버튼 사이의 간격 조정을 위한 추가적인 마진 설정 */
+}
+
+.bookCart_summary {
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #f4f4f4;
+    text-align: center; /* 텍스트 가운데 정렬 추가 */
+    padding: 10px;
+    border: 1px solid #ddd;
+}

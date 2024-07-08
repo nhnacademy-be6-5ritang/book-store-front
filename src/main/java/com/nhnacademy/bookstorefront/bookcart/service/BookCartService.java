@@ -2,13 +2,12 @@ package com.nhnacademy.bookstorefront.bookcart.service;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.bookcart.dto.request.CreateBookCartRequest;
 import com.nhnacademy.bookstorefront.bookcart.dto.request.UpdateBookCartRequest;
-import com.nhnacademy.bookstorefront.bookcart.dto.response.CreateBookCartResponse;
 import com.nhnacademy.bookstorefront.bookcart.dto.response.GetBookCartResponse;
-import com.nhnacademy.bookstorefront.bookcart.dto.response.UpdateBookCartResponse;
 import com.nhnacademy.bookstorefront.bookcart.feignclient.BookCartServiceClient;
 
 import lombok.RequiredArgsConstructor;
@@ -18,19 +17,19 @@ import lombok.RequiredArgsConstructor;
 public class BookCartService {
 	private final BookCartServiceClient bookCartServiceClient;
 
-	CreateBookCartResponse createBookCart(CreateBookCartRequest request) {
-		return bookCartServiceClient.createBookCart(request).getBody();
+	public List<GetBookCartResponse> getBookCartsByCartId() {
+		return bookCartServiceClient.getBookCartsByCartId().getBody();
 	}
 
-	List<GetBookCartResponse> getBookCartsByUserId(Long userId) {
-		return bookCartServiceClient.getBookCartsByUserId().getBody();
+	public ResponseEntity<Void> createBookCart(CreateBookCartRequest request) {
+		return bookCartServiceClient.createBookCart(request);
 	}
 
-	UpdateBookCartResponse updateBookCart(Long bookCartId, UpdateBookCartRequest request) {
-		return bookCartServiceClient.updateBookCart(bookCartId, request).getBody();
+	public ResponseEntity<Void> updateBookCart(Long bookCartId, UpdateBookCartRequest request) {
+		return bookCartServiceClient.updateBookCart(bookCartId, request);
 	}
 
-	void deleteBookCart(Long bookCartId) {
+	public void deleteBookCart(Long bookCartId) {
 		bookCartServiceClient.deleteBookCart(bookCartId);
 	}
 }

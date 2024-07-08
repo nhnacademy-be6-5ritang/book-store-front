@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>책 파는 오리탕집</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/pages/bookCart.css}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+</head>
+
+<body>
+<div class="site-wrapper" id="top">
+    <!--=================================
+    Header Area
+    ===================================== -->
+    <div th:insert="~{global/header}"></div>
+
+    <section class="breadcrumb-section">
+        <h2 class="sr-only">Site Breadcrumb</h2>
+        <div class="container">
+            <div class="breadcrumb-contents">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a th:href="@{/api/books/main}">홈</a></li>
+                        <li class="breadcrumb-item active">장바구니</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </section>
+    <!-- bookCart Page Start -->
+    <div class="bookCart_cart_area inner-page-sec-padding-bottom">
+        <div class="container">
+            <table class="bookCart_table">
+                <thead>
+                <tr class="inline-text">
+                    <th>상품정보</th>
+                    <th>수량</th>
+                    <th>상품금액</th>
+                    <th style="width: 250px">주문</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="bookCart : ${bookCarts}" class="bookCart_item">
+                    <td class="bookCart_book_info">
+                        <div class="bookCart_info_wrapper">
+                            <div class="bookCart_image">
+                                <img th:src="${bookCart.bookImageUrl}" alt="Book Image">
+                            </div>
+                            <div class="bookCart_details">
+                                <p class="bookCart_title" th:text="${bookCart.bookTitle}">Book Title</p>
+                                <p class="bookCart_price">
+                                    <span th:text="${bookCart.bookSalePrice} + '원'">11,700원</span>
+                                    <span class="bookCart_regular_price"
+                                          th:text="${bookCart.bookPrice} + '원'">13,000원</span>
+                                    <span class="bookCart_discount"
+                                          th:text="'(' + ${bookCart.bookSalePercent} + '% 할인)'">(10% 할인)</span>
+                                </p>
+                                <p class="bookCart_inventoryQuantity"
+                                   th:text="'재고: ' + ${bookCart.inventorQuantity}"></p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="bookCart_quantity">
+                        <input type="number" th:name="bookQuantity" th:value="${bookCart.bookQuantity}" min="1"
+                               th:data-bookCart-id="${bookCart.bookCartId}">
+                        <div>
+                            <button class="bookCart_decrement">-</button>
+                            <button class="bookCart_increment">+</button>
+                        </div>
+                        <form th:action="@{/api/carts/me/{bookCartId} (bookCartId=${bookCart.bookCartId})}"
+                              th:method="put">
+                            <button type="submit" class="bookCart_change">변경</button>
+                        </form>
+
+                    </td>
+                    <td class="bookCart_total inline-text">
+                        <span th:text="${bookCart.bookSalePrice * bookCart.bookQuantity} + '원'">23,400원</span>
+                    </td>
+                    <td class="add-to-bookCart">
+                        <button class="btn btn-primary">주문하기</button>
+                        <button th:attr="data-book-id=${bookCart.bookId}" class="btn btn-primary add-to-wishlist">
+                            위시리스트에
+                            추가
+                        </button>
+                        <form th:action="@{/api/carts/me/{cartId} (cartId=${bookCart.bookCartId})}"
+                              th:method="delete">
+                            <button type="submit" class="btn btn-danger">삭제</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div th:if="${bookCarts.size() > 0}" class="bookCart_summary">
+                <div class="summary-left">
+                    <p th:text="'상품 총 금액: ' + ${totalPrice} + '원'"></p>
+                </div>
+                <div class="summary-right">
+                    <button class="btn btn-primary">주문하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--=================================
+Footer Area
+===================================== -->
+<div th:insert="~{global/footer}"></div>
+
+<script th:src="@{/js/plugins.js}"></script>
+<script th:src="@{/js/ajax-mail.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+<script th:src="@{/js/create-wishList.js}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const quantityInputs = document.querySelectorAll('.bookCart_quantity input[type="number"]');
+        const changeButtons = document.querySelectorAll('.bookCart_change');
+        const decrementButtons = document.querySelectorAll('.bookCart_decrement');
+        const incrementButtons = document.querySelectorAll('.bookCart_increment');
+        const totalPriceElement = document.querySelector('.bookCart_summary p');
+        const changeForms = document.querySelectorAll('.bookCart_change form');
+
+        // 초기화: 페이지가 로드될 때 총 금액 계산
+        calculateTotalPrice();
+
+        // 변경 버튼 클릭 시 해당 상품 금액 및 총 상품 금액 계산 및 업데이트
+        changeButtons.forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                const input = this.closest('.bookCart_item').querySelector('.bookCart_quantity input[type="number"]');
+                const maxQuantity = parseInt(input.closest('.bookCart_item').querySelector('.bookCart_inventoryQuantity').innerText.replace('재고: ', ''));
+                let quantity = parseInt(input.value);
+
+                // 수량 검증
+                if (quantity < 1) {
+                    alert('1권 이상의 수량을 입력해야 합니다.');
+                    return;
+                }
+
+                if (quantity > maxQuantity) {
+                    alert('재고보다 많은 수량을 입력할 수 없습니다.');
+                    return;
+                }
+
+                // PUT 요청 보내기
+                const bookCartId = input.getAttribute('data-bookCart-id');
+                const requestData = {
+                    bookQuantity: quantity
+                };
+
+                fetch('/api/carts/me/' + bookCartId, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestData),
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('수량이 업데이트되었습니다.');
+                            updateItemTotal(input); // 해당 상품 금액 업데이트
+                            calculateTotalPrice(); // 전체 총 금액 계산 및 업데이트
+                        } else {
+                            alert('수량 업데이트 실패');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('수량 업데이트 중 문제가 발생했습니다.');
+                    });
+
+            });
+        });
+
+        // 수량 감소 버튼 클릭 시 수량 감소 (최소 1 이상)
+        decrementButtons.forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+                const input = this.closest('.bookCart_quantity').querySelector('input[type="number"]');
+                if (input.value > 1) {
+                    input.value = parseInt(input.value) - 1;
+                }
+            });
+        });
+
+        // 수량 증가 버튼 클릭 시 수량 증가
+        incrementButtons.forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+                const input = this.closest('.bookCart_quantity').querySelector('input[type="number"]');
+                const maxQuantity = parseInt(input.closest('.bookCart_item').querySelector('.bookCart_inventoryQuantity').innerText.replace('재고: ', ''));
+                if (input.value < maxQuantity) {
+                    input.value = parseInt(input.value) + 1;
+                }
+            });
+        });
+
+        function updateItemTotal(input) {
+            const quantity = parseInt(input.value);
+            if (quantity < 1) {
+                input.value = 1; // 최소값 1로 설정
+            }
+            const pricePerItem = parseInt(input.closest('.bookCart_item').querySelector('.bookCart_price span').innerText.replace('원', '').replace(',', ''));
+            const itemTotal = quantity * pricePerItem;
+            input.closest('.bookCart_item').querySelector('.bookCart_total span').innerText = itemTotal.toLocaleString() + '원';
+        }
+
+        function calculateTotalPrice() {
+            let totalPrice = 0;
+            changeButtons.forEach(button => {
+                const input = button.closest('.bookCart_item').querySelector('.bookCart_quantity input[type="number"]');
+                const quantity = parseInt(input.value);
+                const pricePerItem = parseInt(input.closest('.bookCart_item').querySelector('.bookCart_price span').innerText.replace('원', '').replace(',', ''));
+                totalPrice += quantity * pricePerItem;
+            });
+            totalPriceElement.innerText = '상품 총 금액: ' + totalPrice.toLocaleString() + '원';
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 package com.nhnacademy.bookstorefront.bookcart.dto.request;
 
-import lombok.Builder;
-
-@Builder
-public record UpdateBookCartRequest(int bookQuantity, Long bookId, Long cartId) {
+public record UpdateBookCartRequest(
+	Long bookId,
+	Long cartId,
+	int bookQuantity) {
 }

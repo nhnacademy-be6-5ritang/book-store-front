@@ -89,8 +89,8 @@
                                                             </a>
                                                             <!-- 메인 간편 버튼 시작-->
                                                             <div class="hover-btns">
-                                                                <a th:href="@{/api/carts/book-cart}"
-                                                                   class="single-btn">
+                                                                <a th:attr="data-book-id=${book.bookId}"
+                                                                   class="single-btn add-to-bookCart">
                                                                     <i class="fas fa-shopping-basket"></i>
                                                                 </a>
                                                                 <a th:attr="data-book-id=${book.bookId}"
@@ -329,6 +329,7 @@ Footer Area
 <script th:src="@{/js/ajax-mail.js}"></script>
 <script th:src="@{/js/custom.js}"></script>
 <script th:src="@{/js/create-wishList.js}"></script>
+<script th:src="@{/js/create-bookCart.js}"></script>
 </body>
 
 </html>
