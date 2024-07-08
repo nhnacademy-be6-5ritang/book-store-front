@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.UpdateBookRequest;
+import com.nhnacademy.bookstorefront.book.dto.response.BookSearchResult;
 import com.nhnacademy.bookstorefront.book.dto.response.CreateBookResponse;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.dto.response.UpdateBookResponse;
@@ -59,5 +60,13 @@ public class BookServiceImpl implements BookService {
 
 	public void updateQuantity(Long bookId, int quantity) {
 		bookServiceClient.updateQuantity(bookId, quantity);
+	}
+
+
+
+	@Override
+	public List<BookSearchResult> searchBooks(String query) {
+
+		return bookServiceClient.searchBooks(query).getBody();
 	}
 }

@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nhnacademy.bookstorefront.category.dto.request.CreateCategoryRequest;
 import com.nhnacademy.bookstorefront.category.dto.request.UpdateCategoryRequest;
+import com.nhnacademy.bookstorefront.category.dto.response.CategorySearchResult;
 import com.nhnacademy.bookstorefront.category.dto.response.CreateCategoryResponse;
 import com.nhnacademy.bookstorefront.category.dto.response.GetCategoryResponse;
 import com.nhnacademy.bookstorefront.category.dto.response.UpdateCategoryResponse;
@@ -44,4 +46,8 @@ public interface CategoryServiceClient {
 
 	@DeleteMapping("/{categoryId}")
 	ResponseEntity<Void> deleteCategory(@PathVariable Long categoryId);
+
+
+	@GetMapping("/search/test")
+	ResponseEntity<List<CategorySearchResult>> searchCategories(@RequestParam("key") String search);
 }

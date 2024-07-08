@@ -24,8 +24,8 @@
                     <th>Expired Date</th>
                     <th>Issue Date</th>
                     <th>Coupon Policy isUsed</th>
-                    <th>Category Coupon Id</th>
-                    <th>Book Coupon Id</th>
+                    <th>Category Coupon Name</th>
+                    <th>Book Coupon Title</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -53,8 +53,8 @@
                     <td><input type="text" class="form-control expiredDate" th:value="${coupon.expiredDate}"></td>
                     <td><input type="text" class="form-control issueDate" th:value="${coupon.issueDate}"></td>
                     <td><input type="text" class="form-control isUsed" th:value="${coupon.isUsed}"></td>
-                    <td><input type="text" class="form-control categoryId" th:value="${coupon.categoryId()}"></td>
-                    <td><input type="text" class="form-control bookId" th:value="${coupon.bookId}"></td>
+                    <td><input type="text" class="form-control categoryName" th:value="${coupon.categoryName}"></td>
+                    <td><input type="text" class="form-control bookTitle" th:value="${coupon.bookTitle}"></td>
                 </tr>
                 </tbody>
             </table>

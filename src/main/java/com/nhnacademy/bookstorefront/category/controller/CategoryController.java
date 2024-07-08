@@ -1,8 +1,11 @@
 package com.nhnacademy.bookstorefront.category.controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,9 +15,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nhnacademy.bookstorefront.category.dto.request.CreateCategoryRequest;
 import com.nhnacademy.bookstorefront.category.dto.request.UpdateCategoryRequest;
+import com.nhnacademy.bookstorefront.category.dto.response.CategorySearchResult;
 import com.nhnacademy.bookstorefront.category.dto.response.GetCategoryResponse;
 import com.nhnacademy.bookstorefront.category.service.impl.CategoryServiceImpl;
 
@@ -135,5 +140,12 @@ public class CategoryController {
 	public String deleteCategory(@PathVariable Long categoryId) {
 		categoryService.deleteCategory(categoryId);
 		return "redirect:/api/categories/page";
+	}
+
+
+	@GetMapping("/search/test")
+	public ResponseEntity<List<CategorySearchResult>>  searchCategories(@RequestParam("key") String search) {
+		List<CategorySearchResult> results = categoryService.searchCategories(search);
+		return  ResponseEntity.ok(results);
 	}
 }

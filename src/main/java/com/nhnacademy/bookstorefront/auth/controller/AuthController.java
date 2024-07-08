@@ -4,6 +4,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,7 @@ import com.nhnacademy.bookstorefront.auth.service.AuthService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -86,7 +88,7 @@ public class AuthController {
 
 		if (refreshToken != null) {
 			Cookie refreshTokenCookie = new Cookie("Refresh-Token", refreshToken);
-			refreshTokenCookie.setHttpOnly(true);
+			// refreshTokenCookie.setHttpOnly(true);
 			refreshTokenCookie.setMaxAge(24 * 60 * 60);
 			refreshTokenCookie.setPath("/");
 			response.addCookie(refreshTokenCookie);
@@ -117,5 +119,15 @@ public class AuthController {
 		log.error("쿠키 제거 완료");
 		log.error("메인 페이지로 redirect");
 		return ResponseEntity.ok().build();
+	}
+
+	@PostMapping("/set-tokens")
+	public ResponseEntity<Void> setTokensInSession(
+		@RequestParam("accessToken") String accessToken,
+		@RequestParam("refreshToken") String refreshToken,
+		HttpSession session
+	) {
+		authService.setTokensInSession(accessToken, refreshToken, session);
+		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 }

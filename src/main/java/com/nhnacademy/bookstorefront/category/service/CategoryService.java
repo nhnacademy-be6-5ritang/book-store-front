@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.nhnacademy.bookstorefront.category.dto.request.CreateCategoryRequest;
 import com.nhnacademy.bookstorefront.category.dto.request.UpdateCategoryRequest;
+import com.nhnacademy.bookstorefront.category.dto.response.CategorySearchResult;
 import com.nhnacademy.bookstorefront.category.dto.response.CreateCategoryResponse;
 import com.nhnacademy.bookstorefront.category.dto.response.GetCategoryResponse;
 import com.nhnacademy.bookstorefront.category.dto.response.UpdateCategoryResponse;
@@ -72,4 +73,7 @@ public interface CategoryService {
 	 * @param categoryId 삭제할 카테고리 ID
 	 */
 	void deleteCategory(Long categoryId);
+
+
+	List<CategorySearchResult> searchCategories(String query);
 }
