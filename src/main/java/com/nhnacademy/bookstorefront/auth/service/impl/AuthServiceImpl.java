@@ -8,6 +8,7 @@ import com.nhnacademy.bookstorefront.auth.dto.request.SignUpRequest;
 import com.nhnacademy.bookstorefront.auth.feignclient.AuthClient;
 import com.nhnacademy.bookstorefront.auth.service.AuthService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -33,5 +34,11 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	public void logout() {
 		authClient.requestLogout();
+	}
+
+	@Override
+	public void setTokensInSession(String accessToken, String refreshToken, HttpSession session) {
+		session.setAttribute("accessToken", accessToken);
+		session.setAttribute("refreshToken", refreshToken);
 	}
 }

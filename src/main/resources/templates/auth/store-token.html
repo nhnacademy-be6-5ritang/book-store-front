@@ -5,7 +5,7 @@
 </head>
 <body>
 <script th:inline="javascript">
-    const accessToken = [[${accessToken != null ? '"' + accessToken + '"' : null}]];
+    const accessToken = [[${accessToken != null ? accessToken : null}]];
 
     if (accessToken) {
         localStorage.setItem('accessToken', accessToken);
