@@ -29,13 +29,13 @@ public class CouponPolicyServiceImpl implements CouponPolicyService {
 	}
 
 	@Override
-	public void issueBookCoupon(Long bookId, CouponPolicyCreateRequestDTO requestDTO) {
-		couponPolicyServiceFeignClient.issueSpecificBookCoupon(bookId, requestDTO);
+	public void issueBookCoupon(CouponPolicyCreateRequestDTO requestDTO) {
+		couponPolicyServiceFeignClient.issueSpecificBookCoupon(requestDTO);
 	}
 
 	@Override
-	public void issueCategoryCoupon(Long categoryId, CouponPolicyCreateRequestDTO requestDTO) {
-		couponPolicyServiceFeignClient.issueSpecificCategoryCoupon(categoryId, requestDTO);
+	public void issueCategoryCoupon(CouponPolicyCreateRequestDTO requestDTO) {
+		couponPolicyServiceFeignClient.issueSpecificCategoryCoupon(requestDTO);
 	}
 
 

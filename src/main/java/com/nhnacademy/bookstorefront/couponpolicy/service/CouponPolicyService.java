@@ -12,9 +12,9 @@ public interface CouponPolicyService {
 
 	void issueBirthdayCoupon(CouponPolicyCreateRequestDTO requestDTO);
 
-	void issueBookCoupon(Long bookId, CouponPolicyCreateRequestDTO requestDTO);
+	void issueBookCoupon(CouponPolicyCreateRequestDTO requestDTO);
 
-	void issueCategoryCoupon(Long categoryId, CouponPolicyCreateRequestDTO requestDTO);
+	void issueCategoryCoupon(CouponPolicyCreateRequestDTO requestDTO);
 
 	void issueSaleCoupon(CouponPolicyCreateRequestDTO requestDTO);
 
