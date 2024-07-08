@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.UpdateBookRequest;
+import com.nhnacademy.bookstorefront.book.dto.response.BookSearchResult;
 import com.nhnacademy.bookstorefront.book.dto.response.CreateBookResponse;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.dto.response.UpdateBookResponse;
@@ -47,5 +47,10 @@ public interface BookServiceClient {
 
 	@PutMapping("/{bookId}/{quantity}")
 	ResponseEntity<Void> updateQuantity(@PathVariable Long bookId, @PathVariable int quantity);
+
+
+	@GetMapping("/search/test")
+	ResponseEntity<List<BookSearchResult>> searchBooks(@RequestParam("key") String search);
+
 
 }
