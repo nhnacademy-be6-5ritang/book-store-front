@@ -26,7 +26,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a th:href="@{/api/categories/main}">홈</a></li>
-                        <li class="breadcrumb-item active">카테고리 리스트</li>
+                        <li class="breadcrumb-item active">관리자 주문 확인</li>
                     </ol>
                 </nav>
             </div>
@@ -47,9 +47,22 @@
                         <!-- My Account Tab Content Start -->
                         <div class="col-lg-9 col-12 mt--30 mt-lg--0">
                             <div class="tab-content" id="myaccountContent">
-                                <!-- 카테고리 Tab Content Start -->
 
-                                <!-- 카테고리 Tab Content End -->
+                                <div class="cart_area inner-page-sec-padding-bottom">
+                                    <div class="container">
+                                        <div class="page-section-title">
+                                            <h1>관리자 주문 확인</h1>
+                                        </div>
+                                        <button onclick="location.href='/api/orders/admin/order-status/wait'" class="btn btn-primary">
+                                            대기 주문 확인
+                                        </button>
+                                        <button onclick="location.href='/api/orders/admin/order-status/going'" class="btn btn-primary">
+                                            발송 주문 확인
+                                        </button>
+                                    </div>
+                                </div>
+
+
                             </div>
                         </div>
                         <!-- My Account Tab Content End -->

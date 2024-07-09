@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nhnacademy.bookstorefront.delivery.dto.request.CreateDeliveryRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.request.GetDeliveriesRequest;
+import com.nhnacademy.bookstorefront.delivery.dto.request.UpdateDeliveryByOrderIdRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.request.UpdateDeliveryRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.response.CreateDeliveryResponse;
 import com.nhnacademy.bookstorefront.delivery.dto.response.GetDeliveryResponse;
@@ -45,4 +46,8 @@ public interface DeliveryServiceClient {
 
 	@GetMapping("/{orderId}/orders")
 	ResponseEntity<GetDeliveryResponse> getDeliveryByOrder(@PathVariable Long orderId);
+
+	@PutMapping("/sender/{deliveryId}")
+	ResponseEntity<Void> updateDeliveryByOrderId(@PathVariable Long deliveryId, @RequestBody
+	UpdateDeliveryByOrderIdRequest request);
 }
