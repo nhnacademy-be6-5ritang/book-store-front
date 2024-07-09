@@ -33,8 +33,14 @@ public interface UserAndCouponFeignClient {
 
 
 
-	@GetMapping("/coupons/users/{userId}")
-	ResponseEntity<Page<UserAndCouponResponseDTO>> getAllUserAndCouponsByUserPaging(@PathVariable("userId") Long userId, Pageable pageable);
+	@GetMapping("/coupons/users/user")
+	ResponseEntity<Page<UserAndCouponResponseDTO>> getAllUserAndCouponsByUserPaging( Pageable pageable);
+
+
+
+	//
+	// @GetMapping("/coupons/users/{userId}")
+	// ResponseEntity<Page<UserAndCouponResponseDTO>> getAllUserAndCouponsByUserPaging(@PathVariable("userId") Long userId, Pageable pageable);
 }
 
 

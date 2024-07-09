@@ -15,6 +15,8 @@ public interface UserAndCouponService {
 
 
     Page<UserAndCouponResponseDTO> getAllUserAndCouponPaging(Long userId, String type,Pageable pageable);
-    Page<UserAndCouponResponseDTO> getUserAndCouponByIdPaging(Long userId, Pageable pageable);
+    Page<UserAndCouponResponseDTO> getUserAndCouponByIdPaging(Pageable pageable);
+
+    // Page<UserAndCouponResponseDTO> getUserAndCouponByIdPaging(Long userId, Pageable pageable);
 
 }

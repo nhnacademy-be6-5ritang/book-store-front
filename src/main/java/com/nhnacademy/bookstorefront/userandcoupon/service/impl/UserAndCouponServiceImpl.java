@@ -21,8 +21,7 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 
 	@Override
 	public void createUserAndCoupon(Long couponTemplateId) {
-		Long userId=2L;
-		UserAndCouponRequestCreateDTO requestDTO = new UserAndCouponRequestCreateDTO(userId, false);
+		UserAndCouponRequestCreateDTO requestDTO = new UserAndCouponRequestCreateDTO(false);
 
 		 userAndCouponFeignClient.createUserAndCoupon(couponTemplateId ,requestDTO);
 
@@ -43,10 +42,18 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 
 
 	@Override
-	public Page<UserAndCouponResponseDTO> getUserAndCouponByIdPaging(Long userId, Pageable pageable) {
-		return userAndCouponFeignClient.getAllUserAndCouponsByUserPaging(userId, pageable).getBody();
+	public Page<UserAndCouponResponseDTO> getUserAndCouponByIdPaging(Pageable pageable) {
+		return userAndCouponFeignClient.getAllUserAndCouponsByUserPaging(pageable).getBody();
 
 	}
+	//
+	//
+	//
+	// @Override
+	// public Page<UserAndCouponResponseDTO> getUserAndCouponByIdPaging(Long userId, Pageable pageable) {
+	// 	return userAndCouponFeignClient.getAllUserAndCouponsByUserPaging(userId, pageable).getBody();
+	//
+	// }
 
 }
 
