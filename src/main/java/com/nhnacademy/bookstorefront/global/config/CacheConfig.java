@@ -35,7 +35,7 @@ public class CacheConfig {
 	private final CategoryService categoryService;
 
 	/**
-	 * 캐시를 관라합니다.
+	 * 캐시를 관리합니다.
 	 *
 	 */
 	@Bean
