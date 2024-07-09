@@ -1,32 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <title>쿠폰발행페이지-고객</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!--    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>-->
+<!--    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>-->
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/pages/usercoupon-issue-page.css}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <style>
-        .coupon-card {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
-            margin-bottom: 20px;
-        }
 
-        .coupon-card-body {
-            flex-grow: 1;
-        }
-
-        .coupon-field {
-            margin-bottom: 10px;
-        }
-
-        .issue-btn {
-            text-align: center;
-        }
-    </style>
 </head>
 <body>
+
+
+=================================
+   Header Area
+   =====================================
+
+<div th:insert="~{global/header}"></div>
+
 <div class="container">
     <div class="row mt-4">
         <div class="col-md-12">
@@ -155,5 +150,11 @@
         </div>
     </div>
 </div>
+
+=================================
+            Footer Area
+=====================================
+<div th:insert="~{global/footer}"></div>
+
 </body>
 </html>

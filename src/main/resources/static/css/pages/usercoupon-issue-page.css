@@ -1,0 +1,19 @@
+.coupon-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    margin-bottom: 20px;
+}
+
+.coupon-card-body {
+    flex-grow: 1;
+}
+
+.coupon-field {
+    margin-bottom: 10px;
+}
+
+.issue-btn {
+    text-align: center;
+}

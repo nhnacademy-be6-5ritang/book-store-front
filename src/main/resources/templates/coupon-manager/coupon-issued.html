@@ -1,13 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <title>유저가발행한 쿠폰-관리자</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}"/>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+
+<!--=================================
+   Header Area
+   ===================================== -->
+
+<div th:insert="~{global/header}"></div>
+
 
 <div class="container mt-5">
     <h2 class="mb-4">관리자 쿠폰관리페이지</h2>
@@ -108,6 +119,11 @@
     </nav>
 
 </div>
+<!--=================================
+            Footer Area
+===================================== -->
+<div th:insert="~{global/footer}"></div>
+
 
 <!-- Bootstrap JS and dependencies -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
