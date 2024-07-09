@@ -58,9 +58,11 @@ public class AuthController {
 				StandardCharsets.UTF_8);
 		}
 
-		// Long userId = signUpResponse.id();
 		// welcome 쿠폰 발행 service method
-		userAndCouponService.createWelcomeCoupon(userId);
+		if(Objects.nonNull(signUpResponse)){
+
+		userAndCouponService.createWelcomeCoupon(signUpResponse.id());
+		}
 		return "redirect:/auth/login";
 	}
 

@@ -32,7 +32,7 @@ public interface UserAndCouponFeignClient {
 
 
 	@PostMapping("/coupons/coupon/welcome")
-	ResponseEntity<Void> createUserWelcomeCouponIssue(Long userId);
+	ResponseEntity<Void> createUserWelcomeCouponIssue(@RequestParam Long userId);
 
 
 	//
