@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nhnacademy.bookstorefront.auth.dto.request.LoginRequest;
 import com.nhnacademy.bookstorefront.auth.dto.request.SignUpRequest;
+import com.nhnacademy.bookstorefront.auth.dto.response.SignUpResponse;
 import com.nhnacademy.bookstorefront.auth.service.AuthService;
 import com.nhnacademy.bookstorefront.userandcoupon.service.UserAndCouponService;
 
@@ -44,8 +45,9 @@ public class AuthController {
 
 	@PostMapping("/sign-up")
 	public String signUpProcess(@ModelAttribute SignUpRequest signUpRequest) {
+		SignUpResponse signUpResponse;
 		try {
-			authService.signUp(signUpRequest);
+			signUpResponse = authService.signUp(signUpRequest).getBody();
 		} catch (Exception e) {
 			if (e.getMessage().contains("409")) {
 				return "redirect:/auth/sign-up?error=" + URLEncoder.encode("해당 이메일은 이미 존재하는 이메일입니다.",
@@ -55,6 +57,8 @@ public class AuthController {
 			return "redirect:/auth/sign-up?error=" + URLEncoder.encode("Error signing up: " + e.getMessage(),
 				StandardCharsets.UTF_8);
 		}
+
+		// Long userId = signUpResponse.id();
 		// welcome 쿠폰 발행 service method
 		userAndCouponService.createWelcomeCoupon(userId);
 		return "redirect:/auth/login";

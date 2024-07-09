@@ -1,9 +1,11 @@
 package com.nhnacademy.bookstorefront.order.service;
 
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
+import com.nhnacademy.bookstorefront.order.dto.request.OrderCheckNonRequest;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetNonOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
 
 public interface OrderService {
@@ -39,4 +41,10 @@ public interface OrderService {
 	 * @return 주문 리턴
 	 */
 	GetAllListOrderByStatusResponse findByOrderStatusGoing();
+
+	/**
+	 * 비회원 주문 확인
+	 * @return 조회된 주문 정보
+	 */
+	GetNonOrderByInfoResponse findByOrderInfoIdByEmail(OrderCheckNonRequest orderCheckNonRequest);
 }

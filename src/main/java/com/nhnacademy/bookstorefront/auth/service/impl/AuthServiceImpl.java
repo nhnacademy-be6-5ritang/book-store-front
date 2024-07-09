@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.auth.dto.request.LoginRequest;
 import com.nhnacademy.bookstorefront.auth.dto.request.SignUpRequest;
+import com.nhnacademy.bookstorefront.auth.dto.response.SignUpResponse;
 import com.nhnacademy.bookstorefront.auth.feignclient.AuthClient;
 import com.nhnacademy.bookstorefront.auth.service.AuthService;
 
@@ -17,8 +18,8 @@ public class AuthServiceImpl implements AuthService {
 	private final AuthClient authClient;
 
 	@Override
-	public void signUp(SignUpRequest signUpRequest) {
-		authClient.requestSignUp(signUpRequest);
+	public ResponseEntity<SignUpResponse> signUp(SignUpRequest signUpRequest) {
+		return authClient.requestSignUp(signUpRequest);
 	}
 
 	@Override
