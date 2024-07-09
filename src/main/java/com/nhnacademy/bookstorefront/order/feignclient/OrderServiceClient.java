@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.nhnacademy.bookstorefront.order.dto.request.CreateBookOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
+import com.nhnacademy.bookstorefront.order.dto.request.OrderCheckNonRequest;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusResponse;
@@ -18,6 +19,7 @@ import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllPaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetListWrappingResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetNonOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetWrappingResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.UpdateBookOrderResponse;
@@ -60,4 +62,7 @@ public interface OrderServiceClient {
 
 	@GetMapping("/api/orders/order-status/going")
 	ResponseEntity<GetAllListOrderByStatusResponse> getOrderStatusGoing();
+
+	@PostMapping("/api/orders/order-info/Non")
+	ResponseEntity<GetNonOrderByInfoResponse> getOrderByInfoNon(@ModelAttribute OrderCheckNonRequest orderCheckNonRequest);
 }

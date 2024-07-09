@@ -17,6 +17,7 @@ import com.nhnacademy.bookstorefront.deliverypolicy.service.impl.DeliveryPolicyS
 import com.nhnacademy.bookstorefront.order.dto.request.CreateBookOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderListPost;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
+import com.nhnacademy.bookstorefront.order.dto.request.OrderCheckNonRequest;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusResponse;
@@ -144,6 +145,22 @@ public class OrderClientController {
 		GetAllListOrderResponse orders = orderServiceImpl.findAllUserId();
 		modelAndView.addObject("orderList", orders);
 		modelAndView.setViewName("order/orderCheck");
+		return modelAndView;
+	}
+
+	@GetMapping("/orderCheck/Non")
+	public ModelAndView orderCheckNon() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("order/orderCheckNon");
+		return modelAndView;
+	}
+
+	@PostMapping("/orderCheck/Non")
+	public ModelAndView orderCheckNon(@ModelAttribute OrderCheckNonRequest orderCheckNonRequest) {
+		ModelAndView modelAndView = new ModelAndView();
+		//현재 카트아이디로 찾지만 로그인된 사용자의 아이디를 기준으로 찾을듯?
+		modelAndView.addObject("orderList", orderServiceImpl.findByOrderInfoIdByEmail(orderCheckNonRequest));
+		modelAndView.setViewName("order/orderDetailNon");
 		return modelAndView;
 	}
 
