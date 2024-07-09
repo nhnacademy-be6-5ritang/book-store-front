@@ -18,7 +18,9 @@ $(document).ready(function () {
                 }
             },
             error: function (xhr, status, error) {
-                if (xhr.status === 409) {
+                if (xhr.status === 404) {
+                    alert('로그인 후 위시리스트를 이용해 주세요');
+                } else if (xhr.status === 409) {
                     alert('이미 위시리스트에 존재하는 책입니다.');
                 } else {
                     console.error('Error:', error);

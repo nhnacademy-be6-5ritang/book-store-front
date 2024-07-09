@@ -30,16 +30,6 @@ public class WishListController {
 	@PostMapping
 	public ResponseEntity<Void> createWishList(@RequestBody CreateWishListRequest request) {
 		return wishListService.createWishList(request);
-
-		// try {
-		// 	return wishListService.createWishList(request);
-		// } catch (Exception e) {
-		// 	if (e.getMessage().contains("409")) {
-		// 		return ResponseEntity.status(HttpStatus.CONFLICT).build();
-		// 	} else {
-		// 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		// 	}
-		// }
 	}
 
 	@DeleteMapping("/{wishListId}")

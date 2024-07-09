@@ -1,23 +1,26 @@
 package com.nhnacademy.bookstorefront.cart.service;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.cart.dto.response.GetCartResponse;
-import com.nhnacademy.bookstorefront.cart.feignclient.CartServiceClient;
 
-import lombok.RequiredArgsConstructor;
+/**
+ * CartService는 장바구니와 관련된 비즈니스 로직을 처리하는 인터페이스입니다.
+ */
+public interface CartService {
 
-@Service
-@RequiredArgsConstructor
-public class CartService {
-	private final CartServiceClient cartServiceClient;
+	/**
+	 * 특정 장바구니의 정보를 조회합니다.
+	 *
+	 * @param cartId 조회할 장바구니의 ID
+	 * @return 장바구니 정보가 포함된 ResponseEntity 객체
+	 */
+	ResponseEntity<GetCartResponse> getCart(Long cartId);
 
-	public ResponseEntity<GetCartResponse> getCart() {
-		return cartServiceClient.getCart();
-	}
-
-	public ResponseEntity<Void> createCart() {
-		return cartServiceClient.createCart();
-	}
+	/**
+	 * 새로운 장바구니를 생성합니다.
+	 *
+	 * @return 생성된 장바구니의 정보가 포함된 ResponseEntity 객체
+	 */
+	ResponseEntity<Void> createCart();
 }
