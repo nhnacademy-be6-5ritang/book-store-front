@@ -1,9 +1,10 @@
 package com.nhnacademy.bookstorefront.global.controller;
 
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.ModelAndView;
 
 import feign.FeignException;
 
@@ -23,19 +24,33 @@ public class GlobalExceptionHandler {
 	 * @return 에러 페이지 뷰 이름
 	 */
 	@ExceptionHandler(value = Exception.class)
-	public String handleException(Exception exception, Model model) {
-		model.addAttribute("message", exception.getMessage());
-		return "global/error";
+	public ModelAndView handleException(Exception exception, Model model) {
+		ModelAndView modelAndView = new ModelAndView("global/error");
+		modelAndView.addObject("message", exception.getMessage());
+		modelAndView.setStatus(HttpStatus.INTERNAL_SERVER_ERROR); // 기본 상태 코드를 500으로 설정
+		return modelAndView;
 	}
 
+	/**
+	 * FeignException을 처리하고 상태 코드에 따라 응답을 반환합니다.
+	 *
+	 * @param exception 발생한 Feign 예외 객체
+	 * @param model     예외 메시지를 저장할 모델 객체
+	 * @return 상태 코드에 따른 ResponseEntity 객체
+	 */
 	@ExceptionHandler(FeignException.class)
-	public ResponseEntity<Void> handleFeignStatusException(FeignException exception) {
-		if (exception.status() == 404) {
-			return ResponseEntity.status(404).build();
-		} else if (exception.status() == 409) {
-			return ResponseEntity.status(409).build();
-		}
-		return ResponseEntity.status(exception.status()).build();
-	}
+	public ModelAndView handleFeignStatusException(FeignException exception, Model model) {
+		ModelAndView modelAndView = new ModelAndView("global/error");
+		modelAndView.addObject("message", exception.getMessage());
 
+		if (exception.status() == 404) {
+			modelAndView.setStatus(HttpStatus.NOT_FOUND); // 404 상태 코드 설정
+		} else if (exception.status() == 409) {
+			modelAndView.setStatus(HttpStatus.CONFLICT); // 409 상태 코드 설정
+		} else {
+			modelAndView.setStatus(HttpStatus.valueOf(exception.status())); // 기타 상태 코드 설정
+		}
+
+		return modelAndView;
+	}
 }
