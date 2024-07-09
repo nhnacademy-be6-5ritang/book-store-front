@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nhnacademy.bookstorefront.cart.dto.response.GetCartResponse;
-import com.nhnacademy.bookstorefront.cart.service.impl.CartServiceImpl;
+import com.nhnacademy.bookstorefront.cart.service.CartService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/api/carts")
 public class CartController {
-	private final CartServiceImpl cartService;
+	private final CartService cartService;
 
 	@GetMapping("/{cartId}")
 	public GetCartResponse getCart(@PathVariable Long cartId) {

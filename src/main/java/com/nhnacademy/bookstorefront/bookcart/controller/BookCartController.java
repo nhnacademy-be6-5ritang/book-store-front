@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nhnacademy.bookstorefront.bookcart.dto.request.CreateBookCartRequest;
 import com.nhnacademy.bookstorefront.bookcart.dto.request.UpdateBookCartRequest;
-import com.nhnacademy.bookstorefront.bookcart.service.impl.BookCartServiceImpl;
+import com.nhnacademy.bookstorefront.bookcart.service.BookCartService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/api/carts/me")
 public class BookCartController {
-	private final BookCartServiceImpl bookCartService;
+	private final BookCartService bookCartService;
 
 	@GetMapping
 	public String getBookCarts(Model model, @CookieValue(name = "cartId", required = false) Long cartId) {
