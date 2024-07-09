@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.nhnacademy.bookstorefront.auth.dto.request.LoginRequest;
 import com.nhnacademy.bookstorefront.auth.dto.request.SignUpRequest;
+import com.nhnacademy.bookstorefront.auth.dto.response.SignUpResponse;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -12,7 +13,7 @@ public interface AuthService {
 
 	void logout();
 
-	void signUp(SignUpRequest signUpRequest);
+	ResponseEntity<SignUpResponse> signUp(SignUpRequest signUpRequest);
 
 	ResponseEntity<Boolean> isEmailExist(String email);
 
