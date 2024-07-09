@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 
 import com.nhnacademy.bookstorefront.delivery.dto.request.CreateDeliveryRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.request.GetDeliveriesRequest;
+import com.nhnacademy.bookstorefront.delivery.dto.request.UpdateDeliveryByOrderIdRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.request.UpdateDeliveryRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.response.CreateDeliveryResponse;
 import com.nhnacademy.bookstorefront.delivery.dto.response.GetDeliveryResponse;
@@ -24,4 +25,7 @@ public interface DeliveryService {
 	UpdateDeliveryAddOrderPolicyResponse updateDeliveryAddOrder(Long deliveryId, Long orderId);
 
 	GetDeliveryResponse getDeliveryByOrderId(Long orderId);
+
+	void updateDeliveryByOrderId(Long orderId, UpdateDeliveryByOrderIdRequest request);
+
 }

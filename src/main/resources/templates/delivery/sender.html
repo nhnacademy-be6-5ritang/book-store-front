@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>책 파는 오리탕집</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+</head>
+
+
+<body>
+<div class="site-wrapper" id="top">
+    <!--=================================
+    Header Area
+    ===================================== -->
+    <div th:insert="~{global/header}"></div>
+
+    <section class="breadcrumb-section">
+        <h2 class="sr-only">Site Breadcrumb</h2>
+        <div class="container">
+            <div class="breadcrumb-contents">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a th:href="@{/api/categories/main}">홈</a></li>
+                        <li class="breadcrumb-item active">배송 처리</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </section>
+
+    <div class="page-section inner-page-sec-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <!-- My Account Tab Menu Start -->
+                        <div class="col-lg-3 col-12">
+                            <!-- 관리자 계정 메뉴 -->
+                            <div th:insert="~{fragments/admin-account-menu.html}"></div>
+                        </div>
+                        <!-- My Account Tab Menu End -->
+                        <!-- My Account Tab Content Start -->
+                        <div class="col-lg-9 col-12 mt--30 mt-lg--0">
+                            <div class="tab-content" id="myaccountContent">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h3>송신자 입력</h3>
+                                        </div>
+                                        <div class="card mt-4">
+                                            <div class="card-body">
+                                                <form th:action="@{/api/deliveries/{orderId}/sender(orderId=${orderId})}" method="post">
+                                                    <div class="form-group">
+                                                        <label for="senderName">송신자 이름</label>
+                                                        <input type="text" class="form-control" id="senderName" name="senderName" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="senderAddress">송신자 주소</label>
+                                                        <div class="input-group mb-3">
+                                                            <input type="text" class="form-control" id="senderAddress" name="senderAddress" required>
+                                                            <div class="input-group-append">
+                                                                <button class="btn btn-outline-secondary" type="button" onclick="execDaumPostcode()">주소 찾기</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="senderAddress2">상세 주소</label>
+                                                        <div class="input-group mb-3">
+                                                            <input type="text" class="form-control" id="senderAddress2" name="senderAddress2" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="senderPhone">송신자 전화번호</label>
+                                                        <input type="text" class="form-control" id="senderPhone" name="senderPhone" required>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">배송 처리</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 배송상태 Tab Content End -->
+                            </div>
+                        </div>
+                        <!-- My Account Tab Content End -->
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--=================================
+Footer Area
+===================================== -->
+<div th:insert="~{global/footer.html}"></div>
+
+<!-- Use Minified Plugins Version For Fast Page Load -->
+<script th:src="@{/js/plugins.js}"></script>
+<script th:src="@{/js/ajax-mail.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+ 다음 주소 API 스크립트 추가
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    function execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                var addr = ''; // 주소 변수
+
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById("senderAddress").value = addr;
+            }
+        }).open();
+    }
+</script>
+</body>
+
+</html>
