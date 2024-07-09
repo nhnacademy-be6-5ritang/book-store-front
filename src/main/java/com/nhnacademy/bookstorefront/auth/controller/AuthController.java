@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.nhnacademy.bookstorefront.auth.dto.request.LoginRequest;
 import com.nhnacademy.bookstorefront.auth.dto.request.SignUpRequest;
 import com.nhnacademy.bookstorefront.auth.service.AuthService;
+import com.nhnacademy.bookstorefront.userandcoupon.service.UserAndCouponService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,6 +33,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/auth")
 public class AuthController {
 	private final AuthService authService;
+	// welcome 쿠폰 발행 service
+	private final UserAndCouponService userAndCouponService;
+
 
 	@GetMapping("/sign-up")
 	public String signUp() {
@@ -51,8 +55,11 @@ public class AuthController {
 			return "redirect:/auth/sign-up?error=" + URLEncoder.encode("Error signing up: " + e.getMessage(),
 				StandardCharsets.UTF_8);
 		}
+		// welcome 쿠폰 발행 service method
+		userAndCouponService.createWelcomeCoupon(userId);
 		return "redirect:/auth/login";
 	}
+
 
 	/**
 	 * 해당 이메일이 존재하는지 확인

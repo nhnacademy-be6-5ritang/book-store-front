@@ -4,8 +4,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.request.UserAndCouponRequestCreateDTO;
-import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.request.UserAndCouponRequestUpdateDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCouponResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.feignclient.UserAndCouponFeignClient;
 import com.nhnacademy.bookstorefront.userandcoupon.service.UserAndCouponService;
@@ -21,15 +19,16 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 
 	@Override
 	public void createUserAndCoupon(Long couponTemplateId) {
-		UserAndCouponRequestCreateDTO requestDTO = new UserAndCouponRequestCreateDTO(false);
 
-		 userAndCouponFeignClient.createUserAndCoupon(couponTemplateId ,requestDTO);
+		 userAndCouponFeignClient.createUserAndCoupon(couponTemplateId);
 
 	}
 
 	@Override
-	public UserAndCouponResponseDTO updateUserAndCoupon(Long userId, UserAndCouponRequestUpdateDTO requestDTO) {
-		return userAndCouponFeignClient.updateUserAndCoupon(userId, requestDTO).getBody();
+	public void createWelcomeCoupon(Long userId) {
+
+		userAndCouponFeignClient.createUserWelcomeCouponIssue(userId);
+
 	}
 
 
