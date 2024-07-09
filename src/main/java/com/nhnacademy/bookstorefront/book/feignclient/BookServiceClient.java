@@ -36,6 +36,9 @@ public interface BookServiceClient {
 	@PostMapping("/fetch/book-lists")
 	ResponseEntity<String> fetchAndSaveBooks(@RequestParam Long count);
 
+	@PostMapping("/fetch/{isbn}")
+	ResponseEntity<String> fetchAndSaveBook(@RequestParam String isbn);
+
 	@PostMapping
 	ResponseEntity<CreateBookResponse> createBook(@RequestBody CreateBookRequest request);
 

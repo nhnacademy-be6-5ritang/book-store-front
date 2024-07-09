@@ -54,6 +54,11 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
+	public ResponseEntity<String> fetchAndSaveBook(String isbn) {
+		return bookServiceClient.fetchAndSaveBook(isbn);
+	}
+
+	@Override
 	public void deleteBook(Long bookId) {
 		bookServiceClient.deleteBook(bookId);
 	}

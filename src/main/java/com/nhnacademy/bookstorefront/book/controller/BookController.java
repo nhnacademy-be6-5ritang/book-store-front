@@ -157,6 +157,18 @@ public class BookController {
 	}
 
 	/**
+	 * ISBN을 통한 도서정보 조회 및 저장
+	 *
+	 * @param isbn 도서 ISBN
+	 * @return 도서저장결과
+	 */
+	@PostMapping("/fetch/{isbn}")
+	String fetchAndSaveBook(@RequestParam String isbn){
+		bookService.fetchAndSaveBook(isbn);
+		return "redirect:/api/books/page";
+	}
+
+	/**
 	 * 새로운 책을 생성합니다.
 	 *
 	 * @param request 생성할 책 정보 DTO
