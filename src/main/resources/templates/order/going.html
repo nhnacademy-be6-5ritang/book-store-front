@@ -26,7 +26,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a th:href="@{/api/categories/main}">홈</a></li>
-                        <li class="breadcrumb-item active">주문 확인</li>
+                        <li class="breadcrumb-item active">관리자 배송 확인</li>
                     </ol>
                 </nav>
             </div>
@@ -41,7 +41,7 @@
                         <!-- My Account Tab Menu Start -->
                         <div class="col-lg-3 col-12">
                             <!-- 관리자 계정 메뉴 -->
-                            <div th:insert="~{fragments/user-account-menu.html}"></div>
+                            <div th:insert="~{fragments/admin-account-menu.html}"></div>
                         </div>
                         <!-- My Account Tab Menu End -->
                         <!-- My Account Tab Content Start -->
@@ -50,10 +50,10 @@
                                 <div class="cart_area inner-page-sec-padding-bottom">
                                     <div class="container">
                                         <div class="page-section-title">
-                                            <h1>주문 확인</h1>
+                                            <h1>배송중 확인</h1>
                                         </div>
                                         <div th:if="${orderList != null}">
-                                            <div th:each="order : ${orderList.orders()}" class="order-item">
+                                            <div th:each="orders : ${orderList.orders()}" class="order-item">
                                                 <table class="table">
                                                     <!-- Head Row -->
                                                     <thead>
@@ -61,6 +61,7 @@
                                                         <th class="pro-title">주문 번호</th>
                                                         <th class="pro-price">주문 가격</th>
                                                         <th class="pro-date">주문 날짜</th>
+                                                        <th class="pro-info">주문 보안 아이디</th>
                                                         <th class="pro-status">주문 상태</th>
                                                     </tr>
                                                     </thead>
@@ -68,15 +69,16 @@
                                                     <!-- Product Row -->
                                                     <tr>
                                                         <td class="pro-title">
-                                                            <a th:href="@{/api/orders/orderDetails/{order_info_id}(order_info_id=${order.orderInfoId()})}"
-                                                               th:text="${order.orderInfoId()}"></a>
+                                                            <span th:text="${orders.orderId()}"></span>
                                                         </td>
-                                                        <td class="pro-price"> <span
-                                                                th:text="${order.orderPrice()}"></span></td>
+                                                        <td class="pro-price"><span
+                                                                th:text="${orders.orderPrice()}"></span></td>
                                                         <td class="pro-date"><span
-                                                                th:text="${order.orderDate()}"></span></td>
+                                                                th:text="${orders.orderDate()}"></span></td>
+                                                        <td class="pro-info"><span
+                                                                th:text="${orders.orderInfoId()}"></span></td>
                                                         <td class="pro-status"><span
-                                                                th:text="${order.name()}"></span></td>
+                                                                th:text="${orders.orderStatusName()}"></span></td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -88,14 +90,16 @@
                                     </div>
                                 </div>
 
+                                <!-- 카테고리 Tab Content End -->
                             </div>
-
                         </div>
+                        <!-- My Account Tab Content End -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 
 <!--=================================

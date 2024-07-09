@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.delivery.dto.request.CreateDeliveryRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.request.GetDeliveriesRequest;
+import com.nhnacademy.bookstorefront.delivery.dto.request.UpdateDeliveryByOrderIdRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.request.UpdateDeliveryRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.response.CreateDeliveryResponse;
 import com.nhnacademy.bookstorefront.delivery.dto.response.GetDeliveryResponse;
@@ -54,5 +55,10 @@ public class DeliveryServiceImpl implements DeliveryService {
 	@Override
 	public GetDeliveryResponse getDeliveryByOrderId(Long orderId) {
 		return deliveryServiceClient.getDeliveryByOrder(orderId).getBody();
+	}
+
+	@Override
+	public void updateDeliveryByOrderId(Long orderId, UpdateDeliveryByOrderIdRequest request) {
+		deliveryServiceClient.updateDeliveryByOrderId(orderId, request);
 	}
 }
