@@ -189,5 +189,13 @@ $(document).ready(function () {
         $('#editCouponForm').attr('action', '/coupons/policies/' + policyId);
 
         $('#editModal').modal('show'); // 수정 모달 표시
+
+
+
+        // Close modal on clicking the close button
+        $('#editModal .close, #editModal .btn-secondary').on('click', function() {
+            $('#editModal').modal('hide');
+        });
+
     });
 });
