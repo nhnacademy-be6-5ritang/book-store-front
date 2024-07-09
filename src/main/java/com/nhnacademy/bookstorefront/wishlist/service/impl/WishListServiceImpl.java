@@ -2,10 +2,10 @@ package com.nhnacademy.bookstorefront.wishlist.service.impl;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.wishlist.dto.request.CreateWishListRequest;
-import com.nhnacademy.bookstorefront.wishlist.dto.response.CreateWishListResponse;
 import com.nhnacademy.bookstorefront.wishlist.dto.response.GetWishListResponse;
 import com.nhnacademy.bookstorefront.wishlist.feignclient.WishListServiceClient;
 import com.nhnacademy.bookstorefront.wishlist.service.WishListService;
@@ -23,8 +23,8 @@ public class WishListServiceImpl implements WishListService {
 	}
 
 	@Override
-	public CreateWishListResponse createWishList(CreateWishListRequest request) {
-		return wishListServiceClient.createWishList(request).getBody();
+	public ResponseEntity<Void> createWishList(CreateWishListRequest request) {
+		return wishListServiceClient.createWishList(request);
 	}
 
 	@Override
