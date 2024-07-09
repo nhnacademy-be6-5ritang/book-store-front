@@ -23,30 +23,15 @@
                                 </div>
                                 <div class="cart-block">
                                     <div class="cart-total">
-                                        <span class="text-number">1</span>
                                         <span class="text-item">장바구니</span>
-                                        <span class="price">₩0.00<i class="fas fa-chevron-down"></i></span>
+                                        <span class="price"><i class="fas fa-chevron-down"></i></span>
                                     </div>
                                     <div class="cart-dropdown-block">
                                         <div class=" single-cart-block ">
-                                            <div class="cart-product">
-                                                <a th:href="@{/product-details}" class="image">
-                                                    <img th:src="@{/image/products/cart-product-1.jpg}" alt="">
-                                                </a>
-                                                <div class="content">
-                                                    <h3 class="title"><a th:href="@{/product-details}">Kodak PIXPRO
-                                                        Astro
-                                                        Zoom AZ421 16 MP</a></h3>
-                                                    <p class="price"><span class="qty">1 ×</span> £87.34</p>
-                                                    <button class="cross-btn"><i class="fas fa-times"></i></button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class=" single-cart-block ">
                                             <div class="btn-block">
-                                                <a th:href="@{/api/users/me/cart}" class="btn">View Cart <i
+                                                <a th:href="@{/api/carts/me}" class="btn">카트 보기 <i
                                                         class="fas fa-chevron-right"></i></a>
-                                                <a th:href="@{/checkout}" class="btn btn--primary">Check Out <i
+                                                <a th:href="@{/checkout}" class="btn btn--primary">주문하기 <i
                                                         class="fas fa-chevron-right"></i></a>
                                             </div>
                                         </div>
@@ -71,12 +56,12 @@
                             <div>
                                 <a href="javascript:void(0)" class="category-trigger"><i class="fa fa-bars"></i>카테고리 목록</a>
                                 <ul class="category-menu">
-                                    <li th:each="category : ${categoriesDisplay}"
+                                    <li th:each="category : ${categoriesCache}"
                                         th:if="${#strings.isEmpty(category.parentCategoryName)}"
                                         class="cat-item has-children">
                                         <a th:href="@{#}" th:text="${category.categoryName}"></a>
                                         <ul class="sub-menu">
-                                            <li th:each="subCategory : ${categoriesDisplay}"
+                                            <li th:each="subCategory : ${categoriesCache}"
                                                 th:if="${subCategory.parentCategoryName == category.categoryName}">
                                                 <a th:href="@{#}" th:text="${subCategory.categoryName}"></a>
                                             </li>
@@ -150,9 +135,9 @@
                                 <li class="menu-item has-children">
                                     <a href="javascript:void(0)">페이지 <i class="fas fa-chevron-down dropdown-arrow"></i></a>
                                     <ul class="sub-menu">
-                                        <li><a th:href="@{/api/users/me/carts}">카트</a></li>
+                                        <li><a th:href="@{/api/carts/me}">카트</a></li>
                                         <li><a th:href="@{/checkout}">주문</a></li>
-                                        <li><a th:href="@{/api/users/me/wishLists}">위시리스트</a></li>
+                                        <li><a th:href="@{/api/wishLists}">위시리스트</a></li>
                                         <li><a th:href="@{/api/users/admin}">관리자페이지</a></li>
                                         <li><a th:href="@{/api/users/me}">마이페이지</a></li>
                                     </ul>
@@ -169,4 +154,5 @@
 
 <!-- 로그인 상태에 따라 헤더 변경 -->
 <script th:src="@{/js/login.js}"></script>
+<script th:src="@{/js/jwt-utils.js}"></script>
 

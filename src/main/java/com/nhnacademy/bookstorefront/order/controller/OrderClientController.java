@@ -17,8 +17,10 @@ import com.nhnacademy.bookstorefront.deliverypolicy.service.impl.DeliveryPolicyS
 import com.nhnacademy.bookstorefront.order.dto.request.CreateBookOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderListPost;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
+import com.nhnacademy.bookstorefront.order.dto.request.OrderCheckNonRequest;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllPaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
@@ -136,13 +138,29 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
-	@GetMapping("/orderCheck/{cart_id}")
-	public ModelAndView orderCheck(@PathVariable("cart_id") Long cartId) {
+	@GetMapping("/orderCheck")
+	public ModelAndView orderCheck() {
 		ModelAndView modelAndView = new ModelAndView();
 		//현재 카트아이디로 찾지만 로그인된 사용자의 아이디를 기준으로 찾을듯?
-		GetAllListOrderResponse orders = orderServiceImpl.findAllByCartId(cartId);
+		GetAllListOrderResponse orders = orderServiceImpl.findAllUserId();
 		modelAndView.addObject("orderList", orders);
 		modelAndView.setViewName("order/orderCheck");
+		return modelAndView;
+	}
+
+	@GetMapping("/orderCheck/Non")
+	public ModelAndView orderCheckNon() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("order/orderCheckNon");
+		return modelAndView;
+	}
+
+	@PostMapping("/orderCheck/Non")
+	public ModelAndView orderCheckNon(@ModelAttribute OrderCheckNonRequest orderCheckNonRequest) {
+		ModelAndView modelAndView = new ModelAndView();
+		//현재 카트아이디로 찾지만 로그인된 사용자의 아이디를 기준으로 찾을듯?
+		modelAndView.addObject("orderList", orderServiceImpl.findByOrderInfoIdByEmail(orderCheckNonRequest));
+		modelAndView.setViewName("order/orderDetailNon");
 		return modelAndView;
 	}
 
@@ -153,6 +171,31 @@ public class OrderClientController {
 		modelAndView.addObject("order", order);
 		modelAndView.addObject("delivery", deliveryServiceImpl.getDeliveryByOrderId(order.orderId()));
 		modelAndView.setViewName("order/orderDetails");
+		return modelAndView;
+	}
+
+	@GetMapping("/admin")
+	public ModelAndView admin() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("order/admin");
+		return modelAndView;
+	}
+
+	@GetMapping("/admin/order-status/wait")
+	public ModelAndView orderStatusWait() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("order/wait");
+		GetAllListOrderByStatusResponse orders = orderServiceImpl.findByOrderStatusWait();
+		modelAndView.addObject("orderList", orders);
+		return modelAndView;
+	}
+
+	@GetMapping("/admin/order-status/going")
+	public ModelAndView orderStatusGoing() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("order/going");
+		GetAllListOrderByStatusResponse orders = orderServiceImpl.findByOrderStatusGoing();
+		modelAndView.addObject("orderList", orders);
 		return modelAndView;
 	}
 }

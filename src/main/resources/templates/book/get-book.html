@@ -63,14 +63,16 @@
                         <ul class="list-unstyled">
                             <li>작가: <a class="list-value font-weight-bold" th:text="${book.authorName}"></a></li>
                             <li>출판사: <a class="list-value font-weight-bold" th:text="${book.publisherName}"></a></li>
-                            <li>출판일: <a class="list-value font-weight-bold" th:text="${#dates.format(book.bookPublishDate, 'yyyy-MM-dd')}"></a></li>
+                            <li>출판일: <a class="list-value font-weight-bold"
+                                        th:text="${#dates.format(book.bookPublishDate, 'yyyy-MM-dd')}"></a></li>
                             <li>ISBN: <span class="list-value" th:text="${book.bookIsbn}"></span></li>
                             <li>지급 포인트: <span class="list-value"> 200</span></li>
                             <li>상태: <span class="list-value" th:text="${book.bookStatusName}"></span></li>
                             <li>재고: <span class="list-value" th:text="${book.bookQuantity} + '권'"></span></li>
                         </ul>
 
-                        <div>할인율: <span class="price-discount" th:text="${book.bookSalePercent + '%'}">할인율 정보 없음</span></div>
+                        <div>할인율: <span class="price-discount" th:text="${book.bookSalePercent + '%'}">할인율 정보 없음</span>
+                        </div>
 
                         <div class="price-block">
                             할인가: <span class="price-new" th:text="${book.bookSalePrice} + '₩'"></span>
@@ -97,12 +99,16 @@
                         </div>
                         <div class="add-to-cart-row">
                             <div class="add-cart-btn">
-                                <a th:href="@{/}" class="btn btn-outlined--primary"><span class="plus-icon">+</span>카트에 담기</a>
-                                <a th:href="@{/api/orders/createBookOrderTest/{book_id}(book_id=${book.bookId()})}" class="btn btn-primary"><span class="plus-icon">+</span>주문하기</a>
+                                <a th:attr="data-book-id=${book.bookId}"
+                                   class="btn btn-outlined--primary add-to-bookCart"><span
+                                        class="plus-icon">+</span>카트에 담기</a>
+                                <a th:href="@{/api/orders/createBookOrderTest/{book_id}(book_id=${book.bookId()})}"
+                                   class="btn btn-primary"><span class="plus-icon">+</span>주문하기</a>
                             </div>
                         </div>
                         <div class="compare-wishlist-row">
-                            <a th:href="@{/}" class="add-link"><i class="fas fa-heart"></i>위시리스트에 추가</a>
+                            <a th:attr="data-book-id=${book.bookId}" class="add-to-wishlist"><i
+                                    class="fas fa-heart"></i>위시리스트에 추가</a>
                         </div>
                     </div>
                 </div>
@@ -110,10 +116,12 @@
             <div class="sb-custom-tab review-tab section-padding">
                 <ul class="nav nav-tabs nav-style-2" id="myTab2" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="tab1" data-bs-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">설명</a>
+                        <a class="nav-link active" id="tab1" data-bs-toggle="tab" href="#tab-1" role="tab"
+                           aria-controls="tab-1" aria-selected="true">설명</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="tab2" data-bs-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="true">리뷰 리스트 (1)</a>
+                        <a class="nav-link" id="tab2" data-bs-toggle="tab" href="#tab-2" role="tab"
+                           aria-controls="tab-2" aria-selected="true">리뷰 리스트 (1)</a>
                     </li>
                 </ul>
                 <div class="tab-content space-db--20" id="myTabContent">
@@ -140,7 +148,8 @@
                                     </div>
                                     <h6 class="author">ADMIN – <span class="font-weight-400">March 23, 2015</span>
                                     </h6>
-                                    <p>Lorem et placerat vestibulum, metus nisi posuere nisl, in accumsan elit odio quis mi.</p>
+                                    <p>Lorem et placerat vestibulum, metus nisi posuere nisl, in accumsan elit odio quis
+                                        mi.</p>
                                 </div>
                             </div>
 
@@ -163,6 +172,8 @@ Footer Area
 <script th:src="@{/js/plugins.js}"></script>
 <script th:src="@{/js/ajax-mail.js}"></script>
 <script th:src="@{/js/custom.js}"></script>
+<script th:src="@{/js/create-wishList.js}"></script>
+<script th:src="@{/js/create-bookCart.js}"></script>
 </body>
 
 </html>

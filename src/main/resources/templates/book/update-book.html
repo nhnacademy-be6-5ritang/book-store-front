@@ -11,7 +11,6 @@
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
 </head>
 
-
 <body>
 <div class="site-wrapper" id="top">
     <!--=================================
@@ -56,92 +55,124 @@
                                         <div class="card mt-4">
                                             <div class="card-body">
                                                 <!-- 도서 수정 폼 -->
-                                                <form th:object="${book}" th:action="@{/api/books/{bookId} (bookId=${bookId})}" th:method="put">
+                                                <form th:object="${book}"
+                                                      th:action="@{/api/books/{bookId} (bookId=${bookId})}"
+                                                      th:method="put">
 
                                                     <!-- 최소 한 개의 카테고리 선택 항목 유지 -->
                                                     <div class="form-group" id="categorySelectionGroup">
                                                         <div th:each="bookCategory, iterStat : ${bookCategories}">
                                                             <div class="category-select-row">
-                                                                <label for="categories" class="mr-2">카테고리 [[${iterStat.index + 1}]]</label>
+                                                                <label for="categories" class="mr-2">카테고리
+                                                                    [[${iterStat.index + 1}]]</label>
                                                                 <div class="d-flex align-items-center">
-                                                                    <select class="form-control" id="categories" name="categories" required>
+                                                                    <select class="form-control" id="categories"
+                                                                            name="categories" required>
                                                                         <!-- 카테고리 옵션들 추가 -->
-                                                                        <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.categoryName}"
+                                                                        <option th:each="category : ${categories}"
+                                                                                th:value="${category.categoryId}"
+                                                                                th:text="${category.categoryName}"
                                                                                 th:selected="${category.categoryId == bookCategory.categoryId}"></option>
                                                                     </select>
-                                                                    <button class="btn btn-danger ml-2 inline-text" onclick="removeCategorySelect(this)">삭제</button>
+                                                                    <button class="btn btn-danger ml-2 inline-text"
+                                                                            onclick="removeCategorySelect(this)">삭제
+                                                                    </button>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
 
                                                     <!-- 추가 카테고리 선택 버튼 -->
-                                                    <button type="button" class="btn btn-primary mt-2" onclick="addCategorySelect()">카테고리 항목 추가</button>
+                                                    <button type="button" class="btn btn-primary mt-2"
+                                                            onclick="addCategorySelect()">카테고리 항목 추가
+                                                    </button>
 
                                                     <div class="form-group" id="tagSelectionGroup">
                                                         <div th:each="bookTag, iterStat : ${bookTags}">
                                                             <div class="tag-select-row">
-                                                                <label for="tags" class="mr-2">태그 [[${iterStat.index + 1}]]</label>
+                                                                <label for="tags" class="mr-2">태그 [[${iterStat.index +
+                                                                    1}]]</label>
                                                                 <div class="d-flex align-items-center">
-                                                                    <select class="form-control" id="tags" name="tags" required>
+                                                                    <select class="form-control" id="tags" name="tags"
+                                                                            required>
                                                                         <!-- 태그 옵션들 추가 -->
-                                                                        <option th:each="tag : ${tags}" th:value="${tag.tagId}" th:text="${tag.tagName}"
+                                                                        <option th:each="tag : ${tags}"
+                                                                                th:value="${tag.tagId}"
+                                                                                th:text="${tag.tagName}"
                                                                                 th:selected="${tag.tagId == bookTag.tagId}"></option>
                                                                     </select>
-                                                                    <button class="btn btn-danger ml-2 inline-text" onclick="removeTagSelect(this)">삭제</button>
+                                                                    <button class="btn btn-danger ml-2 inline-text"
+                                                                            onclick="removeTagSelect(this)">삭제
+                                                                    </button>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
 
                                                     <!-- 추가 태그 선택 버튼 -->
-                                                    <button type="button" class="btn btn-primary mt-2" onclick="addTagSelect()">태그 항목 추가</button>
+                                                    <button type="button" class="btn btn-primary mt-2"
+                                                            onclick="addTagSelect()">태그 항목 추가
+                                                    </button>
 
                                                     <div class="form-group">
                                                         <label for="bookTitle">도서 제목</label>
-                                                        <input type="text" class="form-control" id="bookTitle" th:field="*{bookTitle}" required>
+                                                        <input type="text" class="form-control" id="bookTitle"
+                                                               th:field="*{bookTitle}" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="authorName">저자 이름</label>
-                                                        <input type="text" class="form-control" id="authorName" th:field="*{authorName}" required>
+                                                        <input type="text" class="form-control" id="authorName"
+                                                               th:field="*{authorName}" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="publisherName">출판사 이름</label>
-                                                        <input type="text" class="form-control" id="publisherName" th:field="*{publisherName}" required>
+                                                        <input type="text" class="form-control" id="publisherName"
+                                                               th:field="*{publisherName}" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="bookPublishDate">출판일</label>
-                                                        <input type="date" class="form-control" id="bookPublishDate" th:field="*{bookPublishDate}" required>
+                                                        <input type="date" class="form-control" id="bookPublishDate"
+                                                               th:field="*{bookPublishDate}" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="bookStatusName">도서 상태</label>
-                                                        <select class="form-control" id="bookStatusName" th:field="*{bookStatusName}" required>
-                                                            <option th:each="bookStatus : ${bookStatuses}" th:value="${bookStatus.bookStatusName}" th:text="${bookStatus.bookStatusName}">카테고리 선택</option>
+                                                        <select class="form-control" id="bookStatusName"
+                                                                th:field="*{bookStatusName}" required>
+                                                            <option th:each="bookStatus : ${bookStatuses}"
+                                                                    th:value="${bookStatus.bookStatusName}"
+                                                                    th:text="${bookStatus.bookStatusName}">카테고리 선택
+                                                            </option>
                                                         </select>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="bookDescription">도서 설명</label>
-                                                        <textarea class="form-control" id="bookDescription" th:field="*{bookDescription}" required></textarea>
+                                                        <textarea class="form-control" id="bookDescription"
+                                                                  th:field="*{bookDescription}" required></textarea>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="bookQuantity">재고 수량</label>
-                                                        <input type="number" class="form-control" id="bookQuantity" th:field="*{bookQuantity}" required>
+                                                        <input type="number" class="form-control" id="bookQuantity"
+                                                               th:field="*{bookQuantity}" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="bookIsbn">도서 ISBN</label>
-                                                        <input type="text" class="form-control" id="bookIsbn" th:field="*{bookIsbn}" required>
+                                                        <input type="text" class="form-control" id="bookIsbn"
+                                                               th:field="*{bookIsbn}" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="bookPrice">도서 정가</label>
-                                                        <input type="number" class="form-control" id="bookPrice" th:field="*{bookPrice}" required>
+                                                        <input type="number" class="form-control" id="bookPrice"
+                                                               th:field="*{bookPrice}" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="bookSalePercent">할인율</label>
-                                                        <input type="number" class="form-control" id="bookSalePercent" th:field="*{bookSalePercent}" required>
+                                                        <input type="number" class="form-control" id="bookSalePercent"
+                                                               th:field="*{bookSalePercent}" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="bookSalePrice">도서 할인가</label>
-                                                        <input type="number" class="form-control" id="bookSalePrice" th:field="*{bookSalePrice}" required>
+                                                        <input type="number" class="form-control" id="bookSalePrice"
+                                                               th:field="*{bookSalePrice}" required>
                                                     </div>
                                                     <button type="submit" class="btn btn-primary">수정</button>
                                                     <a class="btn btn-secondary" onclick="history.back()">취소</a>
@@ -171,140 +202,7 @@ Footer Area
 <script th:src="@{/js/plugins.js}"></script>
 <script th:src="@{/js/ajax-mail.js}"></script>
 <script th:src="@{/js/custom.js}"></script>
-
-<script th:inline="javascript">
-    var categoryCount = /*[[${bookCategories.size()}]]*/ 0; // 초기 카테고리 개수 설정
-
-    function addCategorySelect() {
-        categoryCount++;
-
-        var categorySelectRow = document.createElement('div');
-        categorySelectRow.classList.add('category-select-row');
-
-        var label = document.createElement('label');
-        label.setAttribute('for', 'categories');
-        label.classList.add('mr-2');
-        label.textContent = '카테고리 ' + categoryCount;
-
-        var flexContainer = document.createElement('div');
-        flexContainer.classList.add('d-flex', 'align-items-center');
-
-        var select = document.createElement('select');
-        select.classList.add('form-control');
-        select.setAttribute('id', 'categories');
-        select.setAttribute('name', 'categories');
-        select.setAttribute('required', '');
-
-        var defaultOption = document.createElement('option');
-        defaultOption.setAttribute('value', '');
-        defaultOption.textContent = '카테고리 선택';
-        select.appendChild(defaultOption);
-
-        /* 카테고리 옵션들 추가 */
-        var categories = /*[[${categories}]]*/ [];
-        categories.forEach(function(category) {
-            var option = document.createElement('option');
-            option.setAttribute('value', category.categoryId);
-            option.textContent = category.categoryName;
-            select.appendChild(option);
-        });
-
-        var deleteButton = document.createElement('button');
-        deleteButton.setAttribute('type', 'button');
-        deleteButton.classList.add('btn', 'btn-danger', 'ml-2', 'inline-text');
-        deleteButton.textContent = '삭제';
-        deleteButton.onclick = function() {
-            removeCategorySelect(deleteButton);
-        };
-
-        flexContainer.appendChild(select);
-        flexContainer.appendChild(deleteButton);
-
-        categorySelectRow.appendChild(label);
-        categorySelectRow.appendChild(flexContainer);
-
-        document.getElementById('categorySelectionGroup').appendChild(categorySelectRow);
-    }
-
-    function removeCategorySelect(buttonElement) {
-        var selectRow = buttonElement.closest('.category-select-row');
-
-        // 남은 카테고리 선택 항목의 개수 확인
-        var remainingCategorySelects = document.querySelectorAll('.category-select-row');
-
-        // 첫 번째 항목은 삭제할 수 없도록 체크
-        if (remainingCategorySelects.length > 1) {
-            selectRow.remove();
-            categoryCount--;
-        } else {
-            alert("하나의 카테고리는 삭제할 수 없습니다.");
-        }
-    }
-
-    var tagCount = /*[[${bookTags.size()}]]*/ 0; // 초기 태그 개수 설정
-
-    function addTagSelect() {
-        tagCount++;
-
-        var tagSelectRow = document.createElement('div');
-        tagSelectRow.classList.add('tag-select-row');
-
-        var label = document.createElement('label');
-        label.setAttribute('for', 'tags');
-        label.classList.add('mr-2');
-        label.textContent = '태그 ' + tagCount;
-
-        var flexContainer = document.createElement('div');
-        flexContainer.classList.add('d-flex', 'align-items-center');
-
-        var select = document.createElement('select');
-        select.classList.add('form-control');
-        select.setAttribute('id', 'tags');
-        select.setAttribute('name', 'tags');
-        select.setAttribute('required', '');
-
-        var defaultOption = document.createElement('option');
-        defaultOption.setAttribute('value', '');
-        defaultOption.textContent = '태그 선택';
-        select.appendChild(defaultOption);
-
-        /* 태그 옵션들 추가 */
-        var tags = /*[[${tags}]]*/ [];
-        tags.forEach(function(tag) {
-            var option = document.createElement('option');
-            option.setAttribute('value', tag.tagId);
-            option.textContent = tag.tagName;
-            select.appendChild(option);
-        });
-
-        var deleteButton = document.createElement('button');
-        deleteButton.setAttribute('type', 'button');
-        deleteButton.classList.add('btn', 'btn-danger', 'ml-2', 'inline-text');
-        deleteButton.textContent = '삭제';
-        deleteButton.onclick = function() {
-            removeTagSelect(deleteButton);
-        };
-
-        flexContainer.appendChild(select);
-        flexContainer.appendChild(deleteButton);
-
-        tagSelectRow.appendChild(label);
-        tagSelectRow.appendChild(flexContainer);
-
-        document.getElementById('tagSelectionGroup').appendChild(tagSelectRow);
-    }
-
-    function removeTagSelect(buttonElement) {
-        var selectRow = buttonElement.closest('.tag-select-row');
-        selectRow.remove();
-
-        var label = selectRow.querySelector('label');
-        label.remove();
-
-        tagCount--;
-    }
-
-</script>
+<script th:src="@{/js/update-book.js}"></script>
 </body>
 
 </html>

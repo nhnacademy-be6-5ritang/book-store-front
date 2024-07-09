@@ -5,9 +5,11 @@ import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.auth.dto.request.LoginRequest;
 import com.nhnacademy.bookstorefront.auth.dto.request.SignUpRequest;
+import com.nhnacademy.bookstorefront.auth.dto.response.SignUpResponse;
 import com.nhnacademy.bookstorefront.auth.feignclient.AuthClient;
 import com.nhnacademy.bookstorefront.auth.service.AuthService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -16,8 +18,8 @@ public class AuthServiceImpl implements AuthService {
 	private final AuthClient authClient;
 
 	@Override
-	public void signUp(SignUpRequest signUpRequest) {
-		authClient.requestSignUp(signUpRequest);
+	public ResponseEntity<SignUpResponse> signUp(SignUpRequest signUpRequest) {
+		return authClient.requestSignUp(signUpRequest);
 	}
 
 	@Override
@@ -33,5 +35,11 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	public void logout() {
 		authClient.requestLogout();
+	}
+
+	@Override
+	public void setTokensInSession(String accessToken, String refreshToken, HttpSession session) {
+		session.setAttribute("accessToken", accessToken);
+		session.setAttribute("refreshToken", refreshToken);
 	}
 }

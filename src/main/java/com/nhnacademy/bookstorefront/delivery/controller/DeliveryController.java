@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.nhnacademy.bookstorefront.delivery.dto.request.CreateDeliveryRequest;
+import com.nhnacademy.bookstorefront.delivery.dto.request.UpdateDeliveryByOrderIdRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.response.CreateDeliveryResponse;
 import com.nhnacademy.bookstorefront.delivery.service.DeliveryService;
 
@@ -32,6 +33,20 @@ public class DeliveryController {
 	public String createDeliveriesPage(@ModelAttribute CreateDeliveryRequest createDeliveryRequest,@PathVariable("order_list_id") Long orderListId) {
 		CreateDeliveryResponse response = deliveryService.createDelivery(createDeliveryRequest);
 		return "redirect:/api/orders/createOrderTest/" + orderListId + "/" + response.deliveryId();
+	}
+
+	@GetMapping("/{orderId}/sender")
+	public ModelAndView senderPage(@PathVariable("orderId") Long orderId) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("orderId", orderId);
+		modelAndView.setViewName("delivery/sender");
+		return modelAndView;
+	}
+
+	@PostMapping("/{orderId}/sender")
+	public String updateDeliveryByOrderId(@PathVariable("orderId") Long orderId, @ModelAttribute UpdateDeliveryByOrderIdRequest request) {
+		deliveryService.updateDeliveryByOrderId(orderId, request);
+		return "redirect:/api/orders/admin/order-status/going";
 	}
 
 

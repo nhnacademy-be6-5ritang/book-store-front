@@ -8,7 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
+import com.nhnacademy.bookstorefront.book.service.BookService;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
 import com.nhnacademy.bookstorefront.review.service.ReviewService;
 
@@ -19,9 +22,12 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api")
 public class ReviewController {
 	private final ReviewService reviewService;
+	private final BookService bookService;
 
 	@GetMapping("/reviews/create")
-	public String createReview() {
+	public String createReview(@RequestParam Long bookId, Model model) {
+		GetBookDetailResponse book = bookService.getBook(bookId);
+		model.addAttribute("book", book);
 		return "review/create-review";
 	}
 
@@ -47,8 +53,6 @@ public class ReviewController {
 	public String getBookReviews(@PageableDefault(page = 1) Pageable pageable, @PathVariable Long bookId, Model model) {
 		Page<GetReviewResponse> reviews = reviewService.getReviewsByBookId(pageable, bookId);
 		model.addAttribute("reviews", reviews);
-		model.addAttribute("objects", reviews); // 공통 객체 이름
-		model.addAttribute("baseUrl", "/api/books/" + bookId + "/reviews/page"); // 페이징 URL
 
 		int blockLimit = 3;
 		int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
