@@ -24,7 +24,6 @@ public class FeignClientInterceptor implements RequestInterceptor {
 
 			if (cookies != null) {
 				for (Cookie cookie : cookies) {
-					log.info("[Interceptor] setting cookie to header: {}={}", cookie.getName(), cookie.getValue());
 					if ("Authorization".equals(cookie.getName())) {
 						template.header("Authorization", cookie.getValue());
 					} else if ("Refresh-Token".equals(cookie.getName())) {
