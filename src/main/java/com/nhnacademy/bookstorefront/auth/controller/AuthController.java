@@ -4,7 +4,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -38,12 +37,6 @@ public class AuthController {
 	// welcome 쿠폰 발행 service
 	private final UserAndCouponService userAndCouponService;
 
-
-	@org.springframework.beans.factory.annotation.Value("${spring.jwt.access-token.expires-in}")
-	private Long accessTokenExpiresIn;
-	@Value("${spring.jwt.refresh-token.expires-in}")
-	private Long refreshTokenExpiresIn;
-
 	@GetMapping("/sign-up")
 	public String signUp() {
 		return "auth/sign-up";
@@ -65,13 +58,12 @@ public class AuthController {
 		}
 
 		// welcome 쿠폰 발행 service method
-		if(Objects.nonNull(signUpResponse)){
+		if (Objects.nonNull(signUpResponse)) {
 
-		userAndCouponService.createWelcomeCoupon(signUpResponse.id());
+			userAndCouponService.createWelcomeCoupon(signUpResponse.id());
 		}
 		return "redirect:/auth/login";
 	}
-
 
 	/**
 	 * 해당 이메일이 존재하는지 확인
