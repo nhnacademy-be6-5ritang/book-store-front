@@ -25,6 +25,8 @@ import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
 import com.nhnacademy.bookstorefront.bookstatus.service.impl.BookStatusServiceImpl;
 import com.nhnacademy.bookstorefront.category.service.impl.CategoryServiceImpl;
 import com.nhnacademy.bookstorefront.global.util.PagingModel;
+import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
+import com.nhnacademy.bookstorefront.review.service.ReviewService;
 import com.nhnacademy.bookstorefront.tag.service.impl.TagServiceImpl;
 
 import lombok.RequiredArgsConstructor;
@@ -44,6 +46,7 @@ public class BookController {
 	private final CategoryServiceImpl categoryService;
 	private final BookStatusServiceImpl bookStatusService;
 	private final TagServiceImpl tagService;
+	private final ReviewService reviewService;
 
 	/**
 	 * 책 생성 폼을 반환합니다.
@@ -124,10 +127,15 @@ public class BookController {
 	 * @return 책 정보 뷰 이름
 	 */
 	@GetMapping("/{bookId}")
-	public String findAllBooks(@PathVariable Long bookId, Model model) {
+	public String getBook(@PathVariable Long bookId, Model model,
+		@PageableDefault(page = 1, size = 5) Pageable pageable) {
 		model.addAttribute("bookCategories", categoryService.getCategoriesByBookId(bookId));
 		model.addAttribute("bookTags", tagService.getTagsByBookId(bookId));
 		model.addAttribute("book", bookService.getBook(bookId));
+		Page<GetReviewResponse> reviews = reviewService.getReviewsByBookId(pageable, bookId);
+		model.addAttribute("reviews", reviews);
+		PagingModel.pagingProcessing(pageable, model, reviews, "/api/books/" + bookId, 5);
+		
 		return "book/get-book";
 	}
 
@@ -164,7 +172,7 @@ public class BookController {
 	 * @param isbn 도서 ISBN
 	 * @return 도서저장결과
 	 */
-	@PostMapping("/fetch/{isbn}")
+	@PostMapping("/fetch")
 	String fetchAndSaveBook(@RequestParam String isbn) {
 		bookService.fetchAndSaveBook(isbn);
 		return "redirect:/api/books/page";
