@@ -39,6 +39,6 @@ public interface ReviewServiceClient {
 	ResponseEntity<Void> updateReview(@RequestBody UpdateReviewRequest request,
 		@PathVariable Long reviewId);
 
-	@DeleteMapping("/books/{bookId}/reviews/{reviewId}")
-	ResponseEntity<Void> deleteReview(@PathVariable Long bookId, @PathVariable Long reviewId);
+	@DeleteMapping("/reviews/{reviewId}")
+	ResponseEntity<Void> deleteReview(@PathVariable Long reviewId);
 }
