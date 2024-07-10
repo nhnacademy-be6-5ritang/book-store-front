@@ -168,7 +168,7 @@
                                                     </ul>
 
 
-                                                    <div th:if="${point.userPoint() != null}">
+                                                    <div th:if="${point != null}">
                                                         <p>보유 포인트 <span id="pointDiscount" th:text="${point.userPoint()}" th:value="${point.userPoint()}"></span></p>
                                                         <label>사용할 포인트 입력</label>
                                                         <input type="number" id="pointInput" name="pointSale" value="0" min="0" th:max="${point.userPoint()}" oninput="updateGrandTotal()">
