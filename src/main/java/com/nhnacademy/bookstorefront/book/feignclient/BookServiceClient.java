@@ -30,6 +30,10 @@ public interface BookServiceClient {
 	@GetMapping("/page")
 	ResponseEntity<Page<GetBookDetailResponse>> findAllBooks(Pageable pageable);
 
+	@GetMapping("/page/category")
+	ResponseEntity<Page<GetBookDetailResponse>> findAllBooksByCategoryName(Pageable pageable,
+		@RequestParam String categoryName);
+
 	@GetMapping("/{bookId}")
 	ResponseEntity<GetBookDetailResponse> getBook(@PathVariable Long bookId);
 
@@ -43,7 +47,8 @@ public interface BookServiceClient {
 	ResponseEntity<CreateBookResponse> createBook(@RequestBody CreateBookRequest request);
 
 	@PutMapping("/{bookId}")
-	ResponseEntity<UpdateBookResponse> updateBookById(@PathVariable Long bookId, @RequestBody UpdateBookRequest request);
+	ResponseEntity<UpdateBookResponse> updateBookById(@PathVariable Long bookId,
+		@RequestBody UpdateBookRequest request);
 
 	@DeleteMapping("/{bookId}")
 	ResponseEntity<Void> deleteBook(@PathVariable Long bookId);
@@ -51,9 +56,7 @@ public interface BookServiceClient {
 	@PutMapping("/{bookId}/{quantity}")
 	ResponseEntity<Void> updateQuantity(@PathVariable Long bookId, @PathVariable int quantity);
 
-
 	@GetMapping("/search/test")
 	ResponseEntity<List<BookSearchResult>> searchBooks(@RequestParam("key") String search);
-
 
 }

@@ -38,6 +38,10 @@ public class BookServiceImpl implements BookService {
 		return bookServiceClient.findAllBooks(pageable).getBody();
 	}
 
+	public Page<GetBookDetailResponse> findAllBooksByCategory(Pageable pageable, String categoryName) {
+		return bookServiceClient.findAllBooksByCategoryName(pageable, categoryName).getBody();
+	}
+
 	@Override
 	public CreateBookResponse createBook(CreateBookRequest request) {
 		return bookServiceClient.createBook(request).getBody();
@@ -66,8 +70,6 @@ public class BookServiceImpl implements BookService {
 	public void updateQuantity(Long bookId, int quantity) {
 		bookServiceClient.updateQuantity(bookId, quantity);
 	}
-
-
 
 	@Override
 	public List<BookSearchResult> searchBooks(String query) {
