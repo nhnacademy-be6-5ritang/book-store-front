@@ -21,6 +21,7 @@ import com.nhnacademy.bookstorefront.auth.dto.request.SignUpRequest;
 import com.nhnacademy.bookstorefront.auth.dto.response.LoginResponse;
 import com.nhnacademy.bookstorefront.auth.dto.response.SignUpResponse;
 import com.nhnacademy.bookstorefront.auth.service.AuthService;
+import com.nhnacademy.bookstorefront.userandcoupon.service.UserAndCouponService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,6 +35,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/auth")
 public class AuthController {
 	private final AuthService authService;
+	// welcome 쿠폰 발행 service
+	private final UserAndCouponService userAndCouponService;
+
 
 	@org.springframework.beans.factory.annotation.Value("${spring.jwt.access-token.expires-in}")
 	private Long accessTokenExpiresIn;
@@ -60,9 +64,14 @@ public class AuthController {
 				StandardCharsets.UTF_8);
 		}
 
-		// Long userId = signUpResponse.id();
+		// welcome 쿠폰 발행 service method
+		if(Objects.nonNull(signUpResponse)){
+
+		userAndCouponService.createWelcomeCoupon(signUpResponse.id());
+		}
 		return "redirect:/auth/login";
 	}
+
 
 	/**
 	 * 해당 이메일이 존재하는지 확인

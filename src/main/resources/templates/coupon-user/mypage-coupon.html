@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Coupon Page</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>마이페이지 쿠폰</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}"/>
+
 </head>
 <body>
 
+
+<!--=================================-->
+<!--   Header Area-->
+<!--   =====================================-->
+
+<div th:insert="~{global/header}"></div>
 <div class="container mt-5">
     <h2 class="mb-4">내 쿠폰 목록</h2>
 
@@ -52,34 +61,33 @@
 
                     <!-- 첫번째 페이지로 이동 -->
                     <li class="page-item" th:classappend="${userAndCoupon.first} ? 'disabled'">
-                        <a class="page-link" th:href="@{/coupons/users/{userId}(userId=${coupon.userId}, page=1, size=${userAndCoupon.size})}" aria-label="First">
+                        <a class="page-link" th:href="@{/coupons/users/user(page=1, size=${userAndCoupon.size})}" aria-label="First">
                             <span aria-hidden="true">&laquo; First</span>
                         </a>
                     </li>
 
                     <!-- 이전 페이지로 이동 -->
                     <li class="page-item" th:classappend="${userAndCoupon.first} ? 'disabled'">
-                        <a class="page-link" th:href="@{/coupons/users/{userId}(userId=${coupon.userId}, page=${userAndCoupon.number}, size=${userAndCoupon.size})}" aria-label="Previous">
+                        <a class="page-link" th:href="@{/coupons/users/user(page=${userAndCoupon.number}, size=${userAndCoupon.size})}" aria-label="Previous">
                             <span aria-hidden="true">&lsaquo; Previous</span>
                         </a>
                     </li>
-
                     <!-- 페이지 번호 링크 -->
                     <li class="page-item" th:each="page: ${#numbers.sequence(startPage, endPage)}"
                         th:classappend="${page == userAndCoupon.number + 1} ? 'active'">
-                        <a class="page-link" th:href="@{/coupons/users/{userId}(userId=${coupon.userId}, page=${page}, size=${userAndCoupon.size})}" th:text="${page}"></a>
+                        <a class="page-link" th:href="@{/coupons/users/user(page=${page}, size=${userAndCoupon.size})}" th:text="${page}"></a>
                     </li>
 
                     <!-- 다음 페이지로 이동 -->
                     <li class="page-item" th:classappend="${userAndCoupon.last} ? 'disabled'">
-                        <a class="page-link" th:href="@{/coupons/users/{userId}(userId=${coupon.userId}, page=${userAndCoupon.number + 2}, size=${userAndCoupon.size})}" aria-label="Next">
+                        <a class="page-link" th:href="@{/coupons/users/user(page=${userAndCoupon.number + 2}, size=${userAndCoupon.size})}" aria-label="Next">
                             <span aria-hidden="true">Next &rsaquo;</span>
                         </a>
                     </li>
 
                     <!-- 마지막 페이지로 이동 -->
                     <li class="page-item" th:classappend="${userAndCoupon.last} ? 'disabled'">
-                        <a class="page-link" th:href="@{/coupons/users/{userId}(userId=${coupon.userId}, page=${userAndCoupon.totalPages}, size=${userAndCoupon.size})}" aria-label="Last">
+                        <a class="page-link" th:href="@{/coupons/users/user(page=${userAndCoupon.totalPages}, size=${userAndCoupon.size})}" aria-label="Last">
                             <span aria-hidden="true">Last &raquo;</span>
                         </a>
                     </li>
@@ -92,6 +100,10 @@
 
 
 </div>
+<!--=================================-->
+<!--            Footer Area-->
+<!--=====================================-->
+<div th:insert="~{global/footer}"></div>
 
 
 

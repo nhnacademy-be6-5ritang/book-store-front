@@ -16,6 +16,7 @@ import com.nhnacademy.bookstorefront.bookcart.dto.request.CreateBookCartRequest;
 import com.nhnacademy.bookstorefront.bookcart.dto.request.UpdateBookCartRequest;
 import com.nhnacademy.bookstorefront.bookcart.service.BookCartService;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -25,8 +26,9 @@ public class BookCartController {
 	private final BookCartService bookCartService;
 
 	@GetMapping
-	public String getBookCarts(Model model, @CookieValue(name = "cartId", required = false) Long cartId) {
-		model.addAttribute("bookCarts", bookCartService.getBookCartsByCartId(cartId));
+	public String getBookCarts(Model model, @CookieValue(name = "cartId", required = false) Long cartId,
+		HttpServletResponse resp) {
+		model.addAttribute("bookCarts", bookCartService.getBookCartsByCartId(cartId, resp));
 		return "cart/list-cart";
 	}
 
@@ -48,5 +50,4 @@ public class BookCartController {
 		bookCartService.deleteBookCart(bookCartId, cartId);
 		return "redirect:/api/carts/me";
 	}
-
 }

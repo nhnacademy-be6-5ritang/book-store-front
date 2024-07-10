@@ -10,7 +10,9 @@ import com.nhnacademy.bookstorefront.bookcart.dto.request.UpdateBookCartRequest;
 import com.nhnacademy.bookstorefront.bookcart.dto.response.GetBookCartResponse;
 import com.nhnacademy.bookstorefront.bookcart.feignclient.BookCartServiceClient;
 import com.nhnacademy.bookstorefront.bookcart.service.BookCartService;
+import com.nhnacademy.bookstorefront.global.util.CookieUtil;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -18,8 +20,11 @@ import lombok.RequiredArgsConstructor;
 public class BookCartServiceImpl implements BookCartService {
 	private final BookCartServiceClient bookCartServiceClient;
 
-	public List<GetBookCartResponse> getBookCartsByCartId(Long cartId) {
-		return bookCartServiceClient.getBookCartsByCartId(cartId).getBody();
+	public List<GetBookCartResponse> getBookCartsByCartId(Long cartId, HttpServletResponse resp) {
+		ResponseEntity<List<GetBookCartResponse>> responseEntity = bookCartServiceClient.getBookCartsByCartId(cartId);
+		CookieUtil.responseCookies(responseEntity.getHeaders(), resp);
+
+		return responseEntity.getBody();
 	}
 
 	public ResponseEntity<Void> createBookCart(CreateBookCartRequest request, Long cartId) {

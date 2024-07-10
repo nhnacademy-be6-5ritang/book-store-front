@@ -1,35 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>쿠폰정책관리페이지-관리자</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <style>
-        .search-results {
-            max-height: 200px;
-            overflow-y: auto;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            position: absolute;
-            width: 100%;
-            z-index: 1000;
-            background-color: #fff;
-        }
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>쿠폰정책 추가 페이지</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/pages/coupon-policy.css}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}"/>
 
-        .search-result {
-            padding: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .search-result:hover {
-            background-color: #f5f5f5;
-        }
-    </style>
 </head>
 <body>
+<!--=================================
+   Header Area
+   ===================================== -->
+
+<div th:insert="~{global/header}"></div>
 <div class="container">
+
     <main class="page-section inner-page-sec-padding-bottom">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb--30 mb-lg--0">
@@ -178,211 +167,19 @@
                 </nav>
 
             </div>
+
         </div>
     </main>
 </div>
-
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script>
-
-    // rate , price 둘중에 한개만 적을 수 있게금 조치
-    document.addEventListener('DOMContentLoaded', function () {
-        const salePriceInput = document.getElementById('salePrice');
-        const saleRateInput = document.getElementById('saleRate');
-
-        salePriceInput.addEventListener('input', function () {
-            if (salePriceInput.value.trim() !== '') {
-                saleRateInput.value = '';
-                saleRateInput.setAttribute('disabled', 'disabled');
-            } else {
-                saleRateInput.removeAttribute('disabled');
-            }
-        });
-
-        saleRateInput.addEventListener('input', function () {
-            if (saleRateInput.value.trim() !== '') {
-                salePriceInput.value = '';
-                salePriceInput.setAttribute('disabled', 'disabled');
-            } else {
-                salePriceInput.removeAttribute('disabled');
-            }
-        });
-    });
-
-
-    // Function to show additional fields based on selected type
-    function showFields(selectedType) {
-        $('#bookFields').hide();
-        $('#categoryFields').hide();
-
-        if (selectedType === 'book') {
-            $('#bookFields').show();
-        } else if (selectedType === 'category') {
-            $('#categoryFields').show();
-        }
-    }
-
-    // Function to show additional fields based on selected type
-    function showFields(selectedType) {
-        $('#bookFields').hide();
-        $('#categoryFields').hide();
-
-        if (selectedType === 'book') {
-            $('#bookFields').show();
-        } else if (selectedType === 'category') {
-            $('#categoryFields').show();
-        }
-    }
-
-    $(document).ready(function () {
-        // 도서 검색 기능
-        $('#bookSearch').on('input', function () {
-            var query = $(this).val();
-            if (query.length > 1) { // 3자 이상 입력 시 검색
-                $.ajax({
-                    url: '/api/books/search/test',
-                    type: 'GET',
-                    data: {key: query},
-                    success: function (data) {
-                        $('#bookSearchResults').html('');
-                        data.forEach(function (book) {
-                            $('#bookSearchResults').append('<div class="search-result book-result" data-id="' + book.bookId + '" data-title="' + book.bookTitle + '">' + book.bookTitle + '</div>');
-                        });
-                        // 결과 클릭 시 처리
-                        $('.book-result').on('click', function () {
-                            var bookId = $(this).data('id');
-                            var bookTitle = $(this).data('title');
-                            $('#bookId').val(bookId);
-                            $('#bookTitle').val(bookTitle);
-                            $('#bookSearch').val(bookTitle);
-                            $('#bookSearchResults').html('');
-                        });
-                    }
-                });
-            } else {
-                $('#bookSearchResults').html('');
-            }
-        });
-
-        // 카테고리 검색 기능
-        $('#categorySearch').on('input', function () {
-            var query = $(this).val();
-            if (query.length > 1) { // 3자 이상 입력 시 검색
-                $.ajax({
-                    url: '/api/categories/search/test',
-                    type: 'GET',
-                    data: {key: query},
-                    success: function (data) {
-                        $('#categorySearchResults').html('');
-                        data.forEach(function (category) {
-                            $('#categorySearchResults').append('<div class="search-result category-result" data-id="' + category.categoryId + '" data-name="' + category.categoryName + '">' + category.categoryName + '</div>');
-                        });
-                        // 결과 클릭 시 처리
-                        $('.category-result').on('click', function () {
-                            var categoryId = $(this).data('id');
-                            var categoryName = $(this).data('name');
-                            $('#categoryId').val(categoryId);
-                            $('#categoryName').val(categoryName);
-                            $('#categorySearch').val(categoryName);
-                            $('#categorySearchResults').html('');
-                        });
-                    }
-                });
-            } else {
-                $('#categorySearchResults').html('');
-            }
-        });
-    });
-
-    $(document).ready(function () {
-        $('#couponTable').on('click', '.addBtn', function (e) {
-            e.preventDefault();
-
-            var policyId = $(this).data('policy-id');
-            $('#couponPolicyId').val(policyId);
-            $('#expiredDate').val(formatDateTime(new Date())); // 현재 날짜와 시간을 적절한 형식으로 설정
-            $('#issueDate').val(formatDateTime(new Date())); // 현재 날짜와 시간을 적절한 형식으로 설정
-
-            $('#addCouponModal').modal('show');
-        });
-    });
-
-
-    // 정책 수정시 정률쿠폰 정액쿠폰 동시에 input 활성화 방지
-    $(document).ready(function () {
-        $('#editModal').on('show.bs.modal', function (event) {
-            // Initialize the modal fields and their interactivity
-            const salePriceInputEdit = $('#salePriceEdit');
-            const saleRateInputEdit = $('#saleRateEdit');
-
-            // Disable the other field if one of them is filled
-            function updateFieldState() {
-                if (salePriceInputEdit.val().trim() !== '') {
-                    saleRateInputEdit.val('').attr('disabled', 'disabled');
-                } else {
-                    saleRateInputEdit.removeAttr('disabled');
-                }
-                if (saleRateInputEdit.val().trim() !== '') {
-                    salePriceInputEdit.val('').attr('disabled', 'disabled');
-                } else {
-                    salePriceInputEdit.removeAttr('disabled');
-                }
-            }
-
-            salePriceInputEdit.on('input', updateFieldState);
-            saleRateInputEdit.on('input', updateFieldState);
-
-            // Initial check when the modal opens
-            updateFieldState();
-        });
-
-
-            $('#couponTable').on('click', '.editBtn', function (e) {
-                e.preventDefault();
-                var policyId = $(this).data('policy-id');
-
-                var isUsed = $(this).data('is-used');
-
-                if (!isUsed) {
-                    alert('폐기된 정책은 다시 사용할 수 없습니다.');
-                    return; // 경고창을 띄운 후 함수 종료
-                }
+    <!--=================================
+                Footer Area
+    ===================================== -->
+<div th:insert="~{global/footer}"></div>
 
 
 
-                var row = $(this).closest('tr');
 
 
-                // 폼 데이터 채우기
-                $('#policyIdEdit').val(row.find('.couponPolicyId').val());
-                $('#minOrderPriceEdit').val(row.find('.minOrderPrice').val());
-                $('#salePriceEdit').val(row.find('.salePrice').val());
-                $('#saleRateEdit').val(row.find('.saleRate').val());
-                $('#maxSalePriceEdit').val(row.find('.maxSalePrice').val());
-                $('#typeEdit').val(row.find('.type').val());
-
-                var isUsedValue = row.find('.isUsed').val();
-                // Set the radio button based on the value
-                if (isUsedValue === "true") {
-                    $('#isUsedTrue').prop('checked', true);
-                } else if (isUsedValue === "false") {
-                    $('#isUsedFalse').prop('checked', true);
-                }
-                $('#categoryNameEdit').val(row.find('.categoryName').val());
-                $('#bookTitleEdit').val(row.find('.bookTitle').val());
-
-                // `th:action` URL 업데이트
-                $('#editCouponForm').attr('action', '/coupons/policies/' + policyId);
-
-                $('#editModal').modal('show'); // 수정 모달 표시
-            });
-        });
-
-
-</script>
 
 
 <!-- Edit Modal -->
@@ -487,5 +284,17 @@
         </div>
     </div>
 </div>
+
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+<script th:src="@{/js/plugins.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+<script th:src="@{/js/create-couponpolicy.js}"></script>
+
 </body>
 </html>
