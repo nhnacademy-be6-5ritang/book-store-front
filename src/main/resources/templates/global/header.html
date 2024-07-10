@@ -59,11 +59,13 @@
                                     <li th:each="category : ${categoriesCache}"
                                         th:if="${#strings.isEmpty(category.parentCategoryName)}"
                                         class="cat-item has-children">
-                                        <a th:href="@{#}" th:text="${category.categoryName}"></a>
+                                        <a th:href="@{/api/books/page/category (categoryName=${category.categoryName})}"
+                                           th:text="${category.categoryName}"></a>
                                         <ul class="sub-menu">
                                             <li th:each="subCategory : ${categoriesCache}"
                                                 th:if="${subCategory.parentCategoryName == category.categoryName}">
-                                                <a th:href="@{#}" th:text="${subCategory.categoryName}"></a>
+                                                <a th:href="@{/api/books/page/category (categoryName=${subCategory.categoryName})}"
+                                                   th:text="${subCategory.categoryName}"></a>
                                             </li>
                                         </ul>
                                     </li>

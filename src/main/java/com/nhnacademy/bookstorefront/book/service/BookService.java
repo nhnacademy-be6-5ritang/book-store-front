@@ -71,6 +71,15 @@ public interface BookService {
 	ResponseEntity<String> fetchAndSaveBooks(Long count);
 
 	/**
+	 * ISBN을 통해 도서 정보를 가져와 저장하는 메서드입니다.
+	 *
+	 * @param isbn 가져와 저장할 도서의 ISBN
+	 * @return 도서 저장이 성공적으로 완료된 경우 성공 메시지를 포함한 ResponseEntity,
+	 *         예외가 발생한 경우 적절한 HTTP 상태 코드와 오류 메시지를 포함한 ResponseEntity를 반환합니다.
+	 */
+	ResponseEntity<String> fetchAndSaveBook(String isbn);
+
+	/**
 	 * 주어진 책 ID에 해당하는 책을 삭제합니다.
 	 *
 	 * @param bookId 삭제할 책 ID

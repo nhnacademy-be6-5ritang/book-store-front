@@ -24,6 +24,7 @@ import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
 import com.nhnacademy.bookstorefront.bookstatus.service.impl.BookStatusServiceImpl;
 import com.nhnacademy.bookstorefront.category.service.impl.CategoryServiceImpl;
+import com.nhnacademy.bookstorefront.global.util.PagingModel;
 import com.nhnacademy.bookstorefront.tag.service.impl.TagServiceImpl;
 
 import lombok.RequiredArgsConstructor;
@@ -103,7 +104,8 @@ public class BookController {
 		model.addAttribute("baseUrl", "/api/books/page"); // 페이징 URL
 
 		int blockLimit = 3;
-		int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
+		int startPage =
+			(((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
 		int endPage = Math.min((startPage + blockLimit - 1), books.getTotalPages());
 
 		model.addAttribute("pageable", pageable);
@@ -112,6 +114,17 @@ public class BookController {
 		model.addAttribute("endPage", endPage);
 
 		return "book/list-book";
+	}
+
+	@GetMapping("/page/category")
+	public String findAllBooksByCategoryName(@PageableDefault(page = 1, size = 20) Pageable pageable,
+		@RequestParam String categoryName, Model model) {
+		Page<GetBookDetailResponse> books = bookService.findAllBooksByCategory(pageable, categoryName);
+		model.addAttribute("books", books);
+		PagingModel.pagingProcessing(pageable, model, books, "/api/books/page/category?categoryName=" + categoryName,
+			5);
+
+		return "book/list-book-by-category";
 	}
 
 	/**
@@ -151,8 +164,20 @@ public class BookController {
 	 * @return 도서 목록을 가져와 저장한 후, 도서 목록 페이지로 리다이렉트합니다.
 	 */
 	@PostMapping("/fetch/book-lists")
-	String fetchAndSaveBooks(@RequestParam Long count){
+	String fetchAndSaveBooks(@RequestParam Long count) {
 		bookService.fetchAndSaveBooks(count);
+		return "redirect:/api/books/page";
+	}
+
+	/**
+	 * ISBN을 통한 도서정보 조회 및 저장
+	 *
+	 * @param isbn 도서 ISBN
+	 * @return 도서저장결과
+	 */
+	@PostMapping("/fetch/{isbn}")
+	String fetchAndSaveBook(@RequestParam String isbn) {
+		bookService.fetchAndSaveBook(isbn);
 		return "redirect:/api/books/page";
 	}
 
@@ -192,7 +217,6 @@ public class BookController {
 		bookService.deleteBook(bookId);
 		return "redirect:/api/books/page";
 	}
-
 
 	@GetMapping("/search/test")
 	public ResponseEntity<List<BookSearchResult>> searchBooks(@RequestParam("key") String search) {
