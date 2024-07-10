@@ -12,9 +12,7 @@ import com.nhnacademy.bookstorefront.user.dto.response.GetMyUserInfoResponse;
 import com.nhnacademy.bookstorefront.user.service.UserService;
 
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -32,16 +30,17 @@ public class UserController {
 
 	@ResponseBody
 	@PatchMapping("/dormant")
-	public ResponseEntity<Void> dormantUser(HttpServletRequest request, HttpServletResponse response) {
-		HttpSession session = request.getSession();
-		session.removeAttribute("refreshToken");
-
-		Cookie cookie = new Cookie("Refresh-Token", "");
-		cookie.setHttpOnly(true);
-		cookie.setMaxAge(0);
-		cookie.setPath("/");
-		response.addCookie(cookie);
-
+	public ResponseEntity<Void> dormantUser(HttpServletResponse response) {
+		revokeToken(response, "Authorization");
+		revokeToken(response, "Refresh-Token");
 		return userService.dormantUser(response);
+	}
+
+	private void revokeToken(HttpServletResponse response, String cookieName) {
+		Cookie revokedTokenCookie = new Cookie(cookieName, "");
+		revokedTokenCookie.setHttpOnly(true);
+		revokedTokenCookie.setMaxAge(0);
+		revokedTokenCookie.setPath("/");
+		response.addCookie(revokedTokenCookie);
 	}
 }

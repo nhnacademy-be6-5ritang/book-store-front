@@ -6,9 +6,11 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 public class FeignClientInterceptor implements RequestInterceptor {
 
@@ -18,16 +20,17 @@ public class FeignClientInterceptor implements RequestInterceptor {
 
 		if (attributes != null) {
 			HttpServletRequest request = attributes.getRequest();
-			HttpSession session = request.getSession();
+			Cookie[] cookies = request.getCookies();
 
-			String accessToken = (String)session.getAttribute("accessToken");
-			if (accessToken != null) {
-				template.header("Authorization", accessToken);
-			}
-
-			String refreshToken = (String)session.getAttribute("refreshToken");
-			if (refreshToken != null) {
-				template.header("Refresh-Token", refreshToken);
+			if (cookies != null) {
+				for (Cookie cookie : cookies) {
+					log.info("[Interceptor] setting cookie to header: {}={}", cookie.getName(), cookie.getValue());
+					if ("Authorization".equals(cookie.getName())) {
+						template.header("Authorization", cookie.getValue());
+					} else if ("Refresh-Token".equals(cookie.getName())) {
+						template.header("Refresh-Token", cookie.getValue());
+					}
+				}
 			}
 		}
 	}

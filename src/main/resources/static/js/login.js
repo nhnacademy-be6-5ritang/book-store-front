@@ -1,6 +1,9 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async () => {
     let profileContainer = document.querySelector('.profile-container');
-    if (localStorage.getItem('accessToken')) {
+
+    const hasTokens = await checkTokens();
+
+    if (hasTokens) {
         profileContainer.innerHTML = '<button class="logout-button" id="logout">로그아웃</button>';
     } else {
         profileContainer.innerHTML = '<div>' +
@@ -22,15 +25,11 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             credentials: 'include',
         }).then(response => {
-            console.log("then() 시작")
             if (response.ok) {
-                console.log("if() 시작")
-                localStorage.removeItem('accessToken');
-                console.log("removeItem 끝")
                 window.location.href = '/';
             }
         }).catch(error => {
-            console.error(error);
+            console.error('로그아웃 중 오류 발생: ', error);
         });
     });
 
@@ -42,5 +41,23 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('sign-up')?.addEventListener('click', event => {
         event.preventDefault();
         window.location.href = '/auth/sign-up';
-    })
+    });
 });
+
+const checkTokens = async () => {
+    try {
+        const response = await fetch('/auth/has-tokens', {
+            method: 'GET'
+        });
+
+        if (response.ok) {
+            return await response.json();
+        } else {
+            console.error('토큰 여부 확인 중 오류 발생');
+            return false;
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        return false;
+    }
+}
