@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nhnacademy.bookstorefront.author.dto.response.AuthorDto;
 import com.nhnacademy.bookstorefront.author.service.impl.AuthorServiceImpl;
+import com.nhnacademy.bookstorefront.global.util.PagingModel;
 
 import lombok.RequiredArgsConstructor;
 
@@ -74,20 +75,11 @@ public class AuthorController {
 	 * @return 저자 리스트 뷰 이름
 	 */
 	@GetMapping("/page")
-	public String getAuthors(@PageableDefault(page = 1) Pageable pageable, Model model) {
+	public String getAuthors(@PageableDefault(page = 1, size = 10) Pageable pageable, Model model) {
 		Page<AuthorDto> authors = authorService.getAuthors(pageable);
 		model.addAttribute("authors", authors);
-		model.addAttribute("objects", authors); // 공통 객체 이름
-		model.addAttribute("baseUrl", "/api/authors/page"); // 페이징 URL
+		PagingModel.pagingProcessing(pageable, model, authors, "/api/authors/page", 5);
 
-		int blockLimit = 3;
-		int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
-		int endPage = Math.min((startPage + blockLimit - 1), authors.getTotalPages());
-
-		model.addAttribute("pageable", pageable);
-		model.addAttribute("blockLimit", blockLimit);
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("endPage", endPage);
 		return "author/list-author";
 	}
 

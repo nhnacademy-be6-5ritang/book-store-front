@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.service.BookService;
+import com.nhnacademy.bookstorefront.global.util.PagingModel;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
 import com.nhnacademy.bookstorefront.review.service.ReviewService;
 
@@ -32,52 +33,30 @@ public class ReviewController {
 	}
 
 	@GetMapping("/reviews/page")
-	public String getReviews(@PageableDefault(page = 1) Pageable pageable, Model model) {
+	public String getReviews(@PageableDefault(page = 1, size = 10) Pageable pageable, Model model) {
 		Page<GetReviewResponse> reviews = reviewService.getReviews(pageable);
 		model.addAttribute("reviews", reviews);
-		model.addAttribute("objects", reviews); // 공통 객체 이름
-		model.addAttribute("baseUrl", "/api/reviews/page"); // 페이징 URL
-
-		int blockLimit = 3;
-		int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
-		int endPage = Math.min((startPage + blockLimit - 1), reviews.getTotalPages());
-
-		model.addAttribute("blockLimit", blockLimit);
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("endPage", endPage);
+		PagingModel.pagingProcessing(pageable, model, reviews, "/api/reviews/page", 5);
 
 		return "review/list-all-review";
 	}
 
 	@GetMapping("/books/{bookId}/reviews/page")
-	public String getBookReviews(@PageableDefault(page = 1) Pageable pageable, @PathVariable Long bookId, Model model) {
+	public String getBookReviews(@PageableDefault(page = 1, size = 5) Pageable pageable, @PathVariable Long bookId,
+		Model model) {
 		Page<GetReviewResponse> reviews = reviewService.getReviewsByBookId(pageable, bookId);
 		model.addAttribute("reviews", reviews);
+		PagingModel.pagingProcessing(pageable, model, reviews, "/api/books/" + bookId + "/reviews/page", 5);
 
-		int blockLimit = 3;
-		int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
-		int endPage = Math.min((startPage + blockLimit - 1), reviews.getTotalPages());
-
-		model.addAttribute("blockLimit", blockLimit);
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("endPage", endPage);
 		return "review/list-by-book-review";
 	}
 
 	@GetMapping("/users/me/reviews/page")
-	public String getBookReviews(@PageableDefault(page = 1) Pageable pageable, Model model) {
+	public String getBookReviews(@PageableDefault(page = 1, size = 5) Pageable pageable, Model model) {
 		Page<GetReviewResponse> reviews = reviewService.getReviewsByUserId(pageable);
 		model.addAttribute("reviews", reviews);
-		model.addAttribute("objects", reviews); // 공통 객체 이름
-		model.addAttribute("baseUrl", "/api/users/me/reviews/page"); // 페이징 URL
+		PagingModel.pagingProcessing(pageable, model, reviews, "/api/users/me/reviews/page", 5);
 
-		int blockLimit = 3;
-		int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
-		int endPage = Math.min((startPage + blockLimit - 1), reviews.getTotalPages());
-
-		model.addAttribute("blockLimit", blockLimit);
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("endPage", endPage);
 		return "review/list-by-user-review";
 	}
 }

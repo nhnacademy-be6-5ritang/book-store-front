@@ -22,6 +22,7 @@ import com.nhnacademy.bookstorefront.category.dto.request.UpdateCategoryRequest;
 import com.nhnacademy.bookstorefront.category.dto.response.CategorySearchResult;
 import com.nhnacademy.bookstorefront.category.dto.response.GetCategoryResponse;
 import com.nhnacademy.bookstorefront.category.service.impl.CategoryServiceImpl;
+import com.nhnacademy.bookstorefront.global.util.PagingModel;
 
 import lombok.RequiredArgsConstructor;
 
@@ -87,20 +88,10 @@ public class CategoryController {
 	 * @return 카테고리 리스트 뷰 이름
 	 */
 	@GetMapping("/page")
-	public String getCategories(@PageableDefault(page = 1) Pageable pageable, Model model) {
+	public String getCategories(@PageableDefault(page = 1, size = 10) Pageable pageable, Model model) {
 		Page<GetCategoryResponse> categories = categoryService.getCategories(pageable);
 		model.addAttribute("categories", categories);
-		model.addAttribute("objects", categories); // 공통 객체 이름
-		model.addAttribute("baseUrl", "/api/categories/page"); // 페이징 URL
-
-		int blockLimit = 3;
-		int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
-		int endPage = Math.min((startPage + blockLimit - 1), categories.getTotalPages());
-
-		model.addAttribute("pageable", pageable);
-		model.addAttribute("blockLimit", blockLimit);
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("endPage", endPage);
+		PagingModel.pagingProcessing(pageable, model, categories, "/api/categories/page", 5);
 
 		return "category/list-category";
 	}
@@ -142,10 +133,9 @@ public class CategoryController {
 		return "redirect:/api/categories/page";
 	}
 
-
 	@GetMapping("/search/test")
-	public ResponseEntity<List<CategorySearchResult>>  searchCategories(@RequestParam("key") String search) {
+	public ResponseEntity<List<CategorySearchResult>> searchCategories(@RequestParam("key") String search) {
 		List<CategorySearchResult> results = categoryService.searchCategories(search);
-		return  ResponseEntity.ok(results);
+		return ResponseEntity.ok(results);
 	}
 }
