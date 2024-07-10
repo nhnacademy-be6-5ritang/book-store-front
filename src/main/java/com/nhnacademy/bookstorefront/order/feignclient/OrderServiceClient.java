@@ -21,6 +21,7 @@ import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetListWrappingResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetNonOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetUserPointOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetWrappingResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.UpdateBookOrderResponse;
 
@@ -65,4 +66,7 @@ public interface OrderServiceClient {
 
 	@PostMapping("/api/orders/order-info/Non")
 	ResponseEntity<GetNonOrderByInfoResponse> getOrderByInfoNon(@ModelAttribute OrderCheckNonRequest orderCheckNonRequest);
+
+	@GetMapping("/api/orders/orders-points")
+	ResponseEntity<GetUserPointOrderResponse> getUserPointOrders();
 }

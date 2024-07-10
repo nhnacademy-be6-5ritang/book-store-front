@@ -7,6 +7,7 @@ import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusR
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetNonOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetUserPointOrderResponse;
 
 public interface OrderService {
 	/**
@@ -47,4 +48,10 @@ public interface OrderService {
 	 * @return 조회된 주문 정보
 	 */
 	GetNonOrderByInfoResponse findByOrderInfoIdByEmail(OrderCheckNonRequest orderCheckNonRequest);
+
+	/**
+	 * 회원 포인트 가져오기
+	 * @return 회원 보유 포인트
+	 */
+	GetUserPointOrderResponse getUserPoint();
 }
