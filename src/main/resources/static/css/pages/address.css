@@ -1,0 +1,9 @@
+.address-container {
+    width: 100%;
+}
+
+.address-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
