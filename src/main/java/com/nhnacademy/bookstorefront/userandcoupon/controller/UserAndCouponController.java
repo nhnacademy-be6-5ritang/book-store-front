@@ -34,14 +34,6 @@ public class UserAndCouponController {
     }
 
 
-    // TODO 1 : 쿠폰의 상태를 사용됨으로 바꿈
-    //   결제시 사용할경우
-    //
-    // @PatchMapping("/payment/users/{userId}")
-    // public String updateUserAndCouponUsed(@PathVariable("userId") String userId, @ModelAttribute UserAndCouponRequestUpdateDTO requestDTO) {
-    //     UserAndCouponResponseDTO responseDTO = userAndCouponService.updateUserAndCoupon(userId, requestDTO);
-    //     return "#";
-    // }
 
 
 
@@ -71,30 +63,6 @@ public class UserAndCouponController {
 
 
 
-    //
-    // @GetMapping("/users/{userId}")
-    // public String getUserAndCouponByIdPaging( @PathVariable("userId") Long userId, @PageableDefault(page = 1, size = 3)Pageable pageable,Model model) {
-    //     Page<UserAndCouponResponseDTO> userAndCoupon = userAndCouponService.getUserAndCouponByIdPaging(userId, pageable);
-    //
-    //     int blockLimit = 3;
-    //     int startPage = 1; // 1 4 7 10 ~~
-    //     int endPage = 1;
-    //
-    //
-    //     if (!userAndCoupon.isEmpty()) {
-    //         // 검색 결과가 있는 경우에만 페이지 번호 계산
-    //         int adjustedPage = Math.max(pageable.getPageNumber(), 1);
-    //         startPage = (((int)(Math.ceil((double)adjustedPage / blockLimit))) - 1) * blockLimit + 1;
-    //         endPage = Math.min((startPage + blockLimit - 1), userAndCoupon.getTotalPages());
-    //     }
-    //
-    //
-    //
-    //     model.addAttribute("startPage", startPage);
-    //     model.addAttribute("endPage", endPage);
-    //     model.addAttribute("userAndCoupon", userAndCoupon);
-    //     return "coupon-user/mypage-coupon";
-    // }
 
 
     @GetMapping("/users")
