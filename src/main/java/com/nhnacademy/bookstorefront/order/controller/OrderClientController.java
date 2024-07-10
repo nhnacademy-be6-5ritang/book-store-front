@@ -118,6 +118,7 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	// TODO 주문성공시 쿠폰 update 로직 넣기
 	@PostMapping("/complete/{order_list_id}/{delivery_id}")
 	public String createOrder(@ModelAttribute CreateOrderRequest createOrderRequest,
 		@PathVariable("order_list_id") Long orderListId, @PathVariable("delivery_id") Long deliveryId
@@ -127,6 +128,8 @@ public class OrderClientController {
 		bookOrderServiceImpl.updateOrder(orderListId, createOrderResponse.orderId());
 		return "redirect:/api/payments/" + createOrderResponse.infoId();
 	}
+
+
 
 	@GetMapping("/complete/{order_list_id}/{order_id}")
 	public ModelAndView completeOrder(@PathVariable("order_list_id") Long orderListId,

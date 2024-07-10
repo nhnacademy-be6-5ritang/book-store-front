@@ -27,8 +27,6 @@ public class UserAndCouponController {
         this.userAndCouponService = userAndCouponService;
     }
 
-    // TODO : 서비스에서 유저아이디  Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    //  이걸로 가져오기. 지금은 임시방편으로 아이디 1이라고 하고 하기
     @PostMapping("/{couponId}")
     public String createUserAndCoupon(@PathVariable("couponId") Long couponTemplateId) {
         userAndCouponService.createUserAndCoupon(couponTemplateId);

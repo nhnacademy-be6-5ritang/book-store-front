@@ -90,7 +90,6 @@ public class CouponPolicyController {
 		return "redirect:/coupons/policies";
 	}
 
-	// TODO : logic짤때 도서, 카테고리 쿠폰의 경우 해당 쿠폰 도서명, 카테고리명도 나오게끔 해야함.
 	@GetMapping
 	public String getCouponPolicies(@PageableDefault(page = 1, size = 3) Pageable pageable, Model model) {
 		try {
