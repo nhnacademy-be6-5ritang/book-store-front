@@ -42,3 +42,38 @@ document.addEventListener("DOMContentLoaded", function() {
         cancelImageBtn.style.display = "none";
     }
 });
+
+document.getElementById('imageUpload').addEventListener('change', function() {
+    const file = this.files[0];
+    if (file) {
+        console.log('File selected:', file);
+        const formData = new FormData();
+        formData.append('file', file);
+
+        fetch('/api/upload-image', {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => {
+                console.log('Response received:', response);
+                return response.json();
+            })
+            .then(data => {
+                console.log('Data received:', data);
+                if (data.success) {
+                    const imageUrl = data.imageUrl;
+                    document.querySelector('.image-preview__image').src = imageUrl;
+                    document.querySelector('.image-preview__image').style.display = 'block';
+                    document.querySelector('.image-preview__default-text').style.display = 'none';
+                    document.getElementById('cancelImage').style.display = 'block';
+                } else {
+                    alert('이미지 업로드 실패: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    } else {
+        console.log('No file selected');
+    }
+});
