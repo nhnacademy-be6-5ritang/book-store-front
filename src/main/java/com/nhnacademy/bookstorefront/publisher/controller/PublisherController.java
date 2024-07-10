@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.nhnacademy.bookstorefront.global.util.PagingModel;
 import com.nhnacademy.bookstorefront.publisher.dto.response.PublisherDto;
 import com.nhnacademy.bookstorefront.publisher.service.impl.PublisherServiceImpl;
 
@@ -81,17 +82,9 @@ public class PublisherController {
 	public String getPublishers(@PageableDefault(page = 1) Pageable pageable, Model model) {
 		Page<PublisherDto> publishers = publisherService.getPublishers(pageable);
 		model.addAttribute("publishers", publishers);
-		model.addAttribute("objects", publishers); // 공통 객체 이름
-		model.addAttribute("baseUrl", "/api/publishers/page"); // 페이징 URL
 
-		int blockLimit = 3;
-		int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
-		int endPage = Math.min((startPage + blockLimit - 1), publishers.getTotalPages());
+		PagingModel.pagingProcessing(pageable, model, publishers, "/api/publishers/page", 5);
 
-		model.addAttribute("pageable", pageable);
-		model.addAttribute("blockLimit", blockLimit);
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("endPage", endPage);
 		return "publisher/list-publisher";
 	}
 

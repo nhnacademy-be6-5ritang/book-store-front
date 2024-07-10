@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.nhnacademy.bookstorefront.global.util.PagingModel;
 import com.nhnacademy.bookstorefront.tag.dto.response.TagDto;
 import com.nhnacademy.bookstorefront.tag.service.impl.TagServiceImpl;
 
@@ -78,20 +79,10 @@ public class TagController {
 	 * @return 태그 리스트 뷰 이름
 	 */
 	@GetMapping("/page")
-	public String getTags(@PageableDefault(page = 1) Pageable pageable, Model model) {
+	public String getTags(@PageableDefault(page = 1, size = 10) Pageable pageable, Model model) {
 		Page<TagDto> tags = tagService.getTags(pageable);
 		model.addAttribute("tags", tags);
-		model.addAttribute("objects", tags); // 공통 객체 이름
-		model.addAttribute("baseUrl", "/api/tags/page"); // 페이징 URL
-
-		int blockLimit = 3;
-		int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
-		int endPage = Math.min((startPage + blockLimit - 1), tags.getTotalPages());
-
-		model.addAttribute("pageable", pageable);
-		model.addAttribute("blockLimit", blockLimit);
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("endPage", endPage);
+		PagingModel.pagingProcessing(pageable, model, tags, "/api/tags/page", 5);
 		return "tag/list-tag";
 	}
 

@@ -100,18 +100,7 @@ public class BookController {
 	public String findAllBooks(@PageableDefault(page = 1) Pageable pageable, Model model) {
 		Page<GetBookDetailResponse> books = bookService.findAllBooks(pageable);
 		model.addAttribute("books", books);
-		model.addAttribute("objects", books); // 공통 객체 이름
-		model.addAttribute("baseUrl", "/api/books/page"); // 페이징 URL
-
-		int blockLimit = 3;
-		int startPage =
-			(((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
-		int endPage = Math.min((startPage + blockLimit - 1), books.getTotalPages());
-
-		model.addAttribute("pageable", pageable);
-		model.addAttribute("blockLimit", blockLimit);
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("endPage", endPage);
+		PagingModel.pagingProcessing(pageable, model, books, "/api/books/page", 5);
 
 		return "book/list-book";
 	}
