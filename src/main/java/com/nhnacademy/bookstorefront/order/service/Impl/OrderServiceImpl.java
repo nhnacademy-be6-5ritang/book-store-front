@@ -1,5 +1,7 @@
 package com.nhnacademy.bookstorefront.order.service.Impl;
 
+
+
 import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
@@ -9,6 +11,7 @@ import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusR
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetNonOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetUserPointOrderResponse;
 import com.nhnacademy.bookstorefront.order.feignclient.OrderServiceClient;
 import com.nhnacademy.bookstorefront.order.service.OrderService;
 
@@ -47,5 +50,10 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public GetNonOrderByInfoResponse findByOrderInfoIdByEmail(OrderCheckNonRequest orderCheckNonRequest) {
 		return orderServiceClient.getOrderByInfoNon(orderCheckNonRequest).getBody();
+	}
+
+	@Override
+	public GetUserPointOrderResponse getUserPoint() {
+		return orderServiceClient.getUserPointOrders().getBody();
 	}
 }

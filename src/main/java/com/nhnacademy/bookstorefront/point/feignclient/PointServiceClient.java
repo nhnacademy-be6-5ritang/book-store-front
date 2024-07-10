@@ -3,6 +3,8 @@ package com.nhnacademy.bookstorefront.point.feignclient;
 import java.util.List;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -14,6 +16,7 @@ import com.nhnacademy.bookstorefront.point.dto.request.CreatePointEarningPolicyR
 import com.nhnacademy.bookstorefront.point.dto.request.UpdatePointEarningPolicyRequest;
 import com.nhnacademy.bookstorefront.point.dto.response.CreatePointEarningPolicyResponse;
 import com.nhnacademy.bookstorefront.point.dto.response.GetPointEarningPolicyResponse;
+import com.nhnacademy.bookstorefront.point.dto.response.GetPointTransactionResponse;
 import com.nhnacademy.bookstorefront.point.dto.response.UpdatePointEarningPolicyResponse;
 
 @FeignClient(name = "point-feign-service", url = "http://localhost:8090/api")
@@ -32,4 +35,8 @@ public interface PointServiceClient {
 
 	@PatchMapping("/point-earning-policies/{pointEarningPolicyId}/deactivate")
 	ResponseEntity<Void> deactivatePointEarningPolicy(@PathVariable Long pointEarningPolicyId);
+
+	@GetMapping("/point-transactions")
+	ResponseEntity<Page<GetPointTransactionResponse>> getPointTransactions(Pageable pageable);
+
 }

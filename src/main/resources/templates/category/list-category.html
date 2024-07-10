@@ -48,7 +48,49 @@
                         <div class="col-lg-9 col-12 mt--30 mt-lg--0">
                             <div class="tab-content" id="myaccountContent">
                                 <!-- 카테고리 Tab Content Start -->
-
+                                <div class="tab-pane fade show active" id="delivery" role="tabpanel">
+                                    <div class="myaccount-content">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h3>카테고리</h3>
+                                            <a th:href="@{/api/categories/create}" class="btn btn-primary">카테고리 추가</a>
+                                        </div>
+                                        <div th:if="${categories.getContent().size() > 0}">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>번호</th>
+                                                    <th>상위 카테고리 이름</th>
+                                                    <th>카테고리 이름</th>
+                                                    <td></td>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:each="category, index : ${categories}">
+                                                    <td th:text="${index.index + 1 + (pageable.pageNumber - 1) * pageable.pageSize}">
+                                                        1
+                                                    </td>
+                                                    <td th:text="${category.parentCategoryName}">상위 카테고리 이름</td>
+                                                    <td th:text="${category.categoryName}">카테고리 이름</td>
+                                                    <td style="display: flex; align-items: center;">
+                                                        <a th:href="@{/api/categories/update/{categoryId} (categoryId=${category.categoryId})}"
+                                                           class="btn btn-warning">편집</a>
+                                                        <form th:action="@{/api/categories/{categoryId} (categoryId=${category.categoryId})}"
+                                                              th:method="delete">
+                                                            <button type="submit" class="btn btn-danger">삭제</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div th:if="${categories.getContent().size() == 0}">
+                                            <p>카테고리가 없습니다.</p>
+                                        </div>
+                                        <!-- 페이징 처리 시작-->
+                                        <div th:insert="~{global/paging.html}"></div>
+                                        <!-- 페이징 처리 끝-->
+                                    </div>
+                                </div>
                                 <!-- 카테고리 Tab Content End -->
                             </div>
                         </div>

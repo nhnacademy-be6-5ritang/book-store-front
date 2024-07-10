@@ -1,5 +1,8 @@
 package com.nhnacademy.bookstorefront.point.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,7 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.nhnacademy.bookstorefront.point.dto.request.CreatePointEarningPolicyRequest;
 import com.nhnacademy.bookstorefront.point.dto.request.UpdatePointEarningPolicyRequest;
+import com.nhnacademy.bookstorefront.point.dto.response.GetPointTransactionResponse;
 import com.nhnacademy.bookstorefront.point.service.impl.PointEarningPolicyServiceImpl;
+import com.nhnacademy.bookstorefront.point.service.impl.PointTransactionServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,7 +23,10 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class PointController {
+
 	private final PointEarningPolicyServiceImpl pointEarningPolicyService;
+	private final PointTransactionServiceImpl pointTransactionService;
+
 	@GetMapping("/point-earning-policies/admin")
 	public ModelAndView earningPoliciesAdmin() {
 		ModelAndView modelAndView = new ModelAndView();
@@ -73,4 +81,27 @@ public class PointController {
 		modelAndView.setViewName("redirect:/api/point-earning-policies/admin");
 		return modelAndView;
 	}
+
+	@GetMapping("/point-transactions")
+	public ModelAndView transactions(@PageableDefault(page = 1) Pageable pageable) {
+		Page<GetPointTransactionResponse> pointTransactions= pointTransactionService.getPointTransactions(pageable);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("pointTransactions", pointTransactions);
+		modelAndView.addObject("objects", pointTransactions); // 공통 객체 이름
+		modelAndView.addObject("baseUrl", "/api/point-transactions"); // 페이징 URL
+
+
+		int blockLimit = 3;
+		int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
+		int endPage = Math.min((startPage + blockLimit - 1), pointTransactions.getTotalPages());
+
+		modelAndView.addObject("pageable", pageable);
+		modelAndView.addObject("blockLimit", blockLimit);
+		modelAndView.addObject("startPage", startPage);
+		modelAndView.addObject("endPage", endPage);
+
+		modelAndView.setViewName("point/transactions");
+		return modelAndView;
+	}
+
 }

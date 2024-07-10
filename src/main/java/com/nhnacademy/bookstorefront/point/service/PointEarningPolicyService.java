@@ -2,10 +2,14 @@ package com.nhnacademy.bookstorefront.point.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.nhnacademy.bookstorefront.point.dto.request.CreatePointEarningPolicyRequest;
 import com.nhnacademy.bookstorefront.point.dto.request.UpdatePointEarningPolicyRequest;
 import com.nhnacademy.bookstorefront.point.dto.response.CreatePointEarningPolicyResponse;
 import com.nhnacademy.bookstorefront.point.dto.response.GetPointEarningPolicyResponse;
+import com.nhnacademy.bookstorefront.point.dto.response.GetPointTransactionResponse;
 import com.nhnacademy.bookstorefront.point.dto.response.UpdatePointEarningPolicyResponse;
 
 public interface PointEarningPolicyService {
@@ -22,4 +26,5 @@ public interface PointEarningPolicyService {
 
 	void deactivatePointEarningPolicy(Long pointEarningPolicyId);
 
+	Page<GetPointTransactionResponse> getPointTransactions(Pageable pageable);
 }
