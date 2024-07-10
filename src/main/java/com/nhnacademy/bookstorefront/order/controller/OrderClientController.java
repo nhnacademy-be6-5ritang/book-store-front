@@ -26,6 +26,7 @@ import com.nhnacademy.bookstorefront.order.dto.response.GetAllPaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetListWrappingResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetUserPointOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetWrappingResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.UpdateBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.service.Impl.BookOrderServiceImpl;
@@ -97,6 +98,7 @@ public class OrderClientController {
 		ModelAndView modelAndView = new ModelAndView();
 		GetBookOrderResponse bookOrder = bookOrderServiceImpl.getBookOrder(orderListId);
 		GetListWrappingResponse list = wrappingPaperServiceImpl.getWrappingPaperByOrderListId(orderListId);
+		GetUserPointOrderResponse point = orderServiceImpl.getUserPoint();
 		BigDecimal total = BigDecimal.ZERO;
 		for (GetWrappingResponse getWrappingResponse : list.wrapping()) {
 			BigDecimal paperQuantity = new BigDecimal(getWrappingResponse.quantity());
@@ -111,6 +113,7 @@ public class OrderClientController {
 		modelAndView.addObject("wrappingList", wrappingPaperServiceImpl.getWrappingPaperByOrderListId(orderListId));
 		modelAndView.addObject("total", total);
 		modelAndView.addObject("delivery", deliveryPolicyServiceImpl.findByDeliveryPolicyStandardPriceLessThanEqualOrderByDeliveryPolicyStandardPriceDesc(deliveryId, deliveryQuantity));
+		modelAndView.addObject("point", point);
 		modelAndView.setViewName("order/checkout");
 		return modelAndView;
 	}
