@@ -8,7 +8,6 @@ import com.nhnacademy.bookstorefront.review.dto.request.CreateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.request.UpdateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.response.CreateReviewResponse;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
-import com.nhnacademy.bookstorefront.review.dto.response.UpdateReviewResponse;
 import com.nhnacademy.bookstorefront.review.feignclient.ReviewServiceClient;
 import com.nhnacademy.bookstorefront.review.service.ReviewService;
 
@@ -45,8 +44,8 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public UpdateReviewResponse updateReview(UpdateReviewRequest request, Long reviewId) {
-		return reviewServiceClient.updateReview(request, reviewId).getBody();
+	public void updateReview(UpdateReviewRequest request, Long reviewId) {
+		reviewServiceClient.updateReview(request, reviewId);
 	}
 
 	@Override

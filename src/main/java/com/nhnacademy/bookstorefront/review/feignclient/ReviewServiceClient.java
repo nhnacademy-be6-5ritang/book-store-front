@@ -15,7 +15,6 @@ import com.nhnacademy.bookstorefront.review.dto.request.CreateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.request.UpdateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.response.CreateReviewResponse;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
-import com.nhnacademy.bookstorefront.review.dto.response.UpdateReviewResponse;
 
 @FeignClient(name = "review-feign-client", url = "http://localhost:8090/api")
 public interface ReviewServiceClient {
@@ -37,7 +36,7 @@ public interface ReviewServiceClient {
 	ResponseEntity<GetReviewResponse> getReview(@PathVariable Long reviewId);
 
 	@PutMapping("/reviews/{reviewId}")
-	ResponseEntity<UpdateReviewResponse> updateReview(@RequestBody UpdateReviewRequest request,
+	ResponseEntity<Void> updateReview(@RequestBody UpdateReviewRequest request,
 		@PathVariable Long reviewId);
 
 	@DeleteMapping("/books/{bookId}/reviews/{reviewId}")

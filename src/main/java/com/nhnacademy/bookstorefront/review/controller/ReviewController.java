@@ -6,13 +6,18 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.service.BookService;
 import com.nhnacademy.bookstorefront.global.util.PagingModel;
+import com.nhnacademy.bookstorefront.review.dto.request.CreateReviewRequest;
+import com.nhnacademy.bookstorefront.review.dto.request.UpdateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
 import com.nhnacademy.bookstorefront.review.service.ReviewService;
 
@@ -49,6 +54,18 @@ public class ReviewController {
 		PagingModel.pagingProcessing(pageable, model, reviews, "/api/books/" + bookId + "/reviews/page", 5);
 
 		return "review/list-by-book-review";
+	}
+
+	@PostMapping("/reviews")
+	public String createReview(@ModelAttribute CreateReviewRequest request) {
+		reviewService.createReview(request);
+		return "redirect:/users/me/reviews/page";
+	}
+
+	@PutMapping("/reviews/{reviewId}")
+	public String updateReview(@ModelAttribute UpdateReviewRequest request, @PathVariable Long reviewId) {
+		reviewService.updateReview(request, reviewId);
+		return "redirect:/users/me/reviews/page";
 	}
 
 	@GetMapping("/users/me/reviews/page")
