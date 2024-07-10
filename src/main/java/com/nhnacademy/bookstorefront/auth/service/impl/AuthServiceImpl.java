@@ -5,10 +5,13 @@ import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.auth.dto.request.LoginRequest;
 import com.nhnacademy.bookstorefront.auth.dto.request.SignUpRequest;
+import com.nhnacademy.bookstorefront.auth.dto.response.LoginResponse;
 import com.nhnacademy.bookstorefront.auth.dto.response.SignUpResponse;
 import com.nhnacademy.bookstorefront.auth.feignclient.AuthClient;
 import com.nhnacademy.bookstorefront.auth.service.AuthService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
@@ -28,7 +31,7 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-	public ResponseEntity<Void> login(LoginRequest loginRequest) {
+	public ResponseEntity<LoginResponse> login(LoginRequest loginRequest) {
 		return authClient.requestLogin(loginRequest);
 	}
 
@@ -41,5 +44,27 @@ public class AuthServiceImpl implements AuthService {
 	public void setTokensInSession(String accessToken, String refreshToken, HttpSession session) {
 		session.setAttribute("accessToken", accessToken);
 		session.setAttribute("refreshToken", refreshToken);
+	}
+
+	@Override
+	public boolean hasTokensInCookie(HttpServletRequest request) {
+		Cookie[] cookies = request.getCookies();
+		if (cookies == null) {
+			return false;
+		}
+
+		boolean hasAccessToken = false;
+		boolean hasRefreshToken = false;
+
+		for (Cookie cookie : cookies) {
+			if ("Authorization".equals(cookie.getName())) {
+				hasAccessToken = true;
+			}
+			if ("Refresh-Token".equals(cookie.getName())) {
+				hasRefreshToken = true;
+			}
+		}
+
+		return hasAccessToken && hasRefreshToken;
 	}
 }

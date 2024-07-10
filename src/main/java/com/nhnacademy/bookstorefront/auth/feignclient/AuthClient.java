@@ -9,16 +9,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nhnacademy.bookstorefront.auth.dto.request.LoginRequest;
 import com.nhnacademy.bookstorefront.auth.dto.request.SignUpRequest;
+import com.nhnacademy.bookstorefront.auth.dto.response.LoginResponse;
 import com.nhnacademy.bookstorefront.auth.dto.response.SignUpResponse;
 
 @FeignClient(name = "auth-feign-client", url = "http://localhost:8090")
 public interface AuthClient {
 
 	@PostMapping("/auth/login")
-	ResponseEntity<Void> requestLogin(@RequestBody LoginRequest loginRequest);
+	ResponseEntity<LoginResponse> requestLogin(@RequestBody LoginRequest loginRequest);
 
 	@PostMapping("/auth/logout")
-	void requestLogout();
+	ResponseEntity<Void> requestLogout();
 
 	@PostMapping("/api/users")
 	ResponseEntity<SignUpResponse> requestSignUp(@RequestBody SignUpRequest signUpRequest);

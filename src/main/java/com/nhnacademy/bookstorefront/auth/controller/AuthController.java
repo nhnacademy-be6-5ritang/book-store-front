@@ -4,6 +4,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,16 +15,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nhnacademy.bookstorefront.auth.dto.request.LoginRequest;
 import com.nhnacademy.bookstorefront.auth.dto.request.SignUpRequest;
+import com.nhnacademy.bookstorefront.auth.dto.response.LoginResponse;
 import com.nhnacademy.bookstorefront.auth.dto.response.SignUpResponse;
 import com.nhnacademy.bookstorefront.auth.service.AuthService;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,6 +34,11 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/auth")
 public class AuthController {
 	private final AuthService authService;
+
+	@org.springframework.beans.factory.annotation.Value("${spring.jwt.access-token.expires-in}")
+	private Long accessTokenExpiresIn;
+	@Value("${spring.jwt.refresh-token.expires-in}")
+	private Long refreshTokenExpiresIn;
 
 	@GetMapping("/sign-up")
 	public String signUp() {
@@ -74,32 +80,28 @@ public class AuthController {
 	}
 
 	@PostMapping("/login")
-	public String loginProcess(@ModelAttribute LoginRequest loginRequest, HttpServletResponse response,
-		RedirectAttributes redirectAttributes) {
-		ResponseEntity<Void> loginResponse = authService.login(loginRequest);
+	public String loginProcess(@ModelAttribute LoginRequest loginRequest, HttpServletResponse response) {
+		LoginResponse loginResponse = authService.login(loginRequest).getBody();
 
-		String accessToken = loginResponse.getHeaders().getFirst("Authorization");
+		String accessToken;
+		String refreshToken;
 
-		String refreshToken = null;
-		if (loginResponse.getHeaders().containsKey("Set-Cookie")) {
-			for (String cookie : Objects.requireNonNull(loginResponse.getHeaders().get("Set-Cookie"))) {
-				if (cookie.startsWith("Refresh-Token")) {
-					refreshToken = cookie.split(";")[0].split("=")[1];
-					break;
-				}
-			}
+		if (Objects.isNull(loginResponse)) {
+			return "redirect:/auth/login?error=" + URLEncoder.encode("로그인 실패", StandardCharsets.UTF_8);
+		}
+
+		accessToken = loginResponse.accessToken();
+		refreshToken = loginResponse.refreshToken();
+
+		if (accessToken != null) {
+			response.addCookie(createCookie("Authorization", accessToken));
 		}
 
 		if (refreshToken != null) {
-			Cookie refreshTokenCookie = new Cookie("Refresh-Token", refreshToken);
-			// refreshTokenCookie.setHttpOnly(true);
-			refreshTokenCookie.setMaxAge(24 * 60 * 60);
-			refreshTokenCookie.setPath("/");
-			response.addCookie(refreshTokenCookie);
+			response.addCookie(createCookie("Refresh-Token", refreshToken));
 		}
 
-		redirectAttributes.addAttribute("accessToken", accessToken);
-		return "redirect:/auth/store-token";
+		return "redirect:/";
 	}
 
 	@GetMapping("/store-token")
@@ -110,28 +112,31 @@ public class AuthController {
 
 	@ResponseBody
 	@PostMapping("/logout")
-	public ResponseEntity<?> logout(HttpServletResponse response) {
-		log.error("로그아웃 API 시작");
+	public ResponseEntity<Void> logout(HttpServletResponse response) {
 		authService.logout();
-		log.error("- 인증서버로 로그아웃 요청");
-
-		Cookie revokedRefreshTokenCookie = new Cookie("Refresh-Token", "");
-		revokedRefreshTokenCookie.setHttpOnly(true);
-		revokedRefreshTokenCookie.setMaxAge(0);
-		revokedRefreshTokenCookie.setPath("/");
-		response.addCookie(revokedRefreshTokenCookie);
-		log.error("쿠키 제거 완료");
-		log.error("메인 페이지로 redirect");
+		revokeToken(response, "Authorization");
+		revokeToken(response, "Refresh-Token");
 		return ResponseEntity.ok().build();
 	}
 
-	@PostMapping("/set-tokens")
-	public ResponseEntity<Void> setTokensInSession(
-		@RequestParam("accessToken") String accessToken,
-		@RequestParam("refreshToken") String refreshToken,
-		HttpSession session
-	) {
-		authService.setTokensInSession(accessToken, refreshToken, session);
-		return ResponseEntity.status(HttpStatus.OK).build();
+	@GetMapping("/has-tokens")
+	public ResponseEntity<Boolean> hasTokensInCookie(HttpServletRequest request) {
+		return ResponseEntity.status(HttpStatus.OK).body(authService.hasTokensInCookie(request));
+	}
+
+	private Cookie createCookie(String key, String value) {
+		Cookie cookie = new Cookie(key, URLEncoder.encode(value, StandardCharsets.UTF_8));
+		// cookie.setSecure(true);
+		cookie.setPath("/");
+		cookie.setHttpOnly(true);
+		return cookie;
+	}
+
+	private void revokeToken(HttpServletResponse response, String cookieName) {
+		Cookie revokedTokenCookie = new Cookie(cookieName, "");
+		revokedTokenCookie.setHttpOnly(true);
+		revokedTokenCookie.setMaxAge(0);
+		revokedTokenCookie.setPath("/");
+		response.addCookie(revokedTokenCookie);
 	}
 }
