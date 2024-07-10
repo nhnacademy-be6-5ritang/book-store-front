@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.review.dto.request.CreateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.request.UpdateReviewRequest;
-import com.nhnacademy.bookstorefront.review.dto.response.CreateReviewResponse;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
 import com.nhnacademy.bookstorefront.review.feignclient.ReviewServiceClient;
 import com.nhnacademy.bookstorefront.review.service.ReviewService;
@@ -34,8 +33,8 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public CreateReviewResponse createReview(CreateReviewRequest request) {
-		return reviewServiceClient.createReview(request).getBody();
+	public void createReview(CreateReviewRequest request) {
+		reviewServiceClient.createReview(request);
 	}
 
 	@Override

@@ -60,13 +60,13 @@ public class ReviewController {
 	@PostMapping("/reviews")
 	public String createReview(@ModelAttribute CreateReviewRequest request) {
 		reviewService.createReview(request);
-		return "redirect:/users/me/reviews/page";
+		return "redirect:/api/users/me/reviews/page";
 	}
 
 	@PutMapping("/reviews/{reviewId}")
 	public String updateReview(@ModelAttribute UpdateReviewRequest request, @PathVariable Long reviewId) {
 		reviewService.updateReview(request, reviewId);
-		return "redirect:/users/me/reviews/page";
+		return "redirect:/api/users/me/reviews/page";
 	}
 
 	@GetMapping("/users/me/reviews/page")
@@ -81,6 +81,6 @@ public class ReviewController {
 	@DeleteMapping("/reviews/{reviewsId}")
 	public String deleteReview(@PathVariable Long reviewsId) {
 		reviewService.deleteReview(reviewsId);
-		return "redirect:/users/me/reviews/page";
+		return "redirect:/api/users/me/reviews/page";
 	}
 }

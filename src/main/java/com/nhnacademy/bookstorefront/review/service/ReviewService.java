@@ -5,7 +5,6 @@ import org.springframework.data.domain.Pageable;
 
 import com.nhnacademy.bookstorefront.review.dto.request.CreateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.request.UpdateReviewRequest;
-import com.nhnacademy.bookstorefront.review.dto.response.CreateReviewResponse;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
 
 public interface ReviewService {
@@ -15,7 +14,7 @@ public interface ReviewService {
 
 	Page<GetReviewResponse> getReviewsByUserId(Pageable pageable);
 
-	CreateReviewResponse createReview(CreateReviewRequest request);
+	void createReview(CreateReviewRequest request);
 
 	GetReviewResponse getReview(Long reviewId);
 
