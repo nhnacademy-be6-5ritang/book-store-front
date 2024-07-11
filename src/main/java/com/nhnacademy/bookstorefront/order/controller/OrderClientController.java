@@ -1,7 +1,6 @@
 package com.nhnacademy.bookstorefront.order.controller;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -100,12 +99,12 @@ public class OrderClientController {
 
 	// TODO 주문성공시 쿠폰 update 로직 넣기
 	@GetMapping("/createOrderTest/{order_list_id}/{delivery_id}")
-	public ModelAndView createOrder(@PathVariable("order_list_id") Long orderListId, @PathVariable("delivery_id") Long deliveryId, @RequestParam(value = "couponIds", required = false) List<Long> couponIds) {
+	public ModelAndView createOrder(@PathVariable("order_list_id") Long orderListId, @PathVariable("delivery_id") Long deliveryId, @RequestParam(value = "couponId", required = false) Long couponId) {
 		ModelAndView modelAndView = new ModelAndView();
 
 
-		List<UserAndCouponOrderResponseDTO> couponList = userAndCouponService.getSelectedCouponByOrder(couponIds);
-		modelAndView.addObject("couponList", couponList);
+		UserAndCouponOrderResponseDTO selectCoupon = userAndCouponService.getSelectedCouponByOrder(couponId);
+		modelAndView.addObject("selectCoupon", selectCoupon);
 
 
 

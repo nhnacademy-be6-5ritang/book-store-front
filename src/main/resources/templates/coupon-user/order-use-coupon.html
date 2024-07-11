@@ -78,7 +78,9 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="coupon : ${couponList}">
-                                    <td><input type="checkbox" name="couponIds" th:value="${coupon.id}" class="form-check-input"></td>
+                                    <td><label>
+                                        <input type="radio" name="couponId" th:value="${coupon.id}" class="form-check-input">
+                                    </label></td>
                                     <td th:text="${coupon.id}"></td>
                                     <td th:text="${coupon.type}"></td>
                                     <td th:text="${coupon.salePrice}"></td>

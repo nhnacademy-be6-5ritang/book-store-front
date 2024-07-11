@@ -126,10 +126,19 @@ $(document).ready(function () {
 
         var policyId = $(this).data('policy-id');
         $('#couponPolicyId').val(policyId);
-        $('#expiredDate').val(formatDateTime(new Date())); // 현재 날짜와 시간을 적절한 형식으로 설정
-        $('#issueDate').val(formatDateTime(new Date())); // 현재 날짜와 시간을 적절한 형식으로 설정
+
+        // 현재 시간을 설정
+        var now = new Date().toISOString().slice(0, 16);
+        $('#expiredDate').val(now);
+        $('#issueDate').val(now);
 
         $('#addCouponModal').modal('show');
+    });
+
+    // 폼 제출 전에 issueDate를 다시 한번 현재 시간으로 설정
+    $('#addCouponForm').on('submit', function (e) {
+        var now = new Date().toISOString().slice(0, 16);
+        $('#issueDate').val(now);
     });
 });
 

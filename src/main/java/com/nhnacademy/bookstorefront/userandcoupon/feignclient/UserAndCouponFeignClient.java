@@ -44,8 +44,8 @@ public interface UserAndCouponFeignClient {
 		@PathVariable("userAndCouponId") Long userAndCouponId);
 
 	@GetMapping("/coupons/users/order/coupon")
-	ResponseEntity<List<UserAndCouponOrderResponseDTO>> getAllSelectedCoupon(
-		@RequestParam(value = "couponIds", required = false) List<Long> couponIds);
+	ResponseEntity<UserAndCouponOrderResponseDTO> getSelectedCoupon(
+		@RequestParam(value = "couponId", required = false) Long couponId);
 
 }
 

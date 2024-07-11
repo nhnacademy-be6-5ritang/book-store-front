@@ -50,13 +50,13 @@ public class UserAndCouponController {
     }
 
 
-    // 선택한 쿠폰목록 번호 리스트를 가져오기
+    // 선택한 쿠폰목록 번호를 가져오기
     @PostMapping("/orders/{orderListId}/users/{deliveryId}")
     public String selectCouponByOrder(@PathVariable("orderListId") Long orderListId, @PathVariable("deliveryId") Long deliveryId,
-        @RequestParam(value = "couponIds", required = false) List<Long> couponIds,
+        @RequestParam(value = "couponId", required = false) Long couponId,
       RedirectAttributes redirectAttributes) {
 
-        redirectAttributes.addAttribute("couponIds", couponIds);
+        redirectAttributes.addAttribute("couponId", couponId);
 
 
         return "redirect:/api/orders/createOrderTest/" + orderListId + "/" + deliveryId;

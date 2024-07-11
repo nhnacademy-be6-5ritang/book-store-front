@@ -75,9 +75,9 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 
 
 	@Override
-	public List<UserAndCouponOrderResponseDTO> getSelectedCouponByOrder(List<Long> couponIds) {
+	public UserAndCouponOrderResponseDTO getSelectedCouponByOrder(Long couponId) {
 
-		return userAndCouponFeignClient.getAllSelectedCoupon(couponIds).getBody();
+		return userAndCouponFeignClient.getSelectedCoupon(couponId).getBody();
 
 	}
 

@@ -19,5 +19,5 @@ public interface UserAndCouponService {
     Page<UserAndCouponResponseDTO> getUserAndCouponByIdPaging(Pageable pageable);
 
     List<UserAndCouponResponseDTO> getAllUserAndCouponByOrder(Long orderListId);
-    List<UserAndCouponOrderResponseDTO> getSelectedCouponByOrder(List<Long> couponIds);
+    UserAndCouponOrderResponseDTO getSelectedCouponByOrder(Long couponId);
 }
