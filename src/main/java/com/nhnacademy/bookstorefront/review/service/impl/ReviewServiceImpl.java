@@ -3,6 +3,7 @@ package com.nhnacademy.bookstorefront.review.service.impl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.nhnacademy.bookstorefront.review.dto.request.CreateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.request.UpdateReviewRequest;
@@ -33,8 +34,8 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public void createReview(CreateReviewRequest request) {
-		reviewServiceClient.createReview(request);
+	public void createReview(CreateReviewRequest request, MultipartFile image) {
+		reviewServiceClient.createReview(request, image);
 	}
 
 	@Override

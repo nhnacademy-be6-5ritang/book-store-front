@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
+    const form = document.querySelector('form');
     const textarea = document.querySelector('textarea');
     const wordCount = document.querySelector('.word-count span');
     const submitBtn = document.querySelector('.submit-btn');
@@ -34,46 +35,40 @@ document.addEventListener("DOMContentLoaded", function() {
 
     cancelImageBtn.addEventListener('click', resetImagePreview);
 
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(form);
+
+        // reviewScore 값을 FormData에 추가
+        const reviewScore = document.querySelector('input[name="reviewScore"]:checked').value;
+        formData.append('reviewScore', reviewScore);
+
+        fetch('/api/reviews', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);
+                alert('리뷰가 성공적으로 등록되었습니다.');
+                window.location.href = '/api/users/me/reviews/page';
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('리뷰 등록 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            });
+    });
+
     function resetImagePreview() {
         imageUpload.value = "";
         imagePreviewDefaultText.style.display = null;
         imagePreviewImage.style.display = "none";
         imagePreviewImage.setAttribute('src', "");
         cancelImageBtn.style.display = "none";
-    }
-});
-
-document.getElementById('imageUpload').addEventListener('change', function() {
-    const file = this.files[0];
-    if (file) {
-        console.log('File selected:', file);
-        const formData = new FormData();
-        formData.append('file', file);
-
-        fetch('/api/upload-image', {
-            method: 'POST',
-            body: formData,
-        })
-            .then(response => {
-                console.log('Response received:', response);
-                return response.json();
-            })
-            .then(data => {
-                console.log('Data received:', data);
-                if (data.success) {
-                    const imageUrl = data.imageUrl;
-                    document.querySelector('.image-preview__image').src = imageUrl;
-                    document.querySelector('.image-preview__image').style.display = 'block';
-                    document.querySelector('.image-preview__default-text').style.display = 'none';
-                    document.getElementById('cancelImage').style.display = 'block';
-                } else {
-                    alert('이미지 업로드 실패: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    } else {
-        console.log('No file selected');
     }
 });

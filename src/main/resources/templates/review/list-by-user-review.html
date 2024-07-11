@@ -66,7 +66,7 @@
                                                 <div th:each="review : ${reviews}" class="review">
                                                     <div class="review-header">
                                                         <div class="info">
-                                                            <span th:text="${review.userId}"></span>
+                                                            <span th:text="${review.userName}"></span>
                                                             <span th:text="${review.reviewCreatedAt}"></span>
                                                             <span th:each="star : ${#numbers.sequence(1, review.reviewScore)}" class="star">&#9733;</span>
                                                             <span th:if="${review.reviewScore < 5}" th:each="star : ${#numbers.sequence(1, 5 - review.reviewScore)}" class="star">&#9734;</span>

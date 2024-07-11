@@ -2,6 +2,7 @@ package com.nhnacademy.bookstorefront.review.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.nhnacademy.bookstorefront.review.dto.request.CreateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.request.UpdateReviewRequest;
@@ -14,7 +15,7 @@ public interface ReviewService {
 
 	Page<GetReviewResponse> getReviewsByUserId(Pageable pageable);
 
-	void createReview(CreateReviewRequest request);
+	void createReview(CreateReviewRequest request, MultipartFile image);
 
 	GetReviewResponse getReview(Long reviewId);
 
