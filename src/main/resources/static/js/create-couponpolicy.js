@@ -3,18 +3,31 @@
 document.addEventListener('DOMContentLoaded', function () {
     const salePriceInput = document.getElementById('salePrice');
     const saleRateInput = document.getElementById('saleRate');
+    const maxSalePriceInput = document.getElementById('maxSalePrice');
 
     salePriceInput.addEventListener('input', function () {
         if (salePriceInput.value.trim() !== '') {
             saleRateInput.value = '';
+            maxSalePriceInput.value = '';
             saleRateInput.setAttribute('disabled', 'disabled');
+            maxSalePriceInput.setAttribute('disabled', 'disabled');
         } else {
             saleRateInput.removeAttribute('disabled');
+            maxSalePriceInput.removeAttribute('disabled');
         }
     });
 
     saleRateInput.addEventListener('input', function () {
-        if (saleRateInput.value.trim() !== '') {
+        if (saleRateInput.value.trim() !== '' || maxSalePriceInput.value.trim() !== '') {
+            salePriceInput.value = '';
+            salePriceInput.setAttribute('disabled', 'disabled');
+        } else {
+            salePriceInput.removeAttribute('disabled');
+        }
+    });
+
+    maxSalePriceInput.addEventListener('input', function () {
+        if (saleRateInput.value.trim() !== '' || maxSalePriceInput.value.trim() !== '') {
             salePriceInput.value = '';
             salePriceInput.setAttribute('disabled', 'disabled');
         } else {
@@ -22,7 +35,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
-
 
 // Function to show additional fields based on selected type
 function showFields(selectedType) {
@@ -125,18 +137,19 @@ $(document).ready(function () {
 // 정책 수정시 정률쿠폰 정액쿠폰 동시에 input 활성화 방지
 $(document).ready(function () {
     $('#editModal').on('show.bs.modal', function (event) {
-        // Initialize the modal fields and their interactivity
         const salePriceInputEdit = $('#salePriceEdit');
         const saleRateInputEdit = $('#saleRateEdit');
+        const maxSalePriceInputEdit = $('#maxSalePriceEdit');
 
-        // Disable the other field if one of them is filled
         function updateFieldState() {
             if (salePriceInputEdit.val().trim() !== '') {
                 saleRateInputEdit.val('').attr('disabled', 'disabled');
+                maxSalePriceInputEdit.val('').attr('disabled', 'disabled');
             } else {
                 saleRateInputEdit.removeAttr('disabled');
+                maxSalePriceInputEdit.removeAttr('disabled');
             }
-            if (saleRateInputEdit.val().trim() !== '') {
+            if (saleRateInputEdit.val().trim() !== '' || maxSalePriceInputEdit.val().trim() !== '') {
                 salePriceInputEdit.val('').attr('disabled', 'disabled');
             } else {
                 salePriceInputEdit.removeAttr('disabled');
@@ -145,10 +158,11 @@ $(document).ready(function () {
 
         salePriceInputEdit.on('input', updateFieldState);
         saleRateInputEdit.on('input', updateFieldState);
+        maxSalePriceInputEdit.on('input', updateFieldState);
 
-        // Initial check when the modal opens
         updateFieldState();
     });
+
 
 
     $('#couponTable').on('click', '.editBtn', function (e) {

@@ -33,8 +33,8 @@ public class CouponPolicyController {
 		try {
 
 			// SalePrice와 SaleRate 유효성 검사 추가
-			if ((requestDTO.salePrice() == null && requestDTO.saleRate() == null) ||
-				(requestDTO.salePrice() != null && requestDTO.saleRate() != null)) {
+			if ((requestDTO.salePrice() == null && requestDTO.saleRate() == null && requestDTO.maxSalePrice() == null) ||
+				(requestDTO.salePrice() != null && requestDTO.saleRate() != null && requestDTO.maxSalePrice() != null)) {
 				throw new IllegalArgumentException("Either salePrice or saleRate must be provided exclusively.");
 			}
 
@@ -78,10 +78,11 @@ public class CouponPolicyController {
 		try {
 
 			// SalePrice와 SaleRate 유효성 검사 추가
-			if ((requestDTO.salePrice() == null && requestDTO.saleRate() == null) ||
-				(requestDTO.salePrice() != null && requestDTO.saleRate() != null)) {
+			if ((requestDTO.salePrice() == null && requestDTO.saleRate() == null && requestDTO.maxSalePrice() == null) ||
+				(requestDTO.salePrice() != null && requestDTO.saleRate() != null && requestDTO.maxSalePrice() != null)) {
 				throw new IllegalArgumentException("Either salePrice or saleRate must be provided exclusively.");
 			}
+
 			couponPolicyService.updateCouponPolicy(couponPolicyId, requestDTO);
 			model.addAttribute("message", "Coupon policy updated successfully!");
 		} catch (Exception e) {
