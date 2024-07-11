@@ -1,5 +1,6 @@
 package com.nhnacademy.bookstorefront.userandcoupon.feignclient;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.cloud.openfeign.FeignClient;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nhnacademy.bookstorefront.global.config.FeignClientConfig;
+import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCouponOrderResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCouponResponseDTO;
 
 @FeignClient(name = "user-and-coupon-feign-client", url = "http://localhost:8090", configuration = FeignClientConfig.class)
@@ -31,14 +33,19 @@ public interface UserAndCouponFeignClient {
 	@PostMapping("/coupons/coupon/welcome")
 	ResponseEntity<Void> createUserWelcomeCouponIssue(@RequestParam Long userId);
 
-	@GetMapping("/users/order")
+	@GetMapping("/coupons/users/order")
 	ResponseEntity<List<UserAndCouponResponseDTO>> findCouponByOrder(
 		@RequestParam(required = false) List<Long> bookIds,
-		@RequestParam(required = false) List<Long> categoryIds);
+		@RequestParam(required = false) List<Long> categoryIds,
+		@RequestParam BigDecimal bookPrice);
 
-	@PatchMapping("/users/payment/{userAndCouponId}")
+	@PatchMapping("/coupons/users/payment/{userAndCouponId}")
 	ResponseEntity<Void> updateCouponAfterPayment(
 		@PathVariable("userAndCouponId") Long userAndCouponId);
+
+	@GetMapping("/coupons/users/order/coupon")
+	ResponseEntity<List<UserAndCouponOrderResponseDTO>> getAllSelectedCoupon(
+		@RequestParam(value = "couponIds", required = false) List<Long> couponIds);
 
 }
 

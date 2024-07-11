@@ -174,13 +174,35 @@
                                                         <input type="number" id="pointInput" name="pointSale" value="0" min="0" th:max="${point.userPoint()}" oninput="updateGrandTotal()">
                                                     </div>
 
-                                                    <p>쿠폰 할인 <span>10</span></p>
-                                                    <input type="hidden" name="couponSale" value="1000">
+                                                    <!-- 쿠폰 정보 -->
+                                                    <div class="table-responsive">
+                                                        <table class="table table-borderless">
+                                                            <tbody>
+                                                            <tr th:each="coupon : ${couponList}">
+                                                                <td style="width: 30%;">
+                                                                    <strong>쿠폰 종류:</strong> <span th:text="${coupon.type}"></span>
+                                                                </td>
+                                                                <td>
+                                                                    <strong>최소 주문 가격:</strong> <span th:text="${coupon.minOrderPrice}"></span>
+                                                                </td>
+                                                                <td th:if="${coupon.salePrice != null}">
+                                                                    <strong>할인 가격:</strong> <span th:text="${coupon.salePrice}"></span>
+                                                                </td>
+                                                                <td th:if="${coupon.saleRate != null}">
+                                                                    <strong>할인율:</strong> <span th:text="${coupon.saleRate}"></span>
+                                                                </td>
+                                                                <td th:if="${coupon.maxSalePrice != null}">
+                                                                    <strong>최대 할인 가격:</strong> <span th:text="${coupon.maxSalePrice}"></span>
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
 
                                                     <p>배송비 <span th:text="${delivery.deliveryPolicyPrice()}"></span></p>
 
-                                                    <h4>Grand Total <span id="grandTotal" th:text="${orderList.quantity() * orderList.getBookResponse().bookPrice() - 10 - total + delivery.deliveryPolicyPrice()}"></span></h4>
-                                                    <input type="hidden" id="orderPrice" name="orderPrice" th:value="${orderList.quantity() * orderList.getBookResponse().bookPrice() - 10 - total + delivery.deliveryPolicyPrice()}">
+                                                    <h4>Grand Total <span id="grandTotal" th:text="${orderList.quantity() * orderList.getBookResponse().bookPrice() - total + delivery.deliveryPolicyPrice()}"></span></h4>
+                                                    <input type="hidden" id="orderPrice" name="orderPrice" th:value="${orderList.quantity() * orderList.getBookResponse().bookPrice() - total + delivery.deliveryPolicyPrice()}">
                                                     <button class="place-order w-100" type="submit">Place order</button>
                                                 </div>
                                             </div>

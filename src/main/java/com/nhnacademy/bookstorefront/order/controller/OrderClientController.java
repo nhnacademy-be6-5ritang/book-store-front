@@ -1,6 +1,7 @@
 package com.nhnacademy.bookstorefront.order.controller;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
@@ -33,6 +35,8 @@ import com.nhnacademy.bookstorefront.order.service.Impl.BookOrderServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.OrderServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.PaperTypeServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.WrappingPaperServiceImpl;
+import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCouponOrderResponseDTO;
+import com.nhnacademy.bookstorefront.userandcoupon.service.UserAndCouponService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -48,6 +52,7 @@ public class OrderClientController {
 	private final DeliveryServiceImpl deliveryServiceImpl;
 	private final BookServiceImpl bookServiceImpl;
 	private final DeliveryPolicyServiceImpl deliveryPolicyServiceImpl;
+	private final UserAndCouponService userAndCouponService;
 
 	@GetMapping("/createBookOrderTest/{book_id}")
 	public ModelAndView createBookOrder(@PathVariable("book_id") Long bookId) {
@@ -93,9 +98,17 @@ public class OrderClientController {
 		return "redirect:/api/deliveries/" + orderListId;
 	}
 
+	// TODO 주문성공시 쿠폰 update 로직 넣기
 	@GetMapping("/createOrderTest/{order_list_id}/{delivery_id}")
-	public ModelAndView createOrder(@PathVariable("order_list_id") Long orderListId, @PathVariable("delivery_id") Long deliveryId) {
+	public ModelAndView createOrder(@PathVariable("order_list_id") Long orderListId, @PathVariable("delivery_id") Long deliveryId, @RequestParam(value = "couponIds", required = false) List<Long> couponIds) {
 		ModelAndView modelAndView = new ModelAndView();
+
+
+		List<UserAndCouponOrderResponseDTO> couponList = userAndCouponService.getSelectedCouponByOrder(couponIds);
+		modelAndView.addObject("couponList", couponList);
+
+
+
 		GetBookOrderResponse bookOrder = bookOrderServiceImpl.getBookOrder(orderListId);
 		GetListWrappingResponse list = wrappingPaperServiceImpl.getWrappingPaperByOrderListId(orderListId);
 		GetUserPointOrderResponse point = orderServiceImpl.getUserPoint();
@@ -118,7 +131,7 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
-	// TODO 주문성공시 쿠폰 update 로직 넣기
+
 	@PostMapping("/complete/{order_list_id}/{delivery_id}")
 	public String createOrder(@ModelAttribute CreateOrderRequest createOrderRequest,
 		@PathVariable("order_list_id") Long orderListId, @PathVariable("delivery_id") Long deliveryId

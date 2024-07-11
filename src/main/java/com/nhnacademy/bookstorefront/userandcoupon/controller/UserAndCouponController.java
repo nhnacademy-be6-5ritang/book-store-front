@@ -1,6 +1,7 @@
 package com.nhnacademy.bookstorefront.userandcoupon.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCouponResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.service.UserAndCouponService;
@@ -34,6 +36,31 @@ public class UserAndCouponController {
     }
 
 
+    // 쿠폰 목록을 가져오기
+    @GetMapping("/orders/{orderListId}/users/{deliveryId}")
+    public String getOrderCoupon(@PathVariable("orderListId") Long orderListId, @PathVariable("deliveryId") Long deliveryId, Model model) {
+        List<UserAndCouponResponseDTO> couponList = userAndCouponService.getAllUserAndCouponByOrder(orderListId);
+
+        model.addAttribute("orderListId", orderListId);
+        model.addAttribute("deliveryId", deliveryId);
+        model.addAttribute("couponList", couponList);
+
+
+        return "coupon-user/order-use-coupon";
+    }
+
+
+    // 선택한 쿠폰목록 번호 리스트를 가져오기
+    @PostMapping("/orders/{orderListId}/users/{deliveryId}")
+    public String selectCouponByOrder(@PathVariable("orderListId") Long orderListId, @PathVariable("deliveryId") Long deliveryId,
+        @RequestParam(value = "couponIds", required = false) List<Long> couponIds,
+      RedirectAttributes redirectAttributes) {
+
+        redirectAttributes.addAttribute("couponIds", couponIds);
+
+
+        return "redirect:/api/orders/createOrderTest/" + orderListId + "/" + deliveryId;
+    }
 
 
 
