@@ -40,7 +40,7 @@ public interface BookServiceClient {
 	@PostMapping("/fetch/book-lists")
 	ResponseEntity<String> fetchAndSaveBooks(@RequestParam Long count);
 
-	@PostMapping("/fetch/{isbn}")
+	@PostMapping("/fetch")
 	ResponseEntity<String> fetchAndSaveBook(@RequestParam String isbn);
 
 	@PostMapping

@@ -53,11 +53,6 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public ResponseEntity<String> fetchAndSaveBooks(Long count) {
-		return bookServiceClient.fetchAndSaveBooks(count);
-	}
-
-	@Override
 	public ResponseEntity<String> fetchAndSaveBook(String isbn) {
 		return bookServiceClient.fetchAndSaveBook(isbn);
 	}
