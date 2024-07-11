@@ -62,15 +62,6 @@ public interface BookService {
 	UpdateBookResponse updateBookById(Long bookId, UpdateBookRequest request);
 
 	/**
-	 * 외부 API에서 지정된 개수의 도서를 가져와 저장하는 메서드입니다.
-	 *
-	 * @param count 가져와 저장할 도서의 개수
-	 * @return 도서 목록 저장이 성공적으로 완료된 경우 성공 메시지를 포함한 ResponseEntity,
-	 *         예외가 발생한 경우 적절한 HTTP 상태 코드와 오류 메시지를 포함한 ResponseEntity를 반환합니다.
-	 */
-	ResponseEntity<String> fetchAndSaveBooks(Long count);
-
-	/**
 	 * ISBN을 통해 도서 정보를 가져와 저장하는 메서드입니다.
 	 *
 	 * @param isbn 가져와 저장할 도서의 ISBN
@@ -85,8 +76,6 @@ public interface BookService {
 	 * @param bookId 삭제할 책 ID
 	 */
 	void deleteBook(Long bookId);
-
-
 
 	List<BookSearchResult> searchBooks(String query);
 }
