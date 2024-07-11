@@ -182,9 +182,6 @@
                                                                 <td style="width: 30%;">
                                                                     <strong>쿠폰 종류:</strong> <span th:text="${selectCoupon.type}"></span>
                                                                 </td>
-                                                                <td>
-                                                                    <strong>최소 주문 가격:</strong> <span th:text="${selectCoupon.minOrderPrice}"></span>
-                                                                </td>
                                                                 <td th:if="${selectCoupon.salePrice != null}">
                                                                     <strong>할인 가격:</strong> <span th:text="${selectCoupon.salePrice}"></span>
                                                                 </td>
@@ -197,6 +194,23 @@
                                                             </tr>
                                                             </tbody>
                                                         </table>
+                                                    </div>
+                                                    <div th:with="totalOrderPrice = ${orderList.quantity} * ${orderList.getBookResponse().bookPrice()}, discount = 0, finalPrice = 0">
+                                                        <div th:if="${selectCoupon.salePrice != null}">
+                                                            <div th:with="discount = ${selectCoupon.salePrice} > ${totalOrderPrice} ? ${totalOrderPrice} : ${selectCoupon.salePrice}, finalPrice = ${totalOrderPrice} - ${discount}">
+                                                                <p><strong>주문 가격:</strong> <span th:text="${totalOrderPrice}"></span></p>
+                                                                <p><strong>쿠폰 적용 금액:</strong> <span th:text="${discount}"></span></p>
+                                                                <p><strong>쿠폰 적용 후 가격:</strong> <span th:text="${finalPrice}"></span></p>
+                                                            </div>
+                                                        </div>
+                                                        <div th:if="${selectCoupon.saleRate != null}">
+                                                            <div th:with=" calculatedDiscount = ${totalOrderPrice} * ${selectCoupon.saleRate}, discount = ${calculatedDiscount} > ${selectCoupon.maxSalePrice} ? ${selectCoupon.maxSalePrice} : ${calculatedDiscount},
+                                                            discount = ${discount} > ${totalOrderPrice} ? ${totalOrderPrice} : ${discount}, finalPrice = ${totalOrderPrice} - ${discount}">
+                                                                <p><strong>주문 가격:</strong> <span th:text="${totalOrderPrice}"></span></p>
+                                                                <p><strong>쿠폰 적용 금액:</strong> <span th:text="${discount}"></span></p>
+                                                                <p><strong>쿠폰 적용 후 가격:</strong> <span th:text="${finalPrice}"></span></p>
+                                                            </div>
+                                                        </div>
                                                     </div>
 
                                                     <p>배송비 <span th:text="${delivery.deliveryPolicyPrice()}"></span></p>
