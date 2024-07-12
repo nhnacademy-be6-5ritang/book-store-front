@@ -55,4 +55,7 @@ public interface ReviewServiceClient {
 
 	@DeleteMapping("/reviews/{reviewId}")
 	ResponseEntity<Void> deleteReview(@PathVariable Long reviewId);
+
+	@GetMapping("/books/{bookId}/reviews/average")
+	ResponseEntity<Double> getReviewsAverageScoreByBookId(@PathVariable Long bookId);
 }

@@ -145,6 +145,7 @@ public class BookController {
 		model.addAttribute("photoReviews", photoReviews);
 		PagingModel.pagingProcessing(pageable, model, photoReviews, "/api/books/" + bookId, 5);
 
+		model.addAttribute("reviewsAverageScore", reviewService.getReviewsAverageScoreByBookId(bookId));
 		return "book/get-book";
 	}
 

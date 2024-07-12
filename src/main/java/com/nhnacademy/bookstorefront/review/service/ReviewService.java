@@ -14,7 +14,7 @@ public interface ReviewService {
 	Page<GetReviewResponse> getReviewsByBookId(Pageable pageable, Long bookId);
 
 	Page<GetReviewResponse> getGeneralReviewsByBookId(Pageable pageable, Long bookId);
-	
+
 	Page<GetReviewResponse> getPhotoReviewsByBookId(Pageable pageable, Long bookId);
 
 	Page<GetReviewResponse> getReviewsByUserId(Pageable pageable);
@@ -30,4 +30,6 @@ public interface ReviewService {
 	void updateReview(UpdateReviewRequest request, Long reviewId);
 
 	void deleteReview(Long reviewId);
+
+	double getReviewsAverageScoreByBookId(Long bookId);
 }

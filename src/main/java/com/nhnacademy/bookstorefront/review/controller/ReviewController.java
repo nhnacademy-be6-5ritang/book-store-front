@@ -32,8 +32,8 @@ public class ReviewController {
 	private final ReviewService reviewService;
 	private final BookService bookService;
 
-	@GetMapping("/reviews/create")
-	public String createReview(@RequestParam Long bookId, Model model) {
+	@GetMapping("/reviews/create/{bookId}")
+	public String createReview(@PathVariable Long bookId, Model model) {
 		GetBookDetailResponse book = bookService.getBook(bookId);
 		model.addAttribute("book", book);
 		return "review/create-review";

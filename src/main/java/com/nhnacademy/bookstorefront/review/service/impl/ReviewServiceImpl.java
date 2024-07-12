@@ -79,4 +79,9 @@ public class ReviewServiceImpl implements ReviewService {
 	public void deleteReview(Long reviewId) {
 		reviewServiceClient.deleteReview(reviewId);
 	}
+
+	@Override
+	public double getReviewsAverageScoreByBookId(Long bookId) {
+		return reviewServiceClient.getReviewsAverageScoreByBookId(bookId).getBody();
+	}
 }
