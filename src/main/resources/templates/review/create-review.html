@@ -9,7 +9,7 @@
     <!-- Use Minified Plugins Version For Fast Page Load -->
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
-    <link rel="stylesheet" th:href="@{/css/pages/create-review.css}" />
+    <link rel="stylesheet" th:href="@{/css/pages/create-review.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
 </head>
 
@@ -36,7 +36,7 @@
     <!-- Create Review Page Start -->
     <div class="cart_area inner-page-sec-padding-bottom">
         <div class="container">
-            <form action="/api/reviews" method="post" enctype="multipart/form-data">
+            <form id="reviewForm" action="/api/reviews" method="post" enctype="multipart/form-data">
                 <div class="review-form">
                     <div class="header">
                         <img th:src="${book.bookImageUrl}" alt="Book Cover">
@@ -46,14 +46,19 @@
                         </div>
                         <span class="close-btn">&times;</span>
                     </div>
+
                     <div class="image-upload">
-                        <input type="file" id="imageUpload" accept="image/*">
+                        <input type="file" id="file" name="file" accept="image/*"
+                               onchange="previewImage(this)">
                         <div class="image-preview" id="imagePreview">
-                            <img src="" alt="Image Preview" class="image-preview__image" style="display: none;">
-                            <span class="image-preview__default-text">Image Preview</span>
+                            <img id="previewImg" src="" alt="Image Preview" class="image-preview__image"
+                                 style="display: none;">
+                            <span class="image-preview__default-text">이미지 미리보기</span>
                         </div>
-                        <button type="button" id="cancelImage" style="display: none;">Cancel Image</button>
+                        <button type="button" id="cancelImage" style="display: none;" onclick="cancelImage()">이미지 취소
+                        </button>
                     </div>
+
                     <input type="hidden" name="bookId" th:value="${book.bookId}">
                     <div class="rating">
                         <input type="radio" id="star5" name="reviewScore" value="5">
@@ -64,7 +69,7 @@
                         <label for="star3">★</label>
                         <input type="radio" id="star2" name="reviewScore" value="2">
                         <label for="star2">★</label>
-                        <input type="radio" id="star1" name="reviewScore" value="1">
+                        <input type="radio" id="star1" name="reviewScore" value="1" checked>
                         <label for="star1">★</label>
                     </div>
                     <div class="editor-toolbar">
@@ -74,10 +79,10 @@
                     </div>
                     <div class="editor">
                         <label>
-                            <textarea name="reviewComment" placeholder="내용을 입력해주세요."></textarea>
+                            <textarea id="reviewComment" name="reviewComment" placeholder="내용을 입력해주세요."></textarea>
                         </label>
                     </div>
-                    <button class="submit-btn" disabled>등록</button>
+                    <button type="submit" id="submitBtn" class="submit-btn" disabled>등록</button>
                 </div>
             </form>
         </div>
@@ -95,6 +100,53 @@ Footer Area
 <script th:src="@{/js/ajax-mail.js}"></script>
 <script th:src="@{/js/custom.js}"></script>
 <script th:src="@{/js/create-review.js}"></script>
+
+<script>
+    function previewImage(input) {
+        const file = input.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function () {
+            const previewImg = document.getElementById('previewImg');
+            previewImg.src = reader.result;
+            previewImg.style.display = 'block';
+            const defaultText = document.querySelector('.image-preview__default-text');
+            defaultText.style.display = 'none';
+            const cancelImageBtn = document.getElementById('cancelImage');
+            cancelImageBtn.style.display = 'inline-block';
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function cancelImage() {
+        const fileInput = document.getElementById('file');
+        fileInput.value = ''; // 파일 선택(input) 초기화
+
+        const previewImg = document.getElementById('previewImg');
+        previewImg.src = '';
+        previewImg.style.display = 'none'; // 이미지 미리보기 숨기기
+
+        const defaultText = document.querySelector('.image-preview__default-text');
+        defaultText.style.display = 'block'; // 이미지 미리보기 기본 텍스트 보이기
+
+        const cancelImageBtn = document.getElementById('cancelImage');
+        cancelImageBtn.style.display = 'none'; // 이미지 취소 버튼 숨기기
+    }
+
+    const textarea = document.getElementById('reviewComment');
+    const wordCount = document.querySelector('.word-count span');
+    const submitBtn = document.getElementById('submitBtn');
+
+    textarea.addEventListener('input', function () {
+        const textLength = textarea.value.length;
+        wordCount.textContent = textLength;
+        submitBtn.disabled = textLength === 0 || textLength > 400;
+    });
+</script>
+
 </body>
 
 </html>

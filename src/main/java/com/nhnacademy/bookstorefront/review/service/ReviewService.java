@@ -13,9 +13,13 @@ public interface ReviewService {
 
 	Page<GetReviewResponse> getReviewsByBookId(Pageable pageable, Long bookId);
 
+	Page<GetReviewResponse> getPhotoReviewsByBookId(Pageable pageable, Long bookId);
+
+	Page<GetReviewResponse> getGeneralReviewsByBookId(Pageable pageable, Long bookId);
+
 	Page<GetReviewResponse> getReviewsByUserId(Pageable pageable);
 
-	void createReview(CreateReviewRequest request, MultipartFile image);
+	void createReview(CreateReviewRequest request, MultipartFile file);
 
 	GetReviewResponse getReview(Long reviewId);
 

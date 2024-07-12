@@ -132,10 +132,19 @@ public class BookController {
 		model.addAttribute("bookCategories", categoryService.getCategoriesByBookId(bookId));
 		model.addAttribute("bookTags", tagService.getTagsByBookId(bookId));
 		model.addAttribute("book", bookService.getBook(bookId));
+
 		Page<GetReviewResponse> reviews = reviewService.getReviewsByBookId(pageable, bookId);
 		model.addAttribute("reviews", reviews);
 		PagingModel.pagingProcessing(pageable, model, reviews, "/api/books/" + bookId, 5);
-		
+
+		Page<GetReviewResponse> generalReviews = reviewService.getGeneralReviewsByBookId(pageable, bookId);
+		model.addAttribute("generalReviews", generalReviews);
+		PagingModel.pagingProcessing(pageable, model, generalReviews, "/api/books/" + bookId, 5);
+
+		Page<GetReviewResponse> photoReviews = reviewService.getPhotoReviewsByBookId(pageable, bookId);
+		model.addAttribute("photoReviews", photoReviews);
+		PagingModel.pagingProcessing(pageable, model, photoReviews, "/api/books/" + bookId, 5);
+
 		return "book/get-book";
 	}
 
