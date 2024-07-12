@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.nhnacademy.bookstorefront.point.dto.request.CreatePointEarningPolicyRequest;
 import com.nhnacademy.bookstorefront.point.dto.request.UpdatePointEarningPolicyRequest;
+import com.nhnacademy.bookstorefront.point.dto.response.GetAllPointTransactionResponse;
 import com.nhnacademy.bookstorefront.point.dto.response.GetPointTransactionResponse;
 import com.nhnacademy.bookstorefront.point.service.impl.PointEarningPolicyServiceImpl;
 import com.nhnacademy.bookstorefront.point.service.impl.PointTransactionServiceImpl;
@@ -31,7 +32,7 @@ public class PointController {
 	public ModelAndView earningPoliciesAdmin() {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("policies", pointEarningPolicyService.getPointEarningPolicies());
-		modelAndView.setViewName("point/admin");
+		modelAndView.setViewName("point/policyAdmin");
 		return modelAndView;
 	}
 
@@ -40,7 +41,7 @@ public class PointController {
 		pointEarningPolicyService.activatePointEarningPolicy(policyId);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("policies", pointEarningPolicyService.getPointEarningPolicies());
-		modelAndView.setViewName("point/admin");
+		modelAndView.setViewName("point/policyAdmin");
 		return modelAndView;
 	}
 	@GetMapping("/point-earning-policies/admin/{policyId}/deactivate")
@@ -48,7 +49,7 @@ public class PointController {
 		pointEarningPolicyService.deactivatePointEarningPolicy(policyId);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("policies", pointEarningPolicyService.getPointEarningPolicies());
-		modelAndView.setViewName("point/admin");
+		modelAndView.setViewName("point/policyAdmin");
 		return modelAndView;
 	}
 
@@ -101,6 +102,34 @@ public class PointController {
 		modelAndView.addObject("endPage", endPage);
 
 		modelAndView.setViewName("point/transactions");
+		return modelAndView;
+	}
+
+	@GetMapping("/point-transactions/admin")
+	public ModelAndView transactionsAdmin(@PageableDefault(page = 1) Pageable pageable) {
+		Page<GetAllPointTransactionResponse> pointTransactions= pointTransactionService.getAllPointTransactions(pageable);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("pointTransactions", pointTransactions);
+		modelAndView.addObject("objects", pointTransactions); // 공통 객체 이름
+		modelAndView.addObject("baseUrl", "/api/point-transactions/admin"); // 페이징 URL
+
+		int blockLimit = 3;
+		int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
+		int endPage = Math.min((startPage + blockLimit - 1), pointTransactions.getTotalPages());
+
+		modelAndView.addObject("pageable", pageable);
+		modelAndView.addObject("blockLimit", blockLimit);
+		modelAndView.addObject("startPage", startPage);
+		modelAndView.addObject("endPage", endPage);
+
+		modelAndView.setViewName("point/transactionsAdmin");
+		return modelAndView;
+	}
+
+	@GetMapping("/point/admin")
+	public ModelAndView pointAdmin() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("point/admin");
 		return modelAndView;
 	}
 

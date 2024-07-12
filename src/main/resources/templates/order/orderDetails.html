@@ -122,6 +122,33 @@
                                                 </tbody>
                                             </table>
                                         </div>
+                                        <div th:if ="${refundList} != null">
+                                            <div th:each=" refund : ${refundList}" class="order-item">
+                                                <table class="table">
+                                                    <!-- Head Row -->
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="pro-name">환불 기준</th>
+                                                        <th class="pro-address">환불 기간</th>
+
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <!-- Product Row -->
+                                                    <tr>
+                                                        <td class="pro-name"> <span
+                                                                th:text="${refund.refundPolicyContent()}"></span></td>
+                                                        <td class="pro-address"><span>송신일 기준 [</span><span
+                                                                th:text=" ${refund.refundPolicyDate()}"></span><span> ] 일 이내에 환불이 가능합니다.</span></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <a th:href="@{/api/orders/refunding/{order_info_id}(order_info_id=${order.infoId()})}">
+                                                <button class="btn btn-primary">환불 요청</button>
+                                            </a>
+                                        </div>
                                     </div>
                                     <div th:if="${order == null}">
                                         <p>주문 목록이 없습니다.</p>

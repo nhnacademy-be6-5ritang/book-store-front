@@ -2,6 +2,7 @@ package com.nhnacademy.bookstorefront.order.feignclient;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,12 +12,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.nhnacademy.bookstorefront.order.dto.request.CreateBookOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
+import com.nhnacademy.bookstorefront.order.dto.request.CreateRefundPolicyRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.OrderCheckNonRequest;
+import com.nhnacademy.bookstorefront.order.dto.request.UpdateRefundPolicyRequest;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllPaperResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetAllRefundResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetListWrappingResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetNonOrderByInfoResponse;
@@ -52,7 +56,7 @@ public interface OrderServiceClient {
 	@PutMapping("/api/orders/books-orders/{book_list_id}/{order_id}")
 	 ResponseEntity<UpdateBookOrderResponse> updateBookOrder(@PathVariable("book_list_id") Long bookListId, @PathVariable("order_id") Long orderId);
 
-	@GetMapping("/api/orders/carts/orders/all")
+	@GetMapping("/api/orders/users/all")
 	 ResponseEntity<GetAllListOrderResponse> findAllByUserId();
 
 	@GetMapping("/api/orders/order-info/{order_info_id}")
@@ -64,9 +68,37 @@ public interface OrderServiceClient {
 	@GetMapping("/api/orders/order-status/going")
 	ResponseEntity<GetAllListOrderByStatusResponse> getOrderStatusGoing();
 
+	@GetMapping("/api/orders/order-status/complete")
+	ResponseEntity<GetAllListOrderByStatusResponse> getOrderStatusComplete();
+
+	@GetMapping("/api/orders/order-status/refunded")
+	ResponseEntity<GetAllListOrderByStatusResponse> getOrderStatusRefunded();
+
+	@GetMapping("/api/orders/order-status/refunding")
+	ResponseEntity<GetAllListOrderByStatusResponse> getOrderStatusRefunding();
+
+
 	@PostMapping("/api/orders/order-info/Non")
 	ResponseEntity<GetNonOrderByInfoResponse> getOrderByInfoNon(@ModelAttribute OrderCheckNonRequest orderCheckNonRequest);
 
 	@GetMapping("/api/orders/orders-points")
 	ResponseEntity<GetUserPointOrderResponse> getUserPointOrders();
+
+	@GetMapping("/api/orders/refund-policy")
+	ResponseEntity<GetAllRefundResponse> getRefundPolicy();
+
+	@PutMapping("/api/orders/refund-policy/{refundPolicyId}")
+	ResponseEntity<Void> updateRefundPolicy(@PathVariable("refundPolicyId") Long refundPolicyId, @ModelAttribute UpdateRefundPolicyRequest updateRefundPolicyRequest);
+
+	@PostMapping("/api/orders/refund-policy")
+	ResponseEntity<Void> createRefundPolicy(@ModelAttribute CreateRefundPolicyRequest refundPolicyRequest);
+
+	@DeleteMapping("/api/orders/refund-policy/{refundPolicyId}")
+	ResponseEntity<Void> deleteRefundPolicy(@PathVariable Long refundPolicyId);
+
+	@GetMapping("/api/orders/refunding/{orderInfoId}")
+	ResponseEntity<Void> refundingOrder(@PathVariable("orderInfoId") String orderInfoId);
+
+	@GetMapping("/api/orders/refunded/{orderInfoId}")
+	ResponseEntity<Void> refundedOrder(@PathVariable("orderInfoId") String orderInfoId);
 }
