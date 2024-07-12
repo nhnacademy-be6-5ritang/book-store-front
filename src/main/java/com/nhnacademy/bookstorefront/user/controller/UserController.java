@@ -34,12 +34,12 @@ public class UserController {
 	}
 
 	@ResponseBody
-	@PatchMapping("/dormant")
-	public ResponseEntity<Void> dormantUser(HttpServletResponse response) {
-		ResponseEntity<Void> dormantUserResponse = userService.dormantUser(response);
+	@PatchMapping("/withdraw")
+	public ResponseEntity<Void> withdrawUser(HttpServletResponse response) {
+		ResponseEntity<Void> withdrawUserResponse = userService.withdrawUser(response);
 		revokeToken(response, "Authorization");
 		revokeToken(response, "Refresh-Token");
-		return dormantUserResponse;
+		return withdrawUserResponse;
 	}
 
 	private void revokeToken(HttpServletResponse response, String cookieName) {

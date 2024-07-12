@@ -23,8 +23,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public ResponseEntity<Void> dormantUser(HttpServletResponse response) {
-		return userClient.dormantUser();
+	public ResponseEntity<Void> withdrawUser(HttpServletResponse response) {
+		return userClient.withdrawUser();
 	}
 
 	@Override

@@ -16,8 +16,8 @@ public interface UserClient {
 	@GetMapping("/api/users/self")
 	ResponseEntity<GetMyUserInfoResponse> getMyUserInfo();
 
-	@PatchMapping("/api/users/dormant")
-	ResponseEntity<Void> dormantUser();
+	@PatchMapping("/api/users/withdraw")
+	ResponseEntity<Void> withdrawUser();
 
 	@GetMapping("/api/users/self/total-order-price")
 	ResponseEntity<BigDecimal> getMyTotalOrderPrice();

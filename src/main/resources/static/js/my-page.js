@@ -1,7 +1,7 @@
-document.getElementById('dormant-button').addEventListener('click', async (event) => {
+document.getElementById('withdraw-button').addEventListener('click', async (event) => {
     event.preventDefault();
 
-    fetch('/users/dormant', {
+    fetch('/users/withdraw', {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
