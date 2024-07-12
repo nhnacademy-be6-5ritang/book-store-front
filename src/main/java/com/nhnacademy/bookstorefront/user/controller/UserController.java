@@ -1,5 +1,7 @@
 package com.nhnacademy.bookstorefront.user.controller;
 
+import java.math.BigDecimal;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,16 +27,19 @@ public class UserController {
 	public String MyUserInfoPage(Model model) {
 		ResponseEntity<GetMyUserInfoResponse> getMyUserInfoResponse = userService.getMyUserInfo();
 		model.addAttribute("myUserInfo", getMyUserInfoResponse.getBody());
+
+		ResponseEntity<BigDecimal> getMyTotalOrderPriceResponse = userService.getMyTotalOrderPrice();
+		model.addAttribute("myTotalOrderPrice", getMyTotalOrderPriceResponse.getBody());
 		return "user/my-page";
 	}
 
 	@ResponseBody
-	@PatchMapping("/dormant")
-	public ResponseEntity<Void> dormantUser(HttpServletResponse response) {
-		ResponseEntity<Void> dormantUserResponse = userService.dormantUser(response);
+	@PatchMapping("/withdraw")
+	public ResponseEntity<Void> withdrawUser(HttpServletResponse response) {
+		ResponseEntity<Void> withdrawUserResponse = userService.withdrawUser(response);
 		revokeToken(response, "Authorization");
 		revokeToken(response, "Refresh-Token");
-		return dormantUserResponse;
+		return withdrawUserResponse;
 	}
 
 	private void revokeToken(HttpServletResponse response, String cookieName) {

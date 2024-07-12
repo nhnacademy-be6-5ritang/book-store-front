@@ -1,5 +1,7 @@
 package com.nhnacademy.bookstorefront.user.feignclient;
 
+import java.math.BigDecimal;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +16,11 @@ public interface UserClient {
 	@GetMapping("/api/users/self")
 	ResponseEntity<GetMyUserInfoResponse> getMyUserInfo();
 
-	@PatchMapping("/api/users/dormant")
-	ResponseEntity<Void> dormantUser();
+	@PatchMapping("/api/users/withdraw")
+	ResponseEntity<Void> withdrawUser();
+
+	@GetMapping("/api/users/self/total-order-price")
+	ResponseEntity<BigDecimal> getMyTotalOrderPrice();
 
 	// TODO: 회원 정보 수정
 }
