@@ -1,5 +1,7 @@
 package com.nhnacademy.bookstorefront.review.feignclient;
 
+import java.util.List;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.nhnacademy.bookstorefront.book.dto.response.GetBookTitleResponse;
 import com.nhnacademy.bookstorefront.review.dto.request.CreateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.request.UpdateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.response.CreateReviewResponse;
@@ -58,4 +61,7 @@ public interface ReviewServiceClient {
 
 	@GetMapping("/books/{bookId}/reviews/average")
 	ResponseEntity<Double> getReviewsAverageScoreByBookId(@PathVariable Long bookId);
+
+	@GetMapping("/reviews/create/possible")
+	ResponseEntity<List<GetBookTitleResponse>> getBooksByOrderStatusCompletionAndUserId();
 }

@@ -1,5 +1,7 @@
 package com.nhnacademy.bookstorefront.review.controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
+import com.nhnacademy.bookstorefront.book.dto.response.GetBookTitleResponse;
 import com.nhnacademy.bookstorefront.book.service.BookService;
 import com.nhnacademy.bookstorefront.global.util.PagingModel;
 import com.nhnacademy.bookstorefront.review.dto.request.CreateReviewRequest;
@@ -84,6 +87,9 @@ public class ReviewController {
 		Page<GetReviewResponse> photoReviews = reviewService.getPhotoReviewsByUserId(pageable);
 		model.addAttribute("photoReviews", photoReviews);
 		PagingModel.pagingProcessing(pageable, model, photoReviews, "/api/users/me/reviews/page", 5);
+
+		List<GetBookTitleResponse> possibleBooks = reviewService.getBooksByOrderStatusCompletionAndUserId();
+		model.addAttribute("possibleBooks", possibleBooks);
 
 		return "review/list-by-user-review";
 	}

@@ -1,9 +1,12 @@
 package com.nhnacademy.bookstorefront.review.service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.nhnacademy.bookstorefront.book.dto.response.GetBookTitleResponse;
 import com.nhnacademy.bookstorefront.review.dto.request.CreateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.request.UpdateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
@@ -32,4 +35,6 @@ public interface ReviewService {
 	void deleteReview(Long reviewId);
 
 	double getReviewsAverageScoreByBookId(Long bookId);
+
+	List<GetBookTitleResponse> getBooksByOrderStatusCompletionAndUserId();
 }

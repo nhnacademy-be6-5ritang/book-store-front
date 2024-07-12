@@ -54,6 +54,19 @@
                                     <div class="myaccount-content">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <h3>작성한 리뷰 리스트</h3>
+                                            <label>
+                                                <select th:if="${possibleBooks.size() > 0}"
+                                                        class="form-control" id="bookId"
+                                                        name="bookId" required>
+                                                    <option value="">도서를 선택하세요</option>
+                                                    <option th:each="book : ${possibleBooks}"
+                                                            th:value="${book.bookId}"
+                                                            th:text="${book.bookTitle}">
+                                                    </option>
+                                                </select>
+                                            </label>
+                                            <a th:if="${possibleBooks.size() > 0}" class="btn btn-primary"
+                                               onclick="submitReviewForm()">리뷰 작성</a>
                                         </div>
 
                                         <div class="sb-custom-tab review-tab section-padding">
@@ -225,6 +238,7 @@ Footer Area
 <script th:src="@{/js/plugins.js}"></script>
 <script th:src="@{/js/ajax-mail.js}"></script>
 <script th:src="@{/js/custom.js}"></script>
+<script th:src="@{/js/list-by-user-review.js}"></script>
 </body>
 
 </html>

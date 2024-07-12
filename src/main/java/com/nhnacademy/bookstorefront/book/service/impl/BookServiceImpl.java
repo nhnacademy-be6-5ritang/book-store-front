@@ -68,7 +68,6 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public List<BookSearchResult> searchBooks(String query) {
-
 		return bookServiceClient.searchBooks(query).getBody();
 	}
 }

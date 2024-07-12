@@ -1,10 +1,13 @@
 package com.nhnacademy.bookstorefront.review.service.impl;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.nhnacademy.bookstorefront.book.dto.response.GetBookTitleResponse;
 import com.nhnacademy.bookstorefront.review.dto.request.CreateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.request.UpdateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
@@ -84,4 +87,10 @@ public class ReviewServiceImpl implements ReviewService {
 	public double getReviewsAverageScoreByBookId(Long bookId) {
 		return reviewServiceClient.getReviewsAverageScoreByBookId(bookId).getBody();
 	}
+
+	@Override
+	public List<GetBookTitleResponse> getBooksByOrderStatusCompletionAndUserId() {
+		return reviewServiceClient.getBooksByOrderStatusCompletionAndUserId().getBody();
+	}
+
 }

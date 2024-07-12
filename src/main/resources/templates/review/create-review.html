@@ -55,7 +55,8 @@
                                  style="display: none;">
                             <span class="image-preview__default-text">이미지 미리보기</span>
                         </div>
-                        <button type="button" id="cancelImage" style="display: none;" onclick="cancelImage()">이미지 취소
+                        <button type="button" id="cancelImage" style="display: none;" onclick="resetImagePreview()">이미지
+                            취소
                         </button>
                     </div>
 
@@ -100,52 +101,6 @@ Footer Area
 <script th:src="@{/js/ajax-mail.js}"></script>
 <script th:src="@{/js/custom.js}"></script>
 <script th:src="@{/js/create-review.js}"></script>
-
-<script>
-    function previewImage(input) {
-        const file = input.files[0];
-        const reader = new FileReader();
-
-        reader.onload = function () {
-            const previewImg = document.getElementById('previewImg');
-            previewImg.src = reader.result;
-            previewImg.style.display = 'block';
-            const defaultText = document.querySelector('.image-preview__default-text');
-            defaultText.style.display = 'none';
-            const cancelImageBtn = document.getElementById('cancelImage');
-            cancelImageBtn.style.display = 'inline-block';
-        };
-
-        if (file) {
-            reader.readAsDataURL(file);
-        }
-    }
-
-    function cancelImage() {
-        const fileInput = document.getElementById('file');
-        fileInput.value = ''; // 파일 선택(input) 초기화
-
-        const previewImg = document.getElementById('previewImg');
-        previewImg.src = '';
-        previewImg.style.display = 'none'; // 이미지 미리보기 숨기기
-
-        const defaultText = document.querySelector('.image-preview__default-text');
-        defaultText.style.display = 'block'; // 이미지 미리보기 기본 텍스트 보이기
-
-        const cancelImageBtn = document.getElementById('cancelImage');
-        cancelImageBtn.style.display = 'none'; // 이미지 취소 버튼 숨기기
-    }
-
-    const textarea = document.getElementById('reviewComment');
-    const wordCount = document.querySelector('.word-count span');
-    const submitBtn = document.getElementById('submitBtn');
-
-    textarea.addEventListener('input', function () {
-        const textLength = textarea.value.length;
-        wordCount.textContent = textLength;
-        submitBtn.disabled = textLength === 0 || textLength > 400;
-    });
-</script>
 
 </body>
 
