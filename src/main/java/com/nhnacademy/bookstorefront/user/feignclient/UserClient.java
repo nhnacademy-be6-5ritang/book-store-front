@@ -16,4 +16,6 @@ public interface UserClient {
 
 	@PatchMapping("/api/users/dormant")
 	ResponseEntity<Void> dormantUser();
+
+	// TODO: 회원 정보 수정
 }
