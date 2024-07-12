@@ -26,7 +26,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a th:href="@{/api/categories/main}">홈</a></li>
-                        <li class="breadcrumb-item active">관리자 주문 확인</li>
+                        <li class="breadcrumb-item active">환불 정책 관리</li>
                     </ol>
                 </nav>
             </div>
@@ -51,27 +51,19 @@
                                 <div class="cart_area inner-page-sec-padding-bottom">
                                     <div class="container">
                                         <div class="page-section-title">
-                                            <h1>관리자 주문 확인</h1>
+                                            <h1>환불 정책 생성</h1>
                                         </div>
-                                        <button onclick="location.href='/api/orders/admin/order-status/wait'" class="btn btn-primary">
-                                            대기 주문 확인
-                                        </button>
-                                        <button onclick="location.href='/api/orders/admin/order-status/going'" class="btn btn-primary">
-                                            발송 주문 확인
-                                        </button>
-                                        <button onclick="location.href='/api/orders/admin/order-status/complete'" class="btn btn-primary">
-                                            완료 주문 확인
-                                        </button>
-                                        <button onclick="location.href='/api/orders/admin/order-status/refunding'" class="btn btn-primary">
-                                            환불 중 주문 확인
-                                        </button>
-                                        <button onclick="location.href='/api/orders/admin/order-status/refunded'" class="btn btn-primary">
-                                            환불 주문 확인
-                                        </button>
-                                        <button onclick="location.href='/api/orders/admin/refundPolicy'" class="btn btn-primary">
-                                            환불 정책 관리
-                                        </button>
-                                    </div>
+                                        <form th:action="@{/api/orders/admin/refundPolicy}" method="post">
+                                            <div class="form-group">
+                                                <label for="refundPolicyContent">환불 정책 내용</label>
+                                                <input type="text" class="form-control" id="refundPolicyContent" name="refundPolicyContent" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="refundPolicyDate">환불 정책 기간 (송신일 기준 ~일 이내)</label>
+                                                <input type="text" class="form-control" id="refundPolicyDate" name="refundPolicyDate" required>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">정책 저장</button>
+                                        </form>
                                 </div>
 
 
@@ -83,7 +75,7 @@
             </div>
         </div>
     </div>
-
+    </div>
 </div>
 
 <!--=================================
