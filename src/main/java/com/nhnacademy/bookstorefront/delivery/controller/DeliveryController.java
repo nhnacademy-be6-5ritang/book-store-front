@@ -32,8 +32,11 @@ public class DeliveryController {
 	@PostMapping("{order_list_id}")
 	public String createDeliveriesPage(@ModelAttribute CreateDeliveryRequest createDeliveryRequest,@PathVariable("order_list_id") Long orderListId) {
 		CreateDeliveryResponse response = deliveryService.createDelivery(createDeliveryRequest);
-		return "redirect:/api/orders/createOrderTest/" + orderListId + "/" + response.deliveryId();
+		return "redirect:/coupons/orders/" + orderListId + "/users/" + response.deliveryId();
 	}
+
+
+
 
 	@GetMapping("/{orderId}/sender")
 	public ModelAndView senderPage(@PathVariable("orderId") Long orderId) {

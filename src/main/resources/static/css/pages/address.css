@@ -1,0 +1,43 @@
+.address-container {
+    width: 100%;
+}
+
+.address-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 20px;
+}
+
+/* address-table의 첫번째 tr을 제외한 나머지 tr hover*/
+.address-table tr:not(:first-child):hover {
+    cursor: pointer;
+}
+
+.default-address td:first-child {
+    border: none;
+}
+
+.default-address td:nth-child(2) {
+    border-left: 1px solid #00abff;
+    border-top: 1px solid #00abff;
+    border-bottom: 1px solid #00abff;
+    border-radius: 10px 0 0 10px;
+}
+
+.default-address td:last-child {
+    border-right: 1px solid #00abff;
+    border-top: 1px solid #00abff;
+    border-bottom: 1px solid #00abff;
+    border-radius: 0 10px 10px 0;
+}
+
+.default-address td {
+    /*    border를 상하만*/
+    border-top: 1px solid #00abff;
+    border-bottom: 1px solid #00abff;
+}
+
+.address-field {
+    padding: 10px;
+}

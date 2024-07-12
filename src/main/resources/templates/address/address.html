@@ -10,6 +10,8 @@
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/pages/address.css}"/>
 </head>
 
 <body>
@@ -45,16 +47,39 @@
                     <div>
                         <h5>내 주소</h5>
                     </div>
-                    <table>
+                    <table class="address-table">
                         <tr>
-                            <td>-</td>
-                            <td>주소</td>
-                            <td>상세주소</td>
-                            <td>-</td>
-                            <td>-</td>
+                            <th></th>
+                            <th class="address-field">별칭</th>
+                            <th class="address-field">주소</th>
+                        </tr>
+                        <tr th:each="address : ${myAddresses}" th:id="${address.id}"
+                            th:classappend="${address.isDefault} == true ? 'default-address' : ''"
+                            th:onclick="'confirmUpdateDefaultAddress(' + ${address.id} + ')'">
+                            <td></td>
+                            <td th:text="${address.alias}" class="address-field"></td>
+                            <td th:text="${'[' + address.postCode + '] ' + address.baseAddress + ', ' + address.detailAddress}"
+                                class="address-field"></td>
+                            <td class="address-field">
+                                <button type="button"
+                                        th:onclick="'openUpdateModal(' + ${address.id} + '); event.stopPropagation();'">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                            </td>
+                            <td class="address-field">
+                                <button type="button"
+                                        th:onclick="'deleteAddress(' + ${address.id} + '); event.stopPropagation();'">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </td>
                         </tr>
                     </table>
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#addressModal">주소 추가</button>
+                    <button type="button"
+                            onclick="if(checkAddressLimit()){
+                                $('#addressModal').modal('show');
+                            }">
+                        주소 추가
+                    </button>
                 </div>
             </div>
         </div>
@@ -72,30 +97,67 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="addressForm">
+                <form id="addressForm" action="/addresses" method="post">
                     <div class="form-group">
-                        <input type="text" id="sample4_postcode" placeholder="우편번호" class="form-control">
-                        <input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"
-                               class="btn btn-primary">
+                        <input type="text" id="alias" name="alias" placeholder="별칭" class="form-control">
+                    </div>
+                    <div class="form-group" style="display: flex;">
+                        <input type="text" id="postCode" name="postCode" placeholder="우편번호" class="form-control">
+                        <input type="button" onclick="execDaumPostcode()" class="btn btn-primary" value="주소 찾기">
                     </div>
                     <div class="form-group">
-                        <input type="text" id="sample4_roadAddress" placeholder="도로명주소" class="form-control">
+                        <input type="text" id="baseAddress" name="baseAddress" placeholder="주소" class="form-control">
                     </div>
                     <div class="form-group">
-                        <input type="text" id="sample4_jibunAddress" placeholder="지번주소" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="sample4_detailAddress" placeholder="상세주소" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="sample4_extraAddress" placeholder="참고항목" class="form-control">
+                        <input type="text" id="detailAddress" name="detailAddress" placeholder="상세주소"
+                               class="form-control">
                     </div>
                     <span id="guide" style="color:#999;display:none"></span>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                        <button type="submit" class="btn btn-primary" id="saveAddressButton">저장</button>
+                    </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                <button type="button" class="btn btn-primary" id="saveAddressButton">저장</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateModalLabel">주소 수정</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="updateAddressForm" method="post">
+                    <input type="hidden" id="updateAddressId" name="id">
+                    <div class="form-group">
+                        <input type="text" id="updateAlias" name="alias" placeholder="별칭" class="form-control">
+                    </div>
+                    <div class="form-group" style="display: flex;">
+                        <input type="text" id="updatePostCode" name="postCode" placeholder="우편번호" class="form-control">
+                        <input type="button" onclick="execDaumPostcode('updatePostCode', 'updateBaseAddress')"
+                               class="btn btn-primary" value="주소 찾기">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="updateBaseAddress" name="baseAddress" placeholder="주소"
+                               class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="updateDetailAddress" name="detailAddress" placeholder="상세주소"
+                               class="form-control">
+                    </div>
+                    <span id="updateGuide" style="color:#999;display:none"></span>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                        <button type="submit" class="btn btn-primary" id="saveUpdatedAddressButton">저장</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -111,9 +173,19 @@ Footer Area
 <script th:src="@{/js/ajax-mail.js}"></script>
 <script th:src="@{/js/custom.js}"></script>
 
+<script th:inline="javascript">
+    let myAddresses = /*[[${myAddresses}]]*/ [];
+</script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    let responseMessage = /*[[${responseMessage != null ? responseMessage : ''}]]*/ '';
+    /*]]>*/
+</script>
+
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script th:src="@{/js/address.js}"></script>
 </body>
 

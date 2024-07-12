@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.nhnacademy.bookstorefront.point.dto.request.CreatePointEarningPolicyRequest;
 import com.nhnacademy.bookstorefront.point.dto.request.UpdatePointEarningPolicyRequest;
 import com.nhnacademy.bookstorefront.point.dto.response.CreatePointEarningPolicyResponse;
+import com.nhnacademy.bookstorefront.point.dto.response.GetAllPointTransactionResponse;
 import com.nhnacademy.bookstorefront.point.dto.response.GetPointEarningPolicyResponse;
 import com.nhnacademy.bookstorefront.point.dto.response.GetPointTransactionResponse;
 import com.nhnacademy.bookstorefront.point.dto.response.UpdatePointEarningPolicyResponse;
@@ -38,5 +39,8 @@ public interface PointServiceClient {
 
 	@GetMapping("/point-transactions")
 	ResponseEntity<Page<GetPointTransactionResponse>> getPointTransactions(Pageable pageable);
+
+	@GetMapping("/point-transactions/all")
+	ResponseEntity<Page<GetAllPointTransactionResponse>> getAllPointTransactions(Pageable pageable);
 
 }

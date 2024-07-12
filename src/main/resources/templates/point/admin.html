@@ -26,7 +26,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a th:href="@{/api/categories/main}">홈</a></li>
-                        <li class="breadcrumb-item active">포인트 정책 관리</li>
+                        <li class="breadcrumb-item active">관리자 포인트 페이지</li>
                     </ol>
                 </nav>
             </div>
@@ -51,56 +51,14 @@
                                 <div class="cart_area inner-page-sec-padding-bottom">
                                     <div class="container">
                                         <div class="page-section-title">
-                                            <h1>포인트 정책</h1>
+                                            <h1>관리자 포인트 페이지</h1>
                                         </div>
-                                        <div th:if="${policies != null}">
-                                            <div th:each="policy : ${policies}" class="order-item">
-                                                <table class="table">
-                                                    <!-- Head Row -->
-                                                    <thead>
-                                                    <tr>
-                                                        <th class="pro-title">포인트 정책 아이디</th>
-                                                        <th class="pro-type">포인트 정책 타입</th>
-                                                        <th class="pro-price">포인트 정책 가격</th>
-                                                        <th class="pro-status">포인트 정책 상태</th>
-                                                        <th class="pro-action">액션</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <!-- Product Row -->
-                                                    <tr>
-                                                        <td class="pro-price"> <span
-                                                                th:text="${policy.pointEarningPolicyId()}"></span></td>
-                                                        <td class="pro-type"><span
-                                                                th:text="${policy.pointEarningPolicyType()}"></span></td>
-                                                        <td class="pro-price"><span
-                                                                th:text="${policy.pointEarningAmount()}"></span></td>
-                                                        <td class="pro-status"><span
-                                                                th:text="${policy.pointEarningPolicyStatus()}"></span></td>
-                                                        <td class="pro-action">
-                                                            <a th:if="${policy.pointEarningPolicyStatus() == 'ACTIVE'}"
-                                                               th:href="@{/api/point-earning-policies/admin/{policyId}/deactivate(policyId=${policy.pointEarningPolicyId()})}">
-                                                                <button class="btn btn-danger">비활성화</button>
-                                                            </a>
-                                                            <a th:if="${policy.pointEarningPolicyStatus() == 'DORMANT'}"
-                                                               th:href="@{/api/point-earning-policies/admin/{policyId}/active(policyId=${policy.pointEarningPolicyId()})}">
-                                                                <button class="btn btn-success">활성화</button>
-                                                            </a>
-                                                            <a th:href="@{/api/point-earning-policies/admin/{policyId}(policyId=${policy.pointEarningPolicyId()})}">
-                                                                <button class="btn btn-primary">수정</button>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <a th:href="@{/api/point-earning-policies/admin/create}">
-                                                <button class="btn btn-primary">새 포인트 정책 생성</button>
-                                            </a>
-                                        </div>
-                                        <div th:if="${policies == null}">
-                                            <p>주문 목록이 없습니다.</p>
-                                        </div>
+                                        <button onclick="location.href='/api/point-earning-policies/admin'" class="btn btn-primary">
+                                            포인트 정책
+                                        </button>
+                                        <button onclick="location.href='/api/point-transactions/admin'" class="btn btn-primary">
+                                            포인트 내역 확인
+                                        </button>
                                     </div>
                                 </div>
 

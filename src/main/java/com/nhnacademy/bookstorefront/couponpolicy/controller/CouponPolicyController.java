@@ -33,8 +33,8 @@ public class CouponPolicyController {
 		try {
 
 			// SalePrice와 SaleRate 유효성 검사 추가
-			if ((requestDTO.salePrice() == null && requestDTO.saleRate() == null) ||
-				(requestDTO.salePrice() != null && requestDTO.saleRate() != null)) {
+			if ((requestDTO.salePrice() == null && requestDTO.saleRate() == null && requestDTO.maxSalePrice() == null) ||
+				(requestDTO.salePrice() != null && requestDTO.saleRate() != null && requestDTO.maxSalePrice() != null)) {
 				throw new IllegalArgumentException("Either salePrice or saleRate must be provided exclusively.");
 			}
 
@@ -78,10 +78,11 @@ public class CouponPolicyController {
 		try {
 
 			// SalePrice와 SaleRate 유효성 검사 추가
-			if ((requestDTO.salePrice() == null && requestDTO.saleRate() == null) ||
-				(requestDTO.salePrice() != null && requestDTO.saleRate() != null)) {
+			if ((requestDTO.salePrice() == null && requestDTO.saleRate() == null && requestDTO.maxSalePrice() == null) ||
+				(requestDTO.salePrice() != null && requestDTO.saleRate() != null && requestDTO.maxSalePrice() != null)) {
 				throw new IllegalArgumentException("Either salePrice or saleRate must be provided exclusively.");
 			}
+
 			couponPolicyService.updateCouponPolicy(couponPolicyId, requestDTO);
 			model.addAttribute("message", "Coupon policy updated successfully!");
 		} catch (Exception e) {
@@ -90,7 +91,6 @@ public class CouponPolicyController {
 		return "redirect:/coupons/policies";
 	}
 
-	// TODO : logic짤때 도서, 카테고리 쿠폰의 경우 해당 쿠폰 도서명, 카테고리명도 나오게끔 해야함.
 	@GetMapping
 	public String getCouponPolicies(@PageableDefault(page = 1, size = 3) Pageable pageable, Model model) {
 		try {
