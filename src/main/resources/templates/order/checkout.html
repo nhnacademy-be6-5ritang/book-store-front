@@ -153,19 +153,7 @@
                                                         </li>
 
                                                     </ul>
-                                                    <ul th:each=" wrapping : ${wrappingList.wrapping()}">
-                                                        <li><strong>포장지</strong> <span
-                                                                th:text="${wrapping.name()}"></span>
-                                                        </li>
 
-                                                        <li><strong>수량</strong> <span
-                                                                th:text="${wrapping.quantity()}"></span>
-                                                        </li>
-
-                                                        <li><strong>포장비</strong> <span
-                                                                th:text="${wrapping.price()}"></span>
-                                                        </li>
-                                                    </ul>
 
 
                                                     <div th:if="${point != null}">
@@ -212,6 +200,19 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <ul th:each=" wrapping : ${wrappingList.wrapping()}">
+                                                        <li><strong>포장지</strong> <span
+                                                                th:text="${wrapping.name()}"></span>
+                                                        </li>
+
+                                                        <li><strong>수량</strong> <span
+                                                                th:text="${wrapping.quantity()}"></span>
+                                                        </li>
+
+                                                        <li><strong>포장비</strong> <span
+                                                                th:text="${wrapping.price()}"></span>
+                                                        </li>
+                                                    </ul>
 
                                                     <p>배송비 <span th:text="${delivery.deliveryPolicyPrice()}"></span></p>
 
