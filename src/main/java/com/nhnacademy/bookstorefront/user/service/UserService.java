@@ -1,5 +1,7 @@
 package com.nhnacademy.bookstorefront.user.service;
 
+import java.math.BigDecimal;
+
 import org.springframework.http.ResponseEntity;
 
 import com.nhnacademy.bookstorefront.user.dto.response.GetMyUserInfoResponse;
@@ -11,4 +13,5 @@ public interface UserService {
 
 	ResponseEntity<Void> dormantUser(HttpServletResponse response);
 
+	ResponseEntity<BigDecimal> getMyTotalOrderPrice();
 }

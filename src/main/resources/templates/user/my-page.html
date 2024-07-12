@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/pages/my-page.css}"/>
 </head>
 
 <body>
@@ -46,7 +47,7 @@
                         <div style="height: 100%; display: grid; place-items: center;">
                             <div th:if="${myUserInfo.userStatusName == 'ACTIVE'}"
                                  style="width: 7px; height: 7px; border-radius: 50%; background-color: #10a400"></div>
-                            <div th:unless="${myUserInfo.userStatusName == 'ACTIVE'}"
+                            <div th:if="${myUserInfo.userStatusName == 'WITHDRAW'}"
                                  style="width: 7px; height: 7px; border-radius: 50%; background-color: #a8a8a8"></div>
                         </div>
                     </div>
@@ -58,8 +59,21 @@
                             <td th:each="role : ${myUserInfo.roles}" th:text="${role}"></td>
                         </tr>
                         <tr>
-                            <td th:text="${myUserInfo.userGradeName}"></td>
-                            <td th:text="${myUserInfo.userStatusName}"></td>
+                            <td>등급</td>
+                            <td onmouseover="displayUserGrades()" onmouseout="hideUserGrades()"
+                                th:text="${myUserInfo.userGradeName}"></td>
+                            <td style="position: absolute">
+                                <div id="user-grades-data" class="user-grades-hidden">
+                                    [REGULAR : 1.5% 포인트 적립] 0 ~ 100,000<br>
+                                    [ROYAL : 3% 포인트 적립] 100,000 ~ 300,000<br>
+                                    [GRAND : 5% 포인트 적립] 300,000 ~ 1,000,000<br>
+                                    [PRESTIGE : 10% 포인트 적립] 1,000,000 ~
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>총 주문 금액</td>
+                            <td th:text="${myTotalOrderPrice} + '원'"></td>
                         </tr>
                         <tr>
                             <td>이메일</td>
