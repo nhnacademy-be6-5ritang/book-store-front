@@ -77,6 +77,14 @@ public class ReviewController {
 		model.addAttribute("reviews", reviews);
 		PagingModel.pagingProcessing(pageable, model, reviews, "/api/users/me/reviews/page", 5);
 
+		Page<GetReviewResponse> generalReviews = reviewService.getGeneralReviewsByUserId(pageable);
+		model.addAttribute("generalReviews", generalReviews);
+		PagingModel.pagingProcessing(pageable, model, generalReviews, "/api/users/me/reviews/page", 5);
+
+		Page<GetReviewResponse> photoReviews = reviewService.getPhotoReviewsByUserId(pageable);
+		model.addAttribute("photoReviews", photoReviews);
+		PagingModel.pagingProcessing(pageable, model, photoReviews, "/api/users/me/reviews/page", 5);
+
 		return "review/list-by-user-review";
 	}
 

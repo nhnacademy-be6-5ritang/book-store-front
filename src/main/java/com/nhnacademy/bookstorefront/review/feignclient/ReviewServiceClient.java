@@ -26,16 +26,22 @@ public interface ReviewServiceClient {
 	ResponseEntity<Page<GetReviewResponse>> getReviewsByBookId(Pageable pageable,
 		@PathVariable Long bookId);
 
-	@GetMapping("/books/{bookId}/reviews/photo/page")
-	ResponseEntity<Page<GetReviewResponse>> getPhotoReviewsByBookId(Pageable pageable,
-		@PathVariable Long bookId);
-
 	@GetMapping("/books/{bookId}/reviews/general/page")
 	ResponseEntity<Page<GetReviewResponse>> getGeneralReviewsByBookId(Pageable pageable,
 		@PathVariable Long bookId);
 
-	@GetMapping("/users/me/reviews/page")
+	@GetMapping("/books/{bookId}/reviews/photo/page")
+	ResponseEntity<Page<GetReviewResponse>> getPhotoReviewsByBookId(Pageable pageable,
+		@PathVariable Long bookId);
+
+	@GetMapping("/users/me/reviews/all/page")
 	ResponseEntity<Page<GetReviewResponse>> getReviewsByUserId(Pageable pageable);
+
+	@GetMapping("/users/me/reviews/general/page")
+	ResponseEntity<Page<GetReviewResponse>> getGeneralReviewsByUserId(Pageable pageable);
+
+	@GetMapping("/users/me/reviews/photo/page")
+	ResponseEntity<Page<GetReviewResponse>> getPhotoReviewsByUserId(Pageable pageable);
 
 	@PostMapping("/reviews")
 	ResponseEntity<CreateReviewResponse> createReview(@RequestBody CreateReviewRequest request);

@@ -31,18 +31,28 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public Page<GetReviewResponse> getPhotoReviewsByBookId(Pageable pageable, Long bookId) {
-		return reviewServiceClient.getPhotoReviewsByBookId(pageable, bookId).getBody();
-	}
-
-	@Override
 	public Page<GetReviewResponse> getGeneralReviewsByBookId(Pageable pageable, Long bookId) {
 		return reviewServiceClient.getGeneralReviewsByBookId(pageable, bookId).getBody();
 	}
 
 	@Override
+	public Page<GetReviewResponse> getPhotoReviewsByBookId(Pageable pageable, Long bookId) {
+		return reviewServiceClient.getPhotoReviewsByBookId(pageable, bookId).getBody();
+	}
+
+	@Override
 	public Page<GetReviewResponse> getReviewsByUserId(Pageable pageable) {
 		return reviewServiceClient.getReviewsByUserId(pageable).getBody();
+	}
+
+	@Override
+	public Page<GetReviewResponse> getGeneralReviewsByUserId(Pageable pageable) {
+		return reviewServiceClient.getGeneralReviewsByUserId(pageable).getBody();
+	}
+
+	@Override
+	public Page<GetReviewResponse> getPhotoReviewsByUserId(Pageable pageable) {
+		return reviewServiceClient.getPhotoReviewsByUserId(pageable).getBody();
 	}
 
 	@Override
