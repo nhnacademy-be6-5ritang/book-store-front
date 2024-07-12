@@ -28,8 +28,13 @@ public interface AuthClient {
 	@PostMapping("/api/users")
 	ResponseEntity<SignUpResponse> requestSignUp(@RequestBody SignUpRequest signUpRequest);
 
-	@GetMapping("/api/users/check-email")
-	ResponseEntity<Boolean> isEmailExist(@RequestParam("email") String email);
+	@PostMapping("/api/users/send-email/sign-up")
+	ResponseEntity<Void> sendEmailSignUp(@RequestParam("email") String email);
+
+	@GetMapping("/api/users/check-email/sign-up")
+	ResponseEntity<Void> checkEmailSignUp(
+		@RequestParam("email") String email, @RequestParam("certifyCode") String certifyCode
+	);
 
 	@PatchMapping("/api/users/last-login-at")
 	void updateLastLoginAt(
@@ -37,4 +42,5 @@ public interface AuthClient {
 		@RequestHeader("Refresh-Token") String refreshToken,
 		@RequestBody LocalDateTime lastLoginAt
 	);
+
 }

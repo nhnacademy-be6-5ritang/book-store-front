@@ -67,13 +67,19 @@ public class AuthController {
 	}
 
 	/**
-	 * 해당 이메일이 존재하는지 확인
+	 * 해당 이메일이 존재하는지 확인, 없으면 인증번호 전송
 	 * @param email 이메일
-	 * @return 해당 이메일이 존재하면 true, 존재하지 않으면 false
+	 * @return 해당 이메일이 존재하면 409, 존재하지 않으면 200
 	 */
-	@GetMapping("/check-email")
-	public ResponseEntity<Boolean> isEmailExist(@RequestParam String email) {
-		return authService.isEmailExist(email);
+	@PostMapping("/send-email/sign-up")
+	public ResponseEntity<Void> sendEmailSignUp(@RequestParam String email) {
+		return authService.sendEmailSignUp(email);
+	}
+
+	@GetMapping("/check-email/sign-up")
+	public ResponseEntity<Void> checkEmailSignUp(@RequestParam String email, @RequestParam String certifyCode) {
+		ResponseEntity<Void> response = authService.checkEmailSignUp(email, certifyCode);
+		return response;
 	}
 
 	@GetMapping("/login")
