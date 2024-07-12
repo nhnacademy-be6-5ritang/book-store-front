@@ -47,6 +47,13 @@ public interface UserAndCouponFeignClient {
 	ResponseEntity<UserAndCouponOrderResponseDTO> getSelectedCoupon(
 		@RequestParam(value = "couponId", required = false) Long couponId);
 
+
+
+	@GetMapping("/coupons/users/auth")
+	ResponseEntity<Boolean> isRealUserCheck();
+
+
+
 }
 
 

@@ -81,6 +81,14 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 
 	}
 
+
+	@Override
+	public Boolean isRealUserCheck() {
+
+		return userAndCouponFeignClient.isRealUserCheck().getBody();
+
+	}
+
 }
 
 

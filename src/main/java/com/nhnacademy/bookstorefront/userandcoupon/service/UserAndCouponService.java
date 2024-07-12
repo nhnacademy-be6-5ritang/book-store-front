@@ -20,4 +20,5 @@ public interface UserAndCouponService {
 
     List<UserAndCouponResponseDTO> getAllUserAndCouponByOrder(Long orderListId);
     UserAndCouponOrderResponseDTO getSelectedCouponByOrder(Long couponId);
+    Boolean isRealUserCheck();
 }
