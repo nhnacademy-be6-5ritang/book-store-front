@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 
 import org.springframework.stereotype.Service;
 
-
+import com.nhnacademy.bookstorefront.point.dto.response.GetAllPointTransactionResponse;
 import com.nhnacademy.bookstorefront.point.dto.response.GetPointTransactionResponse;
 import com.nhnacademy.bookstorefront.point.feignclient.PointServiceClient;
 import com.nhnacademy.bookstorefront.point.service.PointTransactionService;
@@ -23,4 +23,8 @@ public class PointTransactionServiceImpl implements PointTransactionService {
 		return pointServiceClient.getPointTransactions(pageable).getBody();
 	}
 
+	@Override
+	public Page<GetAllPointTransactionResponse> getAllPointTransactions(Pageable pageable) {
+		return pointServiceClient.getAllPointTransactions(pageable).getBody();
+	}
 }
