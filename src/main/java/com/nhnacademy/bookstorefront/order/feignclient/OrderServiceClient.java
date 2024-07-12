@@ -21,6 +21,7 @@ import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusR
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllPaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllRefundResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetBookByOrderCouponResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetListWrappingResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetNonOrderByInfoResponse;
@@ -101,4 +102,15 @@ public interface OrderServiceClient {
 
 	@GetMapping("/api/orders/refunded/{orderInfoId}")
 	ResponseEntity<Void> refundedOrder(@PathVariable("orderInfoId") String orderInfoId);
+
+
+	/**
+	 * 단건주문 bookId, categoryId 가져오는 feignClient method
+	 * @author 이기훈
+	 * @param orderListId 주문리스트 Id
+	 * @return 주문한 bookId, categoryId 가져옴
+	 */
+
+	@GetMapping("/api/orders/{orderListId}/book")
+	ResponseEntity<GetBookByOrderCouponResponse> getBookByOneOrder(@PathVariable("orderListId") Long orderListId);
 }

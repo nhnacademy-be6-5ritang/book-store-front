@@ -54,11 +54,13 @@
                                             <h3>도서</h3>
 
                                             <div class="form-group mb-0">
-                                                <form th:action="@{/api/books/fetch/isbn}" method="post" class="d-flex">
+                                                <form th:action="@{/api/books/fetch}" method="post" class="d-flex">
                                                     <div class="input-group">
                                                         <label for="isbn" class="sr-only">추가할 책의 ISBN</label>
-                                                        <input type="text" class="form-control" placeholder="ISBN 입력" id="isbn" name="isbn" required>
-                                                        <button type="submit" class="btn btn-primary">외부 API 도서 추가</button>
+                                                        <input type="text" class="form-control" placeholder="ISBN 입력"
+                                                               id="isbn" name="isbn" required>
+                                                        <button type="submit" class="btn btn-primary">외부 API 도서 추가
+                                                        </button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -76,13 +78,22 @@
                                                 </thead>
                                                 <tbody>
                                                 <tr th:each="book, index : ${books}">
-                                                    <td th:text="${index.index + 1 + (pageable.pageNumber - 1) * pageable.pageSize}">1</td>
+                                                    <td th:text="${index.index + 1 + (pageable.pageNumber - 1) * pageable.pageSize}">
+                                                        1
+                                                    </td>
                                                     <td th:text="${book.bookTitle}">도서 이름</td>
                                                     <td style="display: flex; align-items: center;">
-                                                        <a href="#" th:href="@{/api/books/detail/{bookId} (bookId=${book.bookId})}" class="btn btn-primary inline-text">보기</a>
-                                                        <a href="#" th:href="@{/api/books/update/{bookId} (bookId=${book.bookId})}" class="btn btn-warning inline-text">편집</a>
-                                                        <form th:action="@{/api/books/{bookId} (bookId=${book.bookId})}" th:method="delete">
-                                                            <button type="submit" class="btn btn-danger inline-text">삭제</button>
+                                                        <a href="#"
+                                                           th:href="@{/api/books/detail/{bookId} (bookId=${book.bookId})}"
+                                                           class="btn btn-primary inline-text">보기</a>
+                                                        <a href="#"
+                                                           th:href="@{/api/books/update/{bookId} (bookId=${book.bookId})}"
+                                                           class="btn btn-warning inline-text">편집</a>
+                                                        <form th:action="@{/api/books/{bookId} (bookId=${book.bookId})}"
+                                                              th:method="delete">
+                                                            <button type="submit" class="btn btn-danger inline-text">
+                                                                삭제
+                                                            </button>
                                                         </form>
                                                     </td>
                                                 </tr>

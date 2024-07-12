@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
@@ -42,6 +43,8 @@ import com.nhnacademy.bookstorefront.order.service.Impl.OrderServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.PaperTypeServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.RefundPolicyServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.WrappingPaperServiceImpl;
+import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCouponOrderResponseDTO;
+import com.nhnacademy.bookstorefront.userandcoupon.service.UserAndCouponService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -58,6 +61,7 @@ public class OrderClientController {
 	private final BookServiceImpl bookServiceImpl;
 	private final DeliveryPolicyServiceImpl deliveryPolicyServiceImpl;
 	private final RefundPolicyServiceImpl refundPolicyServiceImpl;
+	private final UserAndCouponService userAndCouponService;
 
 	@GetMapping("/createBookOrderTest/{book_id}")
 	public ModelAndView createBookOrder(@PathVariable("book_id") Long bookId) {
@@ -103,9 +107,17 @@ public class OrderClientController {
 		return "redirect:/api/deliveries/" + orderListId;
 	}
 
+	// TODO 주문성공시 쿠폰 update 로직 넣기
 	@GetMapping("/createOrderTest/{order_list_id}/{delivery_id}")
-	public ModelAndView createOrder(@PathVariable("order_list_id") Long orderListId, @PathVariable("delivery_id") Long deliveryId) {
+	public ModelAndView createOrder(@PathVariable("order_list_id") Long orderListId, @PathVariable("delivery_id") Long deliveryId, @RequestParam(value = "couponId", required = false) Long couponId) {
 		ModelAndView modelAndView = new ModelAndView();
+
+
+		UserAndCouponOrderResponseDTO selectCoupon = userAndCouponService.getSelectedCouponByOrder(couponId);
+		modelAndView.addObject("selectCoupon", selectCoupon);
+
+
+
 		GetBookOrderResponse bookOrder = bookOrderServiceImpl.getBookOrder(orderListId);
 		GetListWrappingResponse list = wrappingPaperServiceImpl.getWrappingPaperByOrderListId(orderListId);
 		GetUserPointOrderResponse point = orderServiceImpl.getUserPoint();
@@ -128,6 +140,7 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+
 	@PostMapping("/complete/{order_list_id}/{delivery_id}")
 	public String createOrder(@ModelAttribute CreateOrderRequest createOrderRequest,
 		@PathVariable("order_list_id") Long orderListId, @PathVariable("delivery_id") Long deliveryId
@@ -137,6 +150,8 @@ public class OrderClientController {
 		bookOrderServiceImpl.updateOrder(orderListId, createOrderResponse.orderId());
 		return "redirect:/api/payments/" + createOrderResponse.infoId();
 	}
+
+
 
 	@GetMapping("/complete/{order_list_id}/{order_id}")
 	public ModelAndView completeOrder(@PathVariable("order_list_id") Long orderListId,
