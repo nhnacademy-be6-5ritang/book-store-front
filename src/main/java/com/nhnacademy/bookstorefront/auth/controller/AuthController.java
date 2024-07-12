@@ -2,6 +2,7 @@ package com.nhnacademy.bookstorefront.auth.controller;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import org.springframework.http.HttpStatus;
@@ -86,6 +87,7 @@ public class AuthController {
 
 		String accessToken;
 		String refreshToken;
+		LocalDateTime lastLoginAt;
 
 		if (Objects.isNull(loginResponse)) {
 			return "redirect:/auth/login?error=" + URLEncoder.encode("로그인 실패", StandardCharsets.UTF_8);
@@ -93,6 +95,7 @@ public class AuthController {
 
 		accessToken = loginResponse.accessToken();
 		refreshToken = loginResponse.refreshToken();
+		lastLoginAt = loginResponse.lastLoginAt();
 
 		if (accessToken != null) {
 			response.addCookie(createCookie("Authorization", accessToken));
@@ -101,6 +104,8 @@ public class AuthController {
 		if (refreshToken != null) {
 			response.addCookie(createCookie("Refresh-Token", refreshToken));
 		}
+
+		authService.updateLastLoginAt(accessToken, refreshToken, lastLoginAt);
 
 		return "redirect:/";
 	}

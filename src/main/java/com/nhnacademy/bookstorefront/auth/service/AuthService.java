@@ -1,5 +1,7 @@
 package com.nhnacademy.bookstorefront.auth.service;
 
+import java.time.LocalDateTime;
+
 import org.springframework.http.ResponseEntity;
 
 import com.nhnacademy.bookstorefront.auth.dto.request.LoginRequest;
@@ -22,4 +24,6 @@ public interface AuthService {
 	void setTokensInSession(String accessToken, String refreshToken, HttpSession session);
 
 	boolean hasTokensInCookie(HttpServletRequest request);
+
+	void updateLastLoginAt(String accessToken, String refreshToken, LocalDateTime lastLoginAt);
 }

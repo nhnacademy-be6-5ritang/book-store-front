@@ -1,5 +1,7 @@
 package com.nhnacademy.bookstorefront.auth.service.impl;
 
+import java.time.LocalDateTime;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -66,5 +68,10 @@ public class AuthServiceImpl implements AuthService {
 		}
 
 		return hasAccessToken && hasRefreshToken;
+	}
+
+	@Override
+	public void updateLastLoginAt(String accessToken, String refreshToken, LocalDateTime lastLoginAt) {
+		authClient.updateLastLoginAt(accessToken, refreshToken, lastLoginAt);
 	}
 }
