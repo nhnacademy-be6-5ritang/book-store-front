@@ -1,0 +1,13 @@
+.user-grades-on-display {
+    display: block;
+    position: relative;
+    left: -7rem;
+    top: -1.062rem;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid #a8a8a8;
+    padding: 1rem;
+}
+
+.user-grades-hidden {
+    display: none;
+}
