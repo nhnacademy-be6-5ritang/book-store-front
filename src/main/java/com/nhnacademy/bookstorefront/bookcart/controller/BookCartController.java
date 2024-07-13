@@ -26,7 +26,7 @@ public class BookCartController {
 	private final BookCartService bookCartService;
 
 	@GetMapping
-	public String getBookCarts(Model model, @CookieValue(name = "cartId", required = false) Long cartId,
+	public String getBookCarts(Model model, @CookieValue(name = "cartId", required = false) String cartId,
 		HttpServletResponse resp) {
 		model.addAttribute("bookCarts", bookCartService.getBookCartsByCartId(cartId, resp));
 		return "cart/list-cart";
@@ -34,19 +34,19 @@ public class BookCartController {
 
 	@PostMapping
 	public ResponseEntity<Void> createBookCart(@RequestBody CreateBookCartRequest request,
-		@CookieValue(name = "cartId", required = false) Long cartId) {
+		@CookieValue(name = "cartId", required = false) String cartId) {
 		return bookCartService.createBookCart(request, cartId);
 	}
 
 	@PutMapping("/{bookCartId}")
 	public ResponseEntity<Void> updateBookCart(@PathVariable Long bookCartId,
-		@RequestBody UpdateBookCartRequest request, @CookieValue(name = "cartId", required = false) Long cartId) {
+		@RequestBody UpdateBookCartRequest request, @CookieValue(name = "cartId", required = false) String cartId) {
 		return bookCartService.updateBookCart(bookCartId, request, cartId);
 	}
 
 	@DeleteMapping("/{bookCartId}")
 	public String deleteBookCart(@PathVariable Long bookCartId,
-		@CookieValue(name = "cartId", required = false) Long cartId) {
+		@CookieValue(name = "cartId", required = false) String cartId) {
 		bookCartService.deleteBookCart(bookCartId, cartId);
 		return "redirect:/api/carts/me";
 	}

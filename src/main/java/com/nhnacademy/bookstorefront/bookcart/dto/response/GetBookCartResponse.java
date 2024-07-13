@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 public record GetBookCartResponse(
 	Long bookCartId,
 	Long bookId,
-	Long cartId,
+	String cartId,
 	String bookImageUrl,
 	String bookTitle,
 	String authorName,

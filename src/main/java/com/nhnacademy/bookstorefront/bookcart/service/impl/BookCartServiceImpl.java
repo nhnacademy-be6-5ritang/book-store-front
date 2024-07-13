@@ -20,22 +20,22 @@ import lombok.RequiredArgsConstructor;
 public class BookCartServiceImpl implements BookCartService {
 	private final BookCartServiceClient bookCartServiceClient;
 
-	public List<GetBookCartResponse> getBookCartsByCartId(Long cartId, HttpServletResponse resp) {
+	public List<GetBookCartResponse> getBookCartsByCartId(String cartId, HttpServletResponse resp) {
 		ResponseEntity<List<GetBookCartResponse>> responseEntity = bookCartServiceClient.getBookCartsByCartId(cartId);
 		CookieUtil.responseCookies(responseEntity.getHeaders(), resp);
 
 		return responseEntity.getBody();
 	}
 
-	public ResponseEntity<Void> createBookCart(CreateBookCartRequest request, Long cartId) {
+	public ResponseEntity<Void> createBookCart(CreateBookCartRequest request, String cartId) {
 		return bookCartServiceClient.createBookCart(request, cartId);
 	}
 
-	public ResponseEntity<Void> updateBookCart(Long bookCartId, UpdateBookCartRequest request, Long cartId) {
+	public ResponseEntity<Void> updateBookCart(Long bookCartId, UpdateBookCartRequest request, String cartId) {
 		return bookCartServiceClient.updateBookCart(bookCartId, request, cartId);
 	}
 
-	public void deleteBookCart(Long bookCartId, Long cartId) {
+	public void deleteBookCart(Long bookCartId, String cartId) {
 		bookCartServiceClient.deleteBookCart(bookCartId, cartId);
 	}
 }

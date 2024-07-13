@@ -1,6 +1,6 @@
 package com.nhnacademy.bookstorefront.cart.dto.response;
 
 public record GetCartResponse(
-	Long cardId,
+	String cardId,
 	Long userId) {
 }
