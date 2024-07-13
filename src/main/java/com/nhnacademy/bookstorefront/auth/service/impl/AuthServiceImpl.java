@@ -1,5 +1,7 @@
 package com.nhnacademy.bookstorefront.auth.service.impl;
 
+import java.time.LocalDateTime;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +14,6 @@ import com.nhnacademy.bookstorefront.auth.service.AuthService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -26,8 +27,13 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-	public ResponseEntity<Boolean> isEmailExist(String email) {
-		return authClient.isEmailExist(email);
+	public ResponseEntity<Void> sendEmailSignUp(String email) {
+		return authClient.sendEmailSignUp(email);
+	}
+
+	@Override
+	public ResponseEntity<Void> checkEmailSignUp(String email, String certifyCode) {
+		return authClient.checkEmailSignUp(email, certifyCode);
 	}
 
 	@Override
@@ -38,12 +44,6 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	public void logout() {
 		authClient.requestLogout();
-	}
-
-	@Override
-	public void setTokensInSession(String accessToken, String refreshToken, HttpSession session) {
-		session.setAttribute("accessToken", accessToken);
-		session.setAttribute("refreshToken", refreshToken);
 	}
 
 	@Override
@@ -66,5 +66,10 @@ public class AuthServiceImpl implements AuthService {
 		}
 
 		return hasAccessToken && hasRefreshToken;
+	}
+
+	@Override
+	public void updateLastLoginAt(String accessToken, String refreshToken, LocalDateTime lastLoginAt) {
+		authClient.updateLastLoginAt(accessToken, refreshToken, lastLoginAt);
 	}
 }
