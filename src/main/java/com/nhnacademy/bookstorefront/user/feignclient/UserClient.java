@@ -6,6 +6,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nhnacademy.bookstorefront.global.config.FeignClientConfig;
 import com.nhnacademy.bookstorefront.user.dto.response.GetMyUserInfoResponse;
@@ -21,6 +23,12 @@ public interface UserClient {
 
 	@GetMapping("/api/users/self/total-order-price")
 	ResponseEntity<BigDecimal> getMyTotalOrderPrice();
+
+	@PostMapping("/api/users/send-email/dormant-to-active")
+	ResponseEntity<Void> sendEmailDormantToActive(@RequestParam String email);
+
+	@GetMapping("/api/users/check-email/dormant-to-active")
+	ResponseEntity<Void> checkEmailDormantToActive(@RequestParam String email, @RequestParam String certifyCode);
 
 	// TODO: 회원 정보 수정
 }

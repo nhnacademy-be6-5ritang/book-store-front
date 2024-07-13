@@ -39,8 +39,8 @@ const sendEmail = async () => {
 }
 
 const showInputSignUpCode = () => {
-    const emailInput = document.getElementById('email');
-    emailInput.disabled = true;
+    // const emailInput = document.getElementById('email');
+    // emailInput.disabled = true;
     const codeInputRow = document.getElementById('verify-code-row');
     codeInputRow.style.display = '';
 }
