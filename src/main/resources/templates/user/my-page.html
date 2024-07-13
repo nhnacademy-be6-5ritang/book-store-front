@@ -47,7 +47,7 @@
                         <div style="height: 100%; display: grid; place-items: center;">
                             <div th:if="${myUserInfo.userStatusName == 'ACTIVE'}"
                                  style="width: 7px; height: 7px; border-radius: 50%; background-color: #10a400"></div>
-                            <div th:if="${myUserInfo.userStatusName == 'WITHDRAW'}"
+                            <div th:if="${myUserInfo.userStatusName == 'DORMANT'}"
                                  style="width: 7px; height: 7px; border-radius: 50%; background-color: #a8a8a8"></div>
                         </div>
                     </div>
@@ -55,10 +55,24 @@
                         <tr>
                             <td>이름</td>
                             <td th:text="${myUserInfo.name}"></td>
-                            <td>권한</td>
-                            <td th:each="role : ${myUserInfo.roles}" th:text="${role}"></td>
+                            <td>
+                                <div th:if="${myUserInfo.userStatusName == 'DORMANT'}">
+                                    <button id="dormant-to-active-button" type="button"
+                                            th:data-email="${myUserInfo.email}">
+                                        휴면 해제
+                                    </button>
+                                    <div id="code-input-container" style="display: none">
+                                        <input id="certify-code" type="text" placeholder="인증번호를 입력해주세요" required>
+                                        <button type="button" class="verify-code" id="certify-code-button">
+                                            인증번호 확인
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
+                            <td>권한</td>
+                            <td th:each="role : ${myUserInfo.roles}" th:text="${role}"></td>
                             <td>등급</td>
                             <td onmouseover="displayUserGrades()" onmouseout="hideUserGrades()"
                                 th:text="${myUserInfo.userGradeName}"></td>

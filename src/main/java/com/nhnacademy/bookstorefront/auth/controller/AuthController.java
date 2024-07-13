@@ -2,6 +2,7 @@ package com.nhnacademy.bookstorefront.auth.controller;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import org.springframework.http.HttpStatus;
@@ -66,13 +67,19 @@ public class AuthController {
 	}
 
 	/**
-	 * 해당 이메일이 존재하는지 확인
+	 * 해당 이메일이 존재하는지 확인, 없으면 인증번호 전송
 	 * @param email 이메일
-	 * @return 해당 이메일이 존재하면 true, 존재하지 않으면 false
+	 * @return 해당 이메일이 존재하면 409, 존재하지 않으면 200
 	 */
-	@GetMapping("/check-email")
-	public ResponseEntity<Boolean> isEmailExist(@RequestParam String email) {
-		return authService.isEmailExist(email);
+	@PostMapping("/send-email/sign-up")
+	public ResponseEntity<Void> sendEmailSignUp(@RequestParam String email) {
+		return authService.sendEmailSignUp(email);
+	}
+
+	@GetMapping("/check-email/sign-up")
+	public ResponseEntity<Void> checkEmailSignUp(@RequestParam String email, @RequestParam String certifyCode) {
+		ResponseEntity<Void> response = authService.checkEmailSignUp(email, certifyCode);
+		return response;
 	}
 
 	@GetMapping("/login")
@@ -86,6 +93,7 @@ public class AuthController {
 
 		String accessToken;
 		String refreshToken;
+		LocalDateTime lastLoginAt;
 
 		if (Objects.isNull(loginResponse)) {
 			return "redirect:/auth/login?error=" + URLEncoder.encode("로그인 실패", StandardCharsets.UTF_8);
@@ -93,6 +101,7 @@ public class AuthController {
 
 		accessToken = loginResponse.accessToken();
 		refreshToken = loginResponse.refreshToken();
+		lastLoginAt = loginResponse.lastLoginAt();
 
 		if (accessToken != null) {
 			response.addCookie(createCookie("Authorization", accessToken));
@@ -101,6 +110,8 @@ public class AuthController {
 		if (refreshToken != null) {
 			response.addCookie(createCookie("Refresh-Token", refreshToken));
 		}
+
+		authService.updateLastLoginAt(accessToken, refreshToken, lastLoginAt);
 
 		return "redirect:/";
 	}

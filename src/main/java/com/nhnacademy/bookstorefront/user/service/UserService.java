@@ -14,4 +14,8 @@ public interface UserService {
 	ResponseEntity<Void> withdrawUser(HttpServletResponse response);
 
 	ResponseEntity<BigDecimal> getMyTotalOrderPrice();
+
+	ResponseEntity<Void> sendEmailDormantToActive(String email);
+
+	ResponseEntity<Void> checkEmailDormantToActive(String email, String certifyCode);
 }

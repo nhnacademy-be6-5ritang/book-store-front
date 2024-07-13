@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/pages/sign-up.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 </head>
 
 <body>
@@ -41,11 +42,11 @@
                 <div style="width:100%;">
                     <form class="signup-form-container" id="sign-up-form" action="/auth/sign-up" method="post">
                         <div class="signup-form">
-                            <h5>회원가입 (TODO: 인증 필요)</h5>
+                            <h5>회원가입</h5>
                             <table>
                                 <tr>
                                     <td class="label-column">
-                                        <label for="name"><i class="fas fa-user"></i></label>
+                                        <label for="name"><i class="fa-solid fa-user"></i></label>
                                     </td>
                                     <td>
                                         <input id="name" type="text" name="name" placeholder="이름을 입력해주세요" required>
@@ -53,22 +54,35 @@
                                 </tr>
                                 <tr>
                                     <td class="label-column">
-                                        <label for="email"><i class="fas fa-envelope"></i></label>
+                                        <label for="email"><i class="fa-solid fa-envelope"></i></label>
                                     </td>
                                     <td>
                                         <div class="email-input-container">
                                             <input id="email" type="email" name="email" placeholder="이메일을 입력해주세요"
                                                    required>
                                             <button type="button" class="verify-button"
-                                                    onclick="checkEmailExistence()">
+                                                    onclick="sendEmail()">
                                                 인증번호
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr id="verify-code-row" style="display: none">
+                                    <td class="label-column">
+                                        <label for="certify-code"><i class="fa-solid fa-key"></i></label>
+                                    </td>
+                                    <td>
+                                        <div class="code-input-container">
+                                            <input id="certify-code" type="text" placeholder="인증번호를 입력해주세요" required>
+                                            <button type="button" class="verify-button" onclick="certifySignUpCode()">
+                                                인증번호 확인
                                             </button>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="label-column">
-                                        <label for="password"><i class="fas fa-lock"></i></label>
+                                        <label for="password"><i class="fa-solid fa-lock"></i></label>
                                     </td>
                                     <td>
                                         <input id="password" type="password" name="password" placeholder="비밀번호를 입력해주세요"
@@ -86,7 +100,8 @@
                                 </tr>
                                 <tr>
                                     <td class="label-column">
-                                        <label for="birth-option-container"><i class="fas fa-birthday-cake"></i></label>
+                                        <label for="birth-option-container"><i
+                                                class="fa-solid fa-birthday-cake"></i></label>
                                     </td>
                                     <td>
                                         <div id="birth-option-container">
@@ -113,7 +128,7 @@
                                 </tr>
                                 <tr>
                                     <td class="label-column">
-                                        <label for="contact"><i class="fas fa-phone"></i></label>
+                                        <label for="contact"><i class="fa-solid fa-phone"></i></label>
                                     </td>
                                     <td>
                                         <input id="contact" type="text" name="contact" placeholder="연락처를 입력해주세요"

@@ -31,4 +31,14 @@ public class UserServiceImpl implements UserService {
 	public ResponseEntity<BigDecimal> getMyTotalOrderPrice() {
 		return userClient.getMyTotalOrderPrice();
 	}
+
+	@Override
+	public ResponseEntity<Void> sendEmailDormantToActive(String email) {
+		return userClient.sendEmailDormantToActive(email);
+	}
+
+	@Override
+	public ResponseEntity<Void> checkEmailDormantToActive(String email, String certifyCode) {
+		return userClient.checkEmailDormantToActive(email, certifyCode);
+	}
 }

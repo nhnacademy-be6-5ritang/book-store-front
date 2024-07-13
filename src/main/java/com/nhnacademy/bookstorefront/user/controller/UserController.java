@@ -7,7 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.nhnacademy.bookstorefront.user.dto.response.GetMyUserInfoResponse;
@@ -31,6 +33,17 @@ public class UserController {
 		ResponseEntity<BigDecimal> getMyTotalOrderPriceResponse = userService.getMyTotalOrderPrice();
 		model.addAttribute("myTotalOrderPrice", getMyTotalOrderPriceResponse.getBody());
 		return "user/my-page";
+	}
+
+	@PostMapping("/send-email/dormant-to-active")
+	public ResponseEntity<Void> sendEmailDormantToActive(@RequestParam String email) {
+		return userService.sendEmailDormantToActive(email);
+	}
+
+	@GetMapping("/check-email/dormant-to-active")
+	public ResponseEntity<Void> checkEmailDormantToActive(@RequestParam String email,
+		@RequestParam String certifyCode) {
+		return userService.checkEmailDormantToActive(email, certifyCode);
 	}
 
 	@ResponseBody

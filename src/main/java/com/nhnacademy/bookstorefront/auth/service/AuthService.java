@@ -1,5 +1,7 @@
 package com.nhnacademy.bookstorefront.auth.service;
 
+import java.time.LocalDateTime;
+
 import org.springframework.http.ResponseEntity;
 
 import com.nhnacademy.bookstorefront.auth.dto.request.LoginRequest;
@@ -8,7 +10,6 @@ import com.nhnacademy.bookstorefront.auth.dto.response.LoginResponse;
 import com.nhnacademy.bookstorefront.auth.dto.response.SignUpResponse;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 public interface AuthService {
 	ResponseEntity<LoginResponse> login(LoginRequest loginRequest);
@@ -17,9 +18,11 @@ public interface AuthService {
 
 	ResponseEntity<SignUpResponse> signUp(SignUpRequest signUpRequest);
 
-	ResponseEntity<Boolean> isEmailExist(String email);
-
-	void setTokensInSession(String accessToken, String refreshToken, HttpSession session);
+	ResponseEntity<Void> sendEmailSignUp(String email);
 
 	boolean hasTokensInCookie(HttpServletRequest request);
+
+	void updateLastLoginAt(String accessToken, String refreshToken, LocalDateTime lastLoginAt);
+
+	ResponseEntity<Void> checkEmailSignUp(String email, String certifyCode);
 }
