@@ -88,7 +88,9 @@ public class BookController {
 	 */
 	@GetMapping("/main")
 	public String mainPage(Model model) {
-		model.addAttribute("books", bookService.findAllBooks());
+		model.addAttribute("orderedBooks", bookService.getOrderedBooks());
+		model.addAttribute("likesBooks", bookService.getLikesBooks());
+		model.addAttribute("books", bookService.getNewestBooks());
 		return "index";
 	}
 
@@ -101,7 +103,7 @@ public class BookController {
 	 */
 	@GetMapping("/page")
 	public String findAllBooks(@PageableDefault(page = 1) Pageable pageable, Model model) {
-		Page<GetBookDetailResponse> books = bookService.findAllBooks(pageable);
+		Page<GetBookDetailResponse> books = bookService.getNewestBooks(pageable);
 		model.addAttribute("books", books);
 		PagingModel.pagingProcessing(pageable, model, books, "/api/books/page", 5);
 
