@@ -75,6 +75,13 @@ select {
     align-items: center;
 }
 
+.code-input-container {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+
 .verify-button {
     position: absolute;
     right: 0;

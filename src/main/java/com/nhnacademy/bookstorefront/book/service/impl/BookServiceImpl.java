@@ -29,13 +29,23 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public List<GetBookDetailResponse> findAllBooks() {
-		return bookServiceClient.findAllBooks().getBody();
+	public List<GetBookDetailResponse> getNewestBooks() {
+		return bookServiceClient.getNewestBooks().getBody();
 	}
 
 	@Override
-	public Page<GetBookDetailResponse> findAllBooks(Pageable pageable) {
-		return bookServiceClient.findAllBooks(pageable).getBody();
+	public List<GetBookDetailResponse> getOrderedBooks() {
+		return bookServiceClient.getOrderedBooks().getBody();
+	}
+
+	@Override
+	public List<GetBookDetailResponse> getLikesBooks() {
+		return bookServiceClient.getLikesBooks().getBody();
+	}
+
+	@Override
+	public Page<GetBookDetailResponse> getNewestBooks(Pageable pageable) {
+		return bookServiceClient.getNewestBooks(pageable).getBody();
 	}
 
 	public Page<GetBookDetailResponse> findAllBooksByCategory(Pageable pageable, String categoryName) {
@@ -68,7 +78,6 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public List<BookSearchResult> searchBooks(String query) {
-
 		return bookServiceClient.searchBooks(query).getBody();
 	}
 }

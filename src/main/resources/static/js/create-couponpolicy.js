@@ -133,13 +133,23 @@ $(document).ready(function () {
         $('#issueDate').val(now);
 
         $('#addCouponModal').modal('show');
+
+
+        // 폼 제출 전에 issueDate를 다시 한번 현재 시간으로 설정
+        $('#addCouponForm').on('submit', function (e) {
+            var now = new Date().toISOString().slice(0, 16);
+            $('#issueDate').val(now);
+        });
+
+
+        // Close modal on clicking the close button
+        $('#addCouponModal .close, #addCouponModal .btn-secondary').on('click', function() {
+            $('#addCouponModal').modal('hide');
+        });
+
     });
 
-    // 폼 제출 전에 issueDate를 다시 한번 현재 시간으로 설정
-    $('#addCouponForm').on('submit', function (e) {
-        var now = new Date().toISOString().slice(0, 16);
-        $('#issueDate').val(now);
-    });
+
 });
 
 

@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/pages/list-review-by-book.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
 </head>
 
@@ -86,15 +87,16 @@
                         </p>
                         <div class="rating-widget">
                             <div class="rating-block">
-                                <span class="fas fa-star star_on"></span>
-                                <span class="fas fa-star star_on"></span>
-                                <span class="fas fa-star star_on"></span>
-                                <span class="fas fa-star star_on"></span>
-                                <span class="fas fa-star "></span>
+                                <span th:each="reviewStar : ${#numbers.sequence(1, 5)}">
+                                    <span th:if="${reviewStar <= reviewsAverageScore.intValue()}"
+                                          class="fas fa-star star_on"></span>
+                                    <span th:if="${reviewStar > reviewsAverageScore.intValue()}"
+                                          class="fas fa-star"></span>
+                                </span>
                             </div>
                             <div class="review-widget">
-                                <a th:href="@{/}">3.5점 (3개 리뷰)</a> <span>|</span>
-                                <a th:href="@{/}">리뷰 쓰기</a>
+                                <a th:text=" ${reviewsAverageScore} + ' 점(' + ${reviews.getTotalElements()} + ' 개 리뷰) |'"></a>
+                                <a th:href="@{/api/reviews/create/{bookId} (bookId=${book.bookId})}">리뷰 쓰기</a>
                             </div>
                         </div>
                         <div class="add-to-cart-row">
@@ -131,60 +133,126 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="tab2" data-bs-toggle="tab" href="#tab-2" role="tab"
-                               aria-controls="tab-2" aria-selected="true">일반 리뷰</a>
+                               aria-controls="tab-2" aria-selected="true">일반 리뷰 (<span
+                                    th:text="${generalReviews.getTotalElements()}"></span>)</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="tab3" data-bs-toggle="tab" href="#tab-3" role="tab"
-                               aria-controls="tab-2" aria-selected="true">포토 리뷰</a>
+                               aria-controls="tab-2" aria-selected="true">포토 리뷰 (<span
+                                    th:text="${photoReviews.getTotalElements()}"></span>)</a>
                         </li>
-
                     </ul>
                     <div class="tab-content space-db--20" id="myTabContent">
                         <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="tab1">
-
                             <div class="review-wrapper">
                                 <div th:each="review : ${reviews}">
-                                    <div class="review-comment mb--20">
+                                    <div class="review-comment">
                                         <div class="avatar">
-                                            <img th:src="@{/image/icon/author-logo.png}" alt="">
+                                            <img th:src="@{/image/icon/author-logo.png}" alt="Author Avatar">
                                         </div>
                                         <div class="text">
                                             <div class="rating-block mb--15">
-                                                <span th:each="reviewStar : ${#numbers.sequence(1, 5)}">
-                                                    <span th:if="${reviewStar <= review.reviewScore}"
-                                                          class="ion-android-star-outline star_on"></span>
-                                                    <span th:if="${reviewStar > review.reviewScore}"
-                                                          class="ion-android-star-outline"></span>
-                                                </span>
+                                                 <span th:each="reviewStar : ${#numbers.sequence(1, 5)}">
+                                                     <span th:if="${reviewStar <= review.reviewScore}"
+                                                           class="ion-android-star-outline star_on"></span>
+                                                     <span th:if="${reviewStar > review.reviewScore}"
+                                                           class="ion-android-star-outline"></span>
+                                                 </span>
                                             </div>
-
                                             <h6 class="author">
                                                 <span th:text="${review.userName}"></span> –
                                                 <span class="font-weight-400"
                                                       th:text="${#temporals.format(review.reviewCreatedAt, 'yyyy-MM-dd')}"></span>
                                             </h6>
-
-                                            <p th:text="${review.reviewComment}"></p>
+                                            <div class="review-content">
+                                                <div><img th:if="${review.reviewImageUrl != null}"
+                                                          th:src="${review.reviewImageUrl}" alt="리뷰 이미지"></div>
+                                                <div class="review-text">
+                                                    <p th:text="${review.reviewComment}"></p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-
                             <!-- 페이징 처리 시작-->
                             <div th:insert="~{global/paging.html}"></div>
                             <!-- 페이징 처리 끝-->
-
                         </div>
 
-                        <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="tab2">
-
+                        <div class="tab-pane fade" id="tab-2">
+                            <div class="review-wrapper">
+                                <div th:each="generalReview : ${generalReviews}">
+                                    <div class="review-comment">
+                                        <div class="avatar">
+                                            <img th:src="@{/image/icon/author-logo.png}" alt="Author Avatar">
+                                        </div>
+                                        <div class="text">
+                                            <div class="rating-block mb--15">
+                                        <span th:each="reviewStar : ${#numbers.sequence(1, 5)}">
+                                            <span th:if="${reviewStar <= generalReview.reviewScore}"
+                                                  class="ion-android-star-outline star_on"></span>
+                                            <span th:if="${reviewStar > generalReview.reviewScore}"
+                                                  class="ion-android-star-outline"></span>
+                                        </span>
+                                            </div>
+                                            <h6 class="author">
+                                                <span th:text="${generalReview.userName}"></span> –
+                                                <span class="font-weight-400"
+                                                      th:text="${#temporals.format(generalReview.reviewCreatedAt, 'yyyy-MM-dd')}"></span>
+                                            </h6>
+                                            <div class="review-content">
+                                                <div><img th:if="${generalReview.reviewImageUrl != null}"
+                                                          th:src="${generalReview.reviewImageUrl}" alt="리뷰 이미지"></div>
+                                                <div class="review-text">
+                                                    <p th:text="${generalReview.reviewComment}"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 페이징 처리 시작-->
+                            <div th:insert="~{global/paging.html}"></div>
+                            <!-- 페이징 처리 끝-->
                         </div>
 
                         <div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="tab3">
-
+                            <div class="review-wrapper">
+                                <div th:each="photoReview : ${photoReviews}">
+                                    <div class="review-comment">
+                                        <div class="avatar">
+                                            <img th:src="@{/image/icon/author-logo.png}" alt="Author Avatar">
+                                        </div>
+                                        <div class="text">
+                                            <div class="rating-block mb--15">
+                                        <span th:each="reviewStar : ${#numbers.sequence(1, 5)}">
+                                            <span th:if="${reviewStar <= photoReview.reviewScore}"
+                                                  class="ion-android-star-outline star_on"></span>
+                                            <span th:if="${reviewStar > photoReview.reviewScore}"
+                                                  class="ion-android-star-outline"></span>
+                                        </span>
+                                            </div>
+                                            <h6 class="author">
+                                                <span th:text="${photoReview.userName}"></span> –
+                                                <span class="font-weight-400"
+                                                      th:text="${#temporals.format(photoReview.reviewCreatedAt, 'yyyy-MM-dd')}"></span>
+                                            </h6>
+                                            <div class="review-content">
+                                                <div><img th:if="${photoReview.reviewImageUrl != null}"
+                                                          th:src="${photoReview.reviewImageUrl}" alt="리뷰 이미지"></div>
+                                                <div class="review-text">
+                                                    <p th:text="${photoReview.reviewComment}"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 페이징 처리 시작-->
+                            <div th:insert="~{global/paging.html}"></div>
+                            <!-- 페이징 처리 끝-->
                         </div>
-
                     </div>
                 </div>
             </div>

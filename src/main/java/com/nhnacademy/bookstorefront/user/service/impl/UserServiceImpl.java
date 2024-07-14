@@ -1,5 +1,7 @@
 package com.nhnacademy.bookstorefront.user.service.impl;
 
+import java.math.BigDecimal;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +23,22 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public ResponseEntity<Void> dormantUser(HttpServletResponse response) {
-		return userClient.dormantUser();
+	public ResponseEntity<Void> withdrawUser(HttpServletResponse response) {
+		return userClient.withdrawUser();
+	}
+
+	@Override
+	public ResponseEntity<BigDecimal> getMyTotalOrderPrice() {
+		return userClient.getMyTotalOrderPrice();
+	}
+
+	@Override
+	public ResponseEntity<Void> sendEmailDormantToActive(String email) {
+		return userClient.sendEmailDormantToActive(email);
+	}
+
+	@Override
+	public ResponseEntity<Void> checkEmailDormantToActive(String email, String certifyCode) {
+		return userClient.checkEmailDormantToActive(email, certifyCode);
 	}
 }

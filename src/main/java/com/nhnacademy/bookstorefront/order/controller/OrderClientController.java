@@ -117,31 +117,54 @@ public class OrderClientController {
 	public ModelAndView createOrder(@PathVariable("order_list_id") Long orderListId, @PathVariable("delivery_id") Long deliveryId, @RequestParam(value = "couponId", required = false) Long couponId) {
 		ModelAndView modelAndView = new ModelAndView();
 
-
-		UserAndCouponOrderResponseDTO selectCoupon = userAndCouponService.getSelectedCouponByOrder(couponId);
-		modelAndView.addObject("selectCoupon", selectCoupon);
-
-
-
-		GetBookOrderResponse bookOrder = bookOrderServiceImpl.getBookOrder(orderListId);
-		GetListWrappingResponse list = wrappingPaperServiceImpl.getWrappingPaperByOrderListId(orderListId);
-		GetUserPointOrderResponse point = orderServiceImpl.getUserPoint();
-		BigDecimal total = BigDecimal.ZERO;
-		for (GetWrappingResponse getWrappingResponse : list.wrapping()) {
-			BigDecimal paperQuantity = new BigDecimal(getWrappingResponse.quantity());
-			BigDecimal multiply = getWrappingResponse.price().multiply(paperQuantity);
-			total = total.add(multiply);
+		if(couponId==null){
+			GetBookOrderResponse bookOrder = bookOrderServiceImpl.getBookOrder(orderListId);
+			GetListWrappingResponse list = wrappingPaperServiceImpl.getWrappingPaperByOrderListId(orderListId);
+			GetUserPointOrderResponse point = orderServiceImpl.getUserPoint();
+			BigDecimal total = BigDecimal.ZERO;
+			for (GetWrappingResponse getWrappingResponse : list.wrapping()) {
+				BigDecimal paperQuantity = new BigDecimal(getWrappingResponse.quantity());
+				BigDecimal multiply = getWrappingResponse.price().multiply(paperQuantity);
+				total = total.add(multiply);
+			}
+			BigDecimal deliveryQuantity = new BigDecimal(bookOrder.quantity());
+			deliveryQuantity = bookOrder.getBookResponse().bookPrice().multiply(deliveryQuantity);
+			modelAndView.addObject("orderList", bookOrder);
+			modelAndView.addObject("orderListId", orderListId);
+			modelAndView.addObject("deliveryId", deliveryId);
+			modelAndView.addObject("wrappingList", wrappingPaperServiceImpl.getWrappingPaperByOrderListId(orderListId));
+			modelAndView.addObject("total", total);
+			modelAndView.addObject("delivery", deliveryPolicyServiceImpl.findByDeliveryPolicyStandardPriceLessThanEqualOrderByDeliveryPolicyStandardPriceDesc(deliveryId, deliveryQuantity));
+			modelAndView.addObject("point", point);
+			modelAndView.setViewName("order/checkout");
+		} else {
+			if(couponId!=0){
+				UserAndCouponOrderResponseDTO selectCoupon = userAndCouponService.getSelectedCouponByOrder(couponId);
+				modelAndView.addObject("selectCoupon", selectCoupon);
+			}
+			GetBookOrderResponse bookOrder = bookOrderServiceImpl.getBookOrder(orderListId);
+			GetListWrappingResponse list = wrappingPaperServiceImpl.getWrappingPaperByOrderListId(orderListId);
+			GetUserPointOrderResponse point = orderServiceImpl.getUserPoint();
+			BigDecimal total = BigDecimal.ZERO;
+			for (GetWrappingResponse getWrappingResponse : list.wrapping()) {
+				BigDecimal paperQuantity = new BigDecimal(getWrappingResponse.quantity());
+				BigDecimal multiply = getWrappingResponse.price().multiply(paperQuantity);
+				total = total.add(multiply);
+			}
+			BigDecimal deliveryQuantity = new BigDecimal(bookOrder.quantity());
+			deliveryQuantity = bookOrder.getBookResponse().bookPrice().multiply(deliveryQuantity);
+			modelAndView.addObject("orderList", bookOrder);
+			modelAndView.addObject("orderListId", orderListId);
+			modelAndView.addObject("deliveryId", deliveryId);
+			modelAndView.addObject("wrappingList", wrappingPaperServiceImpl.getWrappingPaperByOrderListId(orderListId));
+			modelAndView.addObject("total", total);
+			modelAndView.addObject("delivery", deliveryPolicyServiceImpl.findByDeliveryPolicyStandardPriceLessThanEqualOrderByDeliveryPolicyStandardPriceDesc(deliveryId, deliveryQuantity));
+			modelAndView.addObject("point", point);
+			modelAndView.setViewName("order/checkout");
 		}
-		BigDecimal deliveryQuantity = new BigDecimal(bookOrder.quantity());
-		deliveryQuantity = bookOrder.getBookResponse().bookPrice().multiply(deliveryQuantity);
-		modelAndView.addObject("orderList", bookOrder);
-		modelAndView.addObject("orderListId", orderListId);
-		modelAndView.addObject("deliveryId", deliveryId);
-		modelAndView.addObject("wrappingList", wrappingPaperServiceImpl.getWrappingPaperByOrderListId(orderListId));
-		modelAndView.addObject("total", total);
-		modelAndView.addObject("delivery", deliveryPolicyServiceImpl.findByDeliveryPolicyStandardPriceLessThanEqualOrderByDeliveryPolicyStandardPriceDesc(deliveryId, deliveryQuantity));
-		modelAndView.addObject("point", point);
-		modelAndView.setViewName("order/checkout");
+
+
+
 		return modelAndView;
 	}
 

@@ -12,3 +12,7 @@ spring:
 server:
   port: 8081
 
+payco:
+  client-id: 3RD5T_6SsRZZqiV8oXgma4_
+  client-secret: h6eMk6FBKULyudzmTDlkvyLI
+  redirect-uri: http://local.host.com:8081/auth/payco/callback

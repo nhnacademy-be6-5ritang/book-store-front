@@ -7,5 +7,6 @@ public record GetReviewResponse(
 	String userName,
 	int reviewScore,
 	String reviewComment,
-	LocalDateTime reviewCreatedAt) {
+	LocalDateTime reviewCreatedAt,
+	String reviewImageUrl) {
 }

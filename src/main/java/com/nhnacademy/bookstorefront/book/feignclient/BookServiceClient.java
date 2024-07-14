@@ -25,10 +25,16 @@ import com.nhnacademy.bookstorefront.book.dto.response.UpdateBookResponse;
 public interface BookServiceClient {
 
 	@GetMapping
-	ResponseEntity<List<GetBookDetailResponse>> findAllBooks();
+	ResponseEntity<List<GetBookDetailResponse>> getNewestBooks();
+
+	@GetMapping("/ordered")
+	ResponseEntity<List<GetBookDetailResponse>> getOrderedBooks();
+
+	@GetMapping("/likes")
+	ResponseEntity<List<GetBookDetailResponse>> getLikesBooks();
 
 	@GetMapping("/page")
-	ResponseEntity<Page<GetBookDetailResponse>> findAllBooks(Pageable pageable);
+	ResponseEntity<Page<GetBookDetailResponse>> getNewestBooks(Pageable pageable);
 
 	@GetMapping("/page/category")
 	ResponseEntity<Page<GetBookDetailResponse>> findAllBooksByCategoryName(Pageable pageable,
@@ -58,5 +64,4 @@ public interface BookServiceClient {
 
 	@GetMapping("/search/test")
 	ResponseEntity<List<BookSearchResult>> searchBooks(@RequestParam("key") String search);
-
 }

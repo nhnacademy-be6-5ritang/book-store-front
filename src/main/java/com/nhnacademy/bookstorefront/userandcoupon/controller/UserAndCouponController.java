@@ -39,6 +39,12 @@ public class UserAndCouponController {
     // 쿠폰 목록을 가져오기
     @GetMapping("/orders/{orderListId}/users/{deliveryId}")
     public String getOrderCoupon(@PathVariable("orderListId") Long orderListId, @PathVariable("deliveryId") Long deliveryId, Model model) {
+        // Currentuser 비회원처리
+        if(!userAndCouponService.isRealUserCheck()){
+            return "redirect:/api/orders/createOrderTest/" + orderListId + "/" + deliveryId;
+        }
+
+
         List<UserAndCouponResponseDTO> couponList = userAndCouponService.getAllUserAndCouponByOrder(orderListId);
 
         model.addAttribute("orderListId", orderListId);
@@ -55,6 +61,7 @@ public class UserAndCouponController {
     public String selectCouponByOrder(@PathVariable("orderListId") Long orderListId, @PathVariable("deliveryId") Long deliveryId,
         @RequestParam(value = "couponId", required = false) Long couponId,
       RedirectAttributes redirectAttributes) {
+
 
         redirectAttributes.addAttribute("couponId", couponId);
 

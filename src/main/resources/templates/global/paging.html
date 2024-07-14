@@ -1,4 +1,4 @@
-<div th:if="${objects.size > 0}">
+<div th:if="${objects.getTotalElements() > 0}">
     <ul class="pagination justify-content-center mt-4">
         <!-- 첫번째 페이지로 이동 -->
         <li class="page-item" th:classappend="${objects.first} ? 'disabled'">
@@ -8,7 +8,9 @@
         </li>
         <!-- 이전 페이지로 이동 -->
         <li class="page-item" th:classappend="${objects.first} ? 'disabled'">
-            <a class="page-link" th:href="${objects.first} ? '#' : ${baseUrl} + '?page=' + ${objects.number} + '&size=' + ${objects.size}" aria-label="Previous">
+            <a class="page-link"
+               th:href="${objects.first} ? '#' : ${baseUrl} + '?page=' + ${objects.number} + '&size=' + ${objects.size}"
+               aria-label="Previous">
                 <span aria-hidden="true">&lsaquo; 이전</span>
             </a>
         </li>
@@ -19,13 +21,16 @@
         </li>
         <!-- 다음 페이지로 이동 -->
         <li class="page-item" th:classappend="${objects.last} ? 'disabled'">
-            <a class="page-link" th:href="${objects.last} ? '#' : ${baseUrl} + '?page=' + (${objects.number} + 2)+'&size='+${objects.size}" aria-label="Next">
+            <a class="page-link"
+               th:href="${objects.last} ? '#' : ${baseUrl} + '?page=' + (${objects.number} + 2)+'&size='+${objects.size}"
+               aria-label="Next">
                 <span aria-hidden="true">다음 &rsaquo;</span>
             </a>
         </li>
         <!-- 마지막 페이지로 이동 -->
         <li class="page-item" th:classappend="${objects.last} ? 'disabled'">
-            <a class="page-link" th:href="@{${baseUrl} (page=${objects.totalPages}, size=${objects.size})}" aria-label="Last">
+            <a class="page-link" th:href="@{${baseUrl} (page=${objects.totalPages}, size=${objects.size})}"
+               aria-label="Last">
                 <span aria-hidden="true">끝 &raquo;</span>
             </a>
         </li>
