@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 public class CartServiceImpl implements CartService {
 	private final CartServiceClient cartServiceClient;
 
-	public ResponseEntity<GetCartResponse> getCart(Long cartId) {
+	public ResponseEntity<GetCartResponse> getCart(String cartId) {
 		return cartServiceClient.getCart(cartId);
 	}
 

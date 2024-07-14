@@ -13,7 +13,7 @@ import com.nhnacademy.bookstorefront.cart.dto.response.GetCartResponse;
 public interface CartServiceClient {
 
 	@GetMapping("/{cartId}")
-	ResponseEntity<GetCartResponse> getCart(@PathVariable Long cartId);
+	ResponseEntity<GetCartResponse> getCart(@PathVariable String cartId);
 
 	@PostMapping
 	ResponseEntity<Void> createCart();

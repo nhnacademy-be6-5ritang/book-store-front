@@ -2,10 +2,12 @@ package com.nhnacademy.bookstorefront.bookcart.dto.response;
 
 import java.math.BigDecimal;
 
+import lombok.Builder;
+
+@Builder
 public record GetBookCartResponse(
-	Long bookCartId,
 	Long bookId,
-	Long cartId,
+	String cartId,
 	String bookImageUrl,
 	String bookTitle,
 	String authorName,
@@ -14,5 +16,6 @@ public record GetBookCartResponse(
 	BigDecimal bookSalePrice,
 	BigDecimal bookSalePercent,
 	int inventorQuantity,
-	int bookQuantity) {
+	int bookQuantity
+) {
 }

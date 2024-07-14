@@ -19,7 +19,7 @@ public class CartController {
 	private final CartService cartService;
 
 	@GetMapping("/{cartId}")
-	public GetCartResponse getCart(@PathVariable Long cartId) {
+	public GetCartResponse getCart(@PathVariable String cartId) {
 		return cartService.getCart(cartId).getBody();
 	}
 
