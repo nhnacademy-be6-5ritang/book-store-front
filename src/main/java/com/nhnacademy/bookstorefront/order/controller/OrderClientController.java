@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
@@ -20,12 +22,14 @@ import com.nhnacademy.bookstorefront.delivery.dto.response.GetDeliveryResponse;
 import com.nhnacademy.bookstorefront.delivery.service.impl.DeliveryServiceImpl;
 import com.nhnacademy.bookstorefront.deliverypolicy.service.impl.DeliveryPolicyServiceImpl;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateBookOrderRequest;
+import com.nhnacademy.bookstorefront.order.dto.request.CreateCartOrderPost;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderListPost;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateRefundPolicyRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.OrderCheckNonRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.UpdateRefundPolicyRequest;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateBookOrderResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.CreateCartOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
@@ -46,6 +50,7 @@ import com.nhnacademy.bookstorefront.order.service.Impl.WrappingPaperServiceImpl
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCouponOrderResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.service.UserAndCouponService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -329,6 +334,74 @@ public class OrderClientController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("redirect:/api/orders/orderDetails/" + orderInfoId);
 		return modelAndView;
+	}
+
+	//TODO 카트 주문
+
+	@GetMapping("/cart-order")
+	public ModelAndView cartOrder() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("cart-order/test");
+		return modelAndView;
+	}
+
+	@PostMapping("/cart-order")
+	public String cartOrder(RedirectAttributes redirectAttributes) {
+		CreateCartOrderResponse orderId = orderServiceImpl.createCartOrder();
+
+		//장바구니 구현시 수정예정
+		CreateBookOrderRequest createBookOrderRequest = new CreateBookOrderRequest(bookServiceImpl.getBook(1308L).bookId(),
+			orderId.orderId(), 2);
+		CreateBookOrderRequest createBookOrderRequest2 = new CreateBookOrderRequest(bookServiceImpl.getBook(1309L).bookId(),
+			orderId.orderId(), 2);
+		CreateBookOrderResponse createBookOrderResponse = bookOrderServiceImpl.createBookOrder(createBookOrderRequest);
+		CreateBookOrderResponse createBookOrderResponse2 = bookOrderServiceImpl.createBookOrder(createBookOrderRequest2);
+		List<Long> list = new ArrayList<>();
+		list.add(createBookOrderResponse.orderListId());
+		list.add(createBookOrderResponse2.orderListId());
+
+		redirectAttributes.addFlashAttribute("orderListId",list);
+
+		return "redirect:/api/orders/cart-order/wrapping";
+	}
+
+	@GetMapping("/cart-order/wrapping")
+	public ModelAndView cartOrderWrappingGet(Model model , HttpSession session) {
+		ModelAndView modelAndView = new ModelAndView("cart-order/selectPaper");
+		GetAllPaperResponse getAllPaperResponse = paperTypeServiceImpl.getAllPaperTypes();
+		List<Long> orderListId = (List<Long>) model.asMap().get("orderListId");
+		List<GetBookOrderResponse> bookOrders = new ArrayList<>();
+		for (Long aLong : orderListId) {
+			GetBookOrderResponse bookOrder = bookOrderServiceImpl.getBookOrder(aLong);
+			bookOrders.add(bookOrder);
+		}
+
+		session.setAttribute("bookOrders", bookOrders);
+		modelAndView.addObject("getAllPaperResponse", getAllPaperResponse.papers());
+		modelAndView.addObject("orderListId", orderListId);
+		modelAndView.addObject("bookOrder", bookOrders);
+		return modelAndView;
+	}
+
+	@PostMapping("/cart-order/wrapping")
+	public String cartOrderWrappingPost(@ModelAttribute CreateCartOrderPost createOrderListPost, HttpSession session, RedirectAttributes redirectAttributes) {
+		List<GetBookOrderResponse> bookOrders = (List<GetBookOrderResponse>) session.getAttribute("bookOrders");
+		session.removeAttribute("bookOrders");
+		if (createOrderListPost.paperId() == null) {
+			for (GetBookOrderResponse aLong : bookOrders) {
+				wrappingPaperServiceImpl.createWrappingPapers(6L, aLong.orderListId(), aLong.quantity());
+			}
+		} else {
+			// 수량이 허용된 한도를 초과하지 않은 경우 wrapping paper 생성
+			for (int i = 0; i < bookOrders.size(); i++) {
+				for (int j = 0; j < bookOrders.get(i).quantity(); j++) {
+					wrappingPaperServiceImpl.createWrappingPapers(
+						createOrderListPost.paperId().get(i), bookOrders.get(i).orderListId(), 1);
+				}
+			}
+		}
+		redirectAttributes.addFlashAttribute("bookOrders",bookOrders);
+		return "redirect:/api/deliveries";
 	}
 
 }
