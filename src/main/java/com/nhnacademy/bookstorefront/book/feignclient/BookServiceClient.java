@@ -58,5 +58,4 @@ public interface BookServiceClient {
 
 	@GetMapping("/search/test")
 	ResponseEntity<List<BookSearchResult>> searchBooks(@RequestParam("key") String search);
-
 }

@@ -9,7 +9,7 @@
     <!-- Use Minified Plugins Version For Fast Page Load -->
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
-    <link rel="stylesheet" th:href="@{/css/pages/list-review.css}" />
+    <link rel="stylesheet" th:href="@{/css/pages/list-review-by-user.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
 </head>
 
@@ -57,7 +57,9 @@
                                         <div th:if="${reviews.getContent().size() > 0}">
                                             <div class="review-list">
                                                 <div class="tabs">
-                                                    <button class="active">전체 리뷰 (<span th:text="${reviews.getContent().size()}"></span>)</button>
+                                                    <button class="active">전체 리뷰 (<span
+                                                            th:text="${reviews.getContent().size()}"></span>)
+                                                    </button>
                                                     <button>일반 리뷰 (2)</button>
                                                     <button>포토 리뷰 (1)</button>
                                                 </div>
@@ -66,8 +68,11 @@
                                                         <div class="info">
                                                             <span th:text="${review.userId}"></span>
                                                             <span th:text="${review.reviewCreatedAt}"></span>
-                                                            <span th:each="star : ${#numbers.sequence(1, review.reviewScore)}" class="star">&#9733;</span>
-                                                            <span th:if="${review.reviewScore < 5}" th:each="star : ${#numbers.sequence(1, 5 - review.reviewScore)}" class="star">&#9734;</span>
+                                                            <span th:each="star : ${#numbers.sequence(1, review.reviewScore)}"
+                                                                  class="star">&#9733;</span>
+                                                            <span th:if="${review.reviewScore < 5}"
+                                                                  th:each="star : ${#numbers.sequence(1, 5 - review.reviewScore)}"
+                                                                  class="star">&#9734;</span>
                                                         </div>
                                                     </div>
                                                     <div class="review-body">

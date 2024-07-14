@@ -9,7 +9,7 @@
     <!-- Use Minified Plugins Version For Fast Page Load -->
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
-    <link rel="stylesheet" th:href="@{/css/pages/create-review.css}" />
+    <link rel="stylesheet" th:href="@{/css/pages/create-review.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
 </head>
 
@@ -36,47 +36,56 @@
     <!-- Create Review Page Start -->
     <div class="cart_area inner-page-sec-padding-bottom">
         <div class="container">
-            <div class="review-form">
-                <div class="header">
-                    <img th:src="${book.bookImageUrl}" alt="Book Cover">
-                    <div class="title">
-                        <h3 th:text="${book.bookTitle}">제목 없음</h3>
-                        <p th:text="${book.authorName} + ' · ' + ${book.publisherName}">저자 · 출판사</p>
+            <form id="reviewForm" action="/api/reviews" method="post" enctype="multipart/form-data">
+                <div class="review-form">
+                    <div class="header">
+                        <img th:src="${book.bookImageUrl}" alt="Book Cover">
+                        <div class="title">
+                            <h3 th:text="${book.bookTitle}">제목 없음</h3>
+                            <p th:text="${book.authorName} + ' · ' + ${book.publisherName}">저자 · 출판사</p>
+                        </div>
+                        <span class="close-btn">&times;</span>
                     </div>
-                    <span class="close-btn">&times;</span>
-                </div>
-                <div class="image-upload">
-                    <input type="file" id="imageUpload" accept="image/*">
-                    <div class="image-preview" id="imagePreview">
-                        <img src="" alt="Image Preview" class="image-preview__image" style="display: none;">
-                        <span class="image-preview__default-text">Image Preview</span>
+
+                    <div class="image-upload">
+                        <input type="file" id="file" name="file" accept="image/*"
+                               onchange="previewImage(this)">
+                        <div class="image-preview" id="imagePreview">
+                            <img id="previewImg" src="" alt="Image Preview" class="image-preview__image"
+                                 style="display: none;">
+                            <span class="image-preview__default-text">이미지 미리보기</span>
+                        </div>
+                        <button type="button" id="cancelImage" style="display: none;" onclick="resetImagePreview()">이미지
+                            취소
+                        </button>
                     </div>
-                    <button type="button" id="cancelImage" style="display: none;">Cancel Image</button>
-                </div>
-                <div class="rating">
-                    <input type="radio" id="star5" name="rating" value="5">
-                    <label for="star5">★</label>
-                    <input type="radio" id="star4" name="rating" value="4">
-                    <label for="star4">★</label>
-                    <input type="radio" id="star3" name="rating" value="3">
-                    <label for="star3">★</label>
-                    <input type="radio" id="star2" name="rating" value="2">
-                    <label for="star2">★</label>
-                    <input type="radio" id="star1" name="rating" value="1">
-                    <label for="star1">★</label>
-                </div>
-                <div class="editor-toolbar">
-                    <div class="word-count">
-                        <span>0</span>/400
+
+                    <input type="hidden" name="bookId" th:value="${book.bookId}">
+                    <div class="rating">
+                        <input type="radio" id="star5" name="reviewScore" value="5">
+                        <label for="star5">★</label>
+                        <input type="radio" id="star4" name="reviewScore" value="4">
+                        <label for="star4">★</label>
+                        <input type="radio" id="star3" name="reviewScore" value="3">
+                        <label for="star3">★</label>
+                        <input type="radio" id="star2" name="reviewScore" value="2">
+                        <label for="star2">★</label>
+                        <input type="radio" id="star1" name="reviewScore" value="1" checked>
+                        <label for="star1">★</label>
                     </div>
+                    <div class="editor-toolbar">
+                        <div class="word-count">
+                            <span>0</span>/400
+                        </div>
+                    </div>
+                    <div class="editor">
+                        <label>
+                            <textarea id="reviewComment" name="reviewComment" placeholder="내용을 입력해주세요."></textarea>
+                        </label>
+                    </div>
+                    <button type="submit" id="submitBtn" class="submit-btn" disabled>등록</button>
                 </div>
-                <div class="editor">
-                    <label>
-                        <textarea placeholder="내용을 입력해주세요."></textarea>
-                    </label>
-                </div>
-                <button class="submit-btn" disabled>등록</button>
-            </div>
+            </form>
         </div>
     </div>
     <!-- Creat Review Page End -->
@@ -92,6 +101,7 @@ Footer Area
 <script th:src="@{/js/ajax-mail.js}"></script>
 <script th:src="@{/js/custom.js}"></script>
 <script th:src="@{/js/create-review.js}"></script>
+
 </body>
 
 </html>
