@@ -88,7 +88,9 @@ public class BookController {
 	 */
 	@GetMapping("/main")
 	public String mainPage(Model model) {
-		model.addAttribute("books", bookService.findAllBooks());
+		model.addAttribute("orderedBooks", bookService.getOrderedBooks());
+		model.addAttribute("likesBooks", bookService.getLikesBooks());
+		model.addAttribute("books", bookService.getNewestBooks());
 		return "index";
 	}
 
@@ -101,7 +103,7 @@ public class BookController {
 	 */
 	@GetMapping("/page")
 	public String findAllBooks(@PageableDefault(page = 1) Pageable pageable, Model model) {
-		Page<GetBookDetailResponse> books = bookService.findAllBooks(pageable);
+		Page<GetBookDetailResponse> books = bookService.getNewestBooks(pageable);
 		model.addAttribute("books", books);
 		PagingModel.pagingProcessing(pageable, model, books, "/api/books/page", 5);
 
@@ -132,10 +134,20 @@ public class BookController {
 		model.addAttribute("bookCategories", categoryService.getCategoriesByBookId(bookId));
 		model.addAttribute("bookTags", tagService.getTagsByBookId(bookId));
 		model.addAttribute("book", bookService.getBook(bookId));
+
 		Page<GetReviewResponse> reviews = reviewService.getReviewsByBookId(pageable, bookId);
 		model.addAttribute("reviews", reviews);
 		PagingModel.pagingProcessing(pageable, model, reviews, "/api/books/" + bookId, 5);
 
+		Page<GetReviewResponse> generalReviews = reviewService.getGeneralReviewsByBookId(pageable, bookId);
+		model.addAttribute("generalReviews", generalReviews);
+		PagingModel.pagingProcessing(pageable, model, generalReviews, "/api/books/" + bookId, 5);
+
+		Page<GetReviewResponse> photoReviews = reviewService.getPhotoReviewsByBookId(pageable, bookId);
+		model.addAttribute("photoReviews", photoReviews);
+		PagingModel.pagingProcessing(pageable, model, photoReviews, "/api/books/" + bookId, 5);
+
+		model.addAttribute("reviewsAverageScore", reviewService.getReviewsAverageScoreByBookId(bookId));
 		return "book/get-book";
 	}
 

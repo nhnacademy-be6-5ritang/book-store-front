@@ -1,18 +1,23 @@
 package com.nhnacademy.bookstorefront.auth.service.impl;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.auth.dto.request.LoginRequest;
 import com.nhnacademy.bookstorefront.auth.dto.request.SignUpRequest;
 import com.nhnacademy.bookstorefront.auth.dto.response.LoginResponse;
+import com.nhnacademy.bookstorefront.auth.dto.response.PaycoLoginResponse;
 import com.nhnacademy.bookstorefront.auth.dto.response.SignUpResponse;
 import com.nhnacademy.bookstorefront.auth.feignclient.AuthClient;
 import com.nhnacademy.bookstorefront.auth.service.AuthService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -26,8 +31,13 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-	public ResponseEntity<Boolean> isEmailExist(String email) {
-		return authClient.isEmailExist(email);
+	public ResponseEntity<Void> sendEmailSignUp(String email) {
+		return authClient.sendEmailSignUp(email);
+	}
+
+	@Override
+	public ResponseEntity<Void> checkEmailSignUp(String email, String certifyCode) {
+		return authClient.checkEmailSignUp(email, certifyCode);
 	}
 
 	@Override
@@ -38,12 +48,6 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	public void logout() {
 		authClient.requestLogout();
-	}
-
-	@Override
-	public void setTokensInSession(String accessToken, String refreshToken, HttpSession session) {
-		session.setAttribute("accessToken", accessToken);
-		session.setAttribute("refreshToken", refreshToken);
 	}
 
 	@Override
@@ -66,5 +70,35 @@ public class AuthServiceImpl implements AuthService {
 		}
 
 		return hasAccessToken && hasRefreshToken;
+	}
+
+	@Override
+	public void updateLastLoginAt(String accessToken, String refreshToken, LocalDateTime lastLoginAt) {
+		authClient.updateLastLoginAt(accessToken, refreshToken, lastLoginAt);
+	}
+
+	@Override
+	public void getTokensForPaycoUser(String memberNumber, HttpServletResponse response) {
+		PaycoLoginResponse paycoLoginResponse = authClient.getTokensForPaycoUser(memberNumber).getBody();
+		String accessToken = paycoLoginResponse.accessToken();
+		String refreshToken = paycoLoginResponse.refreshToken();
+
+		if (accessToken != null) {
+			response.addCookie(createCookie("Authorization", accessToken));
+		}
+
+		if (refreshToken != null) {
+			response.addCookie(createCookie("Refresh-Token", refreshToken));
+		}
+
+		updateLastLoginAt(accessToken, refreshToken, LocalDateTime.now());
+	}
+
+	private Cookie createCookie(String key, String value) {
+		Cookie cookie = new Cookie(key, URLEncoder.encode(value, StandardCharsets.UTF_8));
+		// cookie.setSecure(true);
+		cookie.setPath("/");
+		cookie.setHttpOnly(true);
+		return cookie;
 	}
 }

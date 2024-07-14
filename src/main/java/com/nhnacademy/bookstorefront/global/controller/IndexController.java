@@ -16,7 +16,7 @@ public class IndexController {
 	 *
 	 * @return 인덱스 페이지 리다이렉션 경로
 	 */
-	@GetMapping
+	@GetMapping("/")
 	public String indexPage() {
 		return "redirect:/api/books/main";
 	}

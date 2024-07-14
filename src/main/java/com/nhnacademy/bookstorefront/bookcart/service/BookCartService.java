@@ -22,7 +22,7 @@ public interface BookCartService {
 	 * @param resp   HTTP 응답 객체로, 필요한 경우 쿠키를 설정을 위해 사용
 	 * @return 도서 목록이 포함된 리스트
 	 */
-	List<GetBookCartResponse> getBookCartsByCartId(Long cartId, HttpServletResponse resp);
+	List<GetBookCartResponse> getBookCartsByCartId(String cartId, HttpServletResponse resp);
 
 	/**
 	 * 새로운 도서를 장바구니에 추가합니다.
@@ -31,23 +31,23 @@ public interface BookCartService {
 	 * @param cartId 도서를 추가할 장바구니의 ID
 	 * @return 상태 코드가 포함된 ResponseEntity 객체
 	 */
-	ResponseEntity<Void> createBookCart(CreateBookCartRequest request, Long cartId);
+	ResponseEntity<Void> createBookCart(CreateBookCartRequest request, String cartId);
 
 	/**
 	 * 특정 도서의 장바구니 정보를 수정합니다.
 	 *
-	 * @param bookCartId 수정할 도서의 장바구니 ID
+	 * @param bookId 수정할 도서의 ID
 	 * @param request 수정할 도서의 정보를 담은 UpdateBookCartRequest 객체
 	 * @param cartId 도서가 포함된 장바구니의 ID
 	 * @return 상태 코드가 포함된 ResponseEntity 객체
 	 */
-	ResponseEntity<Void> updateBookCart(Long bookCartId, UpdateBookCartRequest request, Long cartId);
+	ResponseEntity<Void> updateBookCart(Long bookId, UpdateBookCartRequest request, String cartId);
 
 	/**
 	 * 특정 도서를 장바구니에서 삭제합니다.
 	 *
-	 * @param bookCartId 삭제할 도서의 장바구니 ID
+	 * @param bookId 삭제할 도서의 ID
 	 * @param cartId 도서가 포함된 장바구니의 ID
 	 */
-	void deleteBookCart(Long bookCartId, Long cartId);
+	void deleteBookCart(Long bookId, String cartId);
 }

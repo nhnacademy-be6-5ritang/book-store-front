@@ -44,6 +44,24 @@ public interface OrderService {
 	GetAllListOrderByStatusResponse findByOrderStatusGoing();
 
 	/**
+	 * 주문 상태가 완료인 모든 주문 가져오기
+	 * @return 주문 리턴
+	 */
+	GetAllListOrderByStatusResponse findByOrderStatusComplete();
+
+	/**
+	 * 주문 상태가 환불 진행중인 모든 주문 가져오기
+	 * @return 주문 리턴
+	 */
+	GetAllListOrderByStatusResponse findByOrderStatusRefunded();
+
+	/**
+	 * 주문 상태가 환불 모든 주문 가져오기
+	 * @return 주문 리턴
+	 */
+	GetAllListOrderByStatusResponse findByOrderStatusRefunding();
+
+	/**
 	 * 비회원 주문 확인
 	 * @return 조회된 주문 정보
 	 */
@@ -54,4 +72,17 @@ public interface OrderService {
 	 * @return 회원 보유 포인트
 	 */
 	GetUserPointOrderResponse getUserPoint();
+
+	/**
+	 * 반품
+	 * @param orderInfoId 주문 보안 아이디
+	 */
+	void refundedOrder(String orderInfoId);
+
+	/**
+	 * 반품 요청중
+	 * @param orderInfoId 주문 보안 아이디
+	 */
+	void refundingOrder(String orderInfoId);
+
 }

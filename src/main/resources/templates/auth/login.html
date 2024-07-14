@@ -41,7 +41,7 @@
                     <form class="login-form-container" action="/auth/login" method="post">
                         <div class="custom-login-form">
                             <h5>로그인</h5>
-                            <table>
+                            <table style="width: 28%">
                                 <tr>
                                     <td class="label-column">
                                         <label for="email"><i class="fas fa-envelope"></i></label>
@@ -60,7 +60,14 @@
                                     </td>
                                 </tr>
                             </table>
-                            <button type="submit" class="login-button">로그인</button>
+                            <div class="login-button-container">
+                                <button type="submit" class="login-button">로그인</button>
+                                <button type="button" class="payco-login-button" onclick="paycoLoginRequest()">
+                                    <div class="payco-image-container">
+                                        <img id="payco-image" th:src="@{/image/PAYCO_BUTTON.png}" alt="PAYCO 로그인">
+                                    </div>
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -157,6 +164,8 @@ Footer Area
 <script src="js/plugins.js"></script>
 <script src="js/ajax-mail.js"></script>
 <script src="js/custom.js"></script>
+
+<script th:src="@{/js/payco.js}"></script>
 </body>
 
 </html>

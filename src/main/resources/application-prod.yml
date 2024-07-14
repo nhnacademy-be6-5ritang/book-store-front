@@ -4,3 +4,8 @@ spring:
   devtools:
     livereload:
       enabled: false
+
+payco:
+  client-id: 3RD3uCdBFL1ANlmFIuoqa5l
+  client-secret: ZOulJVoiyMe60WqHy3sGNEO4
+  redirect-uri: https://5ritang.store/auth/payco/callback

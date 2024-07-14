@@ -1,6 +1,9 @@
 package com.nhnacademy.bookstorefront.order.controller;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,27 +16,33 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
+import com.nhnacademy.bookstorefront.delivery.dto.response.GetDeliveryResponse;
 import com.nhnacademy.bookstorefront.delivery.service.impl.DeliveryServiceImpl;
 import com.nhnacademy.bookstorefront.deliverypolicy.dto.response.GetDeliveryPolicyResponse;
 import com.nhnacademy.bookstorefront.deliverypolicy.service.impl.DeliveryPolicyServiceImpl;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateBookOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderListPost;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
+import com.nhnacademy.bookstorefront.order.dto.request.CreateRefundPolicyRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.OrderCheckNonRequest;
+import com.nhnacademy.bookstorefront.order.dto.request.UpdateRefundPolicyRequest;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllPaperResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetAllRefundResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetListWrappingResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetRefundResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetUserPointOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetWrappingResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.UpdateBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.service.Impl.BookOrderServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.OrderServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.PaperTypeServiceImpl;
+import com.nhnacademy.bookstorefront.order.service.Impl.RefundPolicyServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.WrappingPaperServiceImpl;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.NoCouponResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.OneCouponResponseDTO;
@@ -54,6 +63,7 @@ public class OrderClientController {
 	private final DeliveryServiceImpl deliveryServiceImpl;
 	private final BookServiceImpl bookServiceImpl;
 	private final DeliveryPolicyServiceImpl deliveryPolicyServiceImpl;
+	private final RefundPolicyServiceImpl refundPolicyServiceImpl;
 	private final UserAndCouponService userAndCouponService;
 
 	@GetMapping("/createBookOrderTest/{book_id}")
@@ -249,8 +259,22 @@ public class OrderClientController {
 	public ModelAndView orderDetails(@PathVariable("order_info_id") String orderInfoId) {
 		ModelAndView modelAndView = new ModelAndView();
 		GetOrderByInfoResponse order = orderServiceImpl.findByOrderInfoId(orderInfoId);
+		GetDeliveryResponse deliveryResponse = deliveryServiceImpl.getDeliveryByOrderId(order.orderId());
+
+		if (deliveryResponse.deliveryStatusName().equals("배송완료")) {
+			GetAllRefundResponse refundResponse = refundPolicyServiceImpl.getAllRefundPolicies();
+			List<GetRefundResponse> list = new ArrayList<>();
+			for (int i = 0; i < refundResponse.refunds().size(); i++) {
+				if (deliveryResponse.deliveryReceiverDate()
+					.isAfter(LocalDateTime.now().minusDays(refundResponse.refunds().get(i).refundPolicyDate()))) {
+					list.add(refundResponse.refunds().get(i));
+				}
+			}
+			modelAndView.addObject("refundList", list);
+		}
+
 		modelAndView.addObject("order", order);
-		modelAndView.addObject("delivery", deliveryServiceImpl.getDeliveryByOrderId(order.orderId()));
+		modelAndView.addObject("delivery", deliveryResponse);
 		modelAndView.setViewName("order/orderDetails");
 		return modelAndView;
 	}
@@ -279,4 +303,95 @@ public class OrderClientController {
 		modelAndView.addObject("orderList", orders);
 		return modelAndView;
 	}
+
+	@GetMapping("/admin/order-status/complete")
+	public ModelAndView orderStatusComplete() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("order/complete");
+		GetAllListOrderByStatusResponse orders = orderServiceImpl.findByOrderStatusComplete();
+		modelAndView.addObject("orderList", orders);
+		return modelAndView;
+	}
+
+	@GetMapping("/admin/order-status/refunded")
+	public ModelAndView orderStatusRefunded() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("order/refunded");
+		GetAllListOrderByStatusResponse orders = orderServiceImpl.findByOrderStatusRefunded();
+		modelAndView.addObject("orderList", orders);
+		return modelAndView;
+	}
+
+	@GetMapping("/admin/order-status/refunding")
+	public ModelAndView orderStatusRefunding() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("order/refunding");
+		GetAllListOrderByStatusResponse orders = orderServiceImpl.findByOrderStatusRefunding();
+		modelAndView.addObject("orderList", orders);
+		return modelAndView;
+	}
+
+	@GetMapping("/refunding/{orderInfoId}")
+	public ModelAndView refundingGet(@PathVariable String orderInfoId) {
+		orderServiceImpl.refundingOrder(orderInfoId);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("redirect:/api/orders/orderDetails/" + orderInfoId);
+		return modelAndView;
+	}
+
+	@GetMapping("/admin/refundPolicy")
+	public ModelAndView refundAdmin() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("refundPolicy", refundPolicyServiceImpl.getAllRefundPolicies());
+		modelAndView.setViewName("order/adminRefund");
+		return modelAndView;
+	}
+
+	@GetMapping("/admin/refundPolicy/create")
+	public ModelAndView refundAdminCreate() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("order/createRefund");
+		return modelAndView;
+	}
+
+	@GetMapping("/admin/refundPolicy/update/{refundPolicyId}")
+	public ModelAndView refundAdminUpdate(@PathVariable Long refundPolicyId) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("refundPolicyId", refundPolicyId);
+		modelAndView.setViewName("order/updateRefund");
+		return modelAndView;
+	}
+
+	@PostMapping("/admin/refundPolicy")
+	public ModelAndView refundAdminCreate(@ModelAttribute CreateRefundPolicyRequest refundPolicyRequest) {
+		refundPolicyServiceImpl.createRefundPolicy(refundPolicyRequest);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("redirect:/api/orders/admin/refundPolicy");
+		return modelAndView;
+	}
+
+	@PostMapping("/admin/refundPolicy/{refundPolicyId}")
+	public ModelAndView refundAdminUpdate(@ModelAttribute UpdateRefundPolicyRequest refundPolicyRequest, @PathVariable Long refundPolicyId) {
+		refundPolicyServiceImpl.updateRefundPolicy(refundPolicyRequest, refundPolicyId);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("redirect:/api/orders/admin/refundPolicy");
+		return modelAndView;
+	}
+
+	@GetMapping("/admin/refundPolicy/{refundPolicyId}")
+	public ModelAndView refundAdminDelete(@PathVariable Long refundPolicyId) {
+		refundPolicyServiceImpl.deleteRefundPolicy(refundPolicyId);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("redirect:/api/orders/admin/refundPolicy");
+		return modelAndView;
+	}
+
+	@GetMapping("/admin/refunded/{orderInfoId}")
+	public ModelAndView refundedGet(@PathVariable String orderInfoId) {
+		orderServiceImpl.refundedOrder(orderInfoId);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("redirect:/api/orders/orderDetails/" + orderInfoId);
+		return modelAndView;
+	}
+
 }

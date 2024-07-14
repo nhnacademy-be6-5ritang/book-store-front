@@ -43,7 +43,7 @@
                     <th style="width: 250px">주문</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody th:if="${bookCarts != null}">
                 <tr th:each="bookCart : ${bookCarts}" class="bookCart_item">
                     <td class="bookCart_book_info">
                         <div class="bookCart_info_wrapper">
@@ -69,12 +69,12 @@
                     </td>
                     <td class="bookCart_quantity">
                         <input type="number" th:name="bookQuantity" th:value="${bookCart.bookQuantity}" min="1"
-                               th:data-bookCart-id="${bookCart.bookCartId}">
+                               th:data-book-id="${bookCart.bookId}">
                         <div>
                             <button class="bookCart_decrement">-</button>
                             <button class="bookCart_increment">+</button>
                         </div>
-                        <form th:action="@{/api/carts/me/{bookCartId} (bookCartId=${bookCart.bookCartId})}"
+                        <form th:action="@{/api/carts/me/{bookId} (bookId=${bookCart.bookId})}"
                               th:method="put">
                             <button type="submit" class="bookCart_change">변경</button>
                         </form>
@@ -89,7 +89,7 @@
                             위시리스트에
                             추가
                         </button>
-                        <form th:action="@{/api/carts/me/{cartId} (cartId=${bookCart.bookCartId})}"
+                        <form th:action="@{/api/carts/me/{bookId} (bookId=${bookCart.bookId})}"
                               th:method="delete">
                             <button type="submit" class="btn btn-danger">삭제</button>
                         </form>
@@ -97,11 +97,11 @@
                 </tr>
                 </tbody>
             </table>
-            <div th:if="${bookCarts.size() > 0}" class="bookCart_summary">
+            <div class="bookCart_summary">
                 <div class="summary-left">
                     <p th:text="'상품 총 금액: ' + ${totalPrice} + '원'"></p>
                 </div>
-                <div class="summary-right">
+                <div th:if="${bookCarts != null}" class="summary-right">
                     <button class="btn btn-primary">주문하기</button>
                 </div>
             </div>

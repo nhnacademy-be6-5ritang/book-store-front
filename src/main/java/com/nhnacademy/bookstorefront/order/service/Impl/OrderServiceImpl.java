@@ -1,7 +1,5 @@
 package com.nhnacademy.bookstorefront.order.service.Impl;
 
-
-
 import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
@@ -14,7 +12,6 @@ import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetUserPointOrderResponse;
 import com.nhnacademy.bookstorefront.order.feignclient.OrderServiceClient;
 import com.nhnacademy.bookstorefront.order.service.OrderService;
-
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -48,6 +45,21 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	public GetAllListOrderByStatusResponse findByOrderStatusComplete() {
+		return orderServiceClient.getOrderStatusComplete().getBody();
+	}
+
+	@Override
+	public GetAllListOrderByStatusResponse findByOrderStatusRefunded() {
+		return orderServiceClient.getOrderStatusRefunded().getBody();
+	}
+
+	@Override
+	public GetAllListOrderByStatusResponse findByOrderStatusRefunding() {
+		return orderServiceClient.getOrderStatusRefunding().getBody();
+	}
+
+	@Override
 	public GetNonOrderByInfoResponse findByOrderInfoIdByEmail(OrderCheckNonRequest orderCheckNonRequest) {
 		return orderServiceClient.getOrderByInfoNon(orderCheckNonRequest).getBody();
 	}
@@ -55,5 +67,15 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public GetUserPointOrderResponse getUserPoint() {
 		return orderServiceClient.getUserPointOrders().getBody();
+	}
+
+	@Override
+	public void refundedOrder(String orderInfoId) {
+		orderServiceClient.refundedOrder(orderInfoId).getBody();
+	}
+
+	@Override
+	public void refundingOrder(String orderInfoId) {
+		orderServiceClient.refundingOrder(orderInfoId).getBody();
 	}
 }
