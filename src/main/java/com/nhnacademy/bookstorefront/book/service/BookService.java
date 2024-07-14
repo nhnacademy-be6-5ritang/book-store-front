@@ -34,7 +34,7 @@ public interface BookService {
 	 *
 	 * @return 모든 책의 상세 정보 목록
 	 */
-	List<GetBookDetailResponse> findAllBooks();
+	List<GetBookDetailResponse> getNewestBooks();
 
 	/**
 	 * 모든 책의 상세 정보를 페이지네이션하여 조회합니다.
@@ -42,7 +42,7 @@ public interface BookService {
 	 * @param pageable 페이지 정보
 	 * @return 페이지네이션된 책의 상세 정보 목록
 	 */
-	Page<GetBookDetailResponse> findAllBooks(Pageable pageable);
+	Page<GetBookDetailResponse> getNewestBooks(Pageable pageable);
 
 	/**
 	 * 새로운 책을 생성합니다.
@@ -78,4 +78,8 @@ public interface BookService {
 	void deleteBook(Long bookId);
 
 	List<BookSearchResult> searchBooks(String query);
+
+	List<GetBookDetailResponse> getOrderedBooks();
+
+	List<GetBookDetailResponse> getLikesBooks();
 }

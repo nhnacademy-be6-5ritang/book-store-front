@@ -33,17 +33,17 @@
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" id="shop-tab" data-bs-toggle="tab" href="#shop" role="tab"
-                                   aria-controls="shop" aria-selected="true">신간 도서</a>
+                                   aria-controls="shop" aria-selected="true">최다 주문 도서</a>
                                 <span class="arrow-icon"></span>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="men-tab" data-bs-toggle="tab" href="#men" role="tab"
-                                   aria-controls="men" aria-selected="true">인기 도서</a>
+                                   aria-controls="men" aria-selected="true">최다 좋아요 도서</a>
                                 <span class="arrow-icon"></span>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="woman-tab" data-bs-toggle="tab" href="#woman" role="tab"
-                                   aria-controls="woman" aria-selected="false">Most view products</a>
+                                   aria-controls="woman" aria-selected="false">최근 신간 도서</a>
                                 <span class="arrow-icon"></span>
                             </li>
                         </ul>
@@ -68,7 +68,7 @@
                         ]'>
 
                                     <!-- 도서 정보 시작 -->
-                                    <div th:each="book : ${books}" class="book-list">
+                                    <div th:each="book : ${orderedBooks}" class="book-list">
                                         <div class="single-slide">
                                             <div class="product-card">
                                                 <div class="product-header">
@@ -138,7 +138,7 @@
                                     ]'>
 
                                     <!-- 도서 정보 시작 -->
-                                    <div th:each="book : ${books}" class="book-list">
+                                    <div th:each="book : ${likesBooks}" class="book-list">
                                         <div class="single-slide">
                                             <div class="product-card">
                                                 <div class="product-header">
