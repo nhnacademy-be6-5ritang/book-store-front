@@ -59,42 +59,52 @@
                     <div class="container mt-5">
                         <h1 class="mb-4">사용가능한 쿠폰 목록</h1>
                         <form th:action="'/coupons/orders/'+${orderListId}+'/users/'+${deliveryId}" method="post">
-                            <table class="table table-bordered table-hover">
-                                <thead class="thead-dark">
-                                <tr>
-                                    <th>Select</th>
-                                    <th>Coupon ID</th>
-                                    <th>Type</th>
-                                    <th>Sale Price</th>
-                                    <th>minOrderPrice</th>
-                                    <th>maxSalePrice</th>
-                                    <th>Sale Rate</th>
-                                    <th>Book ID</th>
-                                    <th>Book Title</th>
-                                    <th>Category ID</th>
-                                    <th>Category Name</th>
-                                    <th>expired Date</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="coupon : ${couponList}">
-                                    <td><label>
-                                        <input type="radio" name="couponId" th:value="${coupon.id}" class="form-check-input">
-                                    </label></td>
-                                    <td th:text="${coupon.id}"></td>
-                                    <td th:text="${coupon.type}"></td>
-                                    <td th:text="${coupon.salePrice}"></td>
-                                    <td th:text="${coupon.minOrderPrice}"></td>
-                                    <td th:text="${coupon.maxSalePrice}"></td>
-                                    <td th:text="${coupon.saleRate}"></td>
-                                    <td th:text="${coupon.bookId}"></td>
-                                    <td th:text="${coupon.bookTitle}"></td>
-                                    <td th:text="${coupon.categoryId}"></td>
-                                    <td th:text="${coupon.categoryName}"></td>
-                                    <td th:text="${coupon.expiredDate}"></td>
-                                </tr>
-                                </tbody>
-                            </table>
+                            <!-- Default hidden input for no coupon -->
+                            <div th:if="${#lists.isEmpty(couponList)}">
+                                <p>쿠폰 없음</p>
+                                <input type="hidden" name="couponId" value="0">
+                            </div>
+                            <div th:unless="${#lists.isEmpty(couponList)}">
+                                <button type="button" id="noCouponBtn" class="btn btn-secondary mb-3">쿠폰 사용 안 함</button>
+                                <table class="table table-bordered table-hover" id="couponTable">
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th>Select</th>
+                                        <th>Coupon ID</th>
+                                        <th>Type</th>
+                                        <th>Sale Price</th>
+                                        <th>minOrderPrice</th>
+                                        <th>maxSalePrice</th>
+                                        <th>Sale Rate</th>
+                                        <th>Book ID</th>
+                                        <th>Book Title</th>
+                                        <th>Category ID</th>
+                                        <th>Category Name</th>
+                                        <th>expired Date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- Coupon Options -->
+                                    <tr th:each="coupon : ${couponList}">
+                                        <td><label>
+                                            <input type="radio" name="couponId" th:value="${coupon.id}" class="form-check-input">
+                                        </label></td>
+                                        <td th:text="${coupon.id}"></td>
+                                        <td th:text="${coupon.type}"></td>
+                                        <td th:text="${coupon.salePrice}"></td>
+                                        <td th:text="${coupon.minOrderPrice}"></td>
+                                        <td th:text="${coupon.maxSalePrice}"></td>
+                                        <td th:text="${coupon.saleRate}"></td>
+                                        <td th:text="${coupon.bookId}"></td>
+                                        <td th:text="${coupon.bookTitle}"></td>
+                                        <td th:text="${coupon.categoryId}"></td>
+                                        <td th:text="${coupon.categoryName}"></td>
+                                        <td th:text="${coupon.expiredDate}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <input type="hidden" id="noCouponInput" name="couponId" value="0" style="display: none;">
+                            </div>
                             <div class="text-right">
                                 <button type="submit" class="btn btn-primary">Use Selected Coupons</button>
                             </div>
@@ -118,6 +128,23 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // 쿠폰 사용 안 함 버튼 클릭 시
+        $('#noCouponBtn').click(function() {
+            $('#couponTable input[type="radio"]').prop('checked', false);
+            $('#noCouponInput').show();
+            $('#noCouponBtn').addClass('active');
+        });
+
+        // 라디오 버튼 클릭 시
+        $('#couponTable input[type="radio"]').click(function() {
+            $('#noCouponInput').hide();
+            $('#noCouponBtn').removeClass('active');
+        });
+    });
+</script>
+
 </body>
 
 </html>

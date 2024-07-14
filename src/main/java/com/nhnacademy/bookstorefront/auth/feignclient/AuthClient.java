@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.nhnacademy.bookstorefront.auth.dto.request.LoginRequest;
 import com.nhnacademy.bookstorefront.auth.dto.request.SignUpRequest;
 import com.nhnacademy.bookstorefront.auth.dto.response.LoginResponse;
+import com.nhnacademy.bookstorefront.auth.dto.response.PaycoLoginResponse;
 import com.nhnacademy.bookstorefront.auth.dto.response.SignUpResponse;
 
 @FeignClient(name = "auth-feign-client", url = "http://localhost:8090")
@@ -43,4 +44,6 @@ public interface AuthClient {
 		@RequestBody LocalDateTime lastLoginAt
 	);
 
+	@PostMapping("/auth/tokens-for-payco-user")
+	ResponseEntity<PaycoLoginResponse> getTokensForPaycoUser(@RequestParam String paycoIdNo);
 }
