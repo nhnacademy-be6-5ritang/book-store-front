@@ -38,16 +38,16 @@ public class BookCartController {
 		return bookCartService.createBookCart(request, cartId);
 	}
 
-	@PutMapping("/{bookCartId}")
-	public ResponseEntity<Void> updateBookCart(@PathVariable Long bookCartId,
+	@PutMapping("/{bookId}")
+	public ResponseEntity<Void> updateBookCart(@PathVariable Long bookId,
 		@RequestBody UpdateBookCartRequest request, @CookieValue(name = "cartId", required = false) String cartId) {
-		return bookCartService.updateBookCart(bookCartId, request, cartId);
+		return bookCartService.updateBookCart(bookId, request, cartId);
 	}
 
-	@DeleteMapping("/{bookCartId}")
-	public String deleteBookCart(@PathVariable Long bookCartId,
+	@DeleteMapping("/{bookId}")
+	public String deleteBookCart(@PathVariable Long bookId,
 		@CookieValue(name = "cartId", required = false) String cartId) {
-		bookCartService.deleteBookCart(bookCartId, cartId);
+		bookCartService.deleteBookCart(bookId, cartId);
 		return "redirect:/api/carts/me";
 	}
 }

@@ -31,11 +31,11 @@ public class BookCartServiceImpl implements BookCartService {
 		return bookCartServiceClient.createBookCart(request, cartId);
 	}
 
-	public ResponseEntity<Void> updateBookCart(Long bookCartId, UpdateBookCartRequest request, String cartId) {
-		return bookCartServiceClient.updateBookCart(bookCartId, request, cartId);
+	public ResponseEntity<Void> updateBookCart(Long bookId, UpdateBookCartRequest request, String cartId) {
+		return bookCartServiceClient.updateBookCart(bookId, request, cartId);
 	}
 
-	public void deleteBookCart(Long bookCartId, String cartId) {
-		bookCartServiceClient.deleteBookCart(bookCartId, cartId);
+	public void deleteBookCart(Long bookId, String cartId) {
+		bookCartServiceClient.deleteBookCart(bookId, cartId);
 	}
 }

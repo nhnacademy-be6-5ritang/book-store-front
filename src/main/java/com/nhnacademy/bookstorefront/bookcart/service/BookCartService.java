@@ -36,18 +36,18 @@ public interface BookCartService {
 	/**
 	 * 특정 도서의 장바구니 정보를 수정합니다.
 	 *
-	 * @param bookCartId 수정할 도서의 장바구니 ID
+	 * @param bookId 수정할 도서의 ID
 	 * @param request 수정할 도서의 정보를 담은 UpdateBookCartRequest 객체
 	 * @param cartId 도서가 포함된 장바구니의 ID
 	 * @return 상태 코드가 포함된 ResponseEntity 객체
 	 */
-	ResponseEntity<Void> updateBookCart(Long bookCartId, UpdateBookCartRequest request, String cartId);
+	ResponseEntity<Void> updateBookCart(Long bookId, UpdateBookCartRequest request, String cartId);
 
 	/**
 	 * 특정 도서를 장바구니에서 삭제합니다.
 	 *
-	 * @param bookCartId 삭제할 도서의 장바구니 ID
+	 * @param bookId 삭제할 도서의 ID
 	 * @param cartId 도서가 포함된 장바구니의 ID
 	 */
-	void deleteBookCart(Long bookCartId, String cartId);
+	void deleteBookCart(Long bookId, String cartId);
 }

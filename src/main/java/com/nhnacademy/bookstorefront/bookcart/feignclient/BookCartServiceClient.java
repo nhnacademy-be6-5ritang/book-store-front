@@ -27,11 +27,11 @@ public interface BookCartServiceClient {
 	ResponseEntity<Void> createBookCart(@RequestBody CreateBookCartRequest request,
 		@CookieValue(name = "cartId", required = false) String cartId);
 
-	@PutMapping("/{bookCartId}")
-	ResponseEntity<Void> updateBookCart(@PathVariable Long bookCartId,
+	@PutMapping("/{bookId}")
+	ResponseEntity<Void> updateBookCart(@PathVariable Long bookId,
 		@RequestBody UpdateBookCartRequest request, @CookieValue(name = "cartId", required = false) String cartId);
 
-	@DeleteMapping("/{bookCartId}")
-	ResponseEntity<Void> deleteBookCart(@PathVariable Long bookCartId,
+	@DeleteMapping("/{bookId}")
+	ResponseEntity<Void> deleteBookCart(@PathVariable Long bookId,
 		@CookieValue(name = "cartId", required = false) String cartId);
 }
