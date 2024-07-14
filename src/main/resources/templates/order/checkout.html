@@ -185,7 +185,6 @@
                                                     </div>
 
 
-                                                    <!-- TODO complete에 보내줘야하는 couponSale은 뭐로해야하는지? -->
                                                     <div id="coupon-info" th:if="${selectCoupon != null && oneResult != null}">
                                                             <p><strong>주문 가격:</strong> <span
                                                                     th:text="${oneResult.orderPrice()}"></span></p>
@@ -248,6 +247,8 @@
                                                         <!--비회원의 경우 쿠폰 적용 x-->
                                                         <p><strong>주문 가격:</strong> <span
                                                                 th:text="${noResultByNone.orderPrice()}"></span></p>
+                                                            <input type="hidden" name="couponSale"
+                                                                   th:value="${noResultByNone.discount()}"/>
                                                         <!-- 포장지 및 배송비 -->
                                                         <p th:each="wrapping : ${wrappingList.wrapping()}">
                                                             <li><strong>포장지:</strong> <span
@@ -315,6 +316,31 @@ Footer Area
 <script th:src="@{/js/custom.js}"></script>
 </body>
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const noneMember = document.getElementById('none-member');
+        if (noneMember) {
+            updateGrandTotalForNoneMember();
+        }
+    });
+    function updateGrandTotalForNoneMember() {
+        const orderPriceNoneMemberElement = document.getElementById('orderPriceNoneMember');
+        const grandTotal = document.getElementById('grandTotal');
+
+        if (orderPriceNoneMemberElement) {
+            // orderPriceNoneMember의 값을 가져옵니다.
+            const orderPriceBeforePoint = parseFloat(orderPriceNoneMemberElement.textContent) || 0;
+
+            // 최종 가격을 grandTotal에 설정합니다.
+            grandTotal.textContent = orderPriceBeforePoint.toFixed(2);
+
+            // hidden input에 값 설정
+            const orderPriceInput = document.getElementById('orderPrice');
+            orderPriceInput.value = orderPriceBeforePoint.toFixed(2);
+        }
+
+    }
+
+
     function updateGrandTotal() {
         console.log("updateGrandTotal called");
         const pointInput = document.getElementById('pointInput');
@@ -330,7 +356,7 @@ Footer Area
         // 쿠폰 정보 확인
         const couponInfo = document.getElementById('coupon-info');
         const noCouponInfo = document.getElementById('no-coupon-info');
-        const noneMember = document.getElementById('none-member');
+
 
         if (couponInfo) {
             console.log("쿠폰이 적용되었습니다.");
@@ -338,14 +364,6 @@ Footer Area
         } else if (noCouponInfo) {
             console.log("쿠폰이 적용되지 않았습니다.");
             orderPriceBeforePoint = parseFloat(document.getElementById('orderPriceBeforePointWithoutCoupon').textContent) || 0;
-        } else if (noneMember) {
-            console.log("비회원입니다..");
-            debugger;
-            orderPriceBeforePoint = parseFloat(document.getElementById('orderPriceNoneMember').textContent) || 0;
-            console.log("주문 가격 (포인트 차감전 가격):", orderPriceBeforePoint);
-            grandTotal.textContent = orderPriceBeforePoint.toFixed(2);
-            orderPriceElement.value = orderPriceBeforePoint.toFixed(2);
-            return;
         }
 
 
