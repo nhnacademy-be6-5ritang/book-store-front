@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
 </head>
 
 
@@ -56,17 +56,24 @@
                                         <div class="card mt-4">
                                             <div class="card-body">
                                                 <!-- 카테고리 수정 폼 -->
-                                                <form th:action="@{/api/categories/{categoryId} (categoryId=${category.categoryId})}" th:method="put" th:object="${category}">
+                                                <form th:action="@{/api/categories/{categoryId} (categoryId=${category.categoryId})}"
+                                                      th:method="put" th:object="${category}">
                                                     <div class="form-group">
                                                         <label for="categoryName">카테고리 이름</label>
-                                                        <input type="text" class="form-control" id="categoryName" th:field="*{categoryName}" required>
+                                                        <input type="text" class="form-control" id="categoryName"
+                                                               th:field="*{categoryName}" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="parentCategoryId">상위 카테고리</label>
-                                                        <select class="form-control" id="parentCategoryId" name="parentCategoryId">
-                                                            <option value="" th:text="'없음'" >없음</option>
-                                                            <option th:each="cat : ${categories}" th:value="${cat.categoryId}" th:text="${cat.categoryName}"
-                                                                    th:selected="${cat.categoryName.equals(category.parentCategoryName)}">카테고리 선택</option>
+                                                        <select class="form-control" id="parentCategoryId"
+                                                                name="parentCategoryId">
+                                                            <option value="" th:text="'없음'">없음</option>
+                                                            <option th:each="cat : ${categories}"
+                                                                    th:value="${cat.categoryId}"
+                                                                    th:text="${cat.categoryName}"
+                                                                    th:selected="${cat.categoryName.equals(category.parentCategoryName)}">
+                                                                카테고리 선택
+                                                            </option>
                                                         </select>
                                                     </div>
                                                     <button type="submit" class="btn btn-primary">수정</button>

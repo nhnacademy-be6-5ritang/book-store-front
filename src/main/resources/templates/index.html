@@ -8,17 +8,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
 
 
 <body>
+<header th:insert="~{global/header}"></header>
 <div class="site-wrapper" id="top">
     <!--=================================
     Header Area
     ===================================== -->
-    <div th:insert="~{global/header}"></div>
 
     <!--=================================
         Home Slider Tab: Featured Product, New Arrivals, Most View Products 책 리스트

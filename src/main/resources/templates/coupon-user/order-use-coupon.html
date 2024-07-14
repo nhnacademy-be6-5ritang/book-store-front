@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
     <!-- Bootstrap CSS -->
 </head>
 
@@ -87,7 +87,8 @@
                                     <!-- Coupon Options -->
                                     <tr th:each="coupon : ${couponList}">
                                         <td><label>
-                                            <input type="radio" name="couponId" th:value="${coupon.id}" class="form-check-input">
+                                            <input type="radio" name="couponId" th:value="${coupon.id}"
+                                                   class="form-check-input">
                                         </label></td>
                                         <td th:text="${coupon.id}"></td>
                                         <td th:text="${coupon.type}"></td>
@@ -103,7 +104,8 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <input type="hidden" id="noCouponInput" name="couponId" value="0" style="display: none;">
+                                <input type="hidden" id="noCouponInput" name="couponId" value="0"
+                                       style="display: none;">
                             </div>
                             <div class="text-right">
                                 <button type="submit" class="btn btn-primary">Use Selected Coupons</button>
@@ -129,16 +131,16 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         // 쿠폰 사용 안 함 버튼 클릭 시
-        $('#noCouponBtn').click(function() {
+        $('#noCouponBtn').click(function () {
             $('#couponTable input[type="radio"]').prop('checked', false);
             $('#noCouponInput').show();
             $('#noCouponBtn').addClass('active');
         });
 
         // 라디오 버튼 클릭 시
-        $('#couponTable input[type="radio"]').click(function() {
+        $('#couponTable input[type="radio"]').click(function () {
             $('#noCouponInput').hide();
             $('#noCouponBtn').removeClass('active');
         });

@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
 </head>
 
 
@@ -59,13 +59,18 @@
                                                 <form th:action="@{/api/categories}" method="post">
                                                     <div class="form-group">
                                                         <label for="categoryName">카테고리 이름</label>
-                                                        <input type="text" class="form-control" id="categoryName" name="categoryName" required>
+                                                        <input type="text" class="form-control" id="categoryName"
+                                                               name="categoryName" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="parentCategoryId">상위 카테고리</label>
-                                                        <select class="form-control" id="parentCategoryId" name="parentCategoryId">
+                                                        <select class="form-control" id="parentCategoryId"
+                                                                name="parentCategoryId">
                                                             <option value="" th:text="'없음'">없음</option>
-                                                            <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.categoryName}">카테고리 선택</option>
+                                                            <option th:each="category : ${categories}"
+                                                                    th:value="${category.categoryId}"
+                                                                    th:text="${category.categoryName}">카테고리 선택
+                                                            </option>
                                                         </select>
                                                     </div>
                                                     <button type="submit" class="btn btn-primary">추가</button>

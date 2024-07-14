@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
 </head>
 
 
@@ -81,7 +81,8 @@
                                                         <td class="pro-status"><span
                                                                 th:text="${orders.orderStatusName()}"></span></td>
                                                         <td>
-                                                            <a th:href="@{/api/deliveries/{orderId}/sender(orderId=${orders.orderId()})}" class="btn btn-primary">
+                                                            <a th:href="@{/api/deliveries/{orderId}/sender(orderId=${orders.orderId()})}"
+                                                               class="btn btn-primary">
                                                                 배송 처리
                                                             </a>
                                                         </td>
@@ -90,7 +91,8 @@
                                                 </table>
                                             </div>
                                             <div>
-                                                <a th:href="@{/api/orders/admin}" class="btn btn-primary" style="margin-right: 20px;">
+                                                <a th:href="@{/api/orders/admin}" class="btn btn-primary"
+                                                   style="margin-right: 20px;">
                                                     뒤로 가기
                                                 </a>
                                             </div>
@@ -111,14 +113,14 @@
         </div>
     </div>
 </div>
-        <!--=================================
-        Footer Area
-        ===================================== -->
-        <div th:insert="~{global/footer}"></div>
+<!--=================================
+Footer Area
+===================================== -->
+<div th:insert="~{global/footer}"></div>
 
-        <!-- Use Minified Plugins Version For Fast Page Load -->
-        <script th:src="@{/js/plugins.js}"></script>
-        <script th:src="@{/js/ajax-mail.js}"></script>
-        <script th:src="@{/js/custom.js}"></script>
+<!-- Use Minified Plugins Version For Fast Page Load -->
+<script th:src="@{/js/plugins.js}"></script>
+<script th:src="@{/js/ajax-mail.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
 </body>
 </html>

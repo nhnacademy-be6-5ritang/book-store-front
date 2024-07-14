@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
     <script>
         function setMinDate() {
             var today = new Date();
@@ -64,33 +64,45 @@
                                         </div>
                                         <div class="card mt-4">
                                             <div class="card-body">
-                                                <form th:action="@{/api/deliveries/{order_list_id}(order_list_id=${orderListId})}" method="post">
+                                                <form th:action="@{/api/deliveries/{order_list_id}(order_list_id=${orderListId})}"
+                                                      method="post">
                                                     <div class="form-group">
                                                         <label for="deliveryReceiver">수령인 이름</label>
-                                                        <input type="text" class="form-control" id="deliveryReceiver" name="deliveryReceiver" required>
+                                                        <input type="text" class="form-control" id="deliveryReceiver"
+                                                               name="deliveryReceiver" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="deliveryReceiverAddress">주소</label>
                                                         <div class="input-group mb-3">
-                                                            <input type="text" class="form-control" id="deliveryReceiverAddress" name="deliveryReceiverAddress" required>
+                                                            <input type="text" class="form-control"
+                                                                   id="deliveryReceiverAddress"
+                                                                   name="deliveryReceiverAddress" required>
                                                             <div class="input-group-append">
-                                                                <button class="btn btn-outline-secondary" type="button" onclick="execDaumPostcode()">주소 찾기</button>
+                                                                <button class="btn btn-outline-secondary" type="button"
+                                                                        onclick="execDaumPostcode()">주소 찾기
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="deliveryReceiverAddress2">상세 주소</label>
                                                         <div class="input-group mb-3">
-                                                            <input type="text" class="form-control" id="deliveryReceiverAddress2" name="deliveryReceiverAddress2" required>
+                                                            <input type="text" class="form-control"
+                                                                   id="deliveryReceiverAddress2"
+                                                                   name="deliveryReceiverAddress2" required>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="deliveryReceiverPhone">전화번호</label>
-                                                        <input type="text" class="form-control" id="deliveryReceiverPhone" name="deliveryReceiverPhone" required>
+                                                        <input type="text" class="form-control"
+                                                               id="deliveryReceiverPhone" name="deliveryReceiverPhone"
+                                                               required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="deliveryReceiverDate">배달 희망일</label>
-                                                        <input type="datetime-local" class="form-control" id="deliveryReceiverDate" name="deliveryReceiverDate" required>
+                                                        <input type="datetime-local" class="form-control"
+                                                               id="deliveryReceiverDate" name="deliveryReceiverDate"
+                                                               required>
                                                     </div>
                                                     <button type="submit" class="btn btn-primary">배송지 저장</button>
                                                 </form>
@@ -117,12 +129,12 @@ Footer Area
 <script th:src="@{/js/plugins.js}"></script>
 <script th:src="@{/js/ajax-mail.js}"></script>
 <script th:src="@{/js/custom.js}"></script>
- 다음 주소 API 스크립트 추가
+다음 주소 API 스크립트 추가
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     function execDaumPostcode() {
         new daum.Postcode({
-            oncomplete: function(data) {
+            oncomplete: function (data) {
                 var addr = ''; // 주소 변수
 
                 if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우

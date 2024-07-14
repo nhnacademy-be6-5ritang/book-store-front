@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/pages/usercoupon-issue-page.css}"/>
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}"/>
 
 </head>
 <body>
@@ -92,7 +92,8 @@
                                 </div>
                             </div>
                             <div class="card-footer issue-btn">
-                                <form th:action="@{/coupons/{couponTemplateId}(couponTemplateId=${coupontemplate.id})}" th:method="post">
+                                <form th:action="@{/coupons/{couponTemplateId}(couponTemplateId=${coupontemplate.id})}"
+                                      th:method="post">
                                     <button type="submit" class="btn btn-primary">발급</button>
                                 </form>
                             </div>
@@ -106,14 +107,17 @@
                 <ul class="pagination justify-content-center mt-4">
                     <!-- 첫번째 페이지로 이동 -->
                     <li class="page-item" th:classappend="${coupontemplates.first} ? 'disabled'">
-                        <a class="page-link" th:href="@{/coupons/issue(page=1, size=${coupontemplates.size})}" aria-label="First">
+                        <a class="page-link" th:href="@{/coupons/issue(page=1, size=${coupontemplates.size})}"
+                           aria-label="First">
                             <span aria-hidden="true">&laquo; First</span>
                         </a>
                     </li>
 
 
                     <li class="page-item" th:classappend="${coupontemplates.first} ? 'disabled'">
-                        <a class="page-link" th:href="${coupontemplates.first} ? '#' : '/coupons/issue?page=' + ${coupontemplates.number}+'&size='+${coupontemplates.size}" aria-label="Previous">
+                        <a class="page-link"
+                           th:href="${coupontemplates.first} ? '#' : '/coupons/issue?page=' + ${coupontemplates.number}+'&size='+${coupontemplates.size}"
+                           aria-label="Previous">
                             <span aria-hidden="true">&lsaquo; Previous</span>
                         </a>
                     </li>
@@ -122,13 +126,16 @@
                     <!-- 페이지 번호 링크 -->
                     <li class="page-item" th:each="page: ${#numbers.sequence(startPage, endPage)}"
                         th:classappend="${page == coupontemplates.number + 1} ? 'active'">
-                        <a class="page-link" th:href="@{/coupons/issue(page=${page}, size=${coupontemplates.size})}" th:text="${page}"></a>
+                        <a class="page-link" th:href="@{/coupons/issue(page=${page}, size=${coupontemplates.size})}"
+                           th:text="${page}"></a>
                     </li>
 
 
                     <!-- 다음 페이지로 이동  둘다 가능한 방법 -->
                     <li class="page-item" th:classappend="${coupontemplates.last} ? 'disabled'">
-                        <a class="page-link" th:href="${coupontemplates.last} ? '#' : '/coupons/issue?page=' + (${coupontemplates.number} + 2)+'&size='+${coupontemplates.size}" aria-label="Next">
+                        <a class="page-link"
+                           th:href="${coupontemplates.last} ? '#' : '/coupons/issue?page=' + (${coupontemplates.number} + 2)+'&size='+${coupontemplates.size}"
+                           aria-label="Next">
                             <span aria-hidden="true">Next &rsaquo;</span>
                         </a>
                     </li>
@@ -136,14 +143,14 @@
 
                     <!-- 마지막 페이지로 이동 -->
                     <li class="page-item" th:classappend="${coupontemplates.last} ? 'disabled'">
-                        <a class="page-link" th:href="@{/coupons/issue(page=${coupontemplates.totalPages}, size=${coupontemplates.size})}" aria-label="Last">
+                        <a class="page-link"
+                           th:href="@{/coupons/issue(page=${coupontemplates.totalPages}, size=${coupontemplates.size})}"
+                           aria-label="Last">
                             <span aria-hidden="true">Last &raquo;</span>
                         </a>
                     </li>
                 </ul>
             </nav>
-
-
 
 
         </div>
