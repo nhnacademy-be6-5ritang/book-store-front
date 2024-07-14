@@ -8,5 +8,7 @@ public record CouponTemplateCreateRequestDTO(
 
 	LocalDateTime expiredDate,
 
-	LocalDateTime issueDate
+	LocalDateTime issueDate,
+
+	Long quantity
 ) {}
