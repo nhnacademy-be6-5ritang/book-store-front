@@ -16,6 +16,6 @@ public record GetBookCartResponse(
 	BigDecimal bookSalePrice,
 	BigDecimal bookSalePercent,
 	int inventorQuantity,
-	int bookQuantity
+	Long bookQuantity
 ) {
 }
