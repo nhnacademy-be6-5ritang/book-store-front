@@ -30,12 +30,12 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             // PUT 요청 보내기
-            const bookCartId = input.getAttribute('data-bookCart-id');
+            const bookId = input.getAttribute('data-book-id');
             const requestData = {
                 bookQuantity: quantity
             };
 
-            fetch('/api/carts/me/' + bookCartId, {
+            fetch('/api/carts/me/' + bookId, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
