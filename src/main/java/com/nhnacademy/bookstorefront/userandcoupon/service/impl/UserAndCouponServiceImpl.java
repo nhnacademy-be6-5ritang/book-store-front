@@ -9,8 +9,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.nhnacademy.bookstorefront.deliverypolicy.dto.response.GetDeliveryPolicyResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookByOrderCouponResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetListWrappingResponse;
 import com.nhnacademy.bookstorefront.order.feignclient.OrderServiceClient;
+import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.NoCouponResponseDTO;
+import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.OneCouponResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCouponOrderResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCouponResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.feignclient.UserAndCouponFeignClient;
@@ -80,6 +85,101 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 		return userAndCouponFeignClient.getSelectedCoupon(couponId).getBody();
 
 	}
+
+
+
+	@Override
+	public OneCouponResponseDTO oneCouponReturnModel(UserAndCouponOrderResponseDTO userAndCouponOrderResponseDTO, GetBookOrderResponse orderResponse, GetDeliveryPolicyResponse deliveryPolicyResponse, GetListWrappingResponse wrappingResponse) {
+		// 정액쿠폰인지 체크
+		BigDecimal salePrice = userAndCouponOrderResponseDTO.salePrice();
+		BigDecimal saleRate = userAndCouponOrderResponseDTO.saleRate();
+		BigDecimal maxSalePrice = userAndCouponOrderResponseDTO.maxSalePrice();
+		BigDecimal orderPrice= orderResponse.getBookResponse().bookPrice().multiply(BigDecimal.valueOf(orderResponse.quantity()));
+
+		BigDecimal wrappingPrice = wrappingResponse.wrapping().getFirst().price();
+		Integer wrappingQuantity = wrappingResponse.wrapping().getFirst().quantity();
+
+		BigDecimal wrappingTotalPrice= wrappingPrice.multiply(BigDecimal.valueOf(wrappingQuantity));
+
+		BigDecimal deliveryPrice = deliveryPolicyResponse.deliveryPolicyPrice();
+
+		// 할인 금액 및 최종 가격 초기화
+		BigDecimal discount = BigDecimal.ZERO;
+		BigDecimal orderPriceAfterCoupon = orderPrice;
+
+
+
+
+		// 정액 쿠폰 적용
+		if (salePrice != null) {
+			if (orderPrice.compareTo(salePrice) < 0) {
+				discount = orderPrice;
+			} else {
+				discount = salePrice;
+			}
+			orderPriceAfterCoupon = orderPrice.subtract(discount);
+		}
+		// 정률 쿠폰 적용
+		else if (saleRate != null && maxSalePrice != null) {
+			BigDecimal calculatedDiscount = orderPrice.multiply(saleRate);
+			if (calculatedDiscount.compareTo(maxSalePrice) > 0) {
+				calculatedDiscount = maxSalePrice;
+			}
+			if (calculatedDiscount.compareTo(orderPrice) > 0) {
+				discount = orderPrice;
+			} else {
+				discount = calculatedDiscount;
+			}
+			orderPriceAfterCoupon = orderPrice.subtract(discount);
+		}
+
+		// 최종가격
+		BigDecimal	orderPriceBeforePoint= orderPriceAfterCoupon.add(wrappingTotalPrice).add(deliveryPrice);
+
+		// DTO 생성 및 반환
+		return new OneCouponResponseDTO(
+			orderPrice,
+			discount,
+			orderPriceAfterCoupon,
+			orderPriceBeforePoint
+		);
+
+
+	}
+
+
+
+	@Override
+	public NoCouponResponseDTO noCouponReturnModel(GetBookOrderResponse orderResponse, GetDeliveryPolicyResponse deliveryPolicyResponse, GetListWrappingResponse wrappingResponse) {
+		// 정액쿠폰인지 체크
+
+		BigDecimal orderPrice= orderResponse.getBookResponse().bookPrice().multiply(BigDecimal.valueOf(orderResponse.quantity()));
+
+		BigDecimal wrappingPrice = wrappingResponse.wrapping().getFirst().price();
+		Integer wrappingQuantity = wrappingResponse.wrapping().getFirst().quantity();
+
+		BigDecimal wrappingTotalPrice= wrappingPrice.multiply(BigDecimal.valueOf(wrappingQuantity));
+
+		BigDecimal deliveryPrice = deliveryPolicyResponse.deliveryPolicyPrice();
+
+		// 할인 금액 및 최종 가격 초기화
+		BigDecimal discount = BigDecimal.ZERO;
+
+
+
+		// 최종가격
+		BigDecimal	orderPriceBeforePoint= orderPrice.add(wrappingTotalPrice).add(deliveryPrice);
+
+		// DTO 생성 및 반환
+		return new NoCouponResponseDTO(
+			orderPrice,
+			discount,
+			orderPriceBeforePoint
+		);
+
+
+	}
+
 
 
 	@Override
