@@ -18,6 +18,7 @@ import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
 import com.nhnacademy.bookstorefront.delivery.dto.response.GetDeliveryResponse;
 import com.nhnacademy.bookstorefront.delivery.service.impl.DeliveryServiceImpl;
+import com.nhnacademy.bookstorefront.deliverypolicy.dto.response.GetDeliveryPolicyResponse;
 import com.nhnacademy.bookstorefront.deliverypolicy.service.impl.DeliveryPolicyServiceImpl;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateBookOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderListPost;
@@ -43,6 +44,8 @@ import com.nhnacademy.bookstorefront.order.service.Impl.OrderServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.PaperTypeServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.RefundPolicyServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.WrappingPaperServiceImpl;
+import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.NoCouponResponseDTO;
+import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.OneCouponResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCouponOrderResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.service.UserAndCouponService;
 
@@ -112,48 +115,85 @@ public class OrderClientController {
 	public ModelAndView createOrder(@PathVariable("order_list_id") Long orderListId, @PathVariable("delivery_id") Long deliveryId, @RequestParam(value = "couponId", required = false) Long couponId) {
 		ModelAndView modelAndView = new ModelAndView();
 
+
+		// 비회원인경우
 		if(couponId==null){
+
 			GetBookOrderResponse bookOrder = bookOrderServiceImpl.getBookOrder(orderListId);
 			GetListWrappingResponse list = wrappingPaperServiceImpl.getWrappingPaperByOrderListId(orderListId);
+
 			GetUserPointOrderResponse point = orderServiceImpl.getUserPoint();
+
+			BigDecimal deliveryQuantity = new BigDecimal(bookOrder.quantity());
+			deliveryQuantity = bookOrder.getBookResponse().bookPrice().multiply(deliveryQuantity);
+			GetDeliveryPolicyResponse delivery=deliveryPolicyServiceImpl.findByDeliveryPolicyStandardPriceLessThanEqualOrderByDeliveryPolicyStandardPriceDesc(deliveryId, deliveryQuantity);
+
+			GetListWrappingResponse wrappingList= wrappingPaperServiceImpl.getWrappingPaperByOrderListId(orderListId);
+
 			BigDecimal total = BigDecimal.ZERO;
+
 			for (GetWrappingResponse getWrappingResponse : list.wrapping()) {
 				BigDecimal paperQuantity = new BigDecimal(getWrappingResponse.quantity());
 				BigDecimal multiply = getWrappingResponse.price().multiply(paperQuantity);
 				total = total.add(multiply);
 			}
-			BigDecimal deliveryQuantity = new BigDecimal(bookOrder.quantity());
-			deliveryQuantity = bookOrder.getBookResponse().bookPrice().multiply(deliveryQuantity);
+
+			NoCouponResponseDTO noResult=userAndCouponService.noCouponReturnModel(bookOrder, delivery, wrappingList);
+
+			modelAndView.addObject("noResultByNone", noResult);
 			modelAndView.addObject("orderList", bookOrder);
 			modelAndView.addObject("orderListId", orderListId);
 			modelAndView.addObject("deliveryId", deliveryId);
-			modelAndView.addObject("wrappingList", wrappingPaperServiceImpl.getWrappingPaperByOrderListId(orderListId));
+			modelAndView.addObject("wrappingList", wrappingList);
 			modelAndView.addObject("total", total);
-			modelAndView.addObject("delivery", deliveryPolicyServiceImpl.findByDeliveryPolicyStandardPriceLessThanEqualOrderByDeliveryPolicyStandardPriceDesc(deliveryId, deliveryQuantity));
+			modelAndView.addObject("delivery", delivery);
 			modelAndView.addObject("point", point);
 			modelAndView.setViewName("order/checkout");
+
+
+			//회원인 경우
 		} else {
-			if(couponId!=0){
-				UserAndCouponOrderResponseDTO selectCoupon = userAndCouponService.getSelectedCouponByOrder(couponId);
-				modelAndView.addObject("selectCoupon", selectCoupon);
-			}
+
+
 			GetBookOrderResponse bookOrder = bookOrderServiceImpl.getBookOrder(orderListId);
 			GetListWrappingResponse list = wrappingPaperServiceImpl.getWrappingPaperByOrderListId(orderListId);
+
 			GetUserPointOrderResponse point = orderServiceImpl.getUserPoint();
+
+			BigDecimal deliveryQuantity = new BigDecimal(bookOrder.quantity());
+			deliveryQuantity = bookOrder.getBookResponse().bookPrice().multiply(deliveryQuantity);
+			GetDeliveryPolicyResponse delivery=deliveryPolicyServiceImpl.findByDeliveryPolicyStandardPriceLessThanEqualOrderByDeliveryPolicyStandardPriceDesc(deliveryId, deliveryQuantity);
+
+			GetListWrappingResponse wrappingList= wrappingPaperServiceImpl.getWrappingPaperByOrderListId(orderListId);
+
 			BigDecimal total = BigDecimal.ZERO;
+
 			for (GetWrappingResponse getWrappingResponse : list.wrapping()) {
 				BigDecimal paperQuantity = new BigDecimal(getWrappingResponse.quantity());
 				BigDecimal multiply = getWrappingResponse.price().multiply(paperQuantity);
 				total = total.add(multiply);
 			}
-			BigDecimal deliveryQuantity = new BigDecimal(bookOrder.quantity());
-			deliveryQuantity = bookOrder.getBookResponse().bookPrice().multiply(deliveryQuantity);
+			// 쿠폰 선택한경우
+			if(couponId!=0){
+				UserAndCouponOrderResponseDTO selectCoupon = userAndCouponService.getSelectedCouponByOrder(couponId);
+				OneCouponResponseDTO oneResult=userAndCouponService.oneCouponReturnModel(selectCoupon, bookOrder, delivery, wrappingList);
+				modelAndView.addObject("selectCoupon", selectCoupon);
+				modelAndView.addObject("oneResult", oneResult);
+
+				// 쿠폰선택하지 않은경우
+			} else {
+				NoCouponResponseDTO noResult=userAndCouponService.noCouponReturnModel(bookOrder, delivery, wrappingList);
+				modelAndView.addObject("noResult", noResult);
+
+			}
+
+
 			modelAndView.addObject("orderList", bookOrder);
 			modelAndView.addObject("orderListId", orderListId);
 			modelAndView.addObject("deliveryId", deliveryId);
-			modelAndView.addObject("wrappingList", wrappingPaperServiceImpl.getWrappingPaperByOrderListId(orderListId));
+			modelAndView.addObject("wrappingList", wrappingList);
 			modelAndView.addObject("total", total);
-			modelAndView.addObject("delivery", deliveryPolicyServiceImpl.findByDeliveryPolicyStandardPriceLessThanEqualOrderByDeliveryPolicyStandardPriceDesc(deliveryId, deliveryQuantity));
+			modelAndView.addObject("delivery", delivery);
 			modelAndView.addObject("point", point);
 			modelAndView.setViewName("order/checkout");
 		}
