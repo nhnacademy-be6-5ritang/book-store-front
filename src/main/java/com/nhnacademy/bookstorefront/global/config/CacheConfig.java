@@ -13,6 +13,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
+import com.nhnacademy.bookstorefront.book.service.BookService;
 import com.nhnacademy.bookstorefront.category.dto.response.GetCategoryResponse;
 import com.nhnacademy.bookstorefront.category.service.CategoryService;
 
@@ -31,6 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class CacheConfig {
 	private final CategoryService categoryService;
+	private final BookService bookService;
 
 	/**
 	 * 캐시를 관리합니다.
@@ -61,6 +64,42 @@ public class CacheConfig {
 			return categoryService.getCategories();
 		} catch (FeignException e) {
 			log.warn("카테고리 목록 가져오기 실패: {}", e.getMessage());
+			return Collections.emptyList();
+		}
+	}
+
+	@Scheduled(fixedRate = 300000) // 5분마다 캐시 갱신
+	@CacheEvict(value = {"orderedBooksCache", "likesBooksCache", "newestBooksCache"}, allEntries = true) // 기존 캐시 제거
+	public void refreshMainPageCache() {
+		log.info("Main Page Refresh cache completed.");
+	}
+
+	@Cacheable(value = "orderedBooksCache")
+	public List<GetBookDetailResponse> getOrderedBooks() {
+		try {
+			return bookService.getOrderedBooks();
+		} catch (FeignException e) {
+			log.warn("최다 주문 도서 목록 가져오기 실패: {}", e.getMessage());
+			return Collections.emptyList();
+		}
+	}
+
+	@Cacheable(value = "likesBooksCache")
+	public List<GetBookDetailResponse> getLikesBooks() {
+		try {
+			return bookService.getLikesBooks();
+		} catch (FeignException e) {
+			log.warn("최다 좋아요 도서 목록 가져오기 실패: {}", e.getMessage());
+			return Collections.emptyList();
+		}
+	}
+
+	@Cacheable(value = "newestBooksCache")
+	public List<GetBookDetailResponse> getNewestBooks() {
+		try {
+			return bookService.getNewestBooks();
+		} catch (FeignException e) {
+			log.warn("최다 주문 도서 목록 가져오기 실패: {}", e.getMessage());
 			return Collections.emptyList();
 		}
 	}

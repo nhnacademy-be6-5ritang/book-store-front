@@ -17,6 +17,7 @@ import com.nhnacademy.bookstorefront.bookcart.dto.request.UpdateBookCartRequest;
 import com.nhnacademy.bookstorefront.bookcart.service.BookCartService;
 
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -52,7 +53,7 @@ public class BookCartController {
 	 * @return HTTP 상태 코드와 함께 응답을 반환합니다.
 	 */
 	@PostMapping
-	public ResponseEntity<Void> createBookCart(@RequestBody CreateBookCartRequest request,
+	public ResponseEntity<Void> createBookCart(@Valid @RequestBody CreateBookCartRequest request,
 		@CookieValue(name = "cartId", required = false) String cartId) {
 		return bookCartService.createBookCart(request, cartId);
 	}

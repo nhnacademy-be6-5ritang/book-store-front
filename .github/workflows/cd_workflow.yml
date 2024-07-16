@@ -90,6 +90,6 @@ jobs:
           script_stop: true
           script: |
             echo "Starting new application..."
-            nohup java -jar ~/target/BOOK-STORE-FRONT.jar --spring.profiles.active=${{secrets.SPRING_PROFILE}} --server.port=${{ secrets.FRONT_PORT_B }} > FRONT-B.log 2>&1 &
+            nohup java -jar ~/target/BOOK-STORE-FRONT.jar --spring.profiles.active=prod --server.port=${{ secrets.FRONT_PORT_B }} > FRONT-B.log 2>&1 &
             echo "New application started. Check app.log for details."
 

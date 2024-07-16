@@ -15,6 +15,7 @@ import com.nhnacademy.bookstorefront.delivery.dto.request.UpdateDeliveryByOrderI
 import com.nhnacademy.bookstorefront.delivery.dto.response.CreateDeliveryResponse;
 import com.nhnacademy.bookstorefront.delivery.service.DeliveryService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -32,7 +33,8 @@ public class DeliveryController {
 	}
 
 	@PostMapping("{order_list_id}")
-	public String createDeliveriesPage(@ModelAttribute CreateDeliveryRequest createDeliveryRequest,@PathVariable("order_list_id") Long orderListId) {
+	public String createDeliveriesPage(@Valid @ModelAttribute CreateDeliveryRequest createDeliveryRequest,
+		@PathVariable("order_list_id") Long orderListId) {
 		CreateDeliveryResponse response = deliveryService.createDelivery(createDeliveryRequest);
 		return "redirect:/coupons/orders/" + orderListId + "/users/" + response.deliveryId();
 	}
@@ -63,10 +65,10 @@ public class DeliveryController {
 	}
 
 	@PostMapping("/{orderId}/sender")
-	public String updateDeliveryByOrderId(@PathVariable("orderId") Long orderId, @ModelAttribute UpdateDeliveryByOrderIdRequest request) {
+	public String updateDeliveryByOrderId(@PathVariable("orderId") Long orderId,
+		@Valid @ModelAttribute UpdateDeliveryByOrderIdRequest request) {
 		deliveryService.updateDeliveryByOrderId(orderId, request);
 		return "redirect:/api/orders/admin/order-status/going";
 	}
-
 
 }
