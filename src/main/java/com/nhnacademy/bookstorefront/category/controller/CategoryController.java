@@ -24,6 +24,7 @@ import com.nhnacademy.bookstorefront.category.dto.response.GetCategoryResponse;
 import com.nhnacademy.bookstorefront.category.service.impl.CategoryServiceImpl;
 import com.nhnacademy.bookstorefront.global.util.PagingModel;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -41,6 +42,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/categories")
 public class CategoryController {
 	private final CategoryServiceImpl categoryService;
+	private static final String REDIRECT_URL = "redirect:/api/categories/page";
 
 	/**
 	 * 새로운 카테고리 생성 폼을 반환합니다.
@@ -103,9 +105,9 @@ public class CategoryController {
 	 * @return 카테고리 리스트 페이지로 리다이렉트
 	 */
 	@PostMapping
-	public String createCategory(@ModelAttribute CreateCategoryRequest request) {
+	public String createCategory(@Valid @ModelAttribute CreateCategoryRequest request) {
 		categoryService.createCategory(request);
-		return "redirect:/api/categories/page";
+		return REDIRECT_URL;
 	}
 
 	/**
@@ -116,9 +118,9 @@ public class CategoryController {
 	 * @return 카테고리 리스트 페이지로 리다이렉트
 	 */
 	@PutMapping("/{categoryId}")
-	public String updateCategory(@PathVariable Long categoryId, @ModelAttribute UpdateCategoryRequest request) {
+	public String updateCategory(@PathVariable Long categoryId, @Valid @ModelAttribute UpdateCategoryRequest request) {
 		categoryService.updateCategory(categoryId, request);
-		return "redirect:/api/categories/page";
+		return REDIRECT_URL;
 	}
 
 	/**
@@ -130,7 +132,7 @@ public class CategoryController {
 	@DeleteMapping("/{categoryId}")
 	public String deleteCategory(@PathVariable Long categoryId) {
 		categoryService.deleteCategory(categoryId);
-		return "redirect:/api/categories/page";
+		return REDIRECT_URL;
 	}
 
 	@GetMapping("/search/test")

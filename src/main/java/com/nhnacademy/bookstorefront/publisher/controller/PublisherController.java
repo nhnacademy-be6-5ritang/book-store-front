@@ -17,6 +17,7 @@ import com.nhnacademy.bookstorefront.global.util.PagingModel;
 import com.nhnacademy.bookstorefront.publisher.dto.response.PublisherDto;
 import com.nhnacademy.bookstorefront.publisher.service.impl.PublisherServiceImpl;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -95,7 +96,7 @@ public class PublisherController {
 	 * @return 출판사 리스트 페이지로 리다이렉트
 	 */
 	@PostMapping
-	public String createPublisher(@ModelAttribute PublisherDto request) {
+	public String createPublisher(@Valid @ModelAttribute PublisherDto request) {
 		publisherService.createPublisher(request);
 		return "redirect:/api/publishers/page";
 	}
@@ -108,7 +109,7 @@ public class PublisherController {
 	 * @return 출판사 리스트 페이지로 리다이렉트
 	 */
 	@PutMapping("/{publisherId}")
-	public String updatePublisher(@PathVariable Long publisherId, @ModelAttribute PublisherDto request) {
+	public String updatePublisher(@PathVariable Long publisherId, @Valid @ModelAttribute PublisherDto request) {
 		publisherService.updatePublisher(publisherId, request);
 		return "redirect:/api/publishers/page";
 	}

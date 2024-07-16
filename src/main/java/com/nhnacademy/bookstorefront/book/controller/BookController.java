@@ -29,6 +29,7 @@ import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
 import com.nhnacademy.bookstorefront.review.service.ReviewService;
 import com.nhnacademy.bookstorefront.tag.service.impl.TagServiceImpl;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -181,7 +182,7 @@ public class BookController {
 	 * @return 책 리스트 페이지로 리다이렉트
 	 */
 	@PostMapping
-	public String createBook(@ModelAttribute CreateBookRequest request) {
+	public String createBook(@Valid @ModelAttribute CreateBookRequest request) {
 		bookService.createBook(request);
 		return "redirect:/api/books/page";
 	}
@@ -194,7 +195,7 @@ public class BookController {
 	 * @return 수정된 책 정보 페이지로 리다이렉트
 	 */
 	@PutMapping("/{bookId}")
-	public String updateBookById(@PathVariable Long bookId, @ModelAttribute UpdateBookRequest request) {
+	public String updateBookById(@PathVariable Long bookId, @Valid @ModelAttribute UpdateBookRequest request) {
 		bookService.updateBookById(bookId, request);
 		return "redirect:/api/books/detail/" + bookId;
 	}
