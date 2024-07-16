@@ -1,6 +1,9 @@
 package com.nhnacademy.bookstorefront.order.feignclient;
 
+import java.util.List;
+
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +19,7 @@ import com.nhnacademy.bookstorefront.order.dto.request.CreateRefundPolicyRequest
 import com.nhnacademy.bookstorefront.order.dto.request.OrderCheckNonRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.UpdateRefundPolicyRequest;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateBookOrderResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.CreateCartOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
@@ -102,6 +106,12 @@ public interface OrderServiceClient {
 
 	@GetMapping("/api/orders/refunded/{orderInfoId}")
 	ResponseEntity<Void> refundedOrder(@PathVariable("orderInfoId") String orderInfoId);
+
+	@GetMapping("/api/orders/cart-orders")
+	ResponseEntity<CreateCartOrderResponse> createCartOrders();
+
+	@GetMapping("/api/orders/book-orders/cart-order/{orderInfoId}")
+	ResponseEntity<List<GetBookOrderResponse>> getCartOrder(@PathVariable("orderInfoId") String orderInfoId);
 
 
 	/**

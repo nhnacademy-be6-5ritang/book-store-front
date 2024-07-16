@@ -147,6 +147,58 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 
 	}
 
+	@Override
+	public OneCouponResponseDTO oneCouponReturnModelCart(UserAndCouponOrderResponseDTO userAndCouponOrderResponseDTO,BigDecimal orderPrice,BigDecimal deliveryPrice, BigDecimal wrappingTotalPrice) {
+		// 정액쿠폰인지 체크
+		BigDecimal salePrice = userAndCouponOrderResponseDTO.salePrice();
+		BigDecimal saleRate = userAndCouponOrderResponseDTO.saleRate();
+		BigDecimal maxSalePrice = userAndCouponOrderResponseDTO.maxSalePrice();
+
+
+		// 할인 금액 및 최종 가격 초기화
+		BigDecimal discount = BigDecimal.ZERO;
+		BigDecimal orderPriceAfterCoupon = orderPrice;
+
+
+
+
+		// 정액 쿠폰 적용
+		if (salePrice != null) {
+			if (orderPrice.compareTo(salePrice) < 0) {
+				discount = orderPrice;
+			} else {
+				discount = salePrice;
+			}
+			orderPriceAfterCoupon = orderPrice.subtract(discount);
+		}
+		// 정률 쿠폰 적용
+		else if (saleRate != null && maxSalePrice != null) {
+			BigDecimal calculatedDiscount = orderPrice.multiply(saleRate);
+			if (calculatedDiscount.compareTo(maxSalePrice) > 0) {
+				calculatedDiscount = maxSalePrice;
+			}
+			if (calculatedDiscount.compareTo(orderPrice) > 0) {
+				discount = orderPrice;
+			} else {
+				discount = calculatedDiscount;
+			}
+			orderPriceAfterCoupon = orderPrice.subtract(discount);
+		}
+
+		// 최종가격
+		BigDecimal	orderPriceBeforePoint= orderPriceAfterCoupon.add(wrappingTotalPrice).add(deliveryPrice);
+
+		// DTO 생성 및 반환
+		return new OneCouponResponseDTO(
+			orderPrice,
+			discount,
+			orderPriceAfterCoupon,
+			orderPriceBeforePoint
+		);
+
+
+	}
+
 
 
 	@Override
@@ -166,6 +218,24 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 		BigDecimal discount = BigDecimal.ZERO;
 
 
+
+		// 최종가격
+		BigDecimal	orderPriceBeforePoint= orderPrice.add(wrappingTotalPrice).add(deliveryPrice);
+
+		// DTO 생성 및 반환
+		return new NoCouponResponseDTO(
+			orderPrice,
+			discount,
+			orderPriceBeforePoint
+		);
+
+
+	}
+
+	@Override
+	public NoCouponResponseDTO noCouponReturnModelCart(BigDecimal orderPrice,BigDecimal deliveryPrice, BigDecimal wrappingTotalPrice) {
+		// 할인 금액 및 최종 가격 초기화
+		BigDecimal discount = BigDecimal.ZERO;
 
 		// 최종가격
 		BigDecimal	orderPriceBeforePoint= orderPrice.add(wrappingTotalPrice).add(deliveryPrice);

@@ -1,5 +1,7 @@
 package com.nhnacademy.bookstorefront.order.service.Impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.order.dto.request.CreateBookOrderRequest;
@@ -32,4 +34,8 @@ public class BookOrderServiceImpl implements BookOrderService {
 		return orderServiceClient.getBookOrder(bookOrderId).getBody();
 	}
 
+	@Override
+	public List<GetBookOrderResponse> getBookOrderByOrderId(String orderInfoId) {
+		return orderServiceClient.getCartOrder(orderInfoId).getBody();
+	}
 }
