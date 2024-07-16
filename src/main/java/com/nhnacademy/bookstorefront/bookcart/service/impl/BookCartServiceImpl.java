@@ -23,7 +23,6 @@ public class BookCartServiceImpl implements BookCartService {
 	public List<GetBookCartResponse> getBookCartsByCartId(String cartId, HttpServletResponse resp) {
 		ResponseEntity<List<GetBookCartResponse>> responseEntity = bookCartServiceClient.getBookCartsByCartId(cartId);
 		CookieUtil.responseCookies(responseEntity.getHeaders(), resp);
-
 		return responseEntity.getBody();
 	}
 
@@ -35,7 +34,7 @@ public class BookCartServiceImpl implements BookCartService {
 		return bookCartServiceClient.updateBookCart(bookId, request, cartId);
 	}
 
-	public void deleteBookCart(Long bookId, String cartId) {
-		bookCartServiceClient.deleteBookCart(bookId, cartId);
+	public ResponseEntity<Void> deleteBookCart(Long bookId, String cartId) {
+		return bookCartServiceClient.deleteBookCart(bookId, cartId);
 	}
 }

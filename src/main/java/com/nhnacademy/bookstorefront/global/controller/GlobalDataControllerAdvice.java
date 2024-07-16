@@ -9,9 +9,8 @@ import com.nhnacademy.bookstorefront.global.config.CacheConfig;
 import lombok.RequiredArgsConstructor;
 
 /**
+ * @author 이경헌
  * 전역 데이터를 처리하는 컨트롤러 어드바이스 클래스입니다.
- *
- * @version 1.0
  */
 @ControllerAdvice
 @RequiredArgsConstructor

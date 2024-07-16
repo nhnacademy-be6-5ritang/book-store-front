@@ -24,7 +24,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class PointController {
-
 	private final PointEarningPolicyServiceImpl pointEarningPolicyService;
 	private final PointTransactionServiceImpl pointTransactionService;
 
@@ -44,6 +43,7 @@ public class PointController {
 		modelAndView.setViewName("point/policyAdmin");
 		return modelAndView;
 	}
+
 	@GetMapping("/point-earning-policies/admin/{policyId}/deactivate")
 	public ModelAndView earningPoliciesAdminDeactivate(@PathVariable Long policyId) {
 		pointEarningPolicyService.deactivatePointEarningPolicy(policyId);
@@ -59,6 +59,7 @@ public class PointController {
 		modelAndView.setViewName("point/create");
 		return modelAndView;
 	}
+
 	@PostMapping("/point-earning-policies/admin")
 	public ModelAndView createPointEarningPolicy(@ModelAttribute CreatePointEarningPolicyRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -76,7 +77,8 @@ public class PointController {
 	}
 
 	@PostMapping("/point-earning-policies/admin/{policyId}")
-	public ModelAndView updatePointEarningPolicy(@PathVariable Long policyId, @ModelAttribute UpdatePointEarningPolicyRequest request) {
+	public ModelAndView updatePointEarningPolicy(@PathVariable Long policyId,
+		@ModelAttribute UpdatePointEarningPolicyRequest request) {
 		pointEarningPolicyService.updatePointEarningPolicy(policyId, request);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("redirect:/api/point-earning-policies/admin");
@@ -85,15 +87,15 @@ public class PointController {
 
 	@GetMapping("/point-transactions")
 	public ModelAndView transactions(@PageableDefault(page = 1) Pageable pageable) {
-		Page<GetPointTransactionResponse> pointTransactions= pointTransactionService.getPointTransactions(pageable);
+		Page<GetPointTransactionResponse> pointTransactions = pointTransactionService.getPointTransactions(pageable);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("pointTransactions", pointTransactions);
 		modelAndView.addObject("objects", pointTransactions); // 공통 객체 이름
 		modelAndView.addObject("baseUrl", "/api/point-transactions"); // 페이징 URL
 
-
 		int blockLimit = 3;
-		int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
+		int startPage =
+			(((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
 		int endPage = Math.min((startPage + blockLimit - 1), pointTransactions.getTotalPages());
 
 		modelAndView.addObject("pageable", pageable);
@@ -107,14 +109,16 @@ public class PointController {
 
 	@GetMapping("/point-transactions/admin")
 	public ModelAndView transactionsAdmin(@PageableDefault(page = 1) Pageable pageable) {
-		Page<GetAllPointTransactionResponse> pointTransactions= pointTransactionService.getAllPointTransactions(pageable);
+		Page<GetAllPointTransactionResponse> pointTransactions = pointTransactionService.getAllPointTransactions(
+			pageable);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("pointTransactions", pointTransactions);
 		modelAndView.addObject("objects", pointTransactions); // 공통 객체 이름
 		modelAndView.addObject("baseUrl", "/api/point-transactions/admin"); // 페이징 URL
 
 		int blockLimit = 3;
-		int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
+		int startPage =
+			(((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
 		int endPage = Math.min((startPage + blockLimit - 1), pointTransactions.getTotalPages());
 
 		modelAndView.addObject("pageable", pageable);
