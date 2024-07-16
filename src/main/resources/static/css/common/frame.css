@@ -22,3 +22,8 @@ hr {
 a {
     cursor: pointer;
 }
+
+a:hover {
+    text-decoration: none;
+    color: #333333;
+}

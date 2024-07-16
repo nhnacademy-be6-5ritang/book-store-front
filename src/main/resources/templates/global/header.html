@@ -1,88 +1,88 @@
 <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/header/header.css}"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 
-<div class="auth-container top-container">
-    <img th:src="@{/image/NHN_ACADEMY_LOGO.png}" alt="">
-    <div class="profile-container">
+<section id="header">
+    <div class="auth-container top-container">
+        <img th:src="@{/image/NHN_ACADEMY_LOGO.png}" alt="">
+        <div class="profile-container">
+        </div>
     </div>
-</div>
 
-<div class="top-container logo-search-container">
-    <div class="logo-container">
-        <a th:href="@{/api/books/main}" class="site-brand">
-            <img class="logo-image" th:src="@{/image/ORITANG_BANNER_LIGHT.png}" alt="">
-        </a>
+    <div class="top-container logo-search-container">
+        <div class="logo-container">
+            <a th:href="@{/api/books/main}" class="site-brand">
+                <img class="logo-image" th:src="@{/image/ORITANG_BANNER_LIGHT.png}" alt="">
+            </a>
+        </div>
+        <div>
+            <form class="search-form">
+                <label>
+                    <input class="search-input" type="text" placeholder="찾고 싶은 도서를 검색해보세요">
+                </label>
+                <button class="search-button">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+        </div>
     </div>
-    <div>
-        <form class="search-form">
-            <label>
-                <input class="search-input" type="text" placeholder="찾고 싶은 도서를 검색해보세요">
-            </label>
-            <button class="search-button">
-                <i class="fa-solid fa-magnifying-glass"></i>
+
+    <div class="top-container">
+        <hr>
+    </div>
+
+    <div class="menu-container top-container">
+        <div class="menu-category-container">
+            <button id="category-menu-button" class="menu-button">
+                <i class="fa-solid fa-bars"></i>
+                <span class="menu-tag">카테고리</span>
             </button>
-        </form>
-    </div>
-</div>
+        </div>
+        <div class="categories-container">
+            <div th:each="category : ${categoriesCache}" th:if="${#strings.isEmpty(category.parentCategoryName)}">
+                <a th:href="@{/api/books/page/category (categoryName=${category.categoryName})}"
+                   th:text="${category.categoryName}"
+                   th:id="${category.categoryName}"></a>
+                <div class="sub-menu">
+                    <ul>
+                        <li th:each="subCategory : ${categoriesCache}"
+                            th:if="${subCategory.parentCategoryName == category.categoryName}">
+                            <a th:href="@{/api/books/page/category (categoryName=${subCategory.categoryName})}"
+                               th:text="${subCategory.categoryName}"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-<div class="top-container">
-    <hr>
-</div>
 
-<div class="menu-container top-container">
-    <div class="menu-category-container">
-        <button id="category-menu-button" class="menu-button">
-            <i class="fa-solid fa-bars"></i>
-            <span class="menu-tag">카테고리</span>
-        </button>
+        <div class="menu-button-container">
+            <a th:href="@{/api/wishLists}">
+                <div class="menu-button">
+                    <i class="fa-solid fa-heart"></i>
+                    <span class="menu-tag">좋아요</span>
+                </div>
+            </a>
+            <a th:href="@{/api/carts/me}">
+                <div class="menu-button">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="menu-tag">장바구니</span>
+                </div>
+            </a>
+            <a th:href="@{/checkout}">
+                <div class="menu-button">
+                    <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                    <span class="menu-tag">주문</span>
+                </div>
+            </a>
+            <a th:href="@{/api/users/me}">
+                <div class="menu-button">
+                    <i class="fa-solid fa-user"></i>
+                    <span class="menu-tag">마이페이지</span>
+                </div>
+            </a>
+        </div>
     </div>
-    <ul class="category-menu">
-        <!--TODO: 카테고리 안 나옴-->
-        <li th:each="category : ${categoriesCache}"
-            th:if="${#strings.isEmpty(category.parentCategoryName)}"
-            class="cat-item has-children">
-            <a th:href="@{/api/books/page/category (categoryName=${category.categoryName})}"
-               th:text="${category.categoryName}"></a>
-            <ul class="sub-menu">
-                <li th:each="subCategory : ${categoriesCache}"
-                    th:if="${subCategory.parentCategoryName == category.categoryName}">
-                    <a th:href="@{/api/books/page/category (categoryName=${subCategory.categoryName})}"
-                       th:text="${subCategory.categoryName}"></a>
-                </li>
-            </ul>
-        </li>
-        <li class="cat-item"><a th:href="@{#}" class="js-expand-hidden-menu">More
-            Categories</a>
-        </li>
-    </ul>
-
-    <div class="menu-button-container">
-        <a th:href="@{/api/wishLists}">
-            <div class="menu-button">
-                <i class="fa-solid fa-heart"></i>
-                <span class="menu-tag">좋아요</span>
-            </div>
-        </a>
-        <a th:href="@{/api/carts/me}">
-            <div class="menu-button">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span class="menu-tag">장바구니</span>
-            </div>
-        </a>
-        <a th:href="@{/checkout}">
-            <div class="menu-button">
-                <i class="fa-solid fa-circle-dollar-to-slot"></i>
-                <span class="menu-tag">주문</span>
-            </div>
-        </a>
-        <a th:href="@{/api/users/me}">
-            <div class="menu-button">
-                <i class="fa-solid fa-user"></i>
-                <span class="menu-tag">마이페이지</span>
-            </div>
-        </a>
-    </div>
-</div>
+</section>
 
 <!-- 로그인 상태에 따라 헤더 변경 -->
 <script th:src="@{/js/header/login.js}"></script>
