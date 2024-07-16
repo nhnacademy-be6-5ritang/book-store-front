@@ -1,0 +1,156 @@
+#main-banner-section {
+    height: 26rem;
+}
+
+.main-banner-container {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 9fr 5fr;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: #F2F2F2;
+    border-radius: 16px;
+}
+
+.duck-stew-banner {
+    border-radius: 8px;
+    background-color: #FFF0D1;
+}
+
+.duck-stew-banner-image, .birthday-coupon-image, .event-banner-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    border-radius: 8px;
+}
+
+.banner {
+    border: 1px solid #797979;
+}
+
+.sub-banner-container {
+    display: grid;
+    grid-template-rows: 2fr 5fr;
+    gap: 1rem;
+}
+
+.coupon-banner {
+    border-radius: 8px;
+    background-color: #F8DDDC;
+}
+
+.event-banner {
+    display: grid;
+    place-items: center;
+    background-color: #0DA050;
+    border-radius: 8px;
+}
+
+.book-list-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: center;
+}
+
+.book-carousel {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.slick-prev, .slick-next {
+    font-size: 2rem;
+    color: #797979;
+}
+
+.slick-prev:hover, .slick-next :hover {
+    color: #333333;
+}
+
+.book {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #F2F2F2;
+    padding: 0.5rem;
+    margin: 0.3rem;
+    border-radius: 8px;
+}
+
+.book-thumbnail-container {
+    width: 100%;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    background-color: #a8a8a8;
+}
+
+.book-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border: 1px solid #797979;
+    border-radius: 4px;
+}
+
+.book-author {
+    position: relative;
+    top: -5px;
+    font-size: 12px;
+}
+
+.book-info {
+    text-align: start;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #333333;
+    padding-top: 10px;
+}
+
+.book-title {
+    margin-bottom: 0;
+}
+
+.book-title-link {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.book-price {
+    font-size: 1.2rem;
+}
+
+.price-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.original-price-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    text-align: end;
+    font-size: 12px;
+}
+
+.book-original-price {
+    color: #797979;
+}
+
+.book-price-discount {
+    color: #a80000;
+}
