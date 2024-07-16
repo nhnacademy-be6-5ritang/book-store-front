@@ -17,7 +17,7 @@ public class CookieUtil {
 	}
 
 	/**
-	 * 주어진 HttpHeaders에서 Set-Cookie 헤더를 가져와 HttpServletResponse에 쿠키를 추가합니다.
+	 * 주어진 HttpHeaders 에서 Set-Cookie 헤더를 가져와 HttpServletResponse 에 쿠키를 추가합니다.
 	 *
 	 * @param headers 쿠키가 포함된 HttpHeaders 객체입니다.
 	 * @param resp    쿠키를 추가할 HttpServletResponse 객체입니다.
