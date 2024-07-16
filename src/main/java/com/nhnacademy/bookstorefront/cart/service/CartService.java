@@ -5,7 +5,8 @@ import org.springframework.http.ResponseEntity;
 import com.nhnacademy.bookstorefront.cart.dto.response.GetCartResponse;
 
 /**
- * CartService는 장바구니와 관련된 비즈니스 로직을 처리하는 인터페이스입니다.
+ * @author 이경헌
+ * 장바구니와 관련된 비즈니스 로직을 처리하는 인터페이스입니다.
  */
 public interface CartService {
 

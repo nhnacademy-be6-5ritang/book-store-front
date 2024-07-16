@@ -11,5 +11,4 @@ public interface UploadServiceClient {
 
 	@PostMapping(consumes = "multipart/form-data")
 	ResponseEntity<String> upload(@RequestPart("file") MultipartFile file);
-
 }

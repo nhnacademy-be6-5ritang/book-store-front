@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookTitleResponse;
+import com.nhnacademy.bookstorefront.point.dto.response.GetPointTransactionResponse;
+import com.nhnacademy.bookstorefront.point.feignclient.PointServiceClient;
 import com.nhnacademy.bookstorefront.review.dto.request.CreateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.request.UpdateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
@@ -22,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class ReviewServiceImpl implements ReviewService {
 	private final ReviewServiceClient reviewServiceClient;
 	private final UploadServiceClient uploadServiceClient;
+	private final PointServiceClient pointServiceClient;
 
 	@Override
 	public Page<GetReviewResponse> getReviews(Pageable pageable) {
@@ -59,13 +62,15 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public void createReview(CreateReviewRequest request, MultipartFile file) {
+	public GetPointTransactionResponse createReview(CreateReviewRequest request, MultipartFile file) {
 		String fileName = null;
+		String reviewType = "REVIEW";
 		if (!file.isEmpty()) {
 			fileName = uploadServiceClient.upload(file).getBody();
+			reviewType = "PHOTO_REVIEW";
 		}
-
 		reviewServiceClient.createReview(CreateReviewRequest.from(request, fileName));
+		return pointServiceClient.reviewPointTransaction(reviewType).getBody();
 	}
 
 	@Override

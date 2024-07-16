@@ -16,45 +16,87 @@ import com.nhnacademy.bookstorefront.deliverystatus.service.DeliveryStatusServic
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * @author 이경헌
+ * 배송 상태 관련 요청을 처리하는 컨트롤러입니다.
+ */
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/deliveryStatuses")
 public class DeliveryStatusController {
 	private final DeliveryStatusService deliveryStatusService;
+	private static final String REDIRECT_URL = "redirect:/api/deliveryStatuses";
 
+	/**
+	 * 새로운 배송 상태 생성 폼을 반환합니다.
+	 *
+	 * @return 새로운 배송 상태 생성 폼의 경로
+	 */
 	@GetMapping("/create")
 	public String createDeliveryStatusForm() {
 		return "deliveryStatus/create-delivery-status";
 	}
 
+	/**
+	 * 주어진 배송 상태 ID에 해당하는 배송 상태를 수정하는 폼을 반환합니다.
+	 *
+	 * @param deliveryStatusId 수정할 배송 상태의 ID
+	 * @param model             Model 객체
+	 * @return 배송 상태 수정 폼의 경로
+	 */
 	@GetMapping("/update/{deliveryStatusId}")
 	public String updateDeliveryStatusForm(@PathVariable Long deliveryStatusId, Model model) {
 		model.addAttribute("deliveryStatus", deliveryStatusService.getDeliveryStatus(deliveryStatusId));
 		return "deliveryStatus/update-delivery-status";
 	}
 
+	/**
+	 * 모든 배송 상태 목록을 조회하여 화면에 표시합니다.
+	 *
+	 * @param model Model 객체
+	 * @return 배송 상태 목록 화면의 경로
+	 */
 	@GetMapping
 	public String listDeliveryStatuses(Model model) {
 		model.addAttribute("deliveryStatuses", deliveryStatusService.getDeliveryStatuses());
 		return "deliveryStatus/list-delivery-status";
 	}
 
+	/**
+	 * 새로운 배송 상태를 생성합니다.
+	 *
+	 * @param request 생성할 배송 상태 정보를 담은 요청 객체
+	 * @return 배송 상태 목록 화면으로 리다이렉트
+	 */
 	@PostMapping
 	public String createDeliveryStatus(@ModelAttribute CreateDeliveryStatusRequest request) {
 		deliveryStatusService.createDeliveryStatus(request);
-		return "redirect:/api/deliveryStatuses";
+		return REDIRECT_URL;
 	}
 
+	/**
+	 * 주어진 배송 상태 ID에 해당하는 배송 상태를 수정합니다.
+	 *
+	 * @param deliveryStatusId 수정할 배송 상태의 ID
+	 * @param request          수정할 배송 상태 정보를 담은 요청 객체
+	 * @return 배송 상태 목록 화면으로 리다이렉트
+	 */
 	@PutMapping("/{deliveryStatusId}")
 	public String updateDeliveryStatus(@PathVariable Long deliveryStatusId,
 		@ModelAttribute UpdateDeliveryStatusRequest request) {
 		deliveryStatusService.updateDeliveryStatus(deliveryStatusId, request);
-		return "redirect:/api/deliveryStatuses";
+		return REDIRECT_URL;
 	}
 
+	/**
+	 * 주어진 배송 상태 ID에 해당하는 배송 상태를 삭제합니다.
+	 *
+	 * @param deliveryStatusId 삭제할 배송 상태의 ID
+	 * @return 배송 상태 목록 화면으로 리다이렉트
+	 */
 	@DeleteMapping("/{deliveryStatusId}")
 	public String deleteDeliveryStatus(@PathVariable Long deliveryStatusId) {
 		deliveryStatusService.deleteDeliveryStatus(deliveryStatusId);
-		return "redirect:/api/deliveryStatuses";
+		return REDIRECT_URL;
 	}
 }
