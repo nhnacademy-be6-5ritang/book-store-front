@@ -1,5 +1,7 @@
 package com.nhnacademy.bookstorefront.delivery.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,6 +35,20 @@ public class DeliveryController {
 	public String createDeliveriesPage(@ModelAttribute CreateDeliveryRequest createDeliveryRequest,@PathVariable("order_list_id") Long orderListId) {
 		CreateDeliveryResponse response = deliveryService.createDelivery(createDeliveryRequest);
 		return "redirect:/coupons/orders/" + orderListId + "/users/" + response.deliveryId();
+	}
+
+	@GetMapping("/cart-order/{orderInfoId}")
+	public ModelAndView getDeliveriesCartOrder(@PathVariable String orderInfoId) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("delivery/delivery-cart");
+		modelAndView.addObject("orderInfoId", orderInfoId);
+		return modelAndView;
+	}
+
+	@PostMapping("/cart-order/{orderInfoId}")
+	public String createDeliveriesCartOrder(@ModelAttribute CreateDeliveryRequest createDeliveryRequest, @PathVariable String orderInfoId) {
+		CreateDeliveryResponse response = deliveryService.createDelivery(createDeliveryRequest);
+		return "redirect:/coupons/orders/users/" + response.deliveryId() + "/" + orderInfoId;
 	}
 
 

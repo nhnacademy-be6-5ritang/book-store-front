@@ -1,12 +1,16 @@
 package com.nhnacademy.bookstorefront.order.service.Impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.OrderCheckNonRequest;
+import com.nhnacademy.bookstorefront.order.dto.response.CreateCartOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetNonOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetUserPointOrderResponse;
@@ -78,4 +82,10 @@ public class OrderServiceImpl implements OrderService {
 	public void refundingOrder(String orderInfoId) {
 		orderServiceClient.refundingOrder(orderInfoId).getBody();
 	}
+
+	@Override
+	public CreateCartOrderResponse createCartOrder() {
+		return orderServiceClient.createCartOrders().getBody();
+	}
+
 }

@@ -1,5 +1,6 @@
 package com.nhnacademy.bookstorefront.userandcoupon.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -28,4 +29,6 @@ public interface UserAndCouponService {
     Boolean isRealUserCheck();
     OneCouponResponseDTO oneCouponReturnModel(UserAndCouponOrderResponseDTO userAndCouponOrderResponseDTO, GetBookOrderResponse orderResponse, GetDeliveryPolicyResponse deliveryPolicyResponse, GetListWrappingResponse wrappingResponse);
     NoCouponResponseDTO noCouponReturnModel(GetBookOrderResponse orderResponse, GetDeliveryPolicyResponse deliveryPolicyResponse, GetListWrappingResponse wrappingResponse);
+    NoCouponResponseDTO noCouponReturnModelCart(BigDecimal orderPrice,BigDecimal deliveryPrice, BigDecimal wrappingTotalPrice);
+    OneCouponResponseDTO oneCouponReturnModelCart(UserAndCouponOrderResponseDTO userAndCouponOrderResponseDTO,BigDecimal orderPrice,BigDecimal deliveryPrice, BigDecimal wrappingTotalPrice);
 }

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Pustok - Book Store HTML Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Use Minified Plugins Version For Fast Page Load -->
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/pages/wishlist.css}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+</head>
+
+<body>
+<div class="site-wrapper" id="top">
+    <!--=================================
+    Header Area
+    ===================================== -->
+    <div th:insert="~{global/header}"></div>
+
+    <section class="breadcrumb-section">
+        <h2 class="sr-only">Site Breadcrumb</h2>
+        <div class="container">
+            <div class="breadcrumb-contents">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a th:href="@{/api/books/main}">홈</a></li>
+                        <li class="breadcrumb-item active">주문</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+    </section>
+
+    <main id="content" class="page-section inner-page-sec-padding-bottom space-db--20">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Checkout Form s-->
+                    <div class="checkout-form">
+                        <div class="row row-40">
+                            <div class="col-12">
+                                <h1 class="quick-title">Checkout</h1>
+                                <!-- Slide Down Trigger  -->
+                                <div class="checkout-quick-box">
+                                    <p><i class="far fa-sticky-note"></i>Returning customer? <a href="javascript:"
+                                                                                                class="slide-trigger"
+                                                                                                data-target="#quick-login">Click
+                                        here to login</a></p>
+                                </div>
+                                <!-- Slide Down Blox ==> Login Box  -->
+                                <div class="checkout-slidedown-box" id="quick-login">
+                                    <form action="./">
+                                        <div class="quick-login-form">
+                                            <p>If you have shopped with us before, please enter your details in the
+                                                boxes below. If you are a new
+                                                customer
+                                                please
+                                                proceed to the Billing & Shipping section.</p>
+                                            <div class="form-group">
+                                                <label for="quick-user">Username or email *</label>
+                                                <input type="text" placeholder="" id="quick-user">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="quick-pass">Password *</label>
+                                                <input type="text" placeholder="" id="quick-pass">
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="d-flex align-items-center flex-wrap">
+                                                    <a href="#" class="btn btn-outlined me-3">Login</a>
+                                                    <div class="d-inline-flex align-items-center">
+                                                        <input type="checkbox" id="accept_terms" class="mb-0 mx-1">
+                                                        <label for="accept_terms" class="mb-0">I’ve read and accept
+                                                            the terms &amp; conditions</label>
+                                                    </div>
+                                                </div>
+                                                <p><a href="javascript:" class="pass-lost mt-3">Lost your
+                                                    password?</a></p>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- Slide Down Trigger  -->
+                                <div class="checkout-quick-box">
+                                    <p><i class="far fa-sticky-note"></i>Have a coupon? <a href="javascript:"
+                                                                                           class="slide-trigger"
+                                                                                           data-target="#quick-cupon">
+                                        Click here to enter your code</a></p>
+                                </div>
+                                <!-- Slide Down Blox ==> Cupon Box -->
+                                <div class="checkout-slidedown-box" id="quick-cupon">
+                                    <form action="./">
+                                        <div class="checkout_coupon">
+                                            <input type="text" class="mb-0" placeholder="Coupon Code">
+                                            <a href="" class="btn btn-outlined">Apply coupon</a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+
+                            <form th:action="@{/api/orders/complete/{order_list_id}/{delivery_id}(order_list_id=${orderListId}, delivery_id=${deliveryId})}"
+                                  method="post">
+                                <div class="col-lg-12 mb--20">
+                                    <!-- Billing Address -->
+                                    <div id="billing-form" class="mb-40">
+                                        <h4 class="checkout-title">결제자 정보</h4>
+                                        <div class="row">
+                                            <div class="col-12 mb--20">
+                                                <label>결제자 이름</label>
+                                                <input type="text" name="payerName">
+                                            </div>
+                                            <div class="col-12 mb--20">
+                                                <label>결제자 이메일</label>
+                                                <input type="email" name="payerEmail">
+                                            </div>
+                                            <div class="col-12 mb--20">
+                                                <label>결제자 번호</label>
+                                                <input type="text" name="payerNumber">
+                                            </div>
+                                            <div class="col-12 col-12 mb--20">
+                                                <label>결제자 주소</label>
+                                                <input type="text" name="payerAddress">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <!-- Cart Total -->
+                                            <div class="col-12">
+                                                <div class="checkout-cart-total">
+                                                    <h2 class="checkout-title">YOUR ORDER</h2>
+                                                    <h4>주문 항목</h4>
+                                                    <ul th:each="orderList2 : ${orderList}">
+                                                        <li><strong>도서 이름</strong> <span
+                                                                th:text="${orderList2.getBookResponse().bookTitle()}"></span>
+                                                        </li>
+                                                        <li><strong>도서 설명</strong> <span
+                                                                th:text="${orderList2.getBookResponse().bookDescription()}"></span>
+                                                        </li>
+                                                        <li><strong>도서 가격</strong> <span
+                                                                th:text="${orderList2.getBookResponse().bookPrice()}"></span>
+                                                        </li>
+                                                        <li><strong>수량</strong> <span
+                                                                th:text="${orderList2.quantity()}"></span>
+                                                        </li>
+                                                        <li><strong>주문 가격</strong> <span
+                                                                th:text="${orderList2.quantity() * orderList2.getBookResponse().bookPrice()}"></span>
+                                                        </li>
+                                                    </ul>
+
+                                                    <div th:each="wrapping : ${wrappingList}">
+                                                        <p th:each="wrapping2 : ${wrapping.wrapping()}">
+                                                            <li><strong>포장지:</strong> <span
+                                                                    th:text="${wrapping2.name()}"></span></li>
+                                                            <li><strong>수량:</strong> <span
+                                                                    th:text="${wrapping2.quantity()}"></span></li>
+                                                            <li><strong>포장비:</strong> <span
+                                                                    th:text="${wrapping2.price()}"></span></li>
+                                                        </p>
+                                                    </div>
+
+
+                                                    <!-- 쿠폰 정보 -->
+                                                    <div class="table-responsive">
+                                                        <table class="table table-borderless">
+                                                            <tbody>
+                                                            <tr th:if="${selectCoupon != null}">
+                                                                <td style="width: 30%;">
+                                                                    <strong>쿠폰 종류:</strong> <span
+                                                                        th:text="${selectCoupon.type}"></span>
+                                                                </td>
+                                                                <td th:if="${selectCoupon.salePrice != null}">
+                                                                    <strong>할인 가격:</strong> <span
+                                                                        th:text="${selectCoupon.salePrice}"></span>
+                                                                </td>
+                                                                <td th:if="${selectCoupon.saleRate != null}">
+                                                                    <strong>할인율:</strong> <span
+                                                                        th:text="${selectCoupon.saleRate}"></span>
+                                                                </td>
+                                                                <td th:if="${selectCoupon.maxSalePrice != null}">
+                                                                    <strong>최대 할인 가격:</strong> <span
+                                                                        th:text="${selectCoupon.maxSalePrice}"></span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr th:if="${selectCoupon == null}">
+                                                                <td colspan="4" class="text-center">쿠폰 적용안함</td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+
+                                                    <div id="coupon-info" th:if="${selectCoupon != null && oneResult != null}">
+                                                            <p><strong>주문 가격:</strong> <span
+                                                                    th:text="${oneResult.orderPrice()}"></span></p>
+                                                            <p><strong>쿠폰 적용 금액:</strong> <span
+                                                                    th:text="${oneResult.discount()}"></span>
+                                                                <input type="hidden" name="couponSale"
+                                                                       th:value="${oneResult.discount()}"/>
+                                                            </p>
+                                                            <p><strong>쿠폰 적용 후 가격:</strong> <span
+                                                                    th:text="${oneResult.orderPriceAfterCoupon()}"></span>
+                                                            </p>
+                                                            <p>배송비: <span
+                                                                    th:text="${delivery}"></span>
+                                                            </p>
+                                                            <p><strong>포인트 차감전 가격(포장지, 배송비 추가):</strong> <span
+                                                                    id="orderPriceBeforePoint"
+                                                                    th:text="${oneResult.orderPriceBeforePoint()}"></span>
+                                                            </p>
+                                                    </div>
+                                                    <div id="no-coupon-info"
+                                                         th:if="${selectCoupon == null && noResult != null}">
+                                                        <p><strong>주문 가격:</strong> <span
+                                                                th:text="${noResult.orderPrice()}"></span></p>
+                                                        <p><strong>쿠폰 적용 금액:</strong> <span
+                                                                th:text="${noResult.discount()}"></span>
+                                                            <input type="hidden" name="couponSale"
+                                                                   th:value="${noResult.discount()}"/>
+                                                        </p>
+                                                        <p><strong>쿠폰 적용 후 가격:</strong> <span
+                                                                th:text="${noResult.orderPrice()}"></span></p>
+
+                                                        <p>배송비: <span
+                                                                th:text="${delivery}"></span>
+                                                        </p>
+                                                        <p><strong>포인트 차감전 가격(포장지, 배송비 추가):</strong> <span
+                                                                id="orderPriceBeforePointWithoutCoupon"
+                                                                th:text="${noResult.orderPriceBeforePoint()}"></span>
+                                                        </p>
+                                                    </div>
+                                                    <div id="none-member"
+                                                         th:if="${selectCoupon == null && noResultByNone != null}">
+                                                        <!--비회원의 경우 쿠폰 적용 x-->
+                                                        <p><strong>주문 가격:</strong> <span
+                                                                th:text="${noResultByNone.orderPrice()}"></span></p>
+                                                            <input type="hidden" name="couponSale"
+                                                                   th:value="${noResultByNone.discount()}"/>
+
+
+                                                        <p>배송비: <span
+                                                                th:text="${delivery}"></span>
+                                                        </p>
+                                                        <p><strong>포인트 차감전 가격(포장지, 배송비 추가):</strong> <span
+                                                                id="orderPriceNoneMember"
+                                                                th:text="${noResultByNone.orderPriceBeforePoint()}"></span>
+                                                        </p>
+                                                    </div>
+
+
+                                                    <div th:if="${point != null}">
+                                                        <p>보유 포인트 <span id="pointDiscount"
+                                                                        th:text="${point.userPoint()}"></span></p>
+                                                        <p>사용할 포인트 입력</p>
+                                                        <label for="pointInput"></label><input type="number"
+                                                                                               id="pointInput"
+                                                                                               name="pointSale"
+                                                                                               value="0"
+                                                                                               min="0"
+                                                                                               oninput="updateGrandTotal()">
+                                                        <p id="point-warning" style="color: red; display: none;">포인트 차감
+                                                            한도를 초과했습니다.</p>
+                                                        <p id="point-exceed-warning" style="color: red; display: none;">
+                                                            주문 가격을 초과하여 포인트를 적용할 수 없습니다.</p>
+                                                    </div>
+
+
+                                                    <h4>최종가격(포인트 차감후 가격) <span id="grandTotal"></span></h4>
+                                                    <input type="hidden" id="orderPrice" name="orderPrice">
+
+                                                    <button class="place-order w-100" type="submit">Place order</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<!--=================================
+Footer Area
+===================================== -->
+<div th:insert="~{global/footer}"></div>
+
+<!-- Use Minified Plugins Version For Fast Page Load -->
+<script th:src="@{/js/plugins.js}"></script>
+<script th:src="@{/js/ajax-mail.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const noneMember = document.getElementById('none-member');
+        if (noneMember) {
+            updateGrandTotalForNoneMember();
+        }
+    });
+    function updateGrandTotalForNoneMember() {
+        const orderPriceNoneMemberElement = document.getElementById('orderPriceNoneMember');
+        const grandTotal = document.getElementById('grandTotal');
+
+        if (orderPriceNoneMemberElement) {
+            // orderPriceNoneMember의 값을 가져옵니다.
+            const orderPriceBeforePoint = parseFloat(orderPriceNoneMemberElement.textContent) || 0;
+
+            // 최종 가격을 grandTotal에 설정합니다.
+            grandTotal.textContent = orderPriceBeforePoint.toFixed(2);
+
+            // hidden input에 값 설정
+            const orderPriceInput = document.getElementById('orderPrice');
+            orderPriceInput.value = orderPriceBeforePoint.toFixed(2);
+        }
+
+    }
+
+
+    function updateGrandTotal() {
+        console.log("updateGrandTotal called");
+        const pointInput = document.getElementById('pointInput');
+        const grandTotal = document.getElementById('grandTotal');
+        const pointWarning = document.getElementById('point-warning');
+        const pointExceedWarning = document.getElementById('point-exceed-warning');
+        const orderPriceElement = document.getElementById('orderPrice');
+        const maxPoints = parseFloat(document.getElementById("pointDiscount")?.textContent) || 0;
+
+        let pointValue = parseFloat(pointInput.value) || 0;
+        let orderPriceBeforePoint;
+
+        // 쿠폰 정보 확인
+        const couponInfo = document.getElementById('coupon-info');
+        const noCouponInfo = document.getElementById('no-coupon-info');
+
+
+        if (couponInfo) {
+            console.log("쿠폰이 적용되었습니다.");
+            orderPriceBeforePoint = parseFloat(document.getElementById('orderPriceBeforePoint').textContent) || 0;
+        } else if (noCouponInfo) {
+            console.log("쿠폰이 적용되지 않았습니다.");
+            orderPriceBeforePoint = parseFloat(document.getElementById('orderPriceBeforePointWithoutCoupon').textContent) || 0;
+        }
+
+
+        // 포인트 유효성 검사
+        if (pointValue > maxPoints) {
+            pointWarning.style.display = 'block';
+            pointValue = maxPoints; // 최대 포인트로 조정
+        } else {
+            pointWarning.style.display = 'none';
+        }
+
+        const finalPrice = orderPriceBeforePoint - pointValue;
+
+        // 최종 가격이 0 미만인지 체크
+        if (finalPrice < 0) {
+            pointExceedWarning.style.display = 'block';
+            pointInput.value = 0; // 포인트 입력 초기화
+            grandTotal.textContent = orderPriceBeforePoint.toFixed(2);
+            orderPriceElement.value = orderPriceBeforePoint.toFixed(2); // orderPrice를 orderPriceBeforePoint로 설정
+        } else {
+            pointExceedWarning.style.display = 'none';
+            grandTotal.textContent = finalPrice.toFixed(2);
+            orderPriceElement.value = finalPrice.toFixed(2); // orderPrice를 finalPrice로 설정
+        }
+    }
+</script>
+
+</html>
