@@ -26,6 +26,7 @@ import com.nhnacademy.bookstorefront.review.dto.request.UpdateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
 import com.nhnacademy.bookstorefront.review.service.ReviewService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -94,7 +95,7 @@ public class ReviewController {
 	 * @return 리뷰 목록 페이지로 리다이렉트하는 URL
 	 */
 	@PostMapping("/reviews")
-	public String createReview(@ModelAttribute CreateReviewRequest request,
+	public String createReview(@Valid @ModelAttribute CreateReviewRequest request,
 		@RequestParam("file") MultipartFile file) {
 		reviewService.createReview(request, file);
 		return REDIRECT_URL;
@@ -108,7 +109,7 @@ public class ReviewController {
 	 * @return 리뷰 목록 페이지로 리다이렉트하는 URL
 	 */
 	@PutMapping("/reviews/{reviewId}")
-	public String updateReview(@ModelAttribute UpdateReviewRequest request, @PathVariable Long reviewId) {
+	public String updateReview(@Valid @ModelAttribute UpdateReviewRequest request, @PathVariable Long reviewId) {
 		reviewService.updateReview(request, reviewId);
 		return REDIRECT_URL;
 	}

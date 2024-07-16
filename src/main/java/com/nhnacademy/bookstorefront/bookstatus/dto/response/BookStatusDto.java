@@ -1,7 +1,10 @@
 package com.nhnacademy.bookstorefront.bookstatus.dto.response;
 
-public record BookStatusDto(
-	Long bookStatusId,
-	String bookStatusName) {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
+public record BookStatusDto(
+	@NotNull Long bookStatusId,
+	@NotBlank @Size(max = 10) String bookStatusName) {
 }

@@ -14,6 +14,7 @@ import com.nhnacademy.bookstorefront.deliverypolicy.dto.request.CreateDeliveryPo
 import com.nhnacademy.bookstorefront.deliverypolicy.dto.request.UpdateDeliveryPolicyRequest;
 import com.nhnacademy.bookstorefront.deliverypolicy.service.DeliveryPolicyService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -82,7 +83,7 @@ public class DeliveryPolicyController {
 	 * @return 배송 정책 리스트 페이지로 리다이렉트하는 URL
 	 */
 	@PostMapping
-	public String createDeliveryPolicy(@ModelAttribute CreateDeliveryPolicyRequest request) {
+	public String createDeliveryPolicy(@Valid @ModelAttribute CreateDeliveryPolicyRequest request) {
 		deliveryPolicyService.createDeliveryPolicy(request);
 		return REDIRECT_URL;
 	}
@@ -96,7 +97,7 @@ public class DeliveryPolicyController {
 	 */
 	@PutMapping("/{deliveryPolicyId}")
 	public String updateDeliveryPolicy(@PathVariable Long deliveryPolicyId,
-		@ModelAttribute UpdateDeliveryPolicyRequest request) {
+		@Valid @ModelAttribute UpdateDeliveryPolicyRequest request) {
 		deliveryPolicyService.updateDeliveryPolicy(deliveryPolicyId, request);
 		return REDIRECT_URL;
 	}

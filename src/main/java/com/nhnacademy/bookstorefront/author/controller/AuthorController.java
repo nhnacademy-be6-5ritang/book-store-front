@@ -17,6 +17,7 @@ import com.nhnacademy.bookstorefront.author.dto.response.AuthorDto;
 import com.nhnacademy.bookstorefront.author.service.impl.AuthorServiceImpl;
 import com.nhnacademy.bookstorefront.global.util.PagingModel;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -87,7 +88,7 @@ public class AuthorController {
 	 * @return 저자 리스트 페이지로 리다이렉트
 	 */
 	@PostMapping
-	public String createAuthor(@ModelAttribute AuthorDto request) {
+	public String createAuthor(@Valid @ModelAttribute AuthorDto request) {
 		authorService.createAuthor(request);
 		return REDIRECT_URL;
 	}
@@ -100,7 +101,7 @@ public class AuthorController {
 	 * @return 저자 리스트 페이지로 리다이렉트
 	 */
 	@PutMapping("/{authorId}")
-	public String updateAuthor(@PathVariable Long authorId, @ModelAttribute AuthorDto request) {
+	public String updateAuthor(@PathVariable Long authorId, @Valid @ModelAttribute AuthorDto request) {
 		authorService.updateAuthor(authorId, request);
 		return REDIRECT_URL;
 	}

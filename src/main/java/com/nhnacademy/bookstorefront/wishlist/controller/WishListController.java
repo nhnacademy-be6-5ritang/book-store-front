@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.nhnacademy.bookstorefront.wishlist.dto.request.CreateWishListRequest;
 import com.nhnacademy.bookstorefront.wishlist.service.WishListService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -44,7 +45,7 @@ public class WishListController {
 	 * @return 생성된 위시리스트의 응답 상태
 	 */
 	@PostMapping
-	public ResponseEntity<Void> createWishList(@RequestBody CreateWishListRequest request) {
+	public ResponseEntity<Void> createWishList(@Valid @RequestBody CreateWishListRequest request) {
 		return wishListService.createWishList(request);
 	}
 
