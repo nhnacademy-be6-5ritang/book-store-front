@@ -23,8 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * @author 이경헌
  * 스프링의 캐시 추상화를 이용한 캐시 관리와 캐시 갱신을 위한 스케줄링을 설정하는 클래스입니다.
- *
- * @version 1.0
  */
 @Slf4j
 @Configuration
@@ -36,7 +34,6 @@ public class CacheConfig {
 
 	/**
 	 * 캐시를 관리합니다.
-	 *
 	 */
 	@Bean
 	public CacheManager cacheManager() {
@@ -55,8 +52,6 @@ public class CacheConfig {
 
 	/**
 	 * 카테고리 목록을 캐시에서 가져오거나, 캐시에 없으면 새로 가져와서 캐시에 저장합니다.
-	 *
-	 * <p>Feign 클라이언트를 통해 카테고리 목록을 가져오며, 만약 가져오는 도중 예외가 발생하면 빈 리스트를 반환합니다.</p>
 	 *
 	 * @return 카테고리 목록 또는 예외 발생 시 빈 리스트
 	 */

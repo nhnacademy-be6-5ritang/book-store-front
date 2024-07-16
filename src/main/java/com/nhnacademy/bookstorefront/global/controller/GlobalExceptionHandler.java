@@ -9,9 +9,8 @@ import org.springframework.web.servlet.ModelAndView;
 import feign.FeignException;
 
 /**
+ * @author 이경헌
  * 전역 예외 처리를 담당하는 클래스입니다.
- *
- * @version 1.0
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -32,7 +31,7 @@ public class GlobalExceptionHandler {
 	}
 
 	/**
-	 * FeignException을 처리하고 상태 코드에 따라 응답을 반환합니다.
+	 * FeignException 을 처리하고 상태 코드에 따라 응답을 반환합니다.
 	 *
 	 * @param exception 발생한 Feign 예외 객체
 	 * @param model     예외 메시지를 저장할 모델 객체

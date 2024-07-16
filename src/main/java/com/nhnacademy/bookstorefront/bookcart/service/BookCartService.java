@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * @author 이경헌
- * BookCartService는 도서 장바구니와 관련된 비즈니스 로직을 처리하는 인터페이스입니다.
+ * 도서 장바구니와 관련된 비즈니스 로직을 처리하는 인터페이스입니다.
  */
 public interface BookCartService {
 	/**
@@ -49,5 +49,5 @@ public interface BookCartService {
 	 * @param bookId 삭제할 도서의 ID
 	 * @param cartId 도서가 포함된 장바구니의 ID
 	 */
-	void deleteBookCart(Long bookId, String cartId);
+	ResponseEntity<Void> deleteBookCart(Long bookId, String cartId);
 }
