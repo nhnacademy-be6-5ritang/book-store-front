@@ -43,6 +43,11 @@ public interface UserAndCouponFeignClient {
 	ResponseEntity<Void> updateCouponAfterPayment(
 		@PathVariable("userAndCouponId") Long userAndCouponId);
 
+	@PatchMapping("/coupons/users/refund/{userAndCouponId}")
+	ResponseEntity<Void> updateCouponAfterRefund(
+		@PathVariable("userAndCouponId") Long userAndCouponId);
+
+
 	@GetMapping("/coupons/users/order/coupon")
 	ResponseEntity<UserAndCouponOrderResponseDTO> getSelectedCoupon(
 		@RequestParam(value = "couponId", required = false) Long couponId);
