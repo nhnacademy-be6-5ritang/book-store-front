@@ -17,6 +17,7 @@ import com.nhnacademy.bookstorefront.global.util.PagingModel;
 import com.nhnacademy.bookstorefront.tag.dto.response.TagDto;
 import com.nhnacademy.bookstorefront.tag.service.impl.TagServiceImpl;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -35,6 +36,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/tags")
 public class TagController {
 	private final TagServiceImpl tagService;
+	private static final String REDIRECT_URL = "redirect:/api/tags/page";
 
 	/**
 	 * 새로운 태그 생성 폼을 반환합니다.
@@ -93,9 +95,9 @@ public class TagController {
 	 * @return 태그 리스트 페이지로 리다이렉트
 	 */
 	@PostMapping
-	public String createTag(@ModelAttribute TagDto request) {
+	public String createTag(@Valid @ModelAttribute TagDto request) {
 		tagService.createTag(request);
-		return "redirect:/api/tags/page";
+		return REDIRECT_URL;
 	}
 
 	/**
@@ -106,9 +108,9 @@ public class TagController {
 	 * @return 태그 리스트 페이지로 리다이렉트
 	 */
 	@PutMapping("/{tagId}")
-	public String updateTag(@PathVariable Long tagId, @ModelAttribute TagDto request) {
+	public String updateTag(@PathVariable Long tagId, @Valid @ModelAttribute TagDto request) {
 		tagService.updateTag(tagId, request);
-		return "redirect:/api/tags/page";
+		return REDIRECT_URL;
 	}
 
 	/**
@@ -120,6 +122,6 @@ public class TagController {
 	@DeleteMapping("/{tagId}")
 	public String deleteTag(@PathVariable Long tagId) {
 		tagService.deleteTag(tagId);
-		return "redirect:/api/tags/page";
+		return REDIRECT_URL;
 	}
 }

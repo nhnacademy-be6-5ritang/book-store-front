@@ -14,6 +14,7 @@ import com.nhnacademy.bookstorefront.deliverystatus.dto.request.CreateDeliverySt
 import com.nhnacademy.bookstorefront.deliverystatus.dto.request.UpdateDeliveryStatusRequest;
 import com.nhnacademy.bookstorefront.deliverystatus.service.DeliveryStatusService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -69,7 +70,7 @@ public class DeliveryStatusController {
 	 * @return 배송 상태 목록 화면으로 리다이렉트
 	 */
 	@PostMapping
-	public String createDeliveryStatus(@ModelAttribute CreateDeliveryStatusRequest request) {
+	public String createDeliveryStatus(@Valid @ModelAttribute CreateDeliveryStatusRequest request) {
 		deliveryStatusService.createDeliveryStatus(request);
 		return REDIRECT_URL;
 	}
@@ -83,7 +84,7 @@ public class DeliveryStatusController {
 	 */
 	@PutMapping("/{deliveryStatusId}")
 	public String updateDeliveryStatus(@PathVariable Long deliveryStatusId,
-		@ModelAttribute UpdateDeliveryStatusRequest request) {
+		@Valid @ModelAttribute UpdateDeliveryStatusRequest request) {
 		deliveryStatusService.updateDeliveryStatus(deliveryStatusId, request);
 		return REDIRECT_URL;
 	}
