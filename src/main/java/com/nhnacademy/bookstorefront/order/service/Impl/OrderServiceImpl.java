@@ -1,9 +1,12 @@
 package com.nhnacademy.bookstorefront.order.service.Impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.nhnacademy.bookstorefront.global.controller.payload.ErrorStatus;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.OrderCheckNonRequest;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateCartOrderResponse;
@@ -86,6 +89,11 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public CreateCartOrderResponse createCartOrder() {
 		return orderServiceClient.createCartOrders().getBody();
+	}
+
+	@Override
+	public CreateOrderResponse updateCartOrder(CreateOrderRequest createOrderRequest, Long orderId) {
+		return orderServiceClient.updateCartOrder(createOrderRequest, orderId).getBody();
 	}
 
 }
