@@ -44,7 +44,7 @@ public class PaymentController {
 		GetOrderByInfoResponse orderInfo = paymentServiceImpl.findByOrder(orderInfoId);
 		GetBookOrderByInfoIdResponse bookOrder = paymentServiceImpl.findByOrderInfoId(orderInfoId);
 		ModelAndView view = new ModelAndView();
-		view.addObject("orderName", bookOrder.getBookResponse().bookTitle());
+		view.addObject("orderName", bookOrder.title());
 		view.addObject("orderId", orderInfoId);
 		view.addObject("price", orderInfo.price());
 		view.addObject("payerName", orderInfo.payername());
