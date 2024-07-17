@@ -24,6 +24,7 @@ import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
 import com.nhnacademy.bookstorefront.bookstatus.service.impl.BookStatusServiceImpl;
 import com.nhnacademy.bookstorefront.category.service.impl.CategoryServiceImpl;
+import com.nhnacademy.bookstorefront.global.config.CacheConfig;
 import com.nhnacademy.bookstorefront.global.util.PagingModel;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
 import com.nhnacademy.bookstorefront.review.service.ReviewService;
@@ -44,6 +45,8 @@ public class BookController {
 	private final BookStatusServiceImpl bookStatusService;
 	private final TagServiceImpl tagService;
 	private final ReviewService reviewService;
+	private final CacheConfig cacheConfig;
+	private static final String REDIRECT_URL = "redirect:/api/books/page";
 
 	/**
 	 * 책 생성 폼을 반환합니다.
@@ -85,9 +88,9 @@ public class BookController {
 	 */
 	@GetMapping("/main")
 	public String mainPage(Model model) {
-		model.addAttribute("orderedBooks", bookService.getOrderedBooks());
-		model.addAttribute("likesBooks", bookService.getLikesBooks());
-		model.addAttribute("books", bookService.getNewestBooks());
+		model.addAttribute("orderedBooksCache", cacheConfig.getOrderedBooks());
+		model.addAttribute("likesBooksCache", cacheConfig.getLikesBooks());
+		model.addAttribute("newestBooksCache", cacheConfig.getNewestBooks());
 		return "index";
 	}
 
@@ -132,17 +135,18 @@ public class BookController {
 		model.addAttribute("bookTags", tagService.getTagsByBookId(bookId));
 		model.addAttribute("book", bookService.getBook(bookId));
 
+		String baseUrl = "/api/books/" + bookId;
 		Page<GetReviewResponse> reviews = reviewService.getReviewsByBookId(pageable, bookId);
 		model.addAttribute("reviews", reviews);
-		PagingModel.pagingProcessing(pageable, model, reviews, "/api/books/" + bookId, 5);
+		PagingModel.pagingProcessing(pageable, model, reviews, baseUrl, 5);
 
 		Page<GetReviewResponse> generalReviews = reviewService.getGeneralReviewsByBookId(pageable, bookId);
 		model.addAttribute("generalReviews", generalReviews);
-		PagingModel.pagingProcessing(pageable, model, generalReviews, "/api/books/" + bookId, 5);
+		PagingModel.pagingProcessing(pageable, model, generalReviews, baseUrl, 5);
 
 		Page<GetReviewResponse> photoReviews = reviewService.getPhotoReviewsByBookId(pageable, bookId);
 		model.addAttribute("photoReviews", photoReviews);
-		PagingModel.pagingProcessing(pageable, model, photoReviews, "/api/books/" + bookId, 5);
+		PagingModel.pagingProcessing(pageable, model, photoReviews, baseUrl, 5);
 
 		model.addAttribute("reviewsAverageScore", reviewService.getReviewsAverageScoreByBookId(bookId));
 		return "book/get-book";
@@ -172,7 +176,7 @@ public class BookController {
 	@PostMapping("/fetch")
 	String fetchAndSaveBook(@RequestParam String isbn) {
 		bookService.fetchAndSaveBook(isbn);
-		return "redirect:/api/books/page";
+		return REDIRECT_URL;
 	}
 
 	/**
@@ -184,7 +188,7 @@ public class BookController {
 	@PostMapping
 	public String createBook(@Valid @ModelAttribute CreateBookRequest request) {
 		bookService.createBook(request);
-		return "redirect:/api/books/page";
+		return REDIRECT_URL;
 	}
 
 	/**
@@ -209,7 +213,7 @@ public class BookController {
 	@DeleteMapping("/{bookId}")
 	public String deleteBook(@PathVariable Long bookId) {
 		bookService.deleteBook(bookId);
-		return "redirect:/api/books/page";
+		return REDIRECT_URL;
 	}
 
 	@GetMapping("/search/test")
