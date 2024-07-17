@@ -13,7 +13,7 @@
 }
 
 .duck-stew-banner {
-    height: calc(100% - 3rem);
+    height: 100%;
     border-radius: 8px;
     background-color: #FFF0D1;
 }
@@ -31,7 +31,7 @@
 }
 
 .sub-banner-container {
-    height: calc(100% - 3rem);
+    height: 100%;
     display: grid;
     grid-template-rows: 2fr 5fr;
     gap: 1rem;

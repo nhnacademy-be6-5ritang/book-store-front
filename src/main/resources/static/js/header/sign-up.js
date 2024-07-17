@@ -42,7 +42,9 @@ const showInputSignUpCode = () => {
     // const emailInput = document.getElementById('email');
     // emailInput.disabled = true;
     const codeInputRow = document.getElementById('verify-code-row');
+    const breakLine = document.getElementById('break-line-row');
     codeInputRow.style.display = '';
+    breakLine.style.display = '';
 }
 
 const certifySignUpCode = async () => {

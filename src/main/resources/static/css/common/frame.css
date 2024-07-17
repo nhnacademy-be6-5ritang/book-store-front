@@ -7,6 +7,9 @@ body {
     font-family: 'GMarketSans', sans-serif;
     width: 100vw;
     height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .top-container {
@@ -26,4 +29,8 @@ a {
 a:hover {
     text-decoration: none;
     color: #333333;
+}
+
+input:focus {
+    outline: none;
 }

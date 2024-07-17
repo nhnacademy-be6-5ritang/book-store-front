@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
-    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main/main.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/login/login.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
@@ -18,55 +18,61 @@
 <body>
 <header th:insert="~{global/header}"></header>
 
-<div class="site-wrapper" id="top">
-    <main class="page-section inner-page-sec-padding-bottom">
-        <div class="container">
-            <div class="row">
-                <div style="width: 100%;">
-                    <form class="login-form-container" action="/auth/login" method="post">
-                        <div class="custom-login-form">
-                            <h5>로그인</h5>
-                            <table style="width: 28%">
-                                <tr>
-                                    <td class="label-column">
-                                        <label for="email"><i class="fas fa-envelope"></i></label>
-                                    </td>
-                                    <td>
-                                        <input id="email" type="email" name="email" placeholder="이메일을 입력해주세요" required>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="label-column">
-                                        <label for="password"><i class="fas fa-lock"></i></label>
-                                    </td>
-                                    <td>
-                                        <input id="password" type="password" name="password" placeholder="비밀번호를 입력해주세요"
-                                               required>
-                                    </td>
-                                </tr>
-                            </table>
-                            <div class="login-button-container">
-                                <button type="submit" class="login-button">로그인</button>
-                                <button type="button" class="payco-login-button" onclick="paycoLoginRequest()">
-                                    <div class="payco-image-container">
-                                        <img id="payco-image" th:src="@{/image/PAYCO_BUTTON.png}" alt="PAYCO 로그인">
-                                    </div>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+<section id="login-section" class="top-container">
+    <form class="login-form-container" action="/auth/login" method="post">
+        <hr style="margin: 2rem 0; width: 30rem">
+        <h5>로그인</h5>
+        <hr style="margin: 2rem 0; width: 30rem">
+        <table class="login-input-table">
+            <tr>
+                <td>
+                    <br/>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-column">
+                    <label for="email"><i class="fas fa-envelope"></i></label>
+                </td>
+                <td>
+                    <input id="email" type="email" name="email" placeholder="이메일을 입력해주세요" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <br/>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-column">
+                    <label for="password"><i class="fas fa-lock"></i></label>
+                </td>
+                <td>
+                    <input id="password" type="password" name="password" placeholder="비밀번호를 입력해주세요"
+                           required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <br/>
+                </td>
+            </tr>
+        </table>
+        <div class="login-button-container">
+            <button type="submit" class="login-button">로그인</button>
+            <hr style="margin: 2rem 0; width: 30rem">
+            <button type="button" class="payco-login-button" onclick="paycoLoginRequest()">
+                <div class="payco-image-container">
+                    <img id="payco-image" th:src="@{/image/PAYCO_BUTTON.png}" alt="PAYCO 로그인">
                 </div>
-            </div>
+            </button>
         </div>
-    </main>
-</div>
+    </form>
+    <br/>
+    <br/>
+    <br/>
+</section>
 
 <footer th:insert="~{global/footer.html}"></footer>
-
-<!-- Use Minified Plugins Version For Fast Page Load -->
-<script src="js/plugins.js"></script>
-<script src="js/ajax-mail.js"></script>
-<script src="js/custom.js"></script>
 
 <script th:src="@{/js/payco.js}"></script>
 </body>
