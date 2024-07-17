@@ -52,6 +52,7 @@ import com.nhnacademy.bookstorefront.order.service.Impl.OrderServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.PaperTypeServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.RefundPolicyServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.WrappingPaperServiceImpl;
+import com.nhnacademy.bookstorefront.payment.dto.response.GetBookOrderByInfoIdResponse;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.NoCouponResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.OneCouponResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCouponOrderResponseDTO;
@@ -236,6 +237,19 @@ public class OrderClientController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("bookOrder", bookOrder);
 		modelAndView.setViewName("order/order-complete");
+		return modelAndView;
+	}
+
+	@GetMapping("/complete/{orderInfoId}")
+	public ModelAndView completeCartOrder(@PathVariable String orderInfoId) {
+		List<GetBookOrderResponse> list = bookOrderServiceImpl.getBookOrderByOrderId(orderInfoId);
+		for (GetBookOrderResponse getBookOrderResponse : list) {
+			bookServiceImpl.updateQuantity(getBookOrderResponse.getBookResponse().bookId(), getBookOrderResponse.quantity());
+		}
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("order", orderServiceImpl.findByOrderInfoId(orderInfoId));
+		modelAndView.addObject("bookOrder", list);
+		modelAndView.setViewName("order/order-cart-complete");
 		return modelAndView;
 	}
 
