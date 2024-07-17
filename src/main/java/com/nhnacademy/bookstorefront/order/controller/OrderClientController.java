@@ -221,19 +221,6 @@ public class OrderClientController {
 	}
 
 
-	// @GetMapping("/complete/{order_list_id}/{order_id}")
-	// public ModelAndView completeOrder(@PathVariable("order_list_id") Long orderListId,
-	// 	@PathVariable("order_id") Long orderId) {
-	//
-	// 	//업데이트 빼고 오더리스트아이디로 가져오기 변경 예정
-	// 	UpdateBookOrderResponse bookOrder = bookOrderServiceImpl.updateOrder(orderListId, orderId);
-	// 	bookServiceImpl.updateQuantity(bookOrder.bookId(), bookOrder.quantity());
-	// 	ModelAndView modelAndView = new ModelAndView();
-	// 	modelAndView.addObject("bookOrder", bookOrder);
-	// 	modelAndView.setViewName("order/order-complete");
-	// 	return modelAndView;
-	// }
-
 	@GetMapping("/complete/{orderInfoId}")
 	public ModelAndView completeCartOrder(@PathVariable String orderInfoId) {
 		List<GetBookOrderResponse> list = bookOrderServiceImpl.getBookOrderByOrderId(orderInfoId);
