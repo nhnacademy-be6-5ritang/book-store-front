@@ -1,9 +1,6 @@
 package com.nhnacademy.bookstorefront.global.controller;
 
-import java.time.LocalDateTime;
-
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -11,8 +8,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.nhnacademy.bookstorefront.global.controller.payload.ErrorStatus;
 
 import feign.FeignException;
 
@@ -62,30 +57,24 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<ErrorStatus> processValidationError(MethodArgumentNotValidException exception) {
+	public ModelAndView processValidationError(MethodArgumentNotValidException exception) {
 		BindingResult bindingResult = exception.getBindingResult();
 		StringBuilder errorMessageBuilder = new StringBuilder();
 
 		for (FieldError fieldError : bindingResult.getFieldErrors()) {
-			errorMessageBuilder.append(fieldError.getField())
-				.append(" 에러: ")
-				.append(fieldError.getDefaultMessage())
-				.append(", 입력된 값: ")
-				.append(fieldError.getRejectedValue())
-				.append("; ");
+			errorMessageBuilder
+				.append("필드: ").append(fieldError.getField())
+				.append(" 에러: ").append(fieldError.getDefaultMessage())
+				.append(", 입력된 값: ").append(fieldError.getRejectedValue());
 		}
 
 		// 오류 메시지 생성
 		String errorMessage = errorMessageBuilder.toString();
 
-		// ErrorStatus 객체 생성
-		ErrorStatus errorStatus = ErrorStatus.from(
-			errorMessage,
-			HttpStatus.BAD_REQUEST,
-			LocalDateTime.now()
-		);
+		ModelAndView modelAndView = new ModelAndView("global/error");
+		modelAndView.addObject("message", errorMessage);
+		modelAndView.setStatus(HttpStatus.BAD_REQUEST);
 
-		return new ResponseEntity<>(errorStatus, HttpStatus.BAD_REQUEST);
-
+		return modelAndView;
 	}
 }
