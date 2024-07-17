@@ -259,6 +259,16 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 
 	}
 
+
+	@Override
+	public void updateCouponAfterPayment(Long couponId){
+
+		userAndCouponFeignClient.updateCouponAfterPayment(couponId);
+	}
+
+
+
+
 }
 
 

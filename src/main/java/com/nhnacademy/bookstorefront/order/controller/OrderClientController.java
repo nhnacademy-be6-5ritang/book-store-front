@@ -1,13 +1,11 @@
 package com.nhnacademy.bookstorefront.order.controller;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
@@ -52,14 +49,12 @@ import com.nhnacademy.bookstorefront.order.service.Impl.OrderServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.PaperTypeServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.RefundPolicyServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.WrappingPaperServiceImpl;
-import com.nhnacademy.bookstorefront.payment.dto.response.GetBookOrderByInfoIdResponse;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.NoCouponResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.OneCouponResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCouponOrderResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.service.UserAndCouponService;
 
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -122,7 +117,7 @@ public class OrderClientController {
 		return "redirect:/api/deliveries/" + orderListId;
 	}
 
-	// TODO 주문성공시 쿠폰 update 로직 넣기
+
 	@GetMapping("/createOrderTest/{order_list_id}/{delivery_id}")
 	public ModelAndView createOrder(@PathVariable("order_list_id") Long orderListId, @PathVariable("delivery_id") Long deliveryId, @RequestParam(value = "couponId", required = false) Long couponId) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -216,11 +211,14 @@ public class OrderClientController {
 	}
 
 
+   // TODO : coupon 사용됨처리
 	@PostMapping("/complete/{order_list_id}/{delivery_id}")
 	public String createOrder(@ModelAttribute CreateOrderRequest createOrderRequest,
 		@PathVariable("order_list_id") Long orderListId, @PathVariable("delivery_id") Long deliveryId
 	) {
 		CreateOrderResponse createOrderResponse = orderServiceImpl.createOrder(createOrderRequest);
+		// TODO : 쿠폰아이디 어떻게 가져오지? orderListId가 아니라 couponId 줘야함
+		userAndCouponService.updateCouponAfterPayment(orderListId);
 		deliveryServiceImpl.updateDeliveryAddOrder(deliveryId, createOrderResponse.orderId());
 		bookOrderServiceImpl.updateOrder(orderListId, createOrderResponse.orderId());
 		return "redirect:/api/payments/" + createOrderResponse.infoId();
@@ -564,6 +562,8 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+
+	// TODO : coupon 사용됨처리
 	@PostMapping("/complete/cart-order/{orderInfoId}/{delivery_id}")
 	public String createCartOrder(@ModelAttribute CreateOrderRequest createOrderRequest,
 		@PathVariable("orderInfoId") String orderInfoId, @PathVariable("delivery_id") Long deliveryId
@@ -571,6 +571,8 @@ public class OrderClientController {
 		List<GetBookOrderResponse> getBookOrderResponses = bookOrderServiceImpl.getBookOrderByOrderId(orderInfoId);
 		CreateOrderResponse createOrderResponse = orderServiceImpl.updateCartOrder(createOrderRequest, getBookOrderResponses.getFirst()
 			.orderId());
+		// TODO : 쿠폰아이디 어떻게 가져오지? orderListId가 아니라 couponId 줘야함
+		userAndCouponService.updateCouponAfterPayment(createOrderResponse.orderId());
 		deliveryServiceImpl.updateDeliveryAddOrder(deliveryId, getBookOrderResponses.getFirst().orderId());
 		return "redirect:/api/payments/" + createOrderResponse.infoId();
 	}
