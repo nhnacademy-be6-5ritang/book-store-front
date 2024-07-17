@@ -1,7 +1,8 @@
 package com.nhnacademy.bookstorefront.deliverystatus.dto.request;
 
-import lombok.Builder;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
-@Builder
-public record UpdateDeliveryStatusRequest(String deliveryStatusName) {
+public record UpdateDeliveryStatusRequest(
+	@NotBlank @Size(max = 10) String deliveryStatusName) {
 }

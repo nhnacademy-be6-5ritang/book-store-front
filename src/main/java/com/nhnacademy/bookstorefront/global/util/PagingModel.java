@@ -5,8 +5,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.ui.Model;
 
 /**
+ *  * @author 이경헌
  * 페이지네이션 처리를 수행하고 필요한 속성을 모델에 추가하는 유틸리티 클래스입니다.
- * @author 이경헌
  */
 public class PagingModel {
 	// 인스턴스화를 방지하기 위한 private 생성자

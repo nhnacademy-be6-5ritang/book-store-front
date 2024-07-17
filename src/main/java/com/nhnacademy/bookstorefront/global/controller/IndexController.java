@@ -5,8 +5,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * 인덱스 페이지 및 사용자 관련 페이지를 처리하는 컨트롤러 클래스입니다.
- *
- * @version 1.0
  */
 @Controller
 public class IndexController {

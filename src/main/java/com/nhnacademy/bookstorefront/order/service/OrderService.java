@@ -2,6 +2,7 @@ package com.nhnacademy.bookstorefront.order.service;
 
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.OrderCheckNonRequest;
+import com.nhnacademy.bookstorefront.order.dto.response.CreateCartOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
@@ -85,4 +86,9 @@ public interface OrderService {
 	 */
 	void refundingOrder(String orderInfoId);
 
+	/**
+	 * 카트 주문 생성
+	 * @return 주문 아이디
+	 */
+	CreateCartOrderResponse createCartOrder();
 }

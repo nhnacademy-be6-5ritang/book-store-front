@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nhnacademy.bookstorefront.point.dto.request.CreatePointEarningPolicyRequest;
 import com.nhnacademy.bookstorefront.point.dto.request.UpdatePointEarningPolicyRequest;
@@ -23,13 +24,15 @@ import com.nhnacademy.bookstorefront.point.dto.response.UpdatePointEarningPolicy
 @FeignClient(name = "point-feign-service", url = "http://localhost:8090/api")
 public interface PointServiceClient {
 	@PostMapping("/point-earning-policies")
-	ResponseEntity<CreatePointEarningPolicyResponse> createPointEarningPolicy (@RequestBody CreatePointEarningPolicyRequest createPointEarningPolicyRequest);
+	ResponseEntity<CreatePointEarningPolicyResponse> createPointEarningPolicy(
+		@RequestBody CreatePointEarningPolicyRequest createPointEarningPolicyRequest);
 
 	@GetMapping("/point-earning-policies")
 	ResponseEntity<List<GetPointEarningPolicyResponse>> getPointEarningPolicies();
 
 	@PatchMapping("/point-earning-policies/{pointEarningPolicyId}")
-	ResponseEntity<UpdatePointEarningPolicyResponse> updatePointEarningPolicy(@PathVariable Long pointEarningPolicyId, @RequestBody UpdatePointEarningPolicyRequest updatePointEarningPolicyRequest);
+	ResponseEntity<UpdatePointEarningPolicyResponse> updatePointEarningPolicy(@PathVariable Long pointEarningPolicyId,
+		@RequestBody UpdatePointEarningPolicyRequest updatePointEarningPolicyRequest);
 
 	@PatchMapping("/point-earning-policies/{pointEarningPolicyId}/activate")
 	ResponseEntity<Void> activatePointEarningPolicy(@PathVariable Long pointEarningPolicyId);
@@ -42,5 +45,8 @@ public interface PointServiceClient {
 
 	@GetMapping("/point-transactions/all")
 	ResponseEntity<Page<GetAllPointTransactionResponse>> getAllPointTransactions(Pageable pageable);
+
+	@PostMapping("/point-transactions/reviews")
+	ResponseEntity<GetPointTransactionResponse> reviewPointTransaction(@RequestParam String reviewType);
 
 }

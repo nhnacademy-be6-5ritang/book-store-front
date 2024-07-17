@@ -17,20 +17,18 @@ import com.nhnacademy.bookstorefront.author.dto.response.AuthorDto;
 import com.nhnacademy.bookstorefront.author.service.impl.AuthorServiceImpl;
 import com.nhnacademy.bookstorefront.global.util.PagingModel;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 /**
  * 저자 관리 웹 페이지 컨트롤러입니다.
- * 이 컨트롤러는 저자 정보를 생성, 조회, 수정, 삭제하는 기능을 제공합니다.
- * 또한 웹 페이지에서 사용할 뷰를 반환합니다.
- *
- * @version 1.0
  */
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/authors")
 public class AuthorController {
 	private final AuthorServiceImpl authorService;
+	private static final String REDIRECT_URL = "redirect:/api/authors/page";
 
 	/**
 	 * 저자 생성 폼을 반환합니다.
@@ -90,9 +88,9 @@ public class AuthorController {
 	 * @return 저자 리스트 페이지로 리다이렉트
 	 */
 	@PostMapping
-	public String createAuthor(@ModelAttribute AuthorDto request) {
+	public String createAuthor(@Valid @ModelAttribute AuthorDto request) {
 		authorService.createAuthor(request);
-		return "redirect:/api/authors/page";
+		return REDIRECT_URL;
 	}
 
 	/**
@@ -103,9 +101,9 @@ public class AuthorController {
 	 * @return 저자 리스트 페이지로 리다이렉트
 	 */
 	@PutMapping("/{authorId}")
-	public String updateAuthor(@PathVariable Long authorId, @ModelAttribute AuthorDto request) {
+	public String updateAuthor(@PathVariable Long authorId, @Valid @ModelAttribute AuthorDto request) {
 		authorService.updateAuthor(authorId, request);
-		return "redirect:/api/authors/page";
+		return REDIRECT_URL;
 	}
 
 	/**
@@ -117,6 +115,6 @@ public class AuthorController {
 	@DeleteMapping("/{authorId}")
 	public String deleteAuthor(@PathVariable Long authorId) {
 		authorService.deleteAuthor(authorId);
-		return "redirect:/api/authors/page";
+		return REDIRECT_URL;
 	}
 }

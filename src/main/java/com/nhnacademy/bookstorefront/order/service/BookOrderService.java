@@ -1,5 +1,7 @@
 package com.nhnacademy.bookstorefront.order.service;
 
+import java.util.List;
+
 import com.nhnacademy.bookstorefront.order.dto.request.CreateBookOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
@@ -27,4 +29,11 @@ public interface BookOrderService {
 	 * @return 주문 리스트 정보 리턴
 	 */
 	GetBookOrderResponse getBookOrder(Long bookOrderId);
+
+	/**
+	 * 주문 보안아이디로 주문리스트 가져오기
+	 * @param orderInfoId 주문보안아이디
+	 * @return 주문리스트 정보
+	 */
+	List<GetBookOrderResponse> getBookOrderByOrderId(String orderInfoId);
 }

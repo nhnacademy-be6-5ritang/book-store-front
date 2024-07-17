@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookTitleResponse;
+import com.nhnacademy.bookstorefront.point.dto.response.GetPointTransactionResponse;
 import com.nhnacademy.bookstorefront.review.dto.request.CreateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.request.UpdateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
@@ -82,7 +83,7 @@ public interface ReviewService {
 	 * @param request 리뷰 생성 요청 DTO
 	 * @param file    리뷰에 첨부할 파일
 	 */
-	void createReview(CreateReviewRequest request, MultipartFile file);
+	GetPointTransactionResponse createReview(CreateReviewRequest request, MultipartFile file);
 
 	/**
 	 * 주어진 리뷰 ID에 해당하는 리뷰를 반환합니다.

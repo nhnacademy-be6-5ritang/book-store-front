@@ -36,6 +36,7 @@
                     <th>Coupon Policy isUsed</th>
                     <th>Category Coupon Name</th>
                     <th>Book Coupon Title</th>
+                    <th>template quantity</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -67,6 +68,7 @@
                     <td><input type="text" class="form-control isUsed" th:value="${coupon.isUsed}"></td>
                     <td><input type="text" class="form-control categoryName" th:value="${coupon.categoryName}"></td>
                     <td><input type="text" class="form-control bookTitle" th:value="${coupon.bookTitle}"></td>
+                    <td><input type="text" class="form-control quantity" th:value="${coupon.quantity}"></td>
                 </tr>
                 </tbody>
             </table>

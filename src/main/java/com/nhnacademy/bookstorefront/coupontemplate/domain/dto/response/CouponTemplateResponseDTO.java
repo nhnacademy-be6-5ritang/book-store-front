@@ -17,7 +17,8 @@ public record CouponTemplateResponseDTO(
 	Long categoryId,
 	String categoryName,
 	LocalDateTime expiredDate,
-	LocalDateTime issueDate
+	LocalDateTime issueDate,
+	Long quantity
 ) {
 
 }

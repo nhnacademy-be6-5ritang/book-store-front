@@ -9,8 +9,6 @@ import com.nhnacademy.bookstorefront.author.dto.response.AuthorDto;
 
 /**
  * 외부 Author 서비스와 통신하여 작가 정보를 관리하는 인터페이스입니다.
- *
- * @version 1.0
  */
 public interface AuthorService {
 

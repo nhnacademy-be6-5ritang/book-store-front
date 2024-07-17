@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.nhnacademy.bookstorefront.bookstatus.dto.response.BookStatusDto;
 import com.nhnacademy.bookstorefront.bookstatus.service.impl.BookStatusServiceImpl;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -27,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/bookStatuses")
 public class BookStatusController {
 	private final BookStatusServiceImpl bookStatusService;
+	private static final String REDIRECT_URL = "redirect:/api/bookStatuses";
 
 	/**
 	 * 책 상태 생성 폼을 반환합니다.
@@ -70,9 +72,9 @@ public class BookStatusController {
 	 * @return 책 상태 리스트 페이지로 리다이렉트
 	 */
 	@PostMapping
-	public String createBookStatus(@ModelAttribute BookStatusDto request) {
+	public String createBookStatus(@Valid @ModelAttribute BookStatusDto request) {
 		bookStatusService.createBookStatus(request);
-		return "redirect:/api/bookStatuses";
+		return REDIRECT_URL;
 	}
 
 	/**
@@ -83,9 +85,9 @@ public class BookStatusController {
 	 * @return 책 상태 리스트 페이지로 리다이렉트
 	 */
 	@PutMapping("/{bookStatusId}")
-	public String updateBookStatus(@PathVariable Long bookStatusId, @ModelAttribute BookStatusDto request) {
+	public String updateBookStatus(@PathVariable Long bookStatusId, @Valid @ModelAttribute BookStatusDto request) {
 		bookStatusService.updateBookStatus(bookStatusId, request);
-		return "redirect:/api/bookStatuses";
+		return REDIRECT_URL;
 	}
 
 	/**
@@ -97,6 +99,6 @@ public class BookStatusController {
 	@DeleteMapping("/{bookStatusId}")
 	public String deleteBookStatus(@PathVariable Long bookStatusId) {
 		bookStatusService.deleteBookStatus(bookStatusId);
-		return "redirect:/api/bookStatuses";
+		return REDIRECT_URL;
 	}
 }
