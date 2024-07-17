@@ -25,8 +25,6 @@ function addCategorySelect() {
     defaultOption.textContent = '카테고리 선택';
     select.appendChild(defaultOption);
 
-    /* 카테고리 옵션들 추가 */
-    var categories = /*[[${categories}]]*/ [];
     categories.forEach(function (category) {
         var option = document.createElement('option');
         option.setAttribute('value', category.categoryId);
@@ -84,8 +82,6 @@ function addTagSelect() {
     defaultOption.textContent = '태그 선택';
     select.appendChild(defaultOption);
 
-    /* 태그 옵션들 추가 */
-    var tags = /*[[${tags}]]*/ [];
     tags.forEach(function (tag) {
         var option = document.createElement('option');
         option.setAttribute('value', tag.tagId);
@@ -116,3 +112,19 @@ function removeTagSelect(buttonElement) {
 
     tagCount--;
 }
+
+// TOAST UI Editor
+document.addEventListener('DOMContentLoaded', function () {
+    const editor = new toastui.Editor({
+        el: document.querySelector('#toastUi'),
+        height: '500px',
+        initialEditType: 'wysiwyg',
+        previewStyle: 'vertical'
+    });
+
+    const form = document.getElementById('form');
+    form.addEventListener('submit', function () {
+        const bookDescription = document.getElementById('bookDescription');
+        bookDescription.value = editor.getHTML();
+    });
+});
