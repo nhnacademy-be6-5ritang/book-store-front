@@ -226,7 +226,6 @@ public class OrderClientController {
 	}
 
 
-
 	@GetMapping("/complete/{order_list_id}/{order_id}")
 	public ModelAndView completeOrder(@PathVariable("order_list_id") Long orderListId,
 		@PathVariable("order_id") Long orderId) {
@@ -452,6 +451,7 @@ public class OrderClientController {
 	@GetMapping("/createOrderTest/{delivery_id}/cart/{orderInfoId}")
 	public ModelAndView createOrder(@PathVariable("orderInfoId") String orderInfoId, @PathVariable("delivery_id") Long deliveryId, @RequestParam(value = "couponId", required = false) Long couponId) {
 		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("orderListId", bookOrderServiceImpl.getBookOrderByOrderId(orderInfoId));
 
 		// 비회원인경우
 		if(couponId==null){
@@ -537,6 +537,7 @@ public class OrderClientController {
 			GetUserPointOrderResponse point = orderServiceImpl.getUserPoint();
 
 			modelAndView.addObject("orderList", bookOrders);
+			modelAndView.addObject("orderInfoId", orderInfoId);
 			modelAndView.addObject("deliveryId", deliveryId);
 			modelAndView.addObject("wrappingList", wrappingListResults);
 			modelAndView.addObject("delivery", delivery.deliveryPolicyPrice());
@@ -547,6 +548,17 @@ public class OrderClientController {
 
 
 		return modelAndView;
+	}
+
+	@PostMapping("/complete/cart-order/{orderInfoId}/{delivery_id}")
+	public String createCartOrder(@ModelAttribute CreateOrderRequest createOrderRequest,
+		@PathVariable("orderInfoId") String orderInfoId, @PathVariable("delivery_id") Long deliveryId
+	) {
+		List<GetBookOrderResponse> getBookOrderResponses = bookOrderServiceImpl.getBookOrderByOrderId(orderInfoId);
+		CreateOrderResponse createOrderResponse = orderServiceImpl.updateCartOrder(createOrderRequest, getBookOrderResponses.getFirst()
+			.orderId());
+		deliveryServiceImpl.updateDeliveryAddOrder(deliveryId, getBookOrderResponses.getFirst().orderId());
+		return "redirect:/api/payments/" + createOrderResponse.infoId();
 	}
 
 }
