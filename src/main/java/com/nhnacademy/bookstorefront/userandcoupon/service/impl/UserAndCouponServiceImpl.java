@@ -13,6 +13,7 @@ import com.nhnacademy.bookstorefront.deliverypolicy.dto.response.GetDeliveryPoli
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookByOrderCouponResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetListWrappingResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetWrappingResponse;
 import com.nhnacademy.bookstorefront.order.feignclient.OrderServiceClient;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.NoCouponResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.OneCouponResponseDTO;
@@ -94,6 +95,7 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 		BigDecimal salePrice = userAndCouponOrderResponseDTO.salePrice();
 		BigDecimal saleRate = userAndCouponOrderResponseDTO.saleRate();
 		BigDecimal maxSalePrice = userAndCouponOrderResponseDTO.maxSalePrice();
+		
 		BigDecimal orderPrice= orderResponse.getBookResponse().bookPrice().multiply(BigDecimal.valueOf(orderResponse.quantity()));
 
 		BigDecimal wrappingPrice = wrappingResponse.wrapping().getFirst().price();
