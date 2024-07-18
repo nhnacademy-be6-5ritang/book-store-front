@@ -37,11 +37,7 @@ public class GlobalExceptionHandler {
 		ModelAndView modelAndView = new ModelAndView("global/error");
 		modelAndView.addObject("message", exception.getMessage());
 
-		if (exception.status() >= 500 && exception.status() < 600) {
-			modelAndView.setStatus(HttpStatus.valueOf(exception.status())); // 기타 상태 코드 설정
-		} else {
-			// TODO: [김다운] alert로 띄우기
-		}
+		modelAndView.setStatus(HttpStatus.valueOf(exception.status()));
 
 		return modelAndView;
 	}
@@ -76,7 +72,7 @@ public class GlobalExceptionHandler {
 		try {
 			script = response.getWriter();
 			script.println("<script>");
-			script.println("alert('"+ errorStatus.getMessage() + "')");
+			script.println("alert('" + errorStatus.getMessage() + "')");
 			script.println("history.back()");
 			script.println("</script>");
 			script.flush();
@@ -84,7 +80,6 @@ public class GlobalExceptionHandler {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-
 
 	}
 
