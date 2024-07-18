@@ -44,7 +44,7 @@ public class PaymentController {
 		GetOrderByInfoResponse orderInfo = paymentServiceImpl.findByOrder(orderInfoId);
 		GetBookOrderByInfoIdResponse bookOrder = paymentServiceImpl.findByOrderInfoId(orderInfoId);
 		ModelAndView view = new ModelAndView();
-		view.addObject("orderName", bookOrder.getBookResponse().bookTitle());
+		view.addObject("orderName", bookOrder.title());
 		view.addObject("orderId", orderInfoId);
 		view.addObject("price", orderInfo.price());
 		view.addObject("payerName", orderInfo.payername());
@@ -75,10 +75,8 @@ public class PaymentController {
 		String response = restTemplate.postForObject(apiUrl, entity, String.class);
 
 		paymentServiceImpl.savePaymentResponse(response);
-		GetOrderByInfoResponse order = paymentServiceImpl.findByOrder(orderId);
-		GetBookOrderByInfoIdResponse bookOrder = paymentServiceImpl.findByOrderInfoId(orderId);
 		ModelAndView view = new ModelAndView();
-		view.setViewName("redirect:/api/orders/complete/" + bookOrder.orderListId() + "/" + order.orderId());
+		view.setViewName("redirect:/api/orders/complete/" + orderId);
 		return view;
 	}
 

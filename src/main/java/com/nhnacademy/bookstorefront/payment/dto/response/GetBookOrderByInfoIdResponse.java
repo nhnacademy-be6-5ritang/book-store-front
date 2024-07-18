@@ -7,6 +7,7 @@ public record GetBookOrderByInfoIdResponse(
 	Long orderListId,
 	FindByInfoIdBookOrderGetBookResponse getBookResponse,
 	FindByInfoIdBookOrderGetOrderResponse getOrderResponse,
-	Integer quantity
+	Integer quantity,
+	String title
 ) {
 }

@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 public record GetBookOrderGetBookResponse(
 	String bookTitle,
 	BigDecimal bookPrice,
-	String bookDescription
+	String bookDescription,
+	Long bookId
 ) {
 }

@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nhnacademy.bookstorefront.global.config.FeignClientConfig;
+import com.nhnacademy.bookstorefront.order.dto.response.GetBookByOrderCouponResponse;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCouponOrderResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCouponResponseDTO;
 
@@ -39,13 +41,27 @@ public interface UserAndCouponFeignClient {
 		@RequestParam(required = false) List<Long> categoryIds,
 		@RequestParam BigDecimal bookPrice);
 
+	@PostMapping("/coupons/users/order/carts")
+	ResponseEntity<List<UserAndCouponResponseDTO>> findCouponByCartOrder(
+		@RequestBody(required = false) List<GetBookByOrderCouponResponse> bookDetails
+	);
+
+
 	@PatchMapping("/coupons/users/payment/{userAndCouponId}")
 	ResponseEntity<Void> updateCouponAfterPayment(
 		@PathVariable("userAndCouponId") Long userAndCouponId);
 
+
+
+
+	@PatchMapping("/coupons/users/refund/{userAndCouponId}")
+	ResponseEntity<Void> updateCouponAfterRefund(
+		@PathVariable("userAndCouponId") Long userAndCouponId);
+
+
 	@GetMapping("/coupons/users/order/coupon")
 	ResponseEntity<UserAndCouponOrderResponseDTO> getSelectedCoupon(
-		@RequestParam(value = "couponId", required = false) Long couponId);
+		@RequestParam(value = "couponId") Long couponId);
 
 
 

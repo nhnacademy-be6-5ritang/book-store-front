@@ -40,7 +40,8 @@ public class CacheConfig {
 	 */
 	@Bean
 	public CacheManager cacheManager() {
-		return new ConcurrentMapCacheManager("categoriesCache");
+		return new ConcurrentMapCacheManager("categoriesCache", "orderedBooksCache", "likesBooksCache",
+			"newestBooksCache");
 	}
 
 	/**
@@ -50,7 +51,7 @@ public class CacheConfig {
 	@Scheduled(fixedRate = 300000) // 5분마다 캐시 갱신
 	@CacheEvict(value = {"categoriesCache"}, allEntries = true) // 기존 캐시 제거
 	public void refreshCache() {
-		log.info("Refresh cache completed.");
+		log.info("Refresh categoriesCache completed.");
 	}
 
 	/**
@@ -68,7 +69,7 @@ public class CacheConfig {
 		}
 	}
 
-	@Scheduled(fixedRate = 300000) // 5분마다 캐시 갱신
+	@Scheduled(cron = "0 0 * * * ?") // 매 시간마다 캐시 갱신
 	@CacheEvict(value = {"orderedBooksCache", "likesBooksCache", "newestBooksCache"}, allEntries = true) // 기존 캐시 제거
 	public void refreshMainPageCache() {
 		log.info("Main Page Refresh cache completed.");

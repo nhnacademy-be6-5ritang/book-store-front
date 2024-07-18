@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
 </head>
 
 <body>
@@ -109,19 +109,6 @@
                                                         </span>
                                                     </p>
 
-                                                    <div class="rating-widget">
-                                                        <div class="rating-block">
-                                                            <span class="fas fa-star star_on"></span>
-                                                            <span class="fas fa-star star_on"></span>
-                                                            <span class="fas fa-star star_on"></span>
-                                                            <span class="fas fa-star star_on"></span>
-                                                            <span class="fas fa-star "></span>
-                                                        </div>
-                                                        <div class="review-widget">
-                                                            <a th:href="@{/}">3.5점 (3개 리뷰)</a>
-                                                        </div>
-                                                    </div>
-
                                                     <div class="d-flex justify-content-end">
                                                         <a th:href="@{/api/books/update/{bookId} (bookId=${book.bookId})}"
                                                            class="btn btn-warning">편집</a>
@@ -142,46 +129,14 @@
                                                        href="#tab-1" role="tab" aria-controls="tab-1"
                                                        aria-selected="true">설명</a>
                                                 </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" id="tab2" data-bs-toggle="tab" href="#tab-2"
-                                                       role="tab" aria-controls="tab-2" aria-selected="true">리뷰 리스트
-                                                        (1)</a>
-                                                </li>
                                             </ul>
                                             <div class="tab-content space-db--20" id="myTabContent">
                                                 <div class="tab-pane fade show active" id="tab-1" role="tabpanel"
                                                      aria-labelledby="tab1">
                                                     <article class="review-article">
                                                         <h1 class="sr-only">Tab Article</h1>
-                                                        <p th:text="${book.bookDescription}"></p>
+                                                        <div th:utext="${book.bookDescription}"></div>
                                                     </article>
-                                                </div>
-                                                <div class="tab-pane fade" id="tab-2" role="tabpanel"
-                                                     aria-labelledby="tab2">
-                                                    <div class="review-wrapper">
-                                                        <h2 class="title-lg mb--20">1 REVIEW FOR AUCTOR GRAVIDA
-                                                            ENIM</h2>
-                                                        <div class="review-comment mb--20">
-                                                            <div class="avatar">
-                                                                <img th:src="@{/image/icon/author-logo.png}" alt="">
-                                                            </div>
-                                                            <div class="text">
-                                                                <div class="rating-block mb--15">
-                                                                    <span class="ion-android-star-outline star_on"></span>
-                                                                    <span class="ion-android-star-outline star_on"></span>
-                                                                    <span class="ion-android-star-outline star_on"></span>
-                                                                    <span class="ion-android-star-outline"></span>
-                                                                    <span class="ion-android-star-outline"></span>
-                                                                </div>
-                                                                <h6 class="author">ADMIN – <span
-                                                                        class="font-weight-400">March 23, 2015</span>
-                                                                </h6>
-                                                                <p>Lorem et placerat vestibulum, metus nisi posuere
-                                                                    nisl, in accumsan elit odio quis mi.</p>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

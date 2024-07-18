@@ -9,6 +9,7 @@ public record CreateOrderRequest(
 	String payerAddress,
 	BigDecimal orderPrice,
 	BigDecimal pointSale,
-	BigDecimal couponSale
+	BigDecimal couponSale,
+	Long couponId
 ) {
 }

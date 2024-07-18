@@ -123,4 +123,7 @@ public interface OrderServiceClient {
 
 	@GetMapping("/api/orders/{orderListId}/book")
 	ResponseEntity<GetBookByOrderCouponResponse> getBookByOneOrder(@PathVariable("orderListId") Long orderListId);
+
+	@PutMapping("/api/orders/cart-order/{orderId}")
+	ResponseEntity<CreateOrderResponse> updateCartOrder(@RequestBody CreateOrderRequest createOrderRequest, @PathVariable Long orderId);
 }

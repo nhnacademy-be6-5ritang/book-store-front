@@ -1,13 +1,11 @@
 package com.nhnacademy.bookstorefront.order.controller;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
@@ -46,7 +43,6 @@ import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetRefundResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetUserPointOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetWrappingResponse;
-import com.nhnacademy.bookstorefront.order.dto.response.UpdateBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.service.Impl.BookOrderServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.OrderServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.PaperTypeServiceImpl;
@@ -58,7 +54,6 @@ import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCo
 import com.nhnacademy.bookstorefront.userandcoupon.service.UserAndCouponService;
 
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -121,7 +116,7 @@ public class OrderClientController {
 		return "redirect:/api/deliveries/" + orderListId;
 	}
 
-	// TODO 주문성공시 쿠폰 update 로직 넣기
+
 	@GetMapping("/createOrderTest/{order_list_id}/{delivery_id}")
 	public ModelAndView createOrder(@PathVariable("order_list_id") Long orderListId, @PathVariable("delivery_id") Long deliveryId, @RequestParam(value = "couponId", required = false) Long couponId) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -220,23 +215,33 @@ public class OrderClientController {
 		@PathVariable("order_list_id") Long orderListId, @PathVariable("delivery_id") Long deliveryId
 	) {
 		CreateOrderResponse createOrderResponse = orderServiceImpl.createOrder(createOrderRequest);
+
+		if(createOrderRequest.couponId()!=null) {
+			userAndCouponService.updateCouponAfterPayment(createOrderRequest.couponId());
+		}
 		deliveryServiceImpl.updateDeliveryAddOrder(deliveryId, createOrderResponse.orderId());
 		bookOrderServiceImpl.updateOrder(orderListId, createOrderResponse.orderId());
 		return "redirect:/api/payments/" + createOrderResponse.infoId();
 	}
 
 
+	@GetMapping("/complete/{orderInfoId}")
+	public ModelAndView completeCartOrder(@PathVariable String orderInfoId) {
+		List<GetBookOrderResponse> list = bookOrderServiceImpl.getBookOrderByOrderId(orderInfoId);
+		BigDecimal total = BigDecimal.ZERO;
+		for (GetBookOrderResponse getBookOrderResponse : list) {
+			bookServiceImpl.updateQuantity(getBookOrderResponse.getBookResponse().bookId(), getBookOrderResponse.quantity());
+			GetListWrappingResponse wrappingResponse = wrappingPaperServiceImpl.getWrappingPaperByOrderListId(getBookOrderResponse.orderListId());
+			for (GetWrappingResponse wrapping : wrappingResponse.wrapping()){
+				total = total.add(wrapping.price());
+			}
+		}
 
-	@GetMapping("/complete/{order_list_id}/{order_id}")
-	public ModelAndView completeOrder(@PathVariable("order_list_id") Long orderListId,
-		@PathVariable("order_id") Long orderId) {
-
-		//업데이트 빼고 오더리스트아이디로 가져오기 변경 예정
-		UpdateBookOrderResponse bookOrder = bookOrderServiceImpl.updateOrder(orderListId, orderId);
-		bookServiceImpl.updateQuantity(bookOrder.bookId(), bookOrder.quantity());
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("bookOrder", bookOrder);
-		modelAndView.setViewName("order/order-complete");
+		modelAndView.addObject("order", orderServiceImpl.findByOrderInfoId(orderInfoId));
+		modelAndView.addObject("bookOrder", list);
+		modelAndView.addObject("total", total);
+		modelAndView.setViewName("order/order-cart-complete");
 		return modelAndView;
 	}
 
@@ -452,6 +457,7 @@ public class OrderClientController {
 	@GetMapping("/createOrderTest/{delivery_id}/cart/{orderInfoId}")
 	public ModelAndView createOrder(@PathVariable("orderInfoId") String orderInfoId, @PathVariable("delivery_id") Long deliveryId, @RequestParam(value = "couponId", required = false) Long couponId) {
 		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("orderListId", bookOrderServiceImpl.getBookOrderByOrderId(orderInfoId));
 
 		// 비회원인경우
 		if(couponId==null){
@@ -537,6 +543,7 @@ public class OrderClientController {
 			GetUserPointOrderResponse point = orderServiceImpl.getUserPoint();
 
 			modelAndView.addObject("orderList", bookOrders);
+			modelAndView.addObject("orderInfoId", orderInfoId);
 			modelAndView.addObject("deliveryId", deliveryId);
 			modelAndView.addObject("wrappingList", wrappingListResults);
 			modelAndView.addObject("delivery", delivery.deliveryPolicyPrice());
@@ -547,6 +554,22 @@ public class OrderClientController {
 
 
 		return modelAndView;
+	}
+
+
+	@PostMapping("/complete/cart-order/{orderInfoId}/{delivery_id}")
+	public String createCartOrder(@ModelAttribute CreateOrderRequest createOrderRequest,
+		@PathVariable("orderInfoId") String orderInfoId, @PathVariable("delivery_id") Long deliveryId
+	) {
+		List<GetBookOrderResponse> getBookOrderResponses = bookOrderServiceImpl.getBookOrderByOrderId(orderInfoId);
+		CreateOrderResponse createOrderResponse = orderServiceImpl.updateCartOrder(createOrderRequest, getBookOrderResponses.getFirst()
+			.orderId());
+
+		if(createOrderRequest.couponId()!=null) {
+			userAndCouponService.updateCouponAfterPayment(createOrderRequest.couponId());
+		}
+		deliveryServiceImpl.updateDeliveryAddOrder(deliveryId, getBookOrderResponses.getFirst().orderId());
+		return "redirect:/api/payments/" + createOrderResponse.infoId();
 	}
 
 }

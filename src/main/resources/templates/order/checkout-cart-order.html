@@ -102,7 +102,7 @@
                             </div>
 
 
-                            <form th:action="@{/api/orders/complete/{order_list_id}/{delivery_id}(order_list_id=${orderListId}, delivery_id=${deliveryId})}"
+                            <form th:action="@{/api/orders/complete/cart-order/{orderInfoId}/{delivery_id}(orderInfoId=${orderInfoId}, delivery_id=${deliveryId})}"
                                   method="post">
                                 <div class="col-lg-12 mb--20">
                                     <!-- Billing Address -->
@@ -202,6 +202,8 @@
                                                                     th:text="${oneResult.discount()}"></span>
                                                                 <input type="hidden" name="couponSale"
                                                                        th:value="${oneResult.discount()}"/>
+                                                                <input type="hidden" name="couponId"
+                                                                       th:value="${selectCoupon.id()}"/>
                                                             </p>
                                                             <p><strong>쿠폰 적용 후 가격:</strong> <span
                                                                     th:text="${oneResult.orderPriceAfterCoupon()}"></span>
@@ -262,12 +264,11 @@
                                                                                                name="pointSale"
                                                                                                value="0"
                                                                                                min="0"
-                                                                                               oninput="updateGrandTotal()">
-                                                        <p id="point-warning" style="color: red; display: none;">포인트 차감
-                                                            한도를 초과했습니다.</p>
-                                                        <p id="point-exceed-warning" style="color: red; display: none;">
-                                                            주문 가격을 초과하여 포인트를 적용할 수 없습니다.</p>
+                                                                                               >
+
                                                     </div>
+
+
 
 
                                                     <h4>최종가격(포인트 차감후 가격) <span id="grandTotal"></span></h4>
@@ -323,14 +324,31 @@ Footer Area
         }
 
     }
+    document.addEventListener('DOMContentLoaded', function() {
+        const noCouponInfo = document.getElementById('no-coupon-info');
+        const couponInfo = document.getElementById('coupon-info');
+        const pointInput = document.getElementById('pointInput');
 
+        // 포인트 입력 필드가 존재하는 경우에만 이벤트 리스너를 추가합니다.
+        if (pointInput) {
+            console.log("Point input field found.");
+            pointInput.addEventListener('input', updateGrandTotal);
+            pointInput.dispatchEvent(new Event('input')); // 초기 값으로 updateGrandTotal 호출
+        } else {
+            console.log("Point input field not found.");
+        }
+
+        if (noCouponInfo || couponInfo) {
+            console.log("Coupon or no-coupon info found.");
+            updateGrandTotal();
+        }
+    });
 
     function updateGrandTotal() {
         console.log("updateGrandTotal called");
+
         const pointInput = document.getElementById('pointInput');
         const grandTotal = document.getElementById('grandTotal');
-        const pointWarning = document.getElementById('point-warning');
-        const pointExceedWarning = document.getElementById('point-exceed-warning');
         const orderPriceElement = document.getElementById('orderPrice');
         const maxPoints = parseFloat(document.getElementById("pointDiscount")?.textContent) || 0;
 
@@ -341,6 +359,8 @@ Footer Area
         const couponInfo = document.getElementById('coupon-info');
         const noCouponInfo = document.getElementById('no-coupon-info');
 
+        console.log("maxPoints:", maxPoints);
+        console.log("pointValue initial:", pointValue);
 
         if (couponInfo) {
             console.log("쿠폰이 적용되었습니다.");
@@ -350,25 +370,55 @@ Footer Area
             orderPriceBeforePoint = parseFloat(document.getElementById('orderPriceBeforePointWithoutCoupon').textContent) || 0;
         }
 
+        console.log("orderPriceBeforePoint:", orderPriceBeforePoint);
 
         // 포인트 유효성 검사
-        if (pointValue > maxPoints) {
-            pointWarning.style.display = 'block';
-            pointValue = maxPoints; // 최대 포인트로 조정
-        } else {
+        let pointWarning = document.getElementById('dynamic-point-warning');
+        let pointExceedWarning = document.getElementById('dynamic-point-exceed-warning');
+
+        if (!pointWarning) {
+            pointWarning = document.createElement('p');
+            pointWarning.id = 'dynamic-point-warning';
+            pointWarning.style.color = 'red';
             pointWarning.style.display = 'none';
+            pointWarning.textContent = '포인트 차감 한도를 초과했습니다.';
+            pointInput.parentNode.insertBefore(pointWarning, pointInput.nextSibling);
         }
+
+        if (!pointExceedWarning) {
+            pointExceedWarning = document.createElement('p');
+            pointExceedWarning.id = 'dynamic-point-exceed-warning';
+            pointExceedWarning.style.color = 'red';
+            pointExceedWarning.style.display = 'none';
+            pointExceedWarning.textContent = '주문 가격을 초과하여 포인트를 적용할 수 없습니다.';
+            pointInput.parentNode.insertBefore(pointExceedWarning, pointInput.nextSibling);
+        }
+
+        if (pointValue > maxPoints) {
+            console.log("Point value exceeds max points");
+            pointWarning.style.display = 'block'; // 경고 메시지를 보이게 설정
+            pointValue = maxPoints; // 최대 포인트로 조정
+            pointInput.value = maxPoints; // pointInput 값도 업데이트
+            console.log("Adjusted point value: " + pointValue);
+        } else {
+            pointWarning.style.display = 'none'; // 경고 메시지를 숨김
+        }
+
+        pointValue = parseFloat(pointInput.value) || 0; // 다시 읽기
 
         const finalPrice = orderPriceBeforePoint - pointValue;
 
+        console.log("finalPrice:", finalPrice);
+
         // 최종 가격이 0 미만인지 체크
         if (finalPrice < 0) {
-            pointExceedWarning.style.display = 'block';
+            console.log("Final price is less than 0");
+            pointExceedWarning.style.display = 'block'; // 경고 메시지를 보이게 설정
             pointInput.value = 0; // 포인트 입력 초기화
             grandTotal.textContent = orderPriceBeforePoint.toFixed(2);
             orderPriceElement.value = orderPriceBeforePoint.toFixed(2); // orderPrice를 orderPriceBeforePoint로 설정
         } else {
-            pointExceedWarning.style.display = 'none';
+            pointExceedWarning.style.display = 'none'; // 경고 메시지를 숨김
             grandTotal.textContent = finalPrice.toFixed(2);
             orderPriceElement.value = finalPrice.toFixed(2); // orderPrice를 finalPrice로 설정
         }
