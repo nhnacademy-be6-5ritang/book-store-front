@@ -61,7 +61,7 @@ public class CouponTemplateController {
 	// 쿠폰발급페이지 페이징처리
 	@GetMapping("/issue")
 	public String getAllCouponTemplatesIssuePaging(@PageableDefault(page=1, size = 3)Pageable pageable,Model model) {
-		try{
+
 			Page<CouponTemplateResponseDTO> couponTemplates = couponTemplateService.getAllCouponTemplatesByUserPaging(pageable);
 		int blockLimit = 3;
 		int startPage = 1;
@@ -77,9 +77,7 @@ public class CouponTemplateController {
 		model.addAttribute("coupontemplates", couponTemplates);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
-		} catch (Exception e) {
-			model.addAttribute("error", "해당 쿠폰 템플릿 목록이 존재하지 않습니다");
-		}
+
 
 		return "coupon-user/user-coupon-issue";
 	}

@@ -30,66 +30,26 @@
                     <div class="col-md-6 d-flex mb-4">
                         <div class="coupon-card card w-100">
                             <div class="card-body coupon-card-body">
-                                <div class="coupon-field">
-                                    <label for="couponId-${coupon.id}">Coupon ID</label>
-                                    <input type="text" id="couponId-${coupon.id}" class="form-control"
-                                           th:value="${coupontemplate.id}" readonly>
+                                <p>이 쿠폰은 "<span th:text="${coupontemplate.type}"></span>" 타입 입니다.</p>
+
+                                <div th:if="${coupontemplate.type == 'category'}">
+                                    <p>카테고리 이름: <span th:text="${coupontemplate.categoryName}"></span></p>
                                 </div>
-                                <div class="coupon-field">
-                                    <label for="couponPolicyId-${coupon.id}">Coupon PolicyId</label>
-                                    <input type="text" id="couponPolicyId-${coupon.id}" class="form-control"
-                                           th:value="${coupontemplate.couponPolicyId}" readonly>
+                                <div th:if="${coupontemplate.type == 'book'}">
+                                    <p>도서 제목</p>: <span th:text="${coupontemplate.bookTitle}"></span></p>
                                 </div>
-                                <div class="coupon-field">
-                                    <label for="minOrderPrice-${coupon.id}">Min Order Price</label>
-                                    <input type="text" id="minOrderPrice-${coupon.id}" class="form-control"
-                                           th:value="${coupontemplate.minOrderPrice}" readonly>
+
+                                <p>최소 주문금액: <span th:text="${coupontemplate.minOrderPrice}"></span></p>
+
+                                <div th:if="${coupontemplate.saleRate != null}">
+                                    <p>할인율: <span th:text="${coupontemplate.saleRate}"></span></p>
+                                    <p>최대 할인가격: <span th:text="${coupontemplate.maxSalePrice}"></span></p>
                                 </div>
-                                <div class="coupon-field">
-                                    <label for="salePrice-${coupon.id}">Sale Price</label>
-                                    <input type="text" id="salePrice-${coupon.id}" class="form-control"
-                                           th:value="${coupontemplate.salePrice}" readonly>
+                                <div th:if="${coupontemplate.salePrice != null}">
+                                    <p>할인 금액: <span th:text="${coupontemplate.salePrice}"></span></p>
                                 </div>
-                                <div class="coupon-field">
-                                    <label for="saleRate-${coupon.id}">Sale Rate</label>
-                                    <input type="text" id="saleRate-${coupon.id}" class="form-control"
-                                           th:value="${coupontemplate.saleRate}" readonly>
-                                </div>
-                                <div class="coupon-field">
-                                    <label for="maxSalePrice-${coupon.id}">Max Sale Price</label>
-                                    <input type="text" id="maxSalePrice-${coupon.id}" class="form-control"
-                                           th:value="${coupontemplate.maxSalePrice}" readonly>
-                                </div>
-                                <div class="coupon-field">
-                                    <label for="type-${coupon.id}">Type</label>
-                                    <input type="text" id="type-${coupon.id}" class="form-control"
-                                           th:value="${coupontemplate.type}" readonly>
-                                </div>
-                                <div class="coupon-field">
-                                    <label for="expiredDate-${coupon.id}">Expired Date</label>
-                                    <input type="text" id="expiredDate-${coupon.id}" class="form-control"
-                                           th:value="${coupontemplate.expiredDate}" readonly>
-                                </div>
-                                <div class="coupon-field">
-                                    <label for="issueDate-${coupon.id}">Issue Date</label>
-                                    <input type="text" id="issueDate-${coupon.id}" class="form-control"
-                                           th:value="${coupontemplate.issueDate}" readonly>
-                                </div>
-                                <div class="coupon-field">
-                                    <label for="isUsed-${coupon.id}">CouponPolicy Used</label>
-                                    <input type="text" id="isUsed-${coupon.id}" class="form-control"
-                                           th:value="${coupontemplate.isUsed}" readonly>
-                                </div>
-                                <div class="coupon-field">
-                                    <label for="bookTitle-${coupon.id}">book Title</label>
-                                    <input type="text" id="bookTitle-${coupon.id}" class="form-control"
-                                           th:value="${coupontemplate.bookTitle}" readonly>
-                                </div>
-                                <div class="coupon-field">
-                                    <label for="categoryName-${coupon.id}">Category Name</label>
-                                    <input type="text" id="categoryName-${coupon.id}" class="form-control"
-                                           th:value="${coupontemplate.categoryName}" readonly>
-                                </div>
+
+                                <p>만료일: <span th:text="${coupontemplate.expiredDate}"></span></p>
                             </div>
                             <div class="card-footer issue-btn">
                                 <form th:action="@{/coupons/{couponTemplateId}(couponTemplateId=${coupontemplate.id})}" th:method="post">
