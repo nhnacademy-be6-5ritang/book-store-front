@@ -75,10 +75,8 @@ public class PaymentController {
 		String response = paymentRestTemplate.postForObject(apiUrl, entity, String.class);
 
 		paymentServiceImpl.savePaymentResponse(response);
-		GetOrderByInfoResponse order = paymentServiceImpl.findByOrder(orderId);
-		GetBookOrderByInfoIdResponse bookOrder = paymentServiceImpl.findByOrderInfoId(orderId);
 		ModelAndView view = new ModelAndView();
-		view.setViewName("redirect:/api/orders/complete/" + bookOrder.orderListId() + "/" + order.orderId());
+		view.setViewName("redirect:/api/orders/complete/" + orderId);
 		return view;
 	}
 

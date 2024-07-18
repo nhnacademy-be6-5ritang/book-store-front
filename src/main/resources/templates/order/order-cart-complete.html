@@ -71,10 +71,22 @@
                                         th:text="${list.quantity()}"></span> </strong>
                                 </td>
                                 <td><strong><span
-                                        th:text="${order.price()}"></span></strong></td>
+                                        th:text="${list.getBookResponse().bookPrice() * list.quantity()}"></span></strong></td>
                             </tr>
                             </tbody>
                             <tfoot>
+                            <tr>
+                                <th>포장지 가격</th>
+                                <td><strong><span
+                                        th:text="${total}"></span></strong></td>
+                            </tr>
+
+                            <tr>
+                                <th>할인 가격</th>
+                                <td><strong><span
+                                        th:text="- ${order.couponSale() + order.pointSale() }"></span></strong></td>
+                            </tr>
+
                             <tr>
                                 <th>Total:</th>
                                 <td><strong><span

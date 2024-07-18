@@ -4,5 +4,6 @@ import java.time.LocalDateTime;
 
 public record UserAndCouponRequestUpdateDTO(
 	LocalDateTime usedDate,
+
 	Boolean isUsed
 ) {}

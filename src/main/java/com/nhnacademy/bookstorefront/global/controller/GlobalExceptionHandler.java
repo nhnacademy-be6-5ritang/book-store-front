@@ -1,5 +1,9 @@
 package com.nhnacademy.bookstorefront.global.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,7 +13,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.nhnacademy.bookstorefront.global.controller.payload.ErrorStatus;
+
 import feign.FeignException;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * @author 이경헌
@@ -57,24 +64,44 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ModelAndView processValidationError(MethodArgumentNotValidException exception) {
+	public void processValidationError(MethodArgumentNotValidException exception, HttpServletResponse response) {
 		BindingResult bindingResult = exception.getBindingResult();
 		StringBuilder errorMessageBuilder = new StringBuilder();
-
 		for (FieldError fieldError : bindingResult.getFieldErrors()) {
 			errorMessageBuilder
-				.append("필드: ").append(fieldError.getField())
-				.append(" 에러: ").append(fieldError.getDefaultMessage())
-				.append(", 입력된 값: ").append(fieldError.getRejectedValue());
+				.append("필드 : ")
+				.append(fieldError.getField())
+				.append("\\n")
+				.append("에러: ")
+				.append(fieldError.getDefaultMessage());
+
 		}
 
 		// 오류 메시지 생성
 		String errorMessage = errorMessageBuilder.toString();
 
-		ModelAndView modelAndView = new ModelAndView("global/error");
-		modelAndView.addObject("message", errorMessage);
-		modelAndView.setStatus(HttpStatus.BAD_REQUEST);
+		// ErrorStatus 객체 생성
+		ErrorStatus errorStatus = ErrorStatus.from(
+			errorMessage,
+			HttpStatus.BAD_REQUEST,
+			LocalDateTime.now()
+		);
 
-		return modelAndView;
+		PrintWriter script;
+
+		response.setContentType("text/html;charset=UTF-8");
+		try {
+			script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('"+ errorStatus.getMessage() + "')");
+			script.println("history.back()");
+			script.println("</script>");
+			script.flush();
+			script.close();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+
 	}
 }

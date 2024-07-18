@@ -17,12 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.nhnacademy.bookstorefront.order.dto.response.GetBookByOrderCouponResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.service.Impl.BookOrderServiceImpl;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCouponResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.service.UserAndCouponService;
-
-import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/coupons")
@@ -83,11 +82,18 @@ public class UserAndCouponController {
 			return "redirect:/api/orders/createOrderTest/" + deliveryId + "/cart/" + orderInfoId;
 		}
 
-		List<List<UserAndCouponResponseDTO>> couponList = new ArrayList<>();
+		List<GetBookByOrderCouponResponse> bookDetails = new ArrayList<>(List.of());
 		for (GetBookOrderResponse bookOrder : bookOrders) {
-            List<UserAndCouponResponseDTO> list = userAndCouponService.getAllUserAndCouponByOrder(bookOrder.orderListId());
-            couponList.add(list);
+            GetBookByOrderCouponResponse bookByOrderCouponResponse = userAndCouponService.getCartOrderCouponByBookDetails(bookOrder.orderListId());
+            bookDetails.add(bookByOrderCouponResponse);
 		}
+
+        List<UserAndCouponResponseDTO> couponList = userAndCouponService.getAllUserAndCouponByCartOrder(bookDetails);
+
+
+
+
+
 
 		model.addAttribute("deliveryId", deliveryId);
 		model.addAttribute("couponList", couponList);
