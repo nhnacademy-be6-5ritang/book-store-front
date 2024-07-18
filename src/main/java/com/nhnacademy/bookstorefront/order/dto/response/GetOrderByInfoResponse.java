@@ -14,6 +14,8 @@ public record GetOrderByInfoResponse(
 	String payerAddress,
 	LocalDateTime orderDate,
 	String status,
-	BigDecimal price
+	BigDecimal price,
+	BigDecimal couponSale,
+	BigDecimal pointSale
 ) {
 }
