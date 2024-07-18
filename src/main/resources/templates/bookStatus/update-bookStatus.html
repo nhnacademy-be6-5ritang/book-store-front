@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
 </head>
 
 
@@ -53,13 +53,15 @@
                                         <div class="d-flex justify-content-between align-items-center">
                                             <h3>도서상태</h3>
                                         </div>
-                                           <div class="card mt-4">
+                                        <div class="card mt-4">
                                             <div class="card-body">
                                                 <!-- 도서상태 수정 폼 -->
-                                                <form th:action="@{/api/bookStatuses/{bookStatusId}(bookStatusId=${bookStatus.bookStatusId})}" th:method="put" th:object="${bookStatus}">
+                                                <form th:action="@{/api/bookStatuses/{bookStatusId}(bookStatusId=${bookStatus.bookStatusId})}"
+                                                      th:method="put" th:object="${bookStatus}">
                                                     <div class="form-group">
                                                         <label for="bookStatusName">도서상태 이름</label>
-                                                        <input type="text" class="form-control" id="bookStatusName" th:field="*{bookStatusName}" required>
+                                                        <input type="text" class="form-control" id="bookStatusName"
+                                                               th:field="*{bookStatusName}" required>
                                                     </div>
                                                     <button type="submit" class="btn btn-primary">수정</button>
                                                     <a class="btn btn-secondary" onclick="history.back()">취소</a>

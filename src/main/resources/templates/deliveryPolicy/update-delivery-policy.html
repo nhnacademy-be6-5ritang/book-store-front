@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
 </head>
 
 
@@ -56,22 +56,29 @@
                                         <div class="card mt-4">
                                             <div class="card-body">
                                                 <!-- 정책 수정 폼 -->
-                                                <form th:action="@{/api/deliveryPolicies/{deliveryPolicyId}(deliveryPolicyId=${deliveryPolicy.deliveryPolicyId})}" th:method="put" th:object="${deliveryPolicy}">
+                                                <form th:action="@{/api/deliveryPolicies/{deliveryPolicyId}(deliveryPolicyId=${deliveryPolicy.deliveryPolicyId})}"
+                                                      th:method="put" th:object="${deliveryPolicy}">
                                                     <div class="form-group">
                                                         <label for="deliveryPolicyName">정책 이름</label>
-                                                        <input type="text" class="form-control" id="deliveryPolicyName" th:field="*{deliveryPolicyName}" required>
+                                                        <input type="text" class="form-control" id="deliveryPolicyName"
+                                                               th:field="*{deliveryPolicyName}" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="deliveryPolicyContent">정책 내용</label>
-                                                        <textarea class="form-control" id="deliveryPolicyContent" th:field="*{deliveryPolicyContent}" rows="4" required></textarea>
+                                                        <textarea class="form-control" id="deliveryPolicyContent"
+                                                                  th:field="*{deliveryPolicyContent}" rows="4"
+                                                                  required></textarea>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="deliveryPolicyPrice">배송비</label>
-                                                        <input type="text" class="form-control" id="deliveryPolicyPrice" th:field="*{deliveryPolicyPrice}" required>
+                                                        <input type="text" class="form-control" id="deliveryPolicyPrice"
+                                                               th:field="*{deliveryPolicyPrice}" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="deliveryPolicyStandardPrice">정책 기준 가격</label>
-                                                        <input type="text" class="form-control" id="deliveryPolicyStandardPrice" th:field="*{deliveryPolicyStandardPrice}" required>
+                                                        <input type="text" class="form-control"
+                                                               id="deliveryPolicyStandardPrice"
+                                                               th:field="*{deliveryPolicyStandardPrice}" required>
                                                     </div>
                                                     <button type="submit" class="btn btn-primary">수정</button>
                                                     <a class="btn btn-secondary" onclick="history.back()">취소</a>

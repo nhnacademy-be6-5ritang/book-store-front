@@ -1,0 +1,68 @@
+#signup-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup-form-container {
+    width: 100%;
+    display: grid;
+    place-items: center;
+}
+
+.signup-input-table {
+    width: 70%;
+}
+
+.signup-input-table tr {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup-input-table td:not(.label-column) {
+    width: 400px;
+}
+
+.signup-input-table label {
+    margin-right: 1rem;
+    font-size: 1.2rem;
+    color: #797979;
+}
+
+.signup-input-table input {
+    width: 25rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #797979;
+    border-radius: 6px;
+}
+
+.signup-input-table select {
+    width: 23%;
+    height: 2.65rem;
+    padding: 0.1rem 0.3rem;
+    border: 1px solid #797979;
+    border-radius: 6px;
+}
+
+.email-input-container {
+    position: relative;
+}
+
+.code-input-container {
+    position: relative;
+}
+
+.send-button, .verify-button {
+    position: absolute;
+}
+
+.send-button {
+    top: 10px;
+    right: 0.5rem;
+}
+
+.verify-button {
+    top: 10px;
+    right: 0.5rem;
+}

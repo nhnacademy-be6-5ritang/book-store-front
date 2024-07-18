@@ -1,0 +1,32 @@
+.footer-container {
+    background-color: #F2F2F2;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    font-size: 1rem;
+}
+
+.footer-logo-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.footer-second-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.footer-third-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.copyright-container {
+    padding: 0.5rem 2rem;
+    text-align: end;
+    background-color: #333333;
+    color: #F2F2F2;
+}

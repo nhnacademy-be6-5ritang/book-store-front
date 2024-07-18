@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
 </head>
 
 
@@ -65,12 +65,18 @@
                                                 </thead>
                                                 <tbody>
                                                 <tr th:each="author, index : ${authors}">
-                                                    <td th:text="${index.index + 1  + (pageable.pageNumber - 1) * pageable.pageSize}">1</td>
+                                                    <td th:text="${index.index + 1  + (pageable.pageNumber - 1) * pageable.pageSize}">
+                                                        1
+                                                    </td>
                                                     <td th:text="${author.authorName}">작가 이름</td>
                                                     <td style="display: flex; align-items: center;">
-                                                        <a th:href="@{/api/authors/update/{authorId} (authorId=${author.authorId})}" class="btn btn-warning inline-text">편집</a>
-                                                        <form th:action="@{/api/authors/{authorId} (authorId=${author.authorId})}" th:method="delete">
-                                                            <button type="submit" class="btn btn-danger inline-text">삭제</button>
+                                                        <a th:href="@{/api/authors/update/{authorId} (authorId=${author.authorId})}"
+                                                           class="btn btn-warning inline-text">편집</a>
+                                                        <form th:action="@{/api/authors/{authorId} (authorId=${author.authorId})}"
+                                                              th:method="delete">
+                                                            <button type="submit" class="btn btn-danger inline-text">
+                                                                삭제
+                                                            </button>
                                                         </form>
                                                     </td>
                                                 </tr>

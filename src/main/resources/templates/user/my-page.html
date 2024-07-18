@@ -4,139 +4,138 @@
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>마이페이지</title>
+    <title>책 파는 오리탕집</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
-    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/pages/my-page.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main/main.css}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
 
+
 <body>
-<div class="site-wrapper" id="top">
-    <!--=================================
-    Header Area
-    ===================================== -->
-    <div th:insert="~{global/header}"></div>
+<header th:insert="~{global/header}"></header>
 
-    <section class="breadcrumb-section">
-        <h2 class="sr-only">Site Breadcrumb</h2>
-        <div class="container">
-            <div class="breadcrumb-contents">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a th:href="@{/books/main}">홈</a></li>
-                        <li class="breadcrumb-item active">마이 페이지</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </section>
+<section id="my-page" class="top-container">
+    <div class="site-wrapper" id="top">
 
-    <div class="page-section inner-page-sec-padding">
-        <div class="container" style="">
-            <div class="row">
-                <!-- My Account Tab Menu Start -->
-                <div class="col-lg-3 col-12">
-                    <!-- 사용자 계정 메뉴 -->
-                    <div th:insert="~{fragments/user-account-menu.html}"></div>
+        <section class="breadcrumb-section">
+            <h2 class="sr-only">Site Breadcrumb</h2>
+            <div class="container">
+                <div class="breadcrumb-contents">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a th:href="@{/books/main}">홈</a></li>
+                            <li class="breadcrumb-item active">마이 페이지</li>
+                        </ol>
+                    </nav>
                 </div>
-                <div class="col-lg-9 col-12">
-                    <div style="display: flex">
-                        <h5>마이 페이지</h5>
-                        <div style="height: 100%; display: grid; place-items: center;">
-                            <div th:if="${myUserInfo.userStatusName == 'ACTIVE'}"
-                                 style="width: 7px; height: 7px; border-radius: 50%; background-color: #10a400"></div>
-                            <div th:if="${myUserInfo.userStatusName == 'DORMANT'}"
-                                 style="width: 7px; height: 7px; border-radius: 50%; background-color: #a8a8a8"></div>
-                        </div>
+            </div>
+        </section>
+
+        <div class="page-section inner-page-sec-padding">
+            <div class="container" style="">
+                <div class="row">
+                    <!-- My Account Tab Menu Start -->
+                    <div class="col-lg-3 col-12">
+                        <!-- 사용자 계정 메뉴 -->
+                        <div th:insert="~{fragments/user-account-menu.html}"></div>
                     </div>
-                    <table>
-                        <tr>
-                            <td>이름</td>
-                            <td th:text="${myUserInfo.name}"></td>
-                            <td>
-                                <div th:if="${myUserInfo.userStatusName == 'DORMANT'}">
-                                    <button id="dormant-to-active-button" type="button"
-                                            th:data-email="${myUserInfo.email}">
-                                        휴면 해제
-                                    </button>
-                                    <div id="code-input-container" style="display: none">
-                                        <input id="certify-code" type="text" placeholder="인증번호를 입력해주세요" required>
-                                        <button type="button" class="verify-code" id="certify-code-button">
-                                            인증번호 확인
+                    <div class="col-lg-9 col-12">
+                        <div style="display: flex">
+                            <h5>마이 페이지</h5>
+                            <div style="height: 100%; display: grid; place-items: center;">
+                                <div th:if="${myUserInfo.userStatusName == 'ACTIVE'}"
+                                     style="width: 7px; height: 7px; border-radius: 50%; background-color: #10a400"></div>
+                                <div th:if="${myUserInfo.userStatusName == 'DORMANT'}"
+                                     style="width: 7px; height: 7px; border-radius: 50%; background-color: #a8a8a8"></div>
+                            </div>
+                        </div>
+                        <table>
+                            <tr>
+                                <td>이름</td>
+                                <td th:text="${myUserInfo.name}"></td>
+                                <td>
+                                    <div th:if="${myUserInfo.userStatusName == 'DORMANT'}">
+                                        <button id="dormant-to-active-button" type="button"
+                                                th:data-email="${myUserInfo.email}">
+                                            휴면 해제
                                         </button>
+                                        <div id="code-input-container" style="display: none">
+                                            <input id="certify-code" type="text" placeholder="인증번호를 입력해주세요" required>
+                                            <button type="button" class="verify-code" id="certify-code-button">
+                                                인증번호 확인
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>권한</td>
-                            <td th:each="role : ${myUserInfo.roles}" th:text="${role}"></td>
-                            <td>등급</td>
-                            <td onmouseover="displayUserGrades()" onmouseout="hideUserGrades()"
-                                th:text="${myUserInfo.userGradeName}"></td>
-                            <td style="position: absolute">
-                                <div id="user-grades-data" class="user-grades-hidden">
-                                    [REGULAR : 1.5% 포인트 적립] 0 ~ 100,000<br>
-                                    [ROYAL : 3% 포인트 적립] 100,000 ~ 300,000<br>
-                                    [GRAND : 5% 포인트 적립] 300,000 ~ 1,000,000<br>
-                                    [PRESTIGE : 10% 포인트 적립] 1,000,000 ~
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>총 주문 금액</td>
-                            <td th:text="${myTotalOrderPrice} + '원'"></td>
-                        </tr>
-                        <tr>
-                            <td>이메일</td>
-                            <td th:text="${myUserInfo.email}"></td>
-                            <td>
-                                <button id="update-email-button" onclick="alert('아직 구현 중 ...')">이메일 변경</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>비밀번호</td>
-                            <td>********</td>
-                            <td>
-                                <button id="update-password-button" onclick="alert('아직 구현 중 ...')">비밀번호 변경</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>연락처</td>
-                            <td th:text="${myUserInfo.contact}"></td>
-                        </tr>
-                        <tr>
-                            <td>내 주소</td>
-                            <!--<td th:text="${myUserInfo.address}"></td>-->
-                            <td>주소 구현 중...</td>
-                            <td>
-                                <button id="update-address-button" onclick="alert('아직 구현 중 ...')">주소 변경</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>가입일</td>
-                            <td th:text="${myUserInfo.createdAt}"></td>
-                        </tr>
-                    </table>
-                    <button id="update-info-button">정보수정</button>
-                    <button id="withdraw-button">회원탈퇴</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>권한</td>
+                                <td th:each="role : ${myUserInfo.roles}" th:text="${role}"></td>
+                                <td>등급</td>
+                                <td onmouseover="displayUserGrades()" onmouseout="hideUserGrades()"
+                                    th:text="${myUserInfo.userGradeName}"></td>
+                                <td style="position: absolute">
+                                    <div id="user-grades-data" class="user-grades-hidden">
+                                        [REGULAR : 1.5% 포인트 적립] 0 ~ 100,000<br>
+                                        [ROYAL : 3% 포인트 적립] 100,000 ~ 300,000<br>
+                                        [GRAND : 5% 포인트 적립] 300,000 ~ 1,000,000<br>
+                                        [PRESTIGE : 10% 포인트 적립] 1,000,000 ~
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>총 주문 금액</td>
+                                <td th:text="${myTotalOrderPrice} + '원'"></td>
+                            </tr>
+                            <tr>
+                                <td>포인트</td>
+                                <td th:text="${myUserInfo.points} + ' 포인트'"></td>
+                            </tr>
+                            <tr>
+                                <td>이메일</td>
+                                <td th:text="${myUserInfo.email}"></td>
+                                <td>
+                                    <button id="update-email-button" onclick="alert('아직 구현 중 ...')">이메일 변경</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>비밀번호</td>
+                                <td>********</td>
+                                <td>
+                                    <button id="update-password-button" onclick="alert('아직 구현 중 ...')">비밀번호 변경</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>연락처</td>
+                                <td th:text="${myUserInfo.contact}"></td>
+                            </tr>
+                            <tr>
+                                <td>내 주소</td>
+                                <!--<td th:text="${myUserInfo.address}"></td>-->
+                                <td>주소 구현 중...</td>
+                                <td>
+                                    <button id="update-address-button" onclick="alert('아직 구현 중 ...')">주소 변경</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>가입일</td>
+                                <td th:text="${myUserInfo.createdAt}"></td>
+                            </tr>
+                        </table>
+                        <button id="update-info-button">정보수정</button>
+                        <button id="withdraw-button">회원탈퇴</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<!--=================================
-Footer Area
-===================================== -->
 <div th:insert="~{global/footer}"></div>
-
-<!-- Use Minified Plugins Version For Fast Page Load -->
-<script th:src="@{/js/plugins.js}"></script>
-<script th:src="@{/js/ajax-mail.js}"></script>
-<script th:src="@{/js/custom.js}"></script>
 
 <script th:src="@{/js/my-page.js}"></script>
 </body>

@@ -1,10 +1,33 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="zxx">
+<html lang="zxx">
+
 <head>
-    <title>Error</title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>책 파는 오리탕집</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main/main.css}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
+
+
 <body>
-<h1>에러발생</h1>
-<p th:text="${message}"></p>
+<header th:insert="~{global/header}"></header>
+
+<section id="error-container" style="display: grid; place-items: center">
+    <div style="width: 33%; display: grid; place-items: center">
+        <h5 style="color: #d50000">ERROR</h5>
+        <br/>
+        <p style="color: #333333; word-wrap: break-word" th:text="${message}"></p>
+        <br/>
+        <a href="javascript:history.back()">돌아가기</a>
+    </div>
+</section>
+
+<footer th:insert="~{global/footer.html}"></footer>
 </body>
 </html>

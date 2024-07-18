@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
 </head>
 
 
@@ -59,7 +59,8 @@
                                                 <form th:action="@{/api/bookStatuses}" method="post">
                                                     <div class="form-group">
                                                         <label for="bookStatusName">도서상태 이름</label>
-                                                        <input type="text" class="form-control" id="bookStatusName" name="bookStatusName" required>
+                                                        <input type="text" class="form-control" id="bookStatusName"
+                                                               name="bookStatusName" required>
                                                     </div>
                                                     <button type="submit" class="btn btn-primary">추가</button>
                                                     <a class="btn btn-secondary" onclick="history.back()">취소</a>
