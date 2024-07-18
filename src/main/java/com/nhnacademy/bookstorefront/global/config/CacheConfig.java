@@ -48,7 +48,7 @@ public class CacheConfig {
 	 * 고정된 간격으로 캐시를 갱신하는 스케줄된 메서드입니다.
 	 * "categoriesCache" 캐시에서 모든 항목을 제거합니다.
 	 */
-	@Scheduled(fixedRate = 300000) // 5분마다 캐시 갱신
+	@Scheduled(cron = "0 0 0 * * ?") // 매일 자정에 캐시 갱신
 	@CacheEvict(value = {"categoriesCache"}, allEntries = true) // 기존 캐시 제거
 	public void refreshCache() {
 		log.info("Refresh categoriesCache completed.");
