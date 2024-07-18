@@ -90,11 +90,9 @@
         </filter>
     </appender>
 
-
     <!-- LogNCrashAppender 추가 -->
     <appender name="LOG_N_CRASH" class="com.nhnacademy.bookstorefront.global.config.LogNCrashAppender">
     </appender>
-
 
     <!--  root 로거 설정  -->
     <root level="info">
