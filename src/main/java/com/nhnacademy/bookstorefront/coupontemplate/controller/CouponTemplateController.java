@@ -14,6 +14,8 @@ import com.nhnacademy.bookstorefront.coupontemplate.domain.dto.request.CouponTem
 import com.nhnacademy.bookstorefront.coupontemplate.domain.dto.response.CouponTemplateResponseDTO;
 import com.nhnacademy.bookstorefront.coupontemplate.service.CouponTemplateService;
 
+import jakarta.validation.Valid;
+
 @Controller
 @RequestMapping("/coupons")
 public class CouponTemplateController {
@@ -25,7 +27,7 @@ public class CouponTemplateController {
 	}
 
 	@PostMapping
-	public String createCoupon(@ModelAttribute CouponTemplateCreateRequestDTO requestDTO) {
+	public String createCoupon(@Valid @ModelAttribute CouponTemplateCreateRequestDTO requestDTO) {
 		couponTemplateService.createCouponTemplate(requestDTO);
 	 return "redirect:/coupons/policies";
 	}
