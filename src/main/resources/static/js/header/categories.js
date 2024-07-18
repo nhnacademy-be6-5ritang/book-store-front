@@ -2,11 +2,11 @@ const categoryMenuButton = document.getElementById('category-menu-button');
 const parentCategoriesContainer = document.querySelector('.categories-container');
 
 categoryMenuButton.addEventListener('click', () => {
-    if (parentCategoriesContainer.classList.contains('show')) {
-        parentCategoriesContainer.classList.remove('show');
+    if (parentCategoriesContainer.classList.contains('monte-show')) {
+        parentCategoriesContainer.classList.remove('monte-show');
         categoryMenuButton.classList.remove('active');
     } else {
-        parentCategoriesContainer.classList.add('show');
+        parentCategoriesContainer.classList.add('monte-show');
         categoryMenuButton.classList.add('active');
     }
 });

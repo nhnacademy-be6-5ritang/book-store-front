@@ -1,0 +1,50 @@
+.my-info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-left: 1.4rem;
+}
+
+.my-info-table td {
+    /*    td의 위쪽에 text*/
+}
+
+.button-container {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+#withdraw-button {
+    width: 7rem;
+    height: 2.5rem;
+    color: #a8a8a8;
+}
+
+#withdraw-button:hover {
+    color: #FF5700;
+    border: 1px solid #FF5700;
+    border-radius: 6px;
+}
+
+.table-label {
+    color: #797979;
+}
+
+.my-address-a {
+    margin-left: 2rem;
+    width: 7rem;
+    color: #a8a8a8;
+    border-radius: 6px;
+    display: grid;
+    place-items: center;
+}
+
+.my-address-a:hover {
+    color: #333333;
+    cursor: pointer;
+}
+
+.table-left-data {
+    width: 50%;
+}

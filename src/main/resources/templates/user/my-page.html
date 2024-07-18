@@ -10,10 +10,10 @@
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/user/my-page.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/user/my-info.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
-
 
 <body>
 <header th:insert="~{global/header}"></header>
@@ -24,7 +24,7 @@
         <section id="my-page-header">
             <div style="height: 100%; display: grid; place-items: center;">
                 <div th:if="${myUserInfo.userStatusName == 'ACTIVE'}"
-                     style="width: 7px; height: 7px; border-radius: 50%; background-color: #10a400"></div>
+                     style="width: 7px; height: 7px; border-radius: 50%; background-color: #FF5700"></div>
                 <div th:if="${myUserInfo.userStatusName == 'DORMANT'}"
                      style="width: 7px; height: 7px; border-radius: 50%; background-color: #a8a8a8"></div>
             </div>
@@ -45,12 +45,12 @@
                     <td class="table-label">총 주문 금액</td>
                     <td class="table-left-data">
                         <span th:text="${myTotalOrderPrice}"></span>
-                        <span style="font-weight:bold; color: #10a400">₩</span>
+                        <span style="color: #797979">원</span>
                     </td>
                     <td class="table-label">포인트</td>
                     <td>
                         <span th:text="${myUserInfo.points}"></span>
-                        <span style="font-weight:bold; color:#a80000;">P</span>
+                        <span style="font-weight:bold; color:#FF5700;">P</span>
                     </td>
                 </tr>
                 <tr>
@@ -111,5 +111,4 @@
 
 <script th:src="@{/js/my-page.js}"></script>
 </body>
-
 </html>
