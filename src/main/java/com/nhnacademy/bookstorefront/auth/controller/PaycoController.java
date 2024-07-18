@@ -37,8 +37,7 @@ public class PaycoController {
 	@Value("${payco.redirect-uri}")
 	private String redirectUri;
 
-	private final RestTemplate restTemplate = new RestTemplate();
-
+	private final RestTemplate restTemplate;
 	private final AuthService authService;
 	private final AuthClient authClient;
 
