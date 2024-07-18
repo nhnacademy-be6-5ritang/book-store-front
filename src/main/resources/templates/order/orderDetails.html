@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
 </head>
 
 
@@ -60,7 +60,7 @@
                                                     <th class="pro-title">주문 번호</th>
                                                     <th class="pro-name" style="width:10%">결제자 이름</th>
                                                     <th class="pro-email">결제자 이메일</th>
-                                                    <th class="pro-address" >결제자 주소</th>
+                                                    <th class="pro-address">결제자 주소</th>
                                                     <th class="pro-date">주문 날짜</th>
                                                     <th class="pro-status" style="width:10%">주문 상태</th>
                                                     <th class="pro-price">총 가격</th>
@@ -101,8 +101,8 @@
                                                     <th class="pro-name">수령인</th>
                                                     <th class="pro-address">주소</th>
                                                     <th class="pro-phone">전화번호</th>
-                                                    <th class="pro-date" >배달 희망일</th>
-                                                    <th class="pro-status" >배달 상태</th>
+                                                    <th class="pro-date">배달 희망일</th>
+                                                    <th class="pro-status">배달 상태</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -122,7 +122,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <div th:if ="${refundList} != null">
+                                        <div th:if="${refundList} != null">
                                             <div th:each=" refund : ${refundList}" class="order-item">
                                                 <table class="table">
                                                     <!-- Head Row -->
@@ -139,7 +139,8 @@
                                                         <td class="pro-name"> <span
                                                                 th:text="${refund.refundPolicyContent()}"></span></td>
                                                         <td class="pro-address"><span>송신일 기준 [</span><span
-                                                                th:text=" ${refund.refundPolicyDate()}"></span><span> ] 일 이내에 환불이 가능합니다.</span></td>
+                                                                th:text=" ${refund.refundPolicyDate()}"></span><span> ] 일 이내에 환불이 가능합니다.</span>
+                                                        </td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
