@@ -324,7 +324,6 @@ Footer Area
         }
 
     }
-
     document.addEventListener('DOMContentLoaded', function() {
         const noCouponInfo = document.getElementById('no-coupon-info');
         const couponInfo = document.getElementById('coupon-info');
@@ -399,10 +398,13 @@ Footer Area
             console.log("Point value exceeds max points");
             pointWarning.style.display = 'block'; // 경고 메시지를 보이게 설정
             pointValue = maxPoints; // 최대 포인트로 조정
+            pointInput.value = maxPoints; // pointInput 값도 업데이트
             console.log("Adjusted point value: " + pointValue);
         } else {
             pointWarning.style.display = 'none'; // 경고 메시지를 숨김
         }
+
+        pointValue = parseFloat(pointInput.value) || 0; // 다시 읽기
 
         const finalPrice = orderPriceBeforePoint - pointValue;
 
@@ -421,7 +423,6 @@ Footer Area
             orderPriceElement.value = finalPrice.toFixed(2); // orderPrice를 finalPrice로 설정
         }
     }
-
 </script>
 
 </html>

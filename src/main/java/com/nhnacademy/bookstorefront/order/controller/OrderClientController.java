@@ -210,14 +210,14 @@ public class OrderClientController {
 	}
 
 
-   // TODO : coupon 사용됨처리
+   // TODO : coupon 사용됨처리(완)
 	@PostMapping("/complete/{order_list_id}/{delivery_id}")
 	public String createOrder(@ModelAttribute CreateOrderRequest createOrderRequest,
 		@PathVariable("order_list_id") Long orderListId, @PathVariable("delivery_id") Long deliveryId
 	) {
 		CreateOrderResponse createOrderResponse = orderServiceImpl.createOrder(createOrderRequest);
-		// TODO : 쿠폰아이디 어떻게 가져오지? orderListId가 아니라 couponId 줘야함
-		userAndCouponService.updateCouponAfterPayment(orderListId);
+		// TODO : coupon 사용됨처리(완)
+		userAndCouponService.updateCouponAfterPayment(createOrderRequest.couponId());
 		deliveryServiceImpl.updateDeliveryAddOrder(deliveryId, createOrderResponse.orderId());
 		bookOrderServiceImpl.updateOrder(orderListId, createOrderResponse.orderId());
 		return "redirect:/api/payments/" + createOrderResponse.infoId();
@@ -549,7 +549,7 @@ public class OrderClientController {
 	}
 
 
-	// TODO : coupon 사용됨처리
+	// TODO : coupon 사용됨처리(완)
 	@PostMapping("/complete/cart-order/{orderInfoId}/{delivery_id}")
 	public String createCartOrder(@ModelAttribute CreateOrderRequest createOrderRequest,
 		@PathVariable("orderInfoId") String orderInfoId, @PathVariable("delivery_id") Long deliveryId
@@ -557,7 +557,7 @@ public class OrderClientController {
 		List<GetBookOrderResponse> getBookOrderResponses = bookOrderServiceImpl.getBookOrderByOrderId(orderInfoId);
 		CreateOrderResponse createOrderResponse = orderServiceImpl.updateCartOrder(createOrderRequest, getBookOrderResponses.getFirst()
 			.orderId());
-		// TODO : 쿠폰아이디 어떻게 가져오지? orderListId가 아니라 couponId 줘야함
+		// TODO : 쿠폰 사용됨처리 (완)
 		userAndCouponService.updateCouponAfterPayment(createOrderResponse.orderId());
 		deliveryServiceImpl.updateDeliveryAddOrder(deliveryId, getBookOrderResponses.getFirst().orderId());
 		return "redirect:/api/payments/" + createOrderResponse.infoId();
