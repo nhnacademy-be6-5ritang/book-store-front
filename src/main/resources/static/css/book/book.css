@@ -1,0 +1,140 @@
+#book-details {
+    display: grid;
+    grid-template-columns: 7fr 4fr;
+}
+
+.book-details-info {
+    padding-right: 5rem;
+}
+
+#book-title {
+    font-weight: bold;
+    color: #797979;
+    margin: 0;
+}
+
+.info-table {
+    width: 100%;
+    font-size: 1rem;
+}
+
+.two-data-columns {
+    display: flex;
+    /*justify-content: space-between;*/
+    align-items: center;
+}
+
+.table-label {
+    width: 50px;
+    color: #a8a8a8;
+}
+
+.table-data {
+    width: 250px;
+    color: #797979;
+}
+
+.book-status {
+    font-weight: bold;
+}
+
+.category-a {
+    color: #a8a8a8;
+}
+
+.category-a:hover {
+    color: #333333;
+}
+
+.book-details-image-container {
+    width: 100%;
+    border: 1px solid #a8a8a8;
+    box-shadow: inset 0 0 300px 5px rgba(0, 0, 0, 0.3);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+}
+
+.book-details-image-container .front-image {
+    position: absolute;
+    max-height: 502px;
+    object-fit: contain;
+    margin: 2.5% 0;
+    border: 1px solid #333333;
+    border-radius: 8px;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
+}
+
+.book-details-image-container .background-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+    filter: blur(5px);
+}
+
+.book-menu-buttons {
+    margin-left: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #a8a8a8;
+    font-size: 2rem;
+}
+
+#cart:hover {
+    color: #e1cd00;
+}
+
+#order:hover {
+    color: #007924;
+}
+
+#likes:hover {
+    color: #D90000;
+}
+
+#reviews {
+    display: flex;
+    justify-content: space-around;
+}
+
+.single-review {
+    display: flex;
+    padding: 2rem;
+}
+
+.avatar-profile {
+    width: 150px;
+    height: 150px;
+    border: 1px solid #f2f2f2;
+    border-radius: 150px 150px 0 150px;
+    padding: 2.5rem;
+}
+
+.review-content {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    border: 1px solid #f2f2f2;
+    border-radius: 0 150px 150px 150px;
+    margin-left: 2rem;
+    padding: 0.5rem 2rem;
+}
+
+.review-with-image {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+
+.review-with-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}

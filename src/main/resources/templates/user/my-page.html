@@ -24,7 +24,7 @@
         <section id="my-page-header">
             <div style="height: 100%; display: grid; place-items: center;">
                 <div th:if="${myUserInfo.userStatusName == 'ACTIVE'}"
-                     style="width: 7px; height: 7px; border-radius: 50%; background-color: #FF5700"></div>
+                     style="width: 7px; height: 7px; border-radius: 50%; background-color: #D90000"></div>
                 <div th:if="${myUserInfo.userStatusName == 'DORMANT'}"
                      style="width: 7px; height: 7px; border-radius: 50%; background-color: #a8a8a8"></div>
             </div>
@@ -50,7 +50,7 @@
                     <td class="table-label">포인트</td>
                     <td>
                         <span th:text="${myUserInfo.points}"></span>
-                        <span style="font-weight:bold; color:#FF5700;">P</span>
+                        <span style="font-weight:bold; color:#D90000;">P</span>
                     </td>
                 </tr>
                 <tr>
