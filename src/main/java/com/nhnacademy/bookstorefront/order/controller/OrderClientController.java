@@ -28,11 +28,14 @@ import com.nhnacademy.bookstorefront.order.dto.request.CreateCartOrderPost;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderListPost;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateRefundPolicyRequest;
+import com.nhnacademy.bookstorefront.order.dto.request.CreateWrappingTypeRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.OrderCheckNonRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.UpdateRefundPolicyRequest;
+import com.nhnacademy.bookstorefront.order.dto.request.UpdateWrappingTypeRequest;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateCartOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.CreatePaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllPaperResponse;
@@ -572,4 +575,51 @@ public class OrderClientController {
 		return "redirect:/api/payments/" + createOrderResponse.infoId();
 	}
 
+	//포장지
+	@GetMapping("/admin/paper")
+	public ModelAndView paperAdmin() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("paper", paperTypeServiceImpl.getAdminAllPaperTypes());
+		modelAndView.setViewName("order/adminPaper");
+		return modelAndView;
+	}
+
+	@GetMapping("/admin/paper/create")
+	public ModelAndView paperAdminCreate() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("order/createPaper");
+		return modelAndView;
+	}
+
+	@GetMapping("/admin/paper/update/{paperTypeId}")
+	public ModelAndView paperAdminUpdate(@PathVariable Long paperTypeId) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("paperTypeId", paperTypeId);
+		modelAndView.setViewName("order/updatePaper");
+		return modelAndView;
+	}
+
+	@PostMapping("/admin/paper")
+	public ModelAndView paperAdminCreate(@ModelAttribute CreateWrappingTypeRequest wrappingTypeRequest) {
+		paperTypeServiceImpl.createPaper(wrappingTypeRequest);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("redirect:/api/orders/admin/paper");
+		return modelAndView;
+	}
+
+	@PostMapping("/admin/paper/{paperTypeId}")
+	public ModelAndView paperAdminUpdate(@ModelAttribute UpdateWrappingTypeRequest request, @PathVariable Long paperTypeId) {
+		paperTypeServiceImpl.updatePaperTypeById(paperTypeId, request);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("redirect:/api/orders/admin/paper");
+		return modelAndView;
+	}
+
+	@GetMapping("/admin/paper/{paperTypeId}")
+	public ModelAndView paperAdminDelete(@PathVariable Long paperTypeId) {
+		paperTypeServiceImpl.deletePaperTypeById(paperTypeId);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("redirect:/api/orders/admin/paper");
+		return modelAndView;
+	}
 }
