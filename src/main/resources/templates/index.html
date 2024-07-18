@@ -42,7 +42,7 @@
     <div class="top-container book-list-container">
         <h3>베스트 셀러 TOP 10</h3>
         <div class="book-carousel">
-            <div th:each="book : ${orderedBooks}" class="book">
+            <div th:each="book : ${orderedBooksCache}" class="book">
                 <div class="book-thumbnail-container">
                     <img class="book-thumbnail" th:src="${book.bookImageUrl}"
                          th:alt="${book.bookTitle}"
@@ -78,7 +78,7 @@
     <div class="top-container book-list-container" style="text-align: end">
         <h3>좋아요 많은 도서 TOP 10</h3>
         <div class="book-carousel">
-            <div th:each="book : ${likesBooks}" class="book">
+            <div th:each="book : ${likesBooksCache}" class="book">
                 <div class="book-thumbnail-container">
                     <img class="book-thumbnail" th:src="${book.bookImageUrl}"
                          th:alt="${book.bookTitle}"
@@ -112,9 +112,9 @@
 
 <section id="today-books">
     <div class="top-container book-list-container">
-        <h3>오늘의 추천 책 10권</h3>
+        <h3>신간 도서 NEW 10</h3>
         <div class="book-carousel">
-            <div th:each="book : ${books}" class="book">
+            <div th:each="book : ${newestBooksCache}" class="book">
                 <div class="book-thumbnail-container">
                     <img class="book-thumbnail" th:src="${book.bookImageUrl}"
                          th:alt="${book.bookTitle}"
