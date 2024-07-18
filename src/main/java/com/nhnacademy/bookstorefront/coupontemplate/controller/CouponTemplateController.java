@@ -36,7 +36,6 @@ public class CouponTemplateController {
 
 	@GetMapping
 	public String getAllCouponTemplates(@PageableDefault(page=1, size = 3)Pageable pageable, Model model) {
-	try{
 		Page<CouponTemplateResponseDTO> coupons = couponTemplateService.getAllCouponTemplatesByManagerPaging(pageable);
 		int blockLimit = 3;
 		int startPage = 1;
@@ -52,9 +51,6 @@ public class CouponTemplateController {
 		model.addAttribute("coupons", coupons);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
-	} catch (Exception e) {
-		model.addAttribute("error", "해당 쿠폰 템플릿 목록이 존재하지 않습니다");
-	}
 
 		return "coupon-manager/coupon-template";
 	}

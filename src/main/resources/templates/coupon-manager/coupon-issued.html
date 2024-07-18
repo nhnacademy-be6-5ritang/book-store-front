@@ -19,26 +19,26 @@
 
 
 <div class="container mt-5">
-    <h2 class="mb-4">관리자 쿠폰관리페이지</h2>
+    <h2 class="mb-4">사용자쿠폰 관리페이지</h2>
 
     <!-- Search and Filter Form -->
     <form th:action="@{/coupons/users}" method="get" class="mb-4">
         <div class="form-row">
             <div class="col-md-4">
-                <input type="text" class="form-control" name="userId" placeholder="Search by UserId" th:value="${param.userId}">
+                <input type="text" class="form-control" name="userId" placeholder="유저아이디를 검색하세요" th:value="${param.userId}">
             </div>
             <div class="col-md-4">
                 <select class="form-control" name="type">
-                    <option value="" >All Types</option>
-                    <option value="welcome" th:selected="${#strings.equals(param.type, 'welcome')}">Welcome</option>
-                    <option value="birthday" th:selected="${#strings.equals(param.type, 'birthday')}">Birthday</option>
-                    <option value="book" th:selected="${#strings.equals(param.type, 'book')}">Book</option>
-                    <option value="category" th:selected="${#strings.equals(param.type, 'category')}">Category</option>
-                    <option value="sale" th:selected="${#strings.equals(param.type, 'sale')}">Sale</option>
+                    <option value="" >모든 타입</option>
+                    <option value="welcome" th:selected="${#strings.equals(param.type, 'welcome')}">웰컴쿠폰</option>
+                    <option value="birthday" th:selected="${#strings.equals(param.type, 'birthday')}">생일쿠폰</option>
+                    <option value="book" th:selected="${#strings.equals(param.type, 'book')}">도서쿠폰</option>
+                    <option value="category" th:selected="${#strings.equals(param.type, 'category')}">카테고리쿠폰</option>
+                    <option value="sale" th:selected="${#strings.equals(param.type, 'sale')}">세일쿠폰</option>
                 </select>
             </div>
             <div class="col-md-4">
-                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btn-primary">검색</button>
             </div>
 
         </div>
