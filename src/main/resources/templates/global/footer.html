@@ -1,73 +1,144 @@
-<footer class="site-footer">
-    <div class="container">
-        <div class="row justify-content-between  section-padding">
-            <div class=" col-xl-3 col-lg-4 col-sm-6">
-                <div class="single-footer pb--40">
-                    <div class="brand-footer footer-title">
-                        <img th:src="@{/image/oritang--footer.png}" alt="">
-                    </div>
-                    <div class="footer-contact">
-                        <p><span class="label">주소:</span><span class="text">광주광역시 동구 필문대로 309</span></p>
-                        <p><span class="label">전화번호:</span><span class="text">010-1234-5678</span></p>
-                        <p><span class="label">이메일:</span><span class="text">5ritang_support@naver.com</span></p>
-                    </div>
-                </div>
+<link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/footer/footer.css}"/>
+
+<section id="#footer">
+    <div class="top-container footer-container">
+        <div class="footer-logo-container">
+            <br/>
+            <img style="width: 200px" th:src="@{/image/ORITANG_FOOTER_BANNER.png}" alt="">
+            <table>
+                <tr>
+                    <td><br/></td>
+                </tr>
+                <tr>
+                    <td style="text-align: end"><span style="font-weight: bold">주소</span></td>
+                    <td>
+                        <div style="width: 0.5rem"></div>
+                    </td>
+                    <td><span>광주광역시 동구 조선대5길 65</span></td>
+                </tr>
+                <tr>
+                    <td><br/></td>
+                </tr>
+                <tr>
+                    <td style="text-align: end"><span style="font-weight: bold">사업자</span></td>
+                    <td>
+                        <div style="width: 0.5rem"></div>
+                    </td>
+                    <td><span>NHN아카데미 광주캠퍼스</span></td>
+                </tr>
+                <tr>
+                    <td><br/></td>
+                </tr>
+                <tr>
+                    <td style="text-align: end"><span style="font-weight: bold">이메일</span></td>
+                    <td>
+                        <div style="width: 0.5rem"></div>
+                    </td>
+                    <td><span>monte61984@gmail.com</span></td>
+                </tr>
+                <tr>
+                    <td><br/></td>
+                </tr>
+                <tr>
+                    <td><br/></td>
+                </tr>
+            </table>
+        </div>
+        <div class="footer-second-container">
+            <br/>
+            <div style="width: 100%; display: flex; justify-content: center; align-items: center">
+                <img style="width: 200px; margin: 26px 0;" th:src="@{/image/ABOUT_US.png}" alt="">
             </div>
-            <div class=" col-xl-3 col-lg-2 col-sm-6">
-                <div class="single-footer pb--40">
-                    <div class="footer-title">
-                        <h3>Information</h3>
-                    </div>
-                    <ul class="footer-list normal-list">
-                        <li><a href=""></a>포인트 정책</li>
-                        <li><a href="">배송비 정책</a></li>
-                        <li><a href="">쿠폰 정책</a></li>
-                        <li><a href="">회원 등급</a></li>
-                    </ul>
-                </div>
+            <table>
+                <tr>
+                    <td><br/></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="name-tag">
+                            <span>김기욱</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="name-tag">
+                            <span>김다운</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><br/></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="name-tag">
+                            <span>이경헌</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="name-tag">
+                            <span>이기훈</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><br/></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="name-tag">
+                            <span>김태환</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><br/></td>
+                </tr>
+                <tr>
+                    <td><br/></td>
+                </tr>
+            </table>
+        </div>
+        <div class="footer-second-container">
+            <br/>
+            <div style="width: 100%; display: flex; justify-content: center; align-items: center">
+                <img style="width: 200px" th:src="@{/image/SWAGGER.png}" alt="">
             </div>
-            <div class=" col-xl-3 col-lg-2 col-sm-6">
-                <div class="single-footer pb--40">
-                    <div class="footer-title">
-                        <h3>Extras</h3>
-                    </div>
-                    <ul class="footer-list normal-list">
-                        <li><a href="">Delivery</a></li>
-                        <li><a href="">About Us</a></li>
-                        <li><a href="">Stores</a></li>
-                        <li><a href="">Contact us</a></li>
-                        <li><a href="">Sitemap</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class=" col-xl-3 col-lg-4 col-sm-6">
-                <div class="footer-title">
-                    <h3>Newsletter Subscribe</h3>
-                </div>
-                <div class="newsletter-form mb--30">
-                    <form th:action="@{/php/mail.php}">
-                        <input type="email" class="form-control" placeholder="Enter Your Email Address Here...">
-                        <button class="btn btn--primary w-100">Subscribe</button>
-                    </form>
-                </div>
-                <div class="social-block">
-                    <h3 class="title">STAY CONNECTED</h3>
-                    <ul class="social-list list-inline">
-                        <li class="single-social facebook"><a href=""><i class="ion ion-social-facebook"></i></a></li>
-                        <li class="single-social twitter"><a href=""><i class="ion ion-social-twitter"></i></a></li>
-                        <li class="single-social google"><a href=""><i class="ion ion-social-googleplus-outline"></i></a></li>
-                        <li class="single-social youtube"><a href=""><i class="ion ion-social-youtube"></i></a></li>
-                    </ul>
-                </div>
-            </div>
+            <table>
+                <tr>
+                    <td><br/></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>스토어 API</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><br/></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>쿠폰 API</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><br/></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>인증 API</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><br/></td>
+                </tr>
+                <tr>
+                    <td><br/></td>
+                </tr>
+            </table>
         </div>
     </div>
 
-    <div class="footer-bottom">
-        <div class="container">
-            <p class="copyright-heading">Suspendisse in auctor augue. Cras fermentum est ac fermentum tempor. Etiam vel magna volutpat, posuere eros</p>
-            <a href="#" class="payment-block"><img th:src="@{/image/icon/payment.png}" alt=""></a>
-            <p class="copyright-text">Copyright © 2021 <a href="#" class="author">Pustok</a>. All Right Reserved.<br>Design By Pustok</p>
-        </div>
+    <div class="copyright-container">
+        <span>Copyright © 2024 Monte. All Right Reserved.</span>
     </div>
-</footer>
+</section>

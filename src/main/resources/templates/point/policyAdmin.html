@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
 </head>
 
 
@@ -72,11 +72,13 @@
                                                         <td class="pro-price"> <span
                                                                 th:text="${policy.pointEarningPolicyId()}"></span></td>
                                                         <td class="pro-type"><span
-                                                                th:text="${policy.pointEarningPolicyType()}"></span></td>
+                                                                th:text="${policy.pointEarningPolicyType()}"></span>
+                                                        </td>
                                                         <td class="pro-price"><span
                                                                 th:text="${policy.pointEarningAmount()}"></span></td>
                                                         <td class="pro-status"><span
-                                                                th:text="${policy.pointEarningPolicyStatus()}"></span></td>
+                                                                th:text="${policy.pointEarningPolicyStatus()}"></span>
+                                                        </td>
                                                         <td class="pro-action">
                                                             <a th:if="${policy.pointEarningPolicyStatus() == 'ACTIVE'}"
                                                                th:href="@{/api/point-earning-policies/admin/{policyId}/deactivate(policyId=${policy.pointEarningPolicyId()})}">

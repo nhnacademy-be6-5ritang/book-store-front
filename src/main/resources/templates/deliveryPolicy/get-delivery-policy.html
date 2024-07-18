@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
 </head>
 
 <body>
@@ -55,13 +55,21 @@
                                         <div th:object="${deliveryPolicy}">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h5 class="card-title" th:text="${deliveryPolicy.deliveryPolicyName}"></h5>
-                                                    <p class="card-text"><strong>정책 내용:</strong> <span th:text="${deliveryPolicy.deliveryPolicyContent}"></span></p>
-                                                    <p class="card-text"><strong>배송비:</strong> <span th:text="${deliveryPolicy.deliveryPolicyPrice}"></span></p>
-                                                    <p class="card-text"><strong>배송비 정책 기준 금액:</strong> <span th:text="${deliveryPolicy.deliveryPolicyStandardPrice}"></span></p>
+                                                    <h5 class="card-title"
+                                                        th:text="${deliveryPolicy.deliveryPolicyName}"></h5>
+                                                    <p class="card-text"><strong>정책 내용:</strong> <span
+                                                            th:text="${deliveryPolicy.deliveryPolicyContent}"></span>
+                                                    </p>
+                                                    <p class="card-text"><strong>배송비:</strong> <span
+                                                            th:text="${deliveryPolicy.deliveryPolicyPrice}"></span></p>
+                                                    <p class="card-text"><strong>배송비 정책 기준 금액:</strong> <span
+                                                            th:text="${deliveryPolicy.deliveryPolicyStandardPrice}"></span>
+                                                    </p>
                                                     <div class="d-flex justify-content-end">
-                                                        <a th:href="@{/api/deliveryPolicies/update/{deliveryPolicyId} (deliveryPolicyId=${deliveryPolicy.deliveryPolicyId})}" class="btn btn-warning">편집</a>
-                                                        <form th:action="@{/api/deliveryPolicies/{deliveryPolicyId}(deliveryPolicyId=${deliveryPolicy.deliveryPolicyId})}" th:method="delete">
+                                                        <a th:href="@{/api/deliveryPolicies/update/{deliveryPolicyId} (deliveryPolicyId=${deliveryPolicy.deliveryPolicyId})}"
+                                                           class="btn btn-warning">편집</a>
+                                                        <form th:action="@{/api/deliveryPolicies/{deliveryPolicyId}(deliveryPolicyId=${deliveryPolicy.deliveryPolicyId})}"
+                                                              th:method="delete">
                                                             <button type="submit" class="btn btn-danger">삭제</button>
                                                         </form>
                                                         <a class="btn btn-secondary" onclick="history.back()">뒤로가기</a>

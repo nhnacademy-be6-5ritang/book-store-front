@@ -1,0 +1,41 @@
+#login-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form-container {
+    width: 100%;
+    display: grid;
+    place-items: center;
+}
+
+.login-input-table {
+    width: 100%;
+}
+
+.login-input-table tr {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-input-table label {
+    margin-right: 1rem;
+    font-size: 1.2rem;
+    color: #797979;
+}
+
+.login-input-table input {
+    width: 25rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #797979;
+    border-radius: 6px;
+}
+
+.login-button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

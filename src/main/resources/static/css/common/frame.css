@@ -1,0 +1,36 @@
+@font-face {
+    font-family: 'GMarketSans';
+    src: url("../../fonts/GMarketSansTTF/GmarketSansTTFLight.ttf") format('truetype');
+}
+
+body {
+    font-family: 'GMarketSans', sans-serif;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.top-container {
+    width: 100vw;
+    padding: 0 20vw;
+}
+
+hr {
+    width: 60vw;
+    margin: 0;
+}
+
+a {
+    cursor: pointer;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #333333;
+}
+
+input:focus {
+    outline: none;
+}

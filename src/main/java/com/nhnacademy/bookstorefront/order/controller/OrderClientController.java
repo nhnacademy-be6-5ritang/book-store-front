@@ -119,7 +119,7 @@ public class OrderClientController {
 		return "redirect:/api/deliveries/" + orderListId;
 	}
 
-	// TODO 주문성공시 쿠폰 update 로직 넣기
+
 	@GetMapping("/createOrderTest/{order_list_id}/{delivery_id}")
 	public ModelAndView createOrder(@PathVariable("order_list_id") Long orderListId, @PathVariable("delivery_id") Long deliveryId, @RequestParam(value = "couponId", required = false) Long couponId) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -218,6 +218,10 @@ public class OrderClientController {
 		@PathVariable("order_list_id") Long orderListId, @PathVariable("delivery_id") Long deliveryId
 	) {
 		CreateOrderResponse createOrderResponse = orderServiceImpl.createOrder(createOrderRequest);
+
+		if(createOrderRequest.couponId()!=null) {
+			userAndCouponService.updateCouponAfterPayment(createOrderRequest.couponId());
+		}
 		deliveryServiceImpl.updateDeliveryAddOrder(deliveryId, createOrderResponse.orderId());
 		bookOrderServiceImpl.updateOrder(orderListId, createOrderResponse.orderId());
 		return "redirect:/api/payments/" + createOrderResponse.infoId();
@@ -555,6 +559,7 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+
 	@PostMapping("/complete/cart-order/{orderInfoId}/{delivery_id}")
 	public String createCartOrder(@ModelAttribute CreateOrderRequest createOrderRequest,
 		@PathVariable("orderInfoId") String orderInfoId, @PathVariable("delivery_id") Long deliveryId
@@ -562,6 +567,10 @@ public class OrderClientController {
 		List<GetBookOrderResponse> getBookOrderResponses = bookOrderServiceImpl.getBookOrderByOrderId(orderInfoId);
 		CreateOrderResponse createOrderResponse = orderServiceImpl.updateCartOrder(createOrderRequest, getBookOrderResponses.getFirst()
 			.orderId());
+
+		if(createOrderRequest.couponId()!=null) {
+			userAndCouponService.updateCouponAfterPayment(createOrderRequest.couponId());
+		}
 		deliveryServiceImpl.updateDeliveryAddOrder(deliveryId, getBookOrderResponses.getFirst().orderId());
 		return "redirect:/api/payments/" + createOrderResponse.infoId();
 	}

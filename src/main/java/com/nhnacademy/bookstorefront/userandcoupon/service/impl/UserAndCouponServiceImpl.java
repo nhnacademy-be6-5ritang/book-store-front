@@ -9,6 +9,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+
+import org.springframework.http.ResponseEntity;
+
+
 import com.nhnacademy.bookstorefront.deliverypolicy.dto.response.GetDeliveryPolicyResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookByOrderCouponResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
@@ -78,6 +82,21 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 		).getBody();
 	}
 
+	@Override
+	public List<UserAndCouponResponseDTO> getAllUserAndCouponByCartOrder(List<GetBookByOrderCouponResponse> bookDetails){
+		return userAndCouponFeignClient.findCouponByCartOrder(bookDetails).getBody();
+	}
+
+
+	@Override
+	public GetBookByOrderCouponResponse getCartOrderCouponByBookDetails(Long orderListId) {
+		// orderServiceClient.getBookByOneOrder(orderListId) 호출 결과가 null일 수 있으므로 안전하게 처리
+
+		return Optional.ofNullable(orderServiceClient.getBookByOneOrder(orderListId))
+			.map(ResponseEntity::getBody)
+			.orElseThrow(() -> new IllegalArgumentException("Response is null"));
+	}
+
 
 
 	@Override
@@ -98,10 +117,17 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 		
 		BigDecimal orderPrice= orderResponse.getBookResponse().bookPrice().multiply(BigDecimal.valueOf(orderResponse.quantity()));
 
-		BigDecimal wrappingPrice = wrappingResponse.wrapping().getFirst().price();
-		Integer wrappingQuantity = wrappingResponse.wrapping().getFirst().quantity();
 
-		BigDecimal wrappingTotalPrice= wrappingPrice.multiply(BigDecimal.valueOf(wrappingQuantity));
+		BigDecimal wrappingTotalPrice= BigDecimal.ZERO;
+
+		for (GetWrappingResponse response : wrappingResponse.wrapping()) {
+			wrappingTotalPrice = wrappingTotalPrice.add(response.price());
+		}
+
+
+
+
+
 
 		BigDecimal deliveryPrice = deliveryPolicyResponse.deliveryPolicyPrice();
 
@@ -209,10 +235,15 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 
 		BigDecimal orderPrice= orderResponse.getBookResponse().bookPrice().multiply(BigDecimal.valueOf(orderResponse.quantity()));
 
-		BigDecimal wrappingPrice = wrappingResponse.wrapping().getFirst().price();
-		Integer wrappingQuantity = wrappingResponse.wrapping().getFirst().quantity();
 
-		BigDecimal wrappingTotalPrice= wrappingPrice.multiply(BigDecimal.valueOf(wrappingQuantity));
+
+		BigDecimal wrappingTotalPrice= BigDecimal.ZERO;
+
+		for (GetWrappingResponse response : wrappingResponse.wrapping()) {
+			wrappingTotalPrice = wrappingTotalPrice.add(response.price());
+		}
+
+
 
 		BigDecimal deliveryPrice = deliveryPolicyResponse.deliveryPolicyPrice();
 
@@ -260,6 +291,16 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 		return userAndCouponFeignClient.isRealUserCheck().getBody();
 
 	}
+
+
+	@Override
+	public void updateCouponAfterPayment(Long couponId){
+
+		userAndCouponFeignClient.updateCouponAfterPayment(couponId);
+	}
+
+
+
 
 }
 

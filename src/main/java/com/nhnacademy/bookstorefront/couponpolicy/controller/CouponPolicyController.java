@@ -1,8 +1,11 @@
 package com.nhnacademy.bookstorefront.couponpolicy.controller;
 
+import java.time.LocalDateTime;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.request.CouponPolicyCreateRequestDTO;
 import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.request.CouponPolicyUpdateRequestDTO;
 import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.response.CouponPolicyResponseDTO;
+import com.nhnacademy.bookstorefront.couponpolicy.exception.CouponBookIdNullException;
+import com.nhnacademy.bookstorefront.couponpolicy.exception.CouponCategoryIdNullException;
+import com.nhnacademy.bookstorefront.couponpolicy.exception.CouponPolicyTypeIsNotExist;
+import com.nhnacademy.bookstorefront.couponpolicy.exception.CouponPolicyValidationException;
 import com.nhnacademy.bookstorefront.couponpolicy.service.impl.CouponPolicyServiceImpl;
+import com.nhnacademy.bookstorefront.global.controller.payload.ErrorStatus;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/coupons/policies")
@@ -28,14 +38,13 @@ public class CouponPolicyController {
 
 	@PostMapping
 	public String createCouponPolicy(
-		@ModelAttribute CouponPolicyCreateRequestDTO requestDTO,
-		Model model) {
-		try {
+		@Valid @ModelAttribute  CouponPolicyCreateRequestDTO requestDTO) {
 
 			// SalePrice와 SaleRate 유효성 검사 추가
 			if ((requestDTO.salePrice() == null && requestDTO.saleRate() == null && requestDTO.maxSalePrice() == null) ||
 				(requestDTO.salePrice() != null && requestDTO.saleRate() != null && requestDTO.maxSalePrice() != null)) {
-				throw new IllegalArgumentException("Either salePrice or saleRate must be provided exclusively.");
+				ErrorStatus errorStatus = ErrorStatus.from("쿠폰 정책등록시 할인가격은 할인률, 최대할인가격과 함께 등록할 수 없습니다.", HttpStatus.BAD_REQUEST, LocalDateTime.now());
+				throw new CouponPolicyValidationException(errorStatus);
 			}
 
 
@@ -48,13 +57,15 @@ public class CouponPolicyController {
 					break;
 				case "book":
 					if (requestDTO.bookId() == null) {
-						throw new IllegalArgumentException("Book ID is required for book coupons");
+						ErrorStatus errorStatus = ErrorStatus.from("책쿠폰 정책등록시 book id가 필요합니다.", HttpStatus.BAD_REQUEST, LocalDateTime.now());
+						throw new CouponBookIdNullException(errorStatus);
 					}
 					couponPolicyService.issueBookCoupon(requestDTO);
 					break;
 				case "category":
 					if (requestDTO.categoryId() == null) {
-						throw new IllegalArgumentException("Category ID is required for category coupons");
+						ErrorStatus errorStatus = ErrorStatus.from("카테고리쿠폰 정책등록시 category id가 필요합니다.", HttpStatus.BAD_REQUEST, LocalDateTime.now());
+						throw new CouponCategoryIdNullException(errorStatus);
 					}
 					couponPolicyService.issueCategoryCoupon(requestDTO);
 					break;
@@ -62,41 +73,34 @@ public class CouponPolicyController {
 					couponPolicyService.issueSaleCoupon(requestDTO);
 					break;
 				default:
-					throw new IllegalArgumentException("Invalid coupon type: " + requestDTO.type());
+					ErrorStatus errorStatus = ErrorStatus.from( "해당 쿠폰 타입은 등록할 수 없습니다.", HttpStatus.BAD_REQUEST, LocalDateTime.now());
+					throw new CouponPolicyTypeIsNotExist(errorStatus);
 			}
 
-			model.addAttribute("message", "Coupon policy created successfully!");
-		} catch (Exception e) {
-			model.addAttribute("error", "Error creating coupon policy: " + e.getMessage());
-		}
 		return "redirect:/coupons/policies";
 	}
 
 	@PatchMapping("/{couponPolicyId}")
 	public String updateCouponPolicy(@PathVariable("couponPolicyId") Long couponPolicyId,
-		@ModelAttribute CouponPolicyUpdateRequestDTO requestDTO, Model model) {
-		try {
+		@ModelAttribute CouponPolicyUpdateRequestDTO requestDTO) {
 
 			// SalePrice와 SaleRate 유효성 검사 추가
 			if ((requestDTO.salePrice() == null && requestDTO.saleRate() == null && requestDTO.maxSalePrice() == null) ||
 				(requestDTO.salePrice() != null && requestDTO.saleRate() != null && requestDTO.maxSalePrice() != null)) {
-				throw new IllegalArgumentException("Either salePrice or saleRate must be provided exclusively.");
+				ErrorStatus errorStatus = ErrorStatus.from("쿠폰 정책등록시 할인가격은 할인률, 최대할인가격과 함께 등록할 수 없습니다.", HttpStatus.BAD_REQUEST, LocalDateTime.now());
+				throw new CouponPolicyValidationException(errorStatus);
 			}
 
 			couponPolicyService.updateCouponPolicy(couponPolicyId, requestDTO);
-			model.addAttribute("message", "Coupon policy updated successfully!");
-		} catch (Exception e) {
-			model.addAttribute("error", "Error updating coupon policy: " + e.getMessage());
-		}
+
 		return "redirect:/coupons/policies";
 	}
 
 	@GetMapping
 	public String getCouponPolicies(@PageableDefault(page = 1, size = 3) Pageable pageable, Model model) {
-		try {
 			Page<CouponPolicyResponseDTO> policies = couponPolicyService.getAllCouponPolicies(pageable);
 			int blockLimit = 3;
-			int startPage = 1; // 1 4 7 10 ~~
+			int startPage = 1;
 			int endPage = 1;
 
 			if (!policies.isEmpty()) {
@@ -109,9 +113,7 @@ public class CouponPolicyController {
 			model.addAttribute("endPage", endPage);
 			model.addAttribute("policies", policies);
 
-		} catch (Exception e) {
-			model.addAttribute("error", "Error fetching coupon policies: " + e.getMessage());
-		}
+
 		return "coupon-manager/coupon-policy"; // Ensure this view exists
 	}
 }

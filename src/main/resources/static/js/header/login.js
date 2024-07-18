@@ -4,13 +4,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const hasTokens = await checkTokens();
 
     if (hasTokens) {
-        profileContainer.innerHTML = '<button class="logout-button" id="logout">로그아웃</button>';
+        profileContainer.innerHTML = '<button class="logout-button auth-buttons" id="logout">로그아웃</button>';
     } else {
-        profileContainer.innerHTML = '<div>' +
-            '<button class="header-login-button" id="login">로그인</button>' +
-            '<span class="divider">&nbsp&nbsp|&nbsp&nbsp</span>' +
-            '<button class="header-sign-up-button" id="sign-up">회원가입</button>' +
-            '</div>';
+        profileContainer.innerHTML = '<button class="header-login-button auth-buttons" id="login">로그인</button>'
+            + '<button class="header-sign-up-button auth-buttons" id="sign-up">회원가입</button>';
     }
 
     document.getElementById('logout')?.addEventListener('click', event => {

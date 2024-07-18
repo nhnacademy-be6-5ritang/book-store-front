@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}"/>
 </head>
 <body>
 
@@ -44,10 +44,12 @@
                 <tr th:each="coupon : ${coupons}">
                     <td><input type="text" class="form-control couponId" th:value="${coupon.id}" readonly></td>
                     <td>
-                        <input type="text" class="form-control couponPolicyId" th:value="${coupon.couponPolicyId}" readonly>
+                        <input type="text" class="form-control couponPolicyId" th:value="${coupon.couponPolicyId}"
+                               readonly>
                     </td>
                     <td>
-                        <input type="text" class="form-control minOrderPrice" th:value="${coupon.minOrderPrice}" readonly>
+                        <input type="text" class="form-control minOrderPrice" th:value="${coupon.minOrderPrice}"
+                               readonly>
                     </td>
                     <td>
                         <input type="text" class="form-control salePrice" th:value="${coupon.salePrice}" readonly>
@@ -72,7 +74,6 @@
             </table>
 
 
-
             <nav aria-label="Page navigation">
                 <ul class="pagination justify-content-center mt-4">
                     <!-- 첫번째 페이지로 이동 -->
@@ -83,11 +84,10 @@
                     </li>
 
 
-
-
-
                     <li class="page-item" th:classappend="${coupons.first} ? 'disabled'">
-                        <a class="page-link" th:href="${coupons.first} ? '#' : '/coupons?page=' + ${coupons.number}+'&size='+${coupons.size}" aria-label="Previous">
+                        <a class="page-link"
+                           th:href="${coupons.first} ? '#' : '/coupons?page=' + ${coupons.number}+'&size='+${coupons.size}"
+                           aria-label="Previous">
                             <span aria-hidden="true">&lsaquo; Previous</span>
                         </a>
                     </li>
@@ -95,19 +95,23 @@
                     <!-- 페이지 번호 링크 -->
                     <li class="page-item" th:each="page: ${#numbers.sequence(startPage, endPage)}"
                         th:classappend="${page == coupons.number + 1} ? 'active'">
-                        <a class="page-link" th:href="@{/coupons(page=${page}, size=${coupons.size})}" th:text="${page}"></a>
+                        <a class="page-link" th:href="@{/coupons(page=${page}, size=${coupons.size})}"
+                           th:text="${page}"></a>
                     </li>
 
                     <!-- 다음 페이지로 이동  둘다 가능한 방법 -->
                     <li class="page-item" th:classappend="${coupons.last} ? 'disabled'">
-                        <a class="page-link" th:href="${coupons.last} ? '#' : '/coupons?page=' + (${coupons.number} + 2)+'&size='+${coupons.size}" aria-label="Next">
+                        <a class="page-link"
+                           th:href="${coupons.last} ? '#' : '/coupons?page=' + (${coupons.number} + 2)+'&size='+${coupons.size}"
+                           aria-label="Next">
                             <span aria-hidden="true">Next &rsaquo;</span>
                         </a>
                     </li>
 
                     <!-- 마지막 페이지로 이동 -->
                     <li class="page-item" th:classappend="${coupons.last} ? 'disabled'">
-                        <a class="page-link" th:href="@{/coupons(page=${coupons.totalPages}, size=${coupons.size})}" aria-label="Last">
+                        <a class="page-link" th:href="@{/coupons(page=${coupons.totalPages}, size=${coupons.size})}"
+                           aria-label="Last">
                             <span aria-hidden="true">Last &raquo;</span>
                         </a>
                     </li>

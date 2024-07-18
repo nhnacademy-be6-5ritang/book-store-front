@@ -8,330 +8,150 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main/main.css}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
 
 
 <body>
-<div class="site-wrapper" id="top">
-    <!--=================================
-    Header Area
-    ===================================== -->
-    <div th:insert="~{global/header}"></div>
+<header th:insert="~{global/header}"></header>
 
-    <!--=================================
-        Home Slider Tab: Featured Product, New Arrivals, Most View Products 책 리스트
-        ===================================== -->
-    <div class="page-section inner-page-sec-padding">
-        <div class="container">
-            <section class="section-padding">
-                <h2 class="sr-only">Home Tab Slider Section</h2>
-
-                <div class="container">
-                    <div class="sb-custom-tab">
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="shop-tab" data-bs-toggle="tab" href="#shop" role="tab"
-                                   aria-controls="shop" aria-selected="true">최다 주문 도서</a>
-                                <span class="arrow-icon"></span>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="men-tab" data-bs-toggle="tab" href="#men" role="tab"
-                                   aria-controls="men" aria-selected="true">최다 좋아요 도서</a>
-                                <span class="arrow-icon"></span>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="woman-tab" data-bs-toggle="tab" href="#woman" role="tab"
-                                   aria-controls="woman" aria-selected="false">최근 신간 도서</a>
-                                <span class="arrow-icon"></span>
-                            </li>
-                        </ul>
-
-                        <!-- 3가지 탭 전체 틀 시작-->
-                        <div class="tab-content" id="myTabContent">
-
-                            <!-- Featured Products 시작-->
-                            <div class="tab-pane show active" id="shop" role="tabpanel" aria-labelledby="shop-tab">
-                                <div class="product-slider multiple-row  slider-border-multiple-row  sb-slick-slider"
-                                     data-slick-setting='{
-                            "autoplay": true,
-                            "autoplaySpeed": 80000,
-                            "slidesToShow": 4,
-                            "rows":2,
-                            "dots":true
-                        }' data-slick-responsive='[
-                            {"breakpoint":1200, "settings": {"slidesToShow": 3} },
-                            {"breakpoint":768, "settings": {"slidesToShow": 2} },
-                            {"breakpoint":480, "settings": {"slidesToShow": 1} },
-                            {"breakpoint":320, "settings": {"slidesToShow": 1} }
-                        ]'>
-
-                                    <!-- 도서 정보 시작 -->
-                                    <div th:each="book : ${orderedBooksCache}" class="book-list">
-                                        <div class="single-slide">
-                                            <div class="product-card">
-                                                <div class="product-header">
-                                                    <h3><a th:href="@{/api/books/{bookId}(bookId=${book.bookId})}"
-                                                           th:text="${book.bookTitle}">제목 없음</a></h3>
-                                                </div>
-                                                <div class="product-card--body">
-                                                    <div class="card-image">
-                                                        <!-- 이미지 경로 설정 -->
-                                                        <img th:src="${book.bookImageUrl}"
-                                                             th:alt="${book.bookTitle}"
-                                                             th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
-                                                        <div class="hover-contents">
-                                                            <a th:href="@{/api/books/{bookId}(bookId=${book.bookId})}"
-                                                               class="hover-image">
-                                                                <img th:src="${book.bookImageUrl}"
-                                                                     th:alt="${book.bookTitle}">
-                                                            </a>
-                                                            <!-- 메인 간편 버튼 시작-->
-                                                            <div class="hover-btns">
-                                                                <a th:attr="data-book-id=${book.bookId}"
-                                                                   class="single-btn add-to-bookCart">
-                                                                    <i class="fas fa-shopping-basket"></i>
-                                                                </a>
-                                                                <a th:attr="data-book-id=${book.bookId}"
-                                                                   class="single-btn add-to-wishlist">
-                                                                    <i class="fas fa-heart"></i>
-                                                                </a>
-                                                                <a th:href="@{/api/books/{bookId} (bookId=${book.bookId})}"
-                                                                   class="single-btn">
-                                                                    <i class="fas fa-eye"></i>
-                                                                </a>
-                                                            </div>
-                                                            <!-- 메인 간편 버튼 끝-->
-                                                        </div>
-                                                    </div>
-                                                    <div class="price-block">
-                                                        <!-- 가격 정보 설정 -->
-                                                        <span class="price" th:text="${book.bookSalePrice} + '₩'">가격 정보 없음₩</span>
-                                                        <del class="price-old" th:text="${book.bookPrice} + '₩'"></del>
-                                                        <span class="price-discount"
-                                                              th:text="${book.bookSalePercent + '%'}">할인율 정보 없음</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- 도서 정보 종료 -->
-
-                                </div>
-                            </div>
-                            <!-- Featured Products 끝-->
-                            <!---------------------------------------------------------------------------------------------------------------------------------------------------->
-                            <div class="tab-pane" id="men" role="tabpanel" aria-labelledby="men-tab">
-                                <div class="product-slider multiple-row  slider-border-multiple-row  sb-slick-slider"
-                                     data-slick-setting='{
-                                        "autoplay": true,
-                                        "autoplaySpeed": 8000,
-                                        "slidesToShow": 4,
-                                        "rows":2,
-                                        "dots":true
-                                    }' data-slick-responsive='[
-                                        {"breakpoint":1200, "settings": {"slidesToShow": 3} },
-                                        {"breakpoint":768, "settings": {"slidesToShow": 2} },
-                                        {"breakpoint":480, "settings": {"slidesToShow": 1} },
-                                        {"breakpoint":320, "settings": {"slidesToShow": 1} }
-                                    ]'>
-
-                                    <!-- 도서 정보 시작 -->
-                                    <div th:each="book : ${likesBooksCache}" class="book-list">
-                                        <div class="single-slide">
-                                            <div class="product-card">
-                                                <div class="product-header">
-                                                    <h3><a th:href="@{/api/books/{bookId}(bookId=${book.bookId})}"
-                                                           th:text="${book.bookTitle}">제목 없음</a></h3>
-                                                </div>
-                                                <div class="product-card--body">
-                                                    <div class="card-image">
-                                                        <!-- 이미지 경로 설정 -->
-                                                        <img th:src="${book.bookImageUrl}"
-                                                             th:alt="${book.bookTitle}"
-                                                             th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
-                                                        <div class="hover-contents">
-                                                            <a th:href="@{/api/books/{bookId}(bookId=${book.bookId})}"
-                                                               class="hover-image">
-                                                                <img th:src="${book.bookImageUrl}"
-                                                                     th:alt="${book.bookTitle}">
-                                                            </a>
-                                                            <!-- 메인 간편 버튼 시작-->
-                                                            <div class="hover-btns">
-                                                                <a th:attr="data-book-id=${book.bookId}"
-                                                                   class="single-btn add-to-bookCart">
-                                                                    <i class="fas fa-shopping-basket"></i>
-                                                                </a>
-                                                                <a th:attr="data-book-id=${book.bookId}"
-                                                                   class="single-btn add-to-wishlist">
-                                                                    <i class="fas fa-heart"></i>
-                                                                </a>
-                                                                <a th:href="@{/api/books/{bookId} (bookId=${book.bookId})}"
-                                                                   class="single-btn">
-                                                                    <i class="fas fa-eye"></i>
-                                                                </a>
-                                                            </div>
-                                                            <!-- 메인 간편 버튼 끝-->
-                                                        </div>
-                                                    </div>
-                                                    <div class="price-block">
-                                                        <!-- 가격 정보 설정 -->
-                                                        <span class="price" th:text="${book.bookSalePrice} + '₩'">가격 정보 없음₩</span>
-                                                        <del class="price-old" th:text="${book.bookPrice} + '₩'"></del>
-                                                        <span class="price-discount"
-                                                              th:text="${book.bookSalePercent + '%'}">할인율 정보 없음</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- 도서 정보 종료 -->
-
-
-                                </div>
-                            </div>
-                            <!-- New Arrivals 끝-->
-                            <!---------------------------------------------------------------------------------------------------------------------------------------------->
-                            <!--Most View Products 시작-->
-                            <div class="tab-pane" id="woman" role="tabpanel" aria-labelledby="woman-tab">
-                                <div class="product-slider multiple-row  slider-border-multiple-row  sb-slick-slider"
-                                     data-slick-setting='{
-                                        "autoplay": true,
-                                        "autoplaySpeed": 8000,
-                                        "slidesToShow": 4,
-                                        "rows":2,
-                                        "dots":true
-                                    }' data-slick-responsive='[
-                                        {"breakpoint":1200, "settings": {"slidesToShow": 3} },
-                                        {"breakpoint":768, "settings": {"slidesToShow": 2} },
-                                        {"breakpoint":480, "settings": {"slidesToShow": 1} },
-                                        {"breakpoint":320, "settings": {"slidesToShow": 1} }
-                                    ]'>
-
-                                    <!-- 도서 정보 시작 -->
-                                    <div th:each="book : ${newestBooksCache}" class="book-list">
-                                        <div class="single-slide">
-                                            <div class="product-card">
-                                                <div class="product-header">
-                                                    <h3><a th:href="@{/api/books/{bookId} (bookId=${book.bookId})}"
-                                                           th:text="${book.bookTitle}">제목 없음</a></h3>
-                                                </div>
-                                                <div class="product-card--body">
-                                                    <div class="card-image">
-                                                        <!-- 이미지 경로 설정 -->
-                                                        <img th:src="${book.bookImageUrl}"
-                                                             th:alt="${book.bookTitle}"
-                                                             th:href="@{/api/books/{bookId} (bookId=${book.bookId})}">
-                                                        <div class="hover-contents">
-                                                            <a th:href="@{/api/books/{bookId} (bookId=${book.bookId})}"
-                                                               class="hover-image">
-                                                                <img th:src="${book.bookImageUrl}"
-                                                                     th:alt="${book.bookTitle}">
-                                                            </a>
-                                                            <!-- 메인 간편 버튼 시작-->
-                                                            <div class="hover-btns">
-                                                                <a th:attr="data-book-id=${book.bookId}"
-                                                                   class="single-btn add-to-bookCart">
-                                                                    <i class="fas fa-shopping-basket"></i>
-                                                                </a>
-                                                                <a th:attr="data-book-id=${book.bookId}"
-                                                                   class="single-btn add-to-wishlist">
-                                                                    <i class="fas fa-heart"></i>
-                                                                </a>
-                                                                <a th:href="@{/api/books/{bookId} (bookId=${book.bookId})}"
-                                                                   class="single-btn">
-                                                                    <i class="fas fa-eye"></i>
-                                                                </a>
-                                                            </div>
-                                                            <!-- 메인 간편 버튼 끝-->
-                                                        </div>
-                                                    </div>
-                                                    <div class="price-block">
-                                                        <!-- 가격 정보 설정 -->
-                                                        <span class="price" th:text="${book.bookSalePrice} + '₩'">가격 정보 없음₩</span>
-                                                        <del class="price-old" th:text="${book.bookPrice} + '₩'"></del>
-                                                        <span class="price-discount"
-                                                              th:text="${book.bookSalePercent + '%'}">할인율 정보 없음</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- 도서 정보 종료 -->
-                                </div>
-                            </div>
-                            <!--Most View Products 끝-->
-                        </div>
-                        <!-- 3가지 탭 전체 틀 끝 -->
-                    </div>
-                </div>
-            </section>
-            <!--=================================
-            Home Features Section
-            ===================================== -->
-            <section class="mb--30">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-3 col-md-6 mt--30">
-                            <div class="feature-box h-100">
-                                <div class="icon">
-                                    <i class="fas fa-shipping-fast"></i>
-                                </div>
-                                <div class="text">
-                                    <h5>Free Shipping Item</h5>
-                                    <p> Orders over $500</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6 mt--30">
-                            <div class="feature-box h-100">
-                                <div class="icon">
-                                    <i class="fas fa-redo-alt"></i>
-                                </div>
-                                <div class="text">
-                                    <h5>Money Back Guarantee</h5>
-                                    <p>100% money back</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6 mt--30">
-                            <div class="feature-box h-100">
-                                <div class="icon">
-                                    <i class="fas fa-piggy-bank"></i>
-                                </div>
-                                <div class="text">
-                                    <h5>Cash On Delivery</h5>
-                                    <p>Lorem ipsum dolor amet</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6 mt--30">
-                            <div class="feature-box h-100">
-                                <div class="icon">
-                                    <i class="fas fa-life-ring"></i>
-                                </div>
-                                <div class="text">
-                                    <h5>Help & Support</h5>
-                                    <p>Call us : + 0123.4567.89</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+<section id="main-banner-section" class="top-container">
+    <div class="main-banner-container">
+        <div class="duck-stew-banner banner">
+            <img class="duck-stew-banner-image" th:src="@{/image/ORITANG_MAIN_BANNER_1.png}" alt="오리탕 레시피 배너">
+        </div>
+        <div class="sub-banner-container">
+            <div class="coupon-banner banner">
+                <img class="birthday-coupon-image" th:src="@{/image/BIRTHDAY_COUPON.png}" alt="생일 쿠폰">
+            </div>
+            <div class="event-banner banner">
+                <img class="event-banner-image" th:src="@{/image/ORITANG_MAIN_BANNER_2.png}" alt="이벤트 배너">
+            </div>
         </div>
     </div>
-</div>
-<!--=================================
-Footer Area
-===================================== -->
-<div th:insert="~{global/footer.html}"></div>
+</section>
 
-<!-- Use Minified Plugins Version For Fast Page Load -->
-<script th:src="@{/js/plugins.js}"></script>
-<script th:src="@{/js/ajax-mail.js}"></script>
-<script th:src="@{/js/custom.js}"></script>
+<div class="top-container">
+    <hr style="margin: 2rem 0">
+</div>
+
+<section id="bestseller">
+    <div class="top-container book-list-container">
+        <h3>베스트 셀러 TOP 10</h3>
+        <div class="book-carousel">
+            <div th:each="book : ${orderedBooksCache}" class="book">
+                <div class="book-thumbnail-container">
+                    <img class="book-thumbnail" th:src="${book.bookImageUrl}"
+                         th:alt="${book.bookTitle}"
+                         th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
+                </div>
+                <div class="book-info">
+                    <h5 class="book-title">
+                        <a th:href="@{/api/books/{bookId}(bookId=${book.bookId})}"
+                           th:text="${book.bookTitle}" class="book-title-link">
+                            제목 없음
+                        </a>
+                    </h5>
+                    <span th:text="${book.authorName}" class="book-author">작가 없음</span>
+                    <div class="price-info">
+                        <span class="book-price" th:text="${book.bookSalePrice} + '₩'">가격 정보 없음₩</span>
+                        <div class="original-price-info">
+                            <del class="book-original-price" th:text="${book.bookPrice} + '₩'"></del>
+                            <span class="book-price-discount"
+                                  th:text="${'-' + book.bookSalePercent + '%'}">할인율 정보 없음</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="top-container">
+    <hr style="margin: 2rem 0">
+</div>
+
+<section id="most-likes">
+    <div class="top-container book-list-container" style="text-align: end">
+        <h3>좋아요 많은 도서 TOP 10</h3>
+        <div class="book-carousel">
+            <div th:each="book : ${likesBooksCache}" class="book">
+                <div class="book-thumbnail-container">
+                    <img class="book-thumbnail" th:src="${book.bookImageUrl}"
+                         th:alt="${book.bookTitle}"
+                         th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
+                </div>
+                <div class="book-info">
+                    <h5 class="book-title">
+                        <a th:href="@{/api/books/{bookId}(bookId=${book.bookId})}"
+                           th:text="${book.bookTitle}" class="book-title-link">
+                            제목 없음
+                        </a>
+                    </h5>
+                    <span th:text="${book.authorName}" class="book-author">작가 없음</span>
+                    <div class="price-info">
+                        <span class="book-price" th:text="${book.bookSalePrice} + '₩'">가격 정보 없음₩</span>
+                        <div class="original-price-info">
+                            <del class="book-original-price" th:text="${book.bookPrice} + '₩'"></del>
+                            <span class="book-price-discount"
+                                  th:text="${'-' + book.bookSalePercent + '%'}">할인율 정보 없음</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="top-container">
+    <hr style="margin: 2rem 0">
+</div>
+
+<section id="today-books">
+    <div class="top-container book-list-container">
+        <h3>신간 도서 NEW 10</h3>
+        <div class="book-carousel">
+            <div th:each="book : ${newestBooksCache}" class="book">
+                <div class="book-thumbnail-container">
+                    <img class="book-thumbnail" th:src="${book.bookImageUrl}"
+                         th:alt="${book.bookTitle}"
+                         th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
+                </div>
+                <div class="book-info">
+                    <h5 class="book-title">
+                        <a th:href="@{/api/books/{bookId}(bookId=${book.bookId})}"
+                           th:text="${book.bookTitle}" class="book-title-link">
+                            제목 없음
+                        </a>
+                    </h5>
+                    <span th:text="${book.authorName}" class="book-author">작가 없음</span>
+                    <div class="price-info">
+                        <span class="book-price" th:text="${book.bookSalePrice} + '₩'">가격 정보 없음₩</span>
+                        <div class="original-price-info">
+                            <del class="book-original-price" th:text="${book.bookPrice} + '₩'"></del>
+                            <span class="book-price-discount"
+                                  th:text="${'-' + book.bookSalePercent + '%'}">할인율 정보 없음</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="top-container">
+    <hr style="margin: 2rem 0">
+</div>
+
+<footer th:insert="~{global/footer.html}"></footer>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script th:src="@{/js/main/slider.js}"></script>
+
 <script th:src="@{/js/create-wishList.js}"></script>
 <script th:src="@{/js/create-bookCart.js}"></script>
 </body>
