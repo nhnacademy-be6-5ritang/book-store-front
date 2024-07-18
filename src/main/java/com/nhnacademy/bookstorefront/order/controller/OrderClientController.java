@@ -224,12 +224,19 @@ public class OrderClientController {
 	@GetMapping("/complete/{orderInfoId}")
 	public ModelAndView completeCartOrder(@PathVariable String orderInfoId) {
 		List<GetBookOrderResponse> list = bookOrderServiceImpl.getBookOrderByOrderId(orderInfoId);
+		BigDecimal total = BigDecimal.ZERO;
 		for (GetBookOrderResponse getBookOrderResponse : list) {
 			bookServiceImpl.updateQuantity(getBookOrderResponse.getBookResponse().bookId(), getBookOrderResponse.quantity());
+			GetListWrappingResponse wrappingResponse = wrappingPaperServiceImpl.getWrappingPaperByOrderListId(getBookOrderResponse.orderListId());
+			for (GetWrappingResponse wrapping : wrappingResponse.wrapping()){
+				total = total.add(wrapping.price());
+			}
 		}
+
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("order", orderServiceImpl.findByOrderInfoId(orderInfoId));
 		modelAndView.addObject("bookOrder", list);
+		modelAndView.addObject("total", total);
 		modelAndView.setViewName("order/order-cart-complete");
 		return modelAndView;
 	}
