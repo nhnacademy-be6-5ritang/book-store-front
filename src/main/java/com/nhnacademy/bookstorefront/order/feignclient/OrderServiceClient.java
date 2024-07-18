@@ -16,11 +16,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateBookOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateRefundPolicyRequest;
+import com.nhnacademy.bookstorefront.order.dto.request.CreateWrappingTypeRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.OrderCheckNonRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.UpdateRefundPolicyRequest;
+import com.nhnacademy.bookstorefront.order.dto.request.UpdateWrappingTypeRequest;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateCartOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.CreatePaperResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetAdminAllPaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllPaperResponse;
@@ -30,6 +34,7 @@ import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetListWrappingResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetNonOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetPaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetUserPointOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetWrappingResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.UpdateBookOrderResponse;
@@ -126,4 +131,32 @@ public interface OrderServiceClient {
 
 	@PutMapping("/api/orders/cart-order/{orderId}")
 	ResponseEntity<CreateOrderResponse> updateCartOrder(@RequestBody CreateOrderRequest createOrderRequest, @PathVariable Long orderId);
+
+	/**
+	 * 포장지 종류 생성
+	 * @param createWrappingTypeRequest 포장지 종류 정보
+	 * @return 포장지 종류 정보
+	 */
+	@PostMapping("/api/orders/papers")
+	ResponseEntity<CreatePaperResponse> createPaper(@RequestBody CreateWrappingTypeRequest createWrappingTypeRequest);
+
+	/**
+	 * 포장지 종류 업데이트
+	 * @param updateWrappingTypeRequest 포장지 종류 정보
+	 * @param paperTypeId 포장지 종류 아이디
+	 * @return 포장지 종류 정보
+	 */
+	@PutMapping("/api/orders/papers/{paper_type_id}")
+	ResponseEntity<GetPaperResponse> updatePaper(@RequestBody UpdateWrappingTypeRequest updateWrappingTypeRequest, @PathVariable("paper_type_id") Long paperTypeId);
+
+	/**
+	 * 포장지 종류 삭제
+	 * @param paperTypeId 포장지 종류 아이디
+	 */
+	@DeleteMapping("/api/orders/papers/{paper_type_id}")
+	ResponseEntity<Void> deletePaper(@PathVariable("paper_type_id") Long paperTypeId);
+
+	@GetMapping("/api/orders/papers/admin")
+	ResponseEntity<GetAdminAllPaperResponse> getAdminAllWrappingPapers();
+
 }

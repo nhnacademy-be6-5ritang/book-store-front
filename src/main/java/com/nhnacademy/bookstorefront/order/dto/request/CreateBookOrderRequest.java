@@ -1,8 +1,10 @@
 package com.nhnacademy.bookstorefront.order.dto.request;
 
+import jakarta.validation.constraints.NotNull;
+
 public record CreateBookOrderRequest(
-	Long bookId,
-	Long orderId,
-	Integer quantity
+	@NotNull Long bookId,
+	@NotNull Long orderId,
+	@NotNull Integer quantity
 ) {
 }
