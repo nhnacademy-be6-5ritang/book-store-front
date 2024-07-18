@@ -71,7 +71,7 @@
                                         th:text="${list.quantity()}"></span> </strong>
                                 </td>
                                 <td><strong><span
-                                        th:text="${order.price()}"></span></strong></td>
+                                        th:text="${list.getBookResponse().bookPrice() * list.quantity()}"></span></strong></td>
                             </tr>
                             </tbody>
                             <tfoot>
