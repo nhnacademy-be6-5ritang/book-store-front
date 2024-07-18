@@ -16,7 +16,8 @@ import jakarta.validation.constraints.Size;
  * @author 김기욱
  * @version 1.0
  */
-public record CreateBookRequest(
+public record
+CreateBookRequest(
 	@NotBlank @Size(max = 17) String bookIsbn,
 	@NotNull List<Long> categories,
 	List<Long> tags,
