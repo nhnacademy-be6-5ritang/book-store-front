@@ -27,12 +27,16 @@ import com.nhnacademy.bookstorefront.order.dto.request.CreateBookOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateCartOrderPost;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderListPost;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
+import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderStatusRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateRefundPolicyRequest;
+import com.nhnacademy.bookstorefront.order.dto.request.CreateWrappingTypeRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.OrderCheckNonRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.UpdateRefundPolicyRequest;
+import com.nhnacademy.bookstorefront.order.dto.request.UpdateWrappingTypeRequest;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateCartOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.CreatePaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllPaperResponse;
@@ -45,6 +49,7 @@ import com.nhnacademy.bookstorefront.order.dto.response.GetUserPointOrderRespons
 import com.nhnacademy.bookstorefront.order.dto.response.GetWrappingResponse;
 import com.nhnacademy.bookstorefront.order.service.Impl.BookOrderServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.OrderServiceImpl;
+import com.nhnacademy.bookstorefront.order.service.Impl.OrderStatusServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.PaperTypeServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.RefundPolicyServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.WrappingPaperServiceImpl;
@@ -54,6 +59,7 @@ import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCo
 import com.nhnacademy.bookstorefront.userandcoupon.service.UserAndCouponService;
 
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -71,6 +77,7 @@ public class OrderClientController {
 	private final RefundPolicyServiceImpl refundPolicyServiceImpl;
 	private final UserAndCouponService userAndCouponService;
 	private final BookCartService bookCartService;
+	private final OrderStatusServiceImpl orderStatusServiceImpl;
 
 	@GetMapping("/createBookOrderTest/{book_id}")
 	public ModelAndView createBookOrder(@PathVariable("book_id") Long bookId) {
@@ -82,7 +89,7 @@ public class OrderClientController {
 	}
 
 	@PostMapping("/createBookOrderTest")
-	public String createBookOrderTest(@ModelAttribute CreateBookOrderRequest request) {
+	public String createBookOrderTest(@Valid @ModelAttribute CreateBookOrderRequest request) {
 		CreateBookOrderResponse createBookOrderResponse = bookOrderServiceImpl.createBookOrder(request);
 		return "redirect:/api/orders/createOrderTestPaper/" + createBookOrderResponse.orderListId();
 	}
@@ -100,7 +107,7 @@ public class OrderClientController {
 
 	@PostMapping("/createOrderTestPaper/{order_list_id}")
 	public String createOrderTestPaperPost(@PathVariable("order_list_id") Long orderListId,
-		@ModelAttribute CreateOrderListPost createOrderListPost) {
+		@Valid @ModelAttribute CreateOrderListPost createOrderListPost) {
 
 		GetBookOrderResponse bookOrder = bookOrderServiceImpl.getBookOrder(orderListId);
 		if (createOrderListPost.paperId() == null) {
@@ -211,7 +218,7 @@ public class OrderClientController {
 
 
 	@PostMapping("/complete/{order_list_id}/{delivery_id}")
-	public String createOrder(@ModelAttribute CreateOrderRequest createOrderRequest,
+	public String createOrder(@Valid @ModelAttribute CreateOrderRequest createOrderRequest,
 		@PathVariable("order_list_id") Long orderListId, @PathVariable("delivery_id") Long deliveryId
 	) {
 		CreateOrderResponse createOrderResponse = orderServiceImpl.createOrder(createOrderRequest);
@@ -263,7 +270,7 @@ public class OrderClientController {
 	}
 
 	@PostMapping("/orderCheck/Non")
-	public ModelAndView orderCheckNon(@ModelAttribute OrderCheckNonRequest orderCheckNonRequest) {
+	public ModelAndView orderCheckNon(@Valid @ModelAttribute OrderCheckNonRequest orderCheckNonRequest) {
 		ModelAndView modelAndView = new ModelAndView();
 		//현재 카트아이디로 찾지만 로그인된 사용자의 아이디를 기준으로 찾을듯?
 		modelAndView.addObject("orderList", orderServiceImpl.findByOrderInfoIdByEmail(orderCheckNonRequest));
@@ -379,7 +386,7 @@ public class OrderClientController {
 	}
 
 	@PostMapping("/admin/refundPolicy")
-	public ModelAndView refundAdminCreate(@ModelAttribute CreateRefundPolicyRequest refundPolicyRequest) {
+	public ModelAndView refundAdminCreate(@Valid @ModelAttribute CreateRefundPolicyRequest refundPolicyRequest) {
 		refundPolicyServiceImpl.createRefundPolicy(refundPolicyRequest);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("redirect:/api/orders/admin/refundPolicy");
@@ -387,7 +394,7 @@ public class OrderClientController {
 	}
 
 	@PostMapping("/admin/refundPolicy/{refundPolicyId}")
-	public ModelAndView refundAdminUpdate(@ModelAttribute UpdateRefundPolicyRequest refundPolicyRequest, @PathVariable Long refundPolicyId) {
+	public ModelAndView refundAdminUpdate(@Valid @ModelAttribute UpdateRefundPolicyRequest refundPolicyRequest, @PathVariable Long refundPolicyId) {
 		refundPolicyServiceImpl.updateRefundPolicy(refundPolicyRequest, refundPolicyId);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("redirect:/api/orders/admin/refundPolicy");
@@ -436,7 +443,7 @@ public class OrderClientController {
 	}
 
 	@PostMapping("/cart-order/wrapping/{orderInfoId}")
-	public String cartOrderWrappingPost(@ModelAttribute CreateCartOrderPost createOrderListPost, @PathVariable String orderInfoId) {
+	public String cartOrderWrappingPost(@Valid @ModelAttribute CreateCartOrderPost createOrderListPost, @PathVariable String orderInfoId) {
 		List<GetBookOrderResponse> bookOrders = bookOrderServiceImpl.getBookOrderByOrderId(orderInfoId);
 		if (createOrderListPost.paperId() == null) {
 			for (GetBookOrderResponse aLong : bookOrders) {
@@ -558,7 +565,7 @@ public class OrderClientController {
 
 
 	@PostMapping("/complete/cart-order/{orderInfoId}/{delivery_id}")
-	public String createCartOrder(@ModelAttribute CreateOrderRequest createOrderRequest,
+	public String createCartOrder(@Valid @ModelAttribute CreateOrderRequest createOrderRequest,
 		@PathVariable("orderInfoId") String orderInfoId, @PathVariable("delivery_id") Long deliveryId
 	) {
 		List<GetBookOrderResponse> getBookOrderResponses = bookOrderServiceImpl.getBookOrderByOrderId(orderInfoId);
@@ -572,4 +579,99 @@ public class OrderClientController {
 		return "redirect:/api/payments/" + createOrderResponse.infoId();
 	}
 
+	//포장지
+	@GetMapping("/admin/paper")
+	public ModelAndView paperAdmin() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("paper", paperTypeServiceImpl.getAdminAllPaperTypes());
+		modelAndView.setViewName("order/adminPaper");
+		return modelAndView;
+	}
+
+	@GetMapping("/admin/paper/create")
+	public ModelAndView paperAdminCreate() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("order/createPaper");
+		return modelAndView;
+	}
+
+	@GetMapping("/admin/paper/update/{paperTypeId}")
+	public ModelAndView paperAdminUpdate(@PathVariable Long paperTypeId) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("paperTypeId", paperTypeId);
+		modelAndView.setViewName("order/updatePaper");
+		return modelAndView;
+	}
+
+	@PostMapping("/admin/paper")
+	public ModelAndView paperAdminCreate(@Valid @ModelAttribute CreateWrappingTypeRequest wrappingTypeRequest) {
+		paperTypeServiceImpl.createPaper(wrappingTypeRequest);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("redirect:/api/orders/admin/paper");
+		return modelAndView;
+	}
+
+	@PostMapping("/admin/paper/{paperTypeId}")
+	public ModelAndView paperAdminUpdate(@Valid @ModelAttribute UpdateWrappingTypeRequest request, @PathVariable Long paperTypeId) {
+		paperTypeServiceImpl.updatePaperTypeById(paperTypeId, request);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("redirect:/api/orders/admin/paper");
+		return modelAndView;
+	}
+
+	@GetMapping("/admin/paper/{paperTypeId}")
+	public ModelAndView paperAdminDelete(@PathVariable Long paperTypeId) {
+		paperTypeServiceImpl.deletePaperTypeById(paperTypeId);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("redirect:/api/orders/admin/paper");
+		return modelAndView;
+	}
+
+	// 주문 상태
+	@GetMapping("/admin/order-status")
+	public ModelAndView orderStatusAdmin() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("orderStatus", orderStatusServiceImpl.findAll());
+		modelAndView.setViewName("order/adminOrderStatus");
+		return modelAndView;
+	}
+
+	@GetMapping("/admin/order-status/create")
+	public ModelAndView orderStatusAdminCreate() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("order/createOrderStatus");
+		return modelAndView;
+	}
+
+	@GetMapping("/admin/order-status/update/{orderStatusId}")
+	public ModelAndView orderStatusAdminUpdate(@PathVariable Long orderStatusId) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("orderStatusId", orderStatusId);
+		modelAndView.setViewName("order/updateOrderStatus");
+		return modelAndView;
+	}
+
+	@PostMapping("/admin/order-status")
+	public ModelAndView orderStatusAdminCreate(@Valid @ModelAttribute CreateOrderStatusRequest orderStatusRequest) {
+		orderStatusServiceImpl.create(orderStatusRequest);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("redirect:/api/orders/admin/order-status");
+		return modelAndView;
+	}
+
+	@PostMapping("/admin/order-status/{orderStatusId}")
+	public ModelAndView orderStatusAdminUpdate(@Valid @ModelAttribute CreateOrderStatusRequest request, @PathVariable Long orderStatusId) {
+		orderStatusServiceImpl.update(request, orderStatusId);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("redirect:/api/orders/admin/order-status");
+		return modelAndView;
+	}
+
+	@GetMapping("/admin/order-status/{orderStatusId}")
+	public ModelAndView orderStatusAdminDelete(@PathVariable Long orderStatusId) {
+		orderStatusServiceImpl.delete(orderStatusId);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("redirect:/api/orders/admin/order-status");
+		return modelAndView;
+	}
 }

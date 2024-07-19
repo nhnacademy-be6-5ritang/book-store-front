@@ -48,7 +48,7 @@ public class DeliveryController {
 	}
 
 	@PostMapping("/cart-order/{orderInfoId}")
-	public String createDeliveriesCartOrder(@ModelAttribute CreateDeliveryRequest createDeliveryRequest, @PathVariable String orderInfoId) {
+	public String createDeliveriesCartOrder(@Valid @ModelAttribute CreateDeliveryRequest createDeliveryRequest, @PathVariable String orderInfoId) {
 		CreateDeliveryResponse response = deliveryService.createDelivery(createDeliveryRequest);
 		return "redirect:/coupons/orders/users/" + response.deliveryId() + "/" + orderInfoId;
 	}

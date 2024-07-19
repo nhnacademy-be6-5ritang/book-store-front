@@ -114,6 +114,7 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 		BigDecimal salePrice = userAndCouponOrderResponseDTO.salePrice();
 		BigDecimal saleRate = userAndCouponOrderResponseDTO.saleRate();
 		BigDecimal maxSalePrice = userAndCouponOrderResponseDTO.maxSalePrice();
+		
 		BigDecimal orderPrice= orderResponse.getBookResponse().bookPrice().multiply(BigDecimal.valueOf(orderResponse.quantity()));
 
 
