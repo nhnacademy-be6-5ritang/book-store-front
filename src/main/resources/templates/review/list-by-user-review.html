@@ -67,6 +67,7 @@
                                             </label>
                                             <a th:if="${possibleBooks.size() > 0}" class="btn btn-primary"
                                                onclick="submitReviewForm()">리뷰 작성</a>
+                                            <a th:if="${possibleBooks.size() < 1}"> 작성 가능한 리뷰가 없습니다.</a>
                                         </div>
 
                                         <div class="sb-custom-tab review-tab section-padding">
@@ -74,22 +75,18 @@
                                                 <li class="nav-item">
                                                     <a class="nav-link active" id="tab1" data-bs-toggle="tab"
                                                        href="#tab-1" role="tab"
-                                                       aria-controls="tab-1" aria-selected="true">전체 리뷰 (<span
+                                                       aria-controls="tab-1" aria-selected="true">리뷰 (<span
                                                             th:text="${reviews.getTotalElements()}"></span>)</a>
                                                 </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" id="tab2" data-bs-toggle="tab" href="#tab-2"
-                                                       role="tab"
-                                                       aria-controls="tab-2" aria-selected="true">일반 리뷰 (<span
-                                                            th:text="${generalReviews.getTotalElements()}"></span>)</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" id="tab3" data-bs-toggle="tab" href="#tab-3"
-                                                       role="tab"
-                                                       aria-controls="tab-2" aria-selected="true">포토 리뷰 (<span
-                                                            th:text="${photoReviews.getTotalElements()}"></span>)</a>
-                                                </li>
                                             </ul>
+
+                                            <a th:href="@{/api/users/me/reviews/page (reviewType='전체')}"
+                                               class="btn btn-primary">전체리뷰 </a>
+                                            <a th:href="@{/api/users/me/reviews/page (reviewType='일반')}"
+                                               class="btn btn-primary">일반리뷰 </a>
+                                            <a th:href="@{/api/users/me/reviews/page (reviewType='사진')}"
+                                               class="btn btn-primary">사진리뷰 </a>
+
                                             <div class="tab-content space-db--20" id="myTabContent">
                                                 <div class="tab-pane fade show active" id="tab-1" role="tabpanel"
                                                      aria-labelledby="tab1">
@@ -129,92 +126,59 @@
                                                         </div>
                                                     </div>
                                                     <!-- 페이징 처리 시작-->
-                                                    <div th:insert="~{global/paging.html}"></div>
-                                                    <!-- 페이징 처리 끝-->
-                                                </div>
+                                                    <nav aria-label="Page navigation">
+                                                        <ul class="pagination justify-content-center mt-4">
+                                                            <!-- 첫번째 페이지로 이동 -->
+                                                            <li class="page-item"
+                                                                th:classappend="${reviews.first} ? 'disabled'">
+                                                                <a class="page-link"
+                                                                   th:href="@{/api/users/me/reviews/page (page=1, size=${reviews.size}, reviewType=${reviewType})}"
+                                                                   aria-label="First">
+                                                                    <span aria-hidden="true">&laquo; 처음</span>
+                                                                </a>
+                                                            </li>
 
-                                                <div class="tab-pane fade" id="tab-2">
-                                                    <div class="review-wrapper"
-                                                         th:if="${generalReviews.getTotalElements() > 0}">
-                                                        <div th:each="generalReview : ${generalReviews}">
-                                                            <div class="review-comment">
-                                                                <div class="avatar">
-                                                                    <img th:src="@{/image/icon/author-logo.png}"
-                                                                         alt="Author Avatar">
-                                                                </div>
-                                                                <div class="text">
-                                                                    <div class="rating-block mb--15">
-                                                                        <span th:each="reviewStar : ${#numbers.sequence(1, 5)}">
-                                                                            <span th:if="${reviewStar <= generalReview.reviewScore}"
-                                                                                  class="ion-android-star-outline star_on"></span>
-                                                                            <span th:if="${reviewStar > generalReview.reviewScore}"
-                                                                                  class="ion-android-star-outline"></span>
-                                                                        </span>
-                                                                    </div>
-                                                                    <h6 class="author">
-                                                                        <span th:text="${generalReview.userName}"></span>
-                                                                        –
-                                                                        <span class="font-weight-400"
-                                                                              th:text="${#temporals.format(generalReview.reviewCreatedAt, 'yyyy-MM-dd')}"></span>
-                                                                    </h6>
-                                                                    <div class="review-content">
-                                                                        <div><img
-                                                                                th:if="${generalReview.reviewImageUrl != null}"
-                                                                                th:src="${generalReview.reviewImageUrl}"
-                                                                                alt="리뷰 이미지"></div>
-                                                                        <div class="review-text">
-                                                                            <p th:text="${generalReview.reviewComment}"></p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- 페이징 처리 시작-->
-                                                    <div th:insert="~{global/paging.html}"></div>
-                                                    <!-- 페이징 처리 끝-->
-                                                </div>
+                                                            <!-- 이전 페이지로 이동 -->
+                                                            <li class="page-item"
+                                                                th:classappend="${reviews.first} ? 'disabled'">
+                                                                <a class="page-link"
+                                                                   th:href="@{/api/users/me/reviews/page (page=${reviews.number}, size=${reviews.size}, reviewType=${reviewType})}"
+                                                                   aria-label="Previous">
+                                                                    <span aria-hidden="true">&lsaquo; 이전</span>
+                                                                </a>
+                                                            </li>
 
-                                                <div class="tab-pane fade" id="tab-3" role="tabpanel"
-                                                     aria-labelledby="tab3">
-                                                    <div class="review-wrapper"
-                                                         th:if="${photoReviews.getTotalElements() > 0}">
-                                                        <div th:each="photoReview : ${photoReviews}">
-                                                            <div class="review-comment">
-                                                                <div class="avatar">
-                                                                    <img th:src="@{/image/icon/author-logo.png}"
-                                                                         alt="Author Avatar">
-                                                                </div>
-                                                                <div class="text">
-                                                                    <div class="rating-block mb--15">
-                                                                        <span th:each="reviewStar : ${#numbers.sequence(1, 5)}">
-                                                                            <span th:if="${reviewStar <= photoReview.reviewScore}"
-                                                                                  class="ion-android-star-outline star_on"></span>
-                                                                            <span th:if="${reviewStar > photoReview.reviewScore}"
-                                                                                  class="ion-android-star-outline"></span>
-                                                                        </span>
-                                                                    </div>
-                                                                    <h6 class="author">
-                                                                        <span th:text="${photoReview.userName}"></span>
-                                                                        –
-                                                                        <span class="font-weight-400"
-                                                                              th:text="${#temporals.format(photoReview.reviewCreatedAt, 'yyyy-MM-dd')}"></span>
-                                                                    </h6>
-                                                                    <div class="review-content">
-                                                                        <div><img
-                                                                                th:if="${photoReview.reviewImageUrl != null}"
-                                                                                th:src="${photoReview.reviewImageUrl}"
-                                                                                alt="리뷰 이미지"></div>
-                                                                        <div class="review-text">
-                                                                            <p th:text="${photoReview.reviewComment}"></p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- 페이징 처리 시작-->
-                                                    <div th:insert="~{global/paging.html}"></div>
+
+                                                            <!-- 페이지 번호 링크 -->
+                                                            <li class="page-item"
+                                                                th:each="page: ${#numbers.sequence(startPage, endPage)}"
+                                                                th:classappend="${page == reviews.number + 1} ? 'active'">
+                                                                <a class="page-link"
+                                                                   th:href="@{/api/users/me/reviews/page (page=${page}, size=${reviews.size}, reviewType=${reviewType})}"
+                                                                   th:text="${page}"></a>
+                                                            </li>
+
+                                                            <!-- 다음 페이지로 이동 -->
+                                                            <li class="page-item"
+                                                                th:classappend="${reviews.last} ? 'disabled'">
+                                                                <a class="page-link"
+                                                                   th:href="@{/api/users/me/reviews/page (page=${reviews.number + 2}, size=${reviews.size}, reviewType=${reviewType})}"
+                                                                   aria-label="Next">
+                                                                    <span aria-hidden="true">다음 &rsaquo;</span>
+                                                                </a>
+                                                            </li>
+
+                                                            <!-- 마지막 페이지로 이동 -->
+                                                            <li class="page-item"
+                                                                th:classappend="${reviews.last} ? 'disabled'">
+                                                                <a class="page-link"
+                                                                   th:href="@{/api/users/me/reviews/page (page=${reviews.totalPages}, size=${reviews.size}, reviewType=${reviewType})}"
+                                                                   aria-label="Last">
+                                                                    <span aria-hidden="true">끝 &raquo;</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </nav>
                                                     <!-- 페이징 처리 끝-->
                                                 </div>
                                             </div>
