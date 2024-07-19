@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.nhnacademy.bookstorefront.global.util.PagingModel;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookByOrderCouponResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.service.Impl.BookOrderServiceImpl;
@@ -121,22 +122,10 @@ public class UserAndCouponController {
     public String getUserAndCouponByIdPaging( @PageableDefault(page = 1, size = 3)Pageable pageable,Model model) {
         Page<UserAndCouponResponseDTO> userAndCoupon = userAndCouponService.getUserAndCouponByIdPaging(pageable);
 
-        int blockLimit = 3;
-        int startPage = 1; // 1 4 7 10 ~~
-        int endPage = 1;
+
+        PagingModel.pagingProcessing(pageable, model, userAndCoupon, "/coupons/users/user", 5);
 
 
-        if (!userAndCoupon.isEmpty()) {
-            // 검색 결과가 있는 경우에만 페이지 번호 계산
-            int adjustedPage = Math.max(pageable.getPageNumber(), 1);
-            startPage = (((int)(Math.ceil((double)adjustedPage / blockLimit))) - 1) * blockLimit + 1;
-            endPage = Math.min((startPage + blockLimit - 1), userAndCoupon.getTotalPages());
-        }
-
-
-
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
         model.addAttribute("userAndCoupon", userAndCoupon);
         return "coupon-user/mypage-coupon";
     }

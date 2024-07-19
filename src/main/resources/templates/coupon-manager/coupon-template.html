@@ -8,6 +8,32 @@
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}"/>
+    <style>
+        /* 사용자 정의 CSS */
+        .narrow-col {
+            width: 80px;
+        }
+        .wide-col {
+            width: 150px;
+        }
+        .highlighted {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        .status-true {
+            color: green;
+        }
+        .status-false {
+            color: red;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .form-control {
+            width: 100%; /* 너비를 100%로 설정하여 내용이 잘리거나 보이지 않지 않도록 합니다. */
+            overflow: hidden; /* 오버플로우가 문제일 경우 사용 */
+        }
+    </style>
 </head>
 <body>
 
@@ -20,103 +46,74 @@
     <div class="row mt-4">
         <div class="col-md-12">
             <!-- Display Coupon List -->
-            <h4>Coupon List</h4>
+            <h4>쿠폰템플릿 목록</h4>
             <table id="couponTable" class="table table-bordered">
                 <thead>
                 <tr>
-                    <th>Coupon ID</th>
-                    <th>Coupon PolicyId</th>
-                    <th>Min Order Price</th>
-                    <th>Sale Price</th>
-                    <th>Sale Rate</th>
-                    <th>Max Sale Price</th>
-                    <th>Type</th>
-                    <th>Expired Date</th>
-                    <th>Issue Date</th>
-                    <th>Coupon Policy isUsed</th>
-                    <th>Category Coupon Name</th>
-                    <th>Book Coupon Title</th>
-                    <th>template quantity</th>
+                    <th class="narrow-col">쿠폰 아이디</th>
+                    <th class="narrow-col">쿠폰 정책아이디</th>
+                    <th class="wide-col">최소 주문금액</th>
+                    <th class="wide-col">할인 금액</th>
+                    <th class="wide-col">할인률</th>
+                    <th class="wide-col">최대 할인금액</th>
+                    <th class="wide-col">쿠폰 타입</th>
+                    <th class="wide-col">만료일</th>
+                    <th class="wide-col">발행일</th>
+                    <th class="narrow-col">쿠폰 정책사용여부</th>
+                    <th class="wide-col">카테고리 이름</th>
+                    <th class="wide-col">도서 이름</th>
+                    <th class="narrow-col">쿠폰 수량</th>
                 </tr>
                 </thead>
                 <tbody>
                 <!-- Loop through coupons and display each coupon -->
                 <tr th:each="coupon : ${coupons}">
-                    <td><input type="text" class="form-control couponId" th:value="${coupon.id}" readonly></td>
-                    <td>
-                        <input type="text" class="form-control couponPolicyId" th:value="${coupon.couponPolicyId}"
-                               readonly>
+                    <td class="narrow-col">
+                        <input type="text" class="form-control" th:value="${coupon.id != null ? coupon.id : '-'}" readonly>
                     </td>
-                    <td>
-                        <input type="text" class="form-control minOrderPrice" th:value="${coupon.minOrderPrice}"
-                               readonly>
+                    <td class="narrow-col">
+                        <input type="text" class="form-control" th:value="${coupon.couponPolicyId != null ? coupon.couponPolicyId : '-'}" readonly>
                     </td>
-                    <td>
-                        <input type="text" class="form-control salePrice" th:value="${coupon.salePrice}" readonly>
+                    <td class="wide-col">
+                        <input type="text" class="form-control" th:value="${coupon.minOrderPrice != null ? coupon.minOrderPrice : '-'}" readonly>
                     </td>
-                    <td>
-                        <input type="text" class="form-control saleRate" th:value="${coupon.saleRate}" readonly>
+                    <td class="wide-col">
+                        <input type="text" class="form-control" th:value="${coupon.salePrice != null ? coupon.salePrice : '-'}" readonly>
                     </td>
-                    <td>
-                        <input type="text" class="form-control maxSalePrice" th:value="${coupon.maxSalePrice}" readonly>
+                    <td class="wide-col">
+                        <input type="text" class="form-control" th:value="${coupon.saleRate != null ? coupon.saleRate : '-'}" readonly>
                     </td>
-                    <td>
-                        <input type="text" class="form-control type" th:value="${coupon.type}" readonly>
+                    <td class="wide-col">
+                        <input type="text" class="form-control" th:value="${coupon.maxSalePrice != null ? coupon.maxSalePrice : '-'}" readonly>
                     </td>
-                    <td><input type="text" class="form-control expiredDate" th:value="${coupon.expiredDate}"></td>
-                    <td><input type="text" class="form-control issueDate" th:value="${coupon.issueDate}"></td>
-                    <td><input type="text" class="form-control isUsed" th:value="${coupon.isUsed}"></td>
-                    <td><input type="text" class="form-control categoryName" th:value="${coupon.categoryName}"></td>
-                    <td><input type="text" class="form-control bookTitle" th:value="${coupon.bookTitle}"></td>
-                    <td><input type="text" class="form-control quantity" th:value="${coupon.quantity}"></td>
+                    <td class="wide-col">
+                        <input type="text" class="form-control" th:value="${coupon.type != null ? coupon.type : '-'}" readonly>
+                    </td>
+                    <td class="wide-col">
+                        <input type="text" class="form-control" th:value="${coupon.expiredDate != null ? coupon.expiredDate : '-'}">
+                    </td>
+                    <td class="wide-col">
+                        <input type="text" class="form-control" th:value="${coupon.issueDate != null ? coupon.issueDate : '-'}">
+                    </td>
+                    <td class="narrow-col">
+                        <input type="text" class="form-control status-true" th:if="${coupon.isUsed}" th:value="'사용'" readonly>
+                        <input type="text" class="form-control status-false" th:if="${!coupon.isUsed}" th:value="'폐기'" readonly>
+                    </td>
+                    <td class="wide-col">
+                        <input type="text" class="form-control" th:value="${coupon.categoryName != null ? coupon.categoryName : '-'}" th:if="${coupon.type == 'category'}">
+                    </td>
+                    <td class="wide-col">
+                        <input type="text" class="form-control" th:value="${coupon.bookTitle != null ? coupon.bookTitle : '-'}" th:if="${coupon.type == 'book'}">
+                    </td>
+                    <td class="narrow-col">
+                        <input type="text" class="form-control" th:value="${coupon.quantity != null ? coupon.quantity : '-'}" readonly>
+                    </td>
                 </tr>
                 </tbody>
             </table>
 
 
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center mt-4">
-                    <!-- 첫번째 페이지로 이동 -->
-                    <li class="page-item" th:classappend="${coupons.first} ? 'disabled'">
-                        <a class="page-link" th:href="@{/coupons(page=1, size=${coupons.size})}" aria-label="First">
-                            <span aria-hidden="true">&laquo; First</span>
-                        </a>
-                    </li>
-
-
-                    <li class="page-item" th:classappend="${coupons.first} ? 'disabled'">
-                        <a class="page-link"
-                           th:href="${coupons.first} ? '#' : '/coupons?page=' + ${coupons.number}+'&size='+${coupons.size}"
-                           aria-label="Previous">
-                            <span aria-hidden="true">&lsaquo; Previous</span>
-                        </a>
-                    </li>
-
-                    <!-- 페이지 번호 링크 -->
-                    <li class="page-item" th:each="page: ${#numbers.sequence(startPage, endPage)}"
-                        th:classappend="${page == coupons.number + 1} ? 'active'">
-                        <a class="page-link" th:href="@{/coupons(page=${page}, size=${coupons.size})}"
-                           th:text="${page}"></a>
-                    </li>
-
-                    <!-- 다음 페이지로 이동  둘다 가능한 방법 -->
-                    <li class="page-item" th:classappend="${coupons.last} ? 'disabled'">
-                        <a class="page-link"
-                           th:href="${coupons.last} ? '#' : '/coupons?page=' + (${coupons.number} + 2)+'&size='+${coupons.size}"
-                           aria-label="Next">
-                            <span aria-hidden="true">Next &rsaquo;</span>
-                        </a>
-                    </li>
-
-                    <!-- 마지막 페이지로 이동 -->
-                    <li class="page-item" th:classappend="${coupons.last} ? 'disabled'">
-                        <a class="page-link" th:href="@{/coupons(page=${coupons.totalPages}, size=${coupons.size})}"
-                           aria-label="Last">
-                            <span aria-hidden="true">Last &raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+            <div th:insert="~{global/paging}"></div>
 
         </div>
     </div>

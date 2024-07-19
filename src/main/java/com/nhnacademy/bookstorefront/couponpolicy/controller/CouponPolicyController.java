@@ -24,6 +24,7 @@ import com.nhnacademy.bookstorefront.couponpolicy.exception.CouponPolicyTypeIsNo
 import com.nhnacademy.bookstorefront.couponpolicy.exception.CouponPolicyValidationException;
 import com.nhnacademy.bookstorefront.couponpolicy.service.impl.CouponPolicyServiceImpl;
 import com.nhnacademy.bookstorefront.global.controller.payload.ErrorStatus;
+import com.nhnacademy.bookstorefront.global.util.PagingModel;
 
 import jakarta.validation.Valid;
 
@@ -42,7 +43,9 @@ public class CouponPolicyController {
 
 			// SalePrice와 SaleRate 유효성 검사 추가
 			if ((requestDTO.salePrice() == null && requestDTO.saleRate() == null && requestDTO.maxSalePrice() == null) ||
-				(requestDTO.salePrice() != null && requestDTO.saleRate() != null && requestDTO.maxSalePrice() != null)) {
+				(requestDTO.salePrice() != null && requestDTO.saleRate() != null && requestDTO.maxSalePrice() != null)||
+				(requestDTO.salePrice() != null && requestDTO.saleRate() != null  && requestDTO.maxSalePrice() == null)||
+				(requestDTO.salePrice() != null && requestDTO.saleRate() == null  && requestDTO.maxSalePrice() != null)) {
 				ErrorStatus errorStatus = ErrorStatus.from("쿠폰 정책등록시 할인가격은 할인률, 최대할인가격과 함께 등록할 수 없습니다.", HttpStatus.BAD_REQUEST, LocalDateTime.now());
 				throw new CouponPolicyValidationException(errorStatus);
 			}
@@ -82,11 +85,13 @@ public class CouponPolicyController {
 
 	@PatchMapping("/{couponPolicyId}")
 	public String updateCouponPolicy(@PathVariable("couponPolicyId") Long couponPolicyId,
-		@ModelAttribute CouponPolicyUpdateRequestDTO requestDTO) {
+	@Valid	@ModelAttribute CouponPolicyUpdateRequestDTO requestDTO) {
 
 			// SalePrice와 SaleRate 유효성 검사 추가
 			if ((requestDTO.salePrice() == null && requestDTO.saleRate() == null && requestDTO.maxSalePrice() == null) ||
-				(requestDTO.salePrice() != null && requestDTO.saleRate() != null && requestDTO.maxSalePrice() != null)) {
+				(requestDTO.salePrice() != null && requestDTO.saleRate() != null && requestDTO.maxSalePrice() != null) ||
+				(requestDTO.salePrice() != null && requestDTO.saleRate() != null  && requestDTO.maxSalePrice() == null)||
+				(requestDTO.salePrice() != null && requestDTO.saleRate() == null  && requestDTO.maxSalePrice() != null)) {
 				ErrorStatus errorStatus = ErrorStatus.from("쿠폰 정책등록시 할인가격은 할인률, 최대할인가격과 함께 등록할 수 없습니다.", HttpStatus.BAD_REQUEST, LocalDateTime.now());
 				throw new CouponPolicyValidationException(errorStatus);
 			}
@@ -99,21 +104,11 @@ public class CouponPolicyController {
 	@GetMapping
 	public String getCouponPolicies(@PageableDefault(page = 1, size = 3) Pageable pageable, Model model) {
 			Page<CouponPolicyResponseDTO> policies = couponPolicyService.getAllCouponPolicies(pageable);
-			int blockLimit = 3;
-			int startPage = 1;
-			int endPage = 1;
-
-			if (!policies.isEmpty()) {
-				int adjustedPage = Math.max(pageable.getPageNumber(), 1);
-				startPage = (((int)(Math.ceil((double)adjustedPage / blockLimit))) - 1) * blockLimit + 1;
-				endPage = Math.min((startPage + blockLimit - 1), policies.getTotalPages());
-			}
-
-			model.addAttribute("startPage", startPage);
-			model.addAttribute("endPage", endPage);
-			model.addAttribute("policies", policies);
-
+		PagingModel.pagingProcessing(pageable, model, policies, "/coupons/policies", 5);
+		model.addAttribute("policies", policies);
 
 		return "coupon-manager/coupon-policy"; // Ensure this view exists
 	}
+
+
 }

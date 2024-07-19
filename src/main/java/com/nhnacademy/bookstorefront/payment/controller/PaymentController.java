@@ -22,6 +22,7 @@ import com.nhnacademy.bookstorefront.payment.dto.response.CancelResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.GetBookOrderByInfoIdResponse;
 import com.nhnacademy.bookstorefront.payment.service.Impl.PaymentServiceImpl;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -135,8 +136,9 @@ public class PaymentController {
 	 * @return 결제 조회 페이지로 이동
 	 */
 	@PostMapping("/cancel/test/{order_info_id}")
-	public ModelAndView paymentCancel(@PathVariable("order_info_id") String orderInfoId, @ModelAttribute
-	CancelTextRequest cancelTextRequest) {
+
+	public ModelAndView paymentCancel(@PathVariable("order_info_id") String orderInfoId , @Valid @ModelAttribute
+		CancelTextRequest cancelTextRequest) {
 		CancelResponse cancelResponse = paymentServiceImpl.paymentFindByOrderInfoId(orderInfoId);
 
 		String url = "https://api.tosspayments.com/v1/payments/" + cancelResponse.paymentKey() + "/cancel";
