@@ -7,110 +7,129 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
-    <link rel="stylesheet" th:href="@{/css/pages/bookCart.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main/main.css}"/>
+    <!--    <link rel="stylesheet" th:href="@{/css/pages/bookCart.css}"/>-->
+    <link rel="stylesheet" th:href="@{/css/cart/cart.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
 </head>
 
 <body>
-<div class="site-wrapper" id="top">
-    <!--=================================
-    Header Area
-    ===================================== -->
-    <div th:insert="~{global/header}"></div>
+<div th:insert="~{global/header}"></div>
 
-    <section class="breadcrumb-section">
-        <h2 class="sr-only">Site Breadcrumb</h2>
-        <div class="container">
-            <div class="breadcrumb-contents">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a th:href="@{/api/books/main}">홈</a></li>
-                        <li class="breadcrumb-item active">장바구니</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </section>
-    <!-- bookCart Page Start -->
-    <div class="bookCart_cart_area inner-page-sec-padding-bottom">
-        <div class="container">
-            <table class="bookCart_table">
-                <thead>
-                <tr class="inline-text">
-                    <th>상품정보</th>
-                    <th>수량</th>
-                    <th>상품금액</th>
-                    <th style="width: 250px">주문</th>
-                </tr>
-                </thead>
-                <tbody th:if="${bookCarts != null}">
-                <tr th:each="bookCart : ${bookCarts}" class="bookCart_item">
-                    <td class="bookCart_book_info">
-                        <div class="bookCart_info_wrapper">
-                            <div class="bookCart_image">
-                                <a th:href="@{/api/books/{bookId} (bookId=${bookCart.bookId})}">
-                                    <img th:src="${bookCart.bookImageUrl}" alt="Book Image">
-                                </a>
+<br/>
+
+<section id="bookcart" class="top-container">
+    <h3 style="color: #797979">장바구니</h3>
+    <hr style="margin: 2rem 0">
+    <div class="cart-container">
+        <table id="bookcart-table">
+            <tr style="font-size: 1rem">
+                <th>상품 정보</th>
+                <th>주문 수량</th>
+                <th>주문 금액</th>
+                <th>주문</th>
+            </tr>
+            <tr th:each="bookCart : ${bookCarts}">
+                <td>
+                    <div class="cart-book-info">
+                        <a th:href="@{/api/books/{bookId} (bookId=${bookCart.bookId})}">
+                            <div class="bookcart-thumbnail">
+                                <img class="background-thumbnail" th:src="${bookCart.bookImageUrl}" alt="Book Image">
+                                <img class="front-thumbnail" th:src="${bookCart.bookImageUrl}" alt="Book Image">
                             </div>
-                            <div class="bookCart_details">
-                                <a class="bookCart_title" th:href="@{/api/books/{bookId} (bookId=${bookCart.bookId})}"
-                                   th:text="${bookCart.bookTitle}">Book Title</a>
-                                <p class="bookCart_price">
-                                    <span th:text="${bookCart.bookSalePrice} + '원'">11,700원</span>
-                                    <span class="bookCart_regular_price"
-                                          th:text="${bookCart.bookPrice} + '원'">13,000원</span>
-                                    <span class="bookCart_discount"
-                                          th:text="'(' + ${bookCart.bookSalePercent} + '% 할인)'">(10% 할인)</span>
-                                </p>
-                                <p class="bookCart_inventoryQuantity"
-                                   th:text="'재고: ' + ${bookCart.inventorQuantity}"></p>
+                        </a>
+                        <div class="cart-book-text-info">
+                            <a style="font-size: 1.5rem; font-weight: bold; color: #797979"
+                               th:href="@{/api/books/{bookId} (bookId=${bookCart.bookId})}"
+                               th:text="${bookCart.bookTitle}">
+                                Book Title
+                            </a>
+                            <br/>
+                            <div>
+                                <span style="color: #797979" th:text="${bookCart.authorName}">Author</span>
+                                <span style="color: #a8a8a8">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>
+                                <span style="color: #797979" th:text="${bookCart.publisherName}">Publisher</span>
+                            </div>
+                            <br/>
+                            <div style="width: 100%; display: flex; justify-content: space-between; align-items: center">
+                                <div>
+                                    <span style="font-size: 1rem; color: #797979">현재가&nbsp;</span>
+                                    <span style="font-size: 1.4rem; color: #333333"
+                                          th:text="${bookCart.bookSalePrice} + ' ₩'">Price</span>
+                                </div>
+                                <div style="display: flex; flex-direction: column; margin-left: 2rem">
+                                    <span style="font-size: 0.9rem; color: #797979; text-decoration: line-through"
+                                          th:text="${bookCart.bookPrice() + ' ₩'}">Original Price</span>
+                                    <span style="font-size: 0.9rem; color: #D90000"
+                                          th:text="'-' + ${bookCart.bookSalePercent} + '%'">Discount</span>
+                                </div>
                             </div>
                         </div>
-                    </td>
-                    <td class="bookCart_quantity">
-                        <input type="number" th:name="bookQuantity" th:value="${bookCart.bookQuantity}" min="1"
-                               th:data-book-id="${bookCart.bookId}">
-                        <div>
-                            <button class="bookCart_decrement">-</button>
-                            <button class="bookCart_increment">+</button>
-                        </div>
-                        <form th:action="@{/api/carts/me/{bookId} (bookId=${bookCart.bookId})}"
-                              th:method="put">
-                            <button type="submit" class="bookCart_change">변경</button>
-                        </form>
-
-                    </td>
-                    <td class="bookCart_total inline-text">
-                        <span th:text="${bookCart.bookSalePrice * bookCart.bookQuantity} + '원'">23,400원</span>
-                    </td>
-                    <td class="add-to-bookCart">
-                        <button class="btn btn-primary">주문하기</button>
-                        <button th:attr="data-book-id=${bookCart.bookId}" class="btn btn-primary add-to-wishlist">
-                            위시리스트에
-                            추가
+                    </div>
+                </td>
+                <td>
+                    <div class="quantity-container">
+                        <button class="bookCart_decrement">-</button>
+                        <label>
+                            <input type="number" th:name="bookQuantity" th:value="${bookCart.bookQuantity}" min="1"
+                                   th:max="${bookCart.inventorQuantity}"
+                                   th:data-book-id="${bookCart.bookId}">
+                        </label>
+                        <button class="bookCart_increment">+</button>
+                    </div>
+                    <!--                    <form th:action="@{/api/carts/me/{bookId} (bookId=${bookCart.bookId})}"-->
+                    <!--                          th:method="put">-->
+                    <!--                        <button type="submit" class="bookCart_change">변경</button>-->
+                    <!--                    </form>-->
+                </td>
+                <td class="bookCart_total inline-text">
+                    <span th:text="${bookCart.bookSalePrice * bookCart.bookQuantity} + '원'">금액</span>
+                </td>
+                <td class="add-to-bookCart">
+                    <div class="bookcart-actions">
+                        <button id="bookcart-order-button"
+                                th:onclick="'createBookOrder(' + ${bookCart.bookId} + ')'"
+                                type="button">
+                            <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                            <span>주문</span>
+                        </button>
+                        <button id="bookcart-wishlist-button" th:attr="data-book-id=${bookCart.bookId}"
+                                class="add-to-wishlist">
+                            <i class="fa-solid fa-heart"></i>
+                            <span>좋아요</span>
                         </button>
                         <form th:action="@{/api/carts/me/{bookId} (bookId=${bookCart.bookId})}"
-                              th:method="delete">
-                            <button type="submit" class="btn btn-danger">삭제</button>
+                              th:method="delete"
+                              style="display: flex; flex-direction: column; justify-content: space-around; align-items: center">
+                            <button id="bookcart-delete-button" type="submit">
+                                <i class="fa-solid fa-trash"></i>
+                                <span>삭제</span>
+                            </button>
                         </form>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="bookCart_summary">
-                <div class="summary-left">
-                    <p th:text="'상품 총 금액: ' + ${totalPrice} + '원'"></p>
-                </div>
-                <div th:if="${bookCarts != null}" class="summary-right">
-                    <a href="/api/orders/cart-order" class="btn btn-primary">주문하기</a>
-                </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <div class="bookCart_summary" style="text-align: end">
+            <div class="summary-left">
+                <p style="color: #797979" th:text="'상품 총 금액: ' + ${totalPrice} + '원'"></p>
+            </div>
+            <div th:if="${bookCarts != null}" class="summary-right">
+                <a href="/api/orders/cart-order">
+                    전체 주문
+                </a>
             </div>
         </div>
     </div>
-</div>
-<!--=================================
-Footer Area
-===================================== -->
+</section>
+
+<br/>
+<br/>
+<br/>
+<br/>
+<h1>TODO: 아이템 수량 조정 메서드 구현</h1>
 <div th:insert="~{global/footer}"></div>
 
 <script th:src="@{/js/plugins.js}"></script>
@@ -118,5 +137,12 @@ Footer Area
 <script th:src="@{/js/custom.js}"></script>
 <script th:src="@{/js/create-wishList.js}"></script>
 <script th:src="@{/js/update-bookCart.js}"></script>
+
+<script type="text/javascript">
+    function createBookOrder(bookId) {
+        const url = `/api/orders/createBookOrderTest/${bookId}`;
+        window.location.href = url;
+    }
+</script>
 </body>
 </html>
