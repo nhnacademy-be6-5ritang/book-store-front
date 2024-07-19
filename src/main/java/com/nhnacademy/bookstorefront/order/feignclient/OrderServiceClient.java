@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.nhnacademy.bookstorefront.order.dto.request.CreateBookOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
+import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderStatusRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateRefundPolicyRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateWrappingTypeRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.OrderCheckNonRequest;
@@ -34,6 +35,7 @@ import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetListWrappingResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetNonOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetOrderStatusResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetPaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetUserPointOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetWrappingResponse;
@@ -158,5 +160,36 @@ public interface OrderServiceClient {
 
 	@GetMapping("/api/orders/papers/admin")
 	ResponseEntity<GetAdminAllPaperResponse> getAdminAllWrappingPapers();
+
+	/**
+	 * 주문 상태 만들기
+	 * @param createOrderStatusRequest 주문 정보
+	 * @return 주문 정보 리턴
+	 */
+	@PostMapping("/api/orders/orderStatus")
+	ResponseEntity<GetOrderStatusResponse> createOrderStatus(@RequestBody CreateOrderStatusRequest createOrderStatusRequest);
+
+	/**
+	 * 주문 상태 업데이트
+	 * @param orderStatusId 주문 상태 아이디
+	 * @param createOrderStatusRequest 주문 상태 정보
+	 * @return 주문 상태 정보
+	 */
+	@PutMapping("/api/orders/orderStatus/{order_status_id}")
+	ResponseEntity<GetOrderStatusResponse> updateOrderStatus(@PathVariable("order_status_id") Long orderStatusId, @RequestBody CreateOrderStatusRequest createOrderStatusRequest);
+
+	/**
+	 * 주문 상태 삭제
+	 * @param orderStatusId 주문 상태 아이디
+	 */
+	@DeleteMapping("/api/orders/orderStatus/{order_status_id}")
+	ResponseEntity<Void> deleteOrderStatus(@PathVariable("order_status_id") Long orderStatusId);
+
+	/**
+	 * 주문 상태 다 가져오기
+	 * @return 모든 주문 상태
+	 */
+	@GetMapping("/api/orders/orderStatus/all")
+	List<GetOrderStatusResponse> orderStatusAll();
 
 }

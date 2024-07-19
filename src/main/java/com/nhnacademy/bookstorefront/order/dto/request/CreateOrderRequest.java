@@ -12,8 +12,8 @@ public record CreateOrderRequest(
 	@NotBlank @Size(max = 11) String payerNumber,
 	@NotBlank @Size(max = 100) String payerAddress,
 	@NotNull BigDecimal orderPrice,
-	@NotNull BigDecimal pointSale,
-	@NotNull BigDecimal couponSale,
+	BigDecimal pointSale,
+	BigDecimal couponSale,
 	Long couponId
 ) {
 }
