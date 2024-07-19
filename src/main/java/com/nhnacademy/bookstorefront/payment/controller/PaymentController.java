@@ -33,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PaymentController {
 
 	private final PaymentServiceImpl paymentServiceImpl;
-	private final RestTemplate restTemplate;
+	private final RestTemplate paymentRestTemplate;
 
 	/**
 	 * 주문 결제 전 주문 보안 아이디로 주문을 html에 설정
@@ -73,7 +73,7 @@ public class PaymentController {
 
 		HttpEntity<PaymentConfirmationRequest> entity = new HttpEntity<>(
 			PaymentConfirmationRequest.form(paymentKey, Integer.parseInt(amount), orderId), headers);
-		String response = restTemplate.postForObject(apiUrl, entity, String.class);
+		String response = paymentRestTemplate.postForObject(apiUrl, entity, String.class);
 
 		paymentServiceImpl.savePaymentResponse(response);
 		ModelAndView view = new ModelAndView();
@@ -106,7 +106,7 @@ public class PaymentController {
 		headers.set("Authorization", "Basic dGVzdF9za19BUTkyeW14TjM0MjllTUtFSmVManJhalJLWHZkOg==");
 
 		HttpEntity<String> entity = new HttpEntity<>(headers);
-		ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+		ResponseEntity<String> response = paymentRestTemplate.exchange(url, HttpMethod.GET, entity, String.class);
 		String responseBody = response.getBody();
 
 		ModelAndView modelAndView = new ModelAndView();
@@ -136,7 +136,7 @@ public class PaymentController {
 	 * @return 결제 조회 페이지로 이동
 	 */
 	@PostMapping("/cancel/test/{order_info_id}")
-	public ModelAndView paymentCancel(@PathVariable("order_info_id") String orderInfoId , @Valid @ModelAttribute
+	public ModelAndView paymentCancel(@PathVariable("order_info_id") String orderInfoId, @Valid @ModelAttribute
 		CancelTextRequest cancelTextRequest) {
 		CancelResponse cancelResponse = paymentServiceImpl.paymentFindByOrderInfoId(orderInfoId);
 
@@ -150,7 +150,7 @@ public class PaymentController {
 		String requestBody = String.format("{\"cancelReason\":\"%s\"}", cancelTextRequest.reason());
 
 		HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
-		ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+		ResponseEntity<String> response = paymentRestTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 		String responseBody = response.getBody();
 
 		paymentServiceImpl.updatePayment(responseBody, cancelResponse.paymentId());
@@ -159,6 +159,5 @@ public class PaymentController {
 		modelAndView.setViewName("toss/transactions");
 		return modelAndView;
 	}
-
 
 }
