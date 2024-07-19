@@ -103,57 +103,7 @@
     </div>
 
 
-    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center mt-4">
-            <th:block th:if="${not #lists.isEmpty(userAndCoupon.content)}">
-                <th:block th:with="coupon=${userAndCoupon.content[0]}">
-
-                    <!-- 첫번째 페이지로 이동 -->
-                    <li class="page-item" th:classappend="${userAndCoupon.first} ? 'disabled'">
-                        <a class="page-link" th:href="@{/coupons/users/user(page=1, size=${userAndCoupon.size})}"
-                           aria-label="First">
-                            <span aria-hidden="true">&laquo; First</span>
-                        </a>
-                    </li>
-
-                    <!-- 이전 페이지로 이동 -->
-                    <li class="page-item" th:classappend="${userAndCoupon.first} ? 'disabled'">
-                        <a class="page-link"
-                           th:href="@{/coupons/users/user(page=${userAndCoupon.number}, size=${userAndCoupon.size})}"
-                           aria-label="Previous">
-                            <span aria-hidden="true">&lsaquo; Previous</span>
-                        </a>
-                    </li>
-                    <!-- 페이지 번호 링크 -->
-                    <li class="page-item" th:each="page: ${#numbers.sequence(startPage, endPage)}"
-                        th:classappend="${page == userAndCoupon.number + 1} ? 'active'">
-                        <a class="page-link" th:href="@{/coupons/users/user(page=${page}, size=${userAndCoupon.size})}"
-                           th:text="${page}"></a>
-                    </li>
-
-                    <!-- 다음 페이지로 이동 -->
-                    <li class="page-item" th:classappend="${userAndCoupon.last} ? 'disabled'">
-                        <a class="page-link"
-                           th:href="@{/coupons/users/user(page=${userAndCoupon.number + 2}, size=${userAndCoupon.size})}"
-                           aria-label="Next">
-                            <span aria-hidden="true">Next &rsaquo;</span>
-                        </a>
-                    </li>
-
-                    <!-- 마지막 페이지로 이동 -->
-                    <li class="page-item" th:classappend="${userAndCoupon.last} ? 'disabled'">
-                        <a class="page-link"
-                           th:href="@{/coupons/users/user(page=${userAndCoupon.totalPages}, size=${userAndCoupon.size})}"
-                           aria-label="Last">
-                            <span aria-hidden="true">Last &raquo;</span>
-                        </a>
-                    </li>
-                </th:block>
-            </th:block>
-
-        </ul>
-    </nav>
-
+    <div th:insert="~{global/paging}"></div>
 
 </div>
 <!--=================================-->

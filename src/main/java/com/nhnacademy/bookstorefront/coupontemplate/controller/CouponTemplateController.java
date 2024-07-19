@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.nhnacademy.bookstorefront.coupontemplate.domain.dto.request.CouponTemplateCreateRequestDTO;
 import com.nhnacademy.bookstorefront.coupontemplate.domain.dto.response.CouponTemplateResponseDTO;
 import com.nhnacademy.bookstorefront.coupontemplate.service.CouponTemplateService;
+import com.nhnacademy.bookstorefront.global.util.PagingModel;
 
 import jakarta.validation.Valid;
 
@@ -37,20 +38,11 @@ public class CouponTemplateController {
 	@GetMapping
 	public String getAllCouponTemplates(@PageableDefault(page=1, size = 3)Pageable pageable, Model model) {
 		Page<CouponTemplateResponseDTO> coupons = couponTemplateService.getAllCouponTemplatesByManagerPaging(pageable);
-		int blockLimit = 3;
-		int startPage = 1;
-		int endPage = 1;
 
 
-		if (!coupons.isEmpty()) {
-			int adjustedPage = Math.max(pageable.getPageNumber(), 1);
-			startPage = (((int)(Math.ceil((double)adjustedPage / blockLimit))) - 1) * blockLimit + 1;
-			endPage = Math.min((startPage + blockLimit - 1), coupons.getTotalPages());
-		}
-
+		PagingModel.pagingProcessing(pageable, model, coupons, "/coupons", 5);
 		model.addAttribute("coupons", coupons);
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("endPage", endPage);
+
 
 		return "coupon-manager/coupon-template";
 	}
@@ -63,20 +55,13 @@ public class CouponTemplateController {
 	public String getAllCouponTemplatesIssuePaging(@PageableDefault(page=1, size = 3)Pageable pageable,Model model) {
 
 			Page<CouponTemplateResponseDTO> couponTemplates = couponTemplateService.getAllCouponTemplatesByUserPaging(pageable);
-		int blockLimit = 3;
-		int startPage = 1;
-		int endPage = 1;
 
 
-		if (!couponTemplates.isEmpty()) {
-			int adjustedPage = Math.max(pageable.getPageNumber(), 1);
-			startPage = (((int)(Math.ceil((double)adjustedPage / blockLimit))) - 1) * blockLimit + 1;
-			endPage = Math.min((startPage + blockLimit - 1), couponTemplates.getTotalPages());
-		}
+
+		PagingModel.pagingProcessing(pageable, model, couponTemplates, "/coupons/issue", 5);
 
 		model.addAttribute("coupontemplates", couponTemplates);
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("endPage", endPage);
+
 
 
 		return "coupon-user/user-coupon-issue";

@@ -24,6 +24,7 @@ import com.nhnacademy.bookstorefront.couponpolicy.exception.CouponPolicyTypeIsNo
 import com.nhnacademy.bookstorefront.couponpolicy.exception.CouponPolicyValidationException;
 import com.nhnacademy.bookstorefront.couponpolicy.service.impl.CouponPolicyServiceImpl;
 import com.nhnacademy.bookstorefront.global.controller.payload.ErrorStatus;
+import com.nhnacademy.bookstorefront.global.util.PagingModel;
 
 import jakarta.validation.Valid;
 
@@ -103,21 +104,11 @@ public class CouponPolicyController {
 	@GetMapping
 	public String getCouponPolicies(@PageableDefault(page = 1, size = 3) Pageable pageable, Model model) {
 			Page<CouponPolicyResponseDTO> policies = couponPolicyService.getAllCouponPolicies(pageable);
-			int blockLimit = 3;
-			int startPage = 1;
-			int endPage = 1;
-
-			if (!policies.isEmpty()) {
-				int adjustedPage = Math.max(pageable.getPageNumber(), 1);
-				startPage = (((int)(Math.ceil((double)adjustedPage / blockLimit))) - 1) * blockLimit + 1;
-				endPage = Math.min((startPage + blockLimit - 1), policies.getTotalPages());
-			}
-
-			model.addAttribute("startPage", startPage);
-			model.addAttribute("endPage", endPage);
-			model.addAttribute("policies", policies);
-
+		PagingModel.pagingProcessing(pageable, model, policies, "/coupons/policies", 5);
+		model.addAttribute("policies", policies);
 
 		return "coupon-manager/coupon-policy"; // Ensure this view exists
 	}
+
+
 }
