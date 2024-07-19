@@ -8,6 +8,16 @@
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}"/>
+    <style>
+        .card {
+            border: 1px solid #ddd; /* Light grey border */
+            border-radius: 5px; /* Rounded corners */
+        }
+        .card-body {
+            padding: 1rem;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -19,23 +29,22 @@
 
 
 <div class="container mt-5">
-    <h2 class="mb-4">관리자 쿠폰관리페이지</h2>
+    <h2 class="mb-4">사용자쿠폰 관리페이지</h2>
 
     <!-- Search and Filter Form -->
     <form th:action="@{/coupons/users}" method="get" class="mb-4">
         <div class="form-row">
             <div class="col-md-4">
-                <input type="text" class="form-control" name="userId" placeholder="Search by UserId"
-                       th:value="${param.userId}">
+                <input type="text" class="form-control" name="userId" placeholder="유저아이디를 검색하세요" th:value="${param.userId}">
             </div>
             <div class="col-md-4">
                 <select class="form-control" name="type">
-                    <option value="">All Types</option>
-                    <option value="welcome" th:selected="${#strings.equals(param.type, 'welcome')}">Welcome</option>
-                    <option value="birthday" th:selected="${#strings.equals(param.type, 'birthday')}">Birthday</option>
-                    <option value="book" th:selected="${#strings.equals(param.type, 'book')}">Book</option>
-                    <option value="category" th:selected="${#strings.equals(param.type, 'category')}">Category</option>
-                    <option value="sale" th:selected="${#strings.equals(param.type, 'sale')}">Sale</option>
+                    <option value="" >모든 타입</option>
+                    <option value="welcome" th:selected="${#strings.equals(param.type, 'welcome')}">웰컴쿠폰</option>
+                    <option value="birthday" th:selected="${#strings.equals(param.type, 'birthday')}">생일쿠폰</option>
+                    <option value="book" th:selected="${#strings.equals(param.type, 'book')}">도서쿠폰</option>
+                    <option value="category" th:selected="${#strings.equals(param.type, 'category')}">카테고리쿠폰</option>
+                    <option value="sale" th:selected="${#strings.equals(param.type, 'sale')}">세일쿠폰</option>
                 </select>
             </div>
             <div class="col-md-4">
@@ -46,6 +55,7 @@
     </form>
 
 
+
     <!-- Check if there are coupons to display -->
     <div th:if="${not #lists.isEmpty(userAndCoupon)}">
         <div class="row">
@@ -53,20 +63,76 @@
             <div th:each="coupon : ${userAndCoupon}" class="col-md-6 mb-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">UserCoupon ID: <span th:text="${coupon.id}"></span></h5>
-                        <p class="card-text">User Id: <span th:text="${coupon.userId}"></span></p>
-                        <p class="card-text">Expired Date: <span th:text="${coupon.expiredDate}"></span></p>
-                        <p class="card-text">Used Date: <span th:text="${coupon.usedDate}"></span></p>
-                        <p class="card-text">Is Used: <span th:text="${coupon.isUsed}"></span></p>
-                        <p class="card-text">Issue Date: <span th:text="${coupon.issueDate}"></span></p>
-                        <p class="card-text">Type: <span th:text="${coupon.type}"></span></p>
-                        <p class="card-text">Sale Price: <span th:text="${coupon.salePrice}"></span></p>
-                        <p class="card-text">Sale Rate: <span th:text="${coupon.salePrice}"></span></p>
-                        <p class="card-text">Max Sale Price: <span th:text="${coupon.maxSalePrice}"></span></p>
-                        <p class="card-text">Min Order Price: <span th:text="${coupon.minOrderPrice}"></span></p>
-                        <p class="card-text">CouponPolicy isUsed: <span th:text="${coupon.policyIsUsed}"></span></p>
-                        <p class="card-text">Book Title: <span th:text="${coupon.bookTitle}"></span></p>
-                        <p class="card-text">Category Name: <span th:text="${coupon.categoryName}"></span></p>
+                        <p class="card-title">유저 아이디
+                            <span th:if="${coupon.userId != null}" th:text="${coupon.userId}"></span>
+                            <span th:unless="${coupon.userId != null}">-</span>의 쿠폰아이디:
+                            <span th:if="${coupon.id != null}" th:text="${coupon.id}"></span>
+                            <span th:unless="${coupon.id != null}">-</span>
+                        </p>
+
+
+
+                        <p class="card-text">쿠폰 타입:
+                            <span th:if="${coupon.type != null}" th:text="${coupon.type}"></span>
+                            <span th:unless="${coupon.type != null}">-</span>
+                        </p>
+
+                        <!-- Category type 처리 -->
+                        <div th:if="${coupon.type == 'category'}">
+                            <p class="card-text">카테고리 이름:
+                                <span th:if="${coupon.categoryName != null}" th:text="${coupon.categoryName}"></span>
+                                <span th:unless="${coupon.categoryName != null}">-</span>
+                            </p>
+                        </div>
+                        <div th:if="${coupon.type == 'book'}">
+                            <p class="card-text">도서 제목:
+                                <span th:if="${coupon.bookTitle != null}" th:text="${coupon.bookTitle}"></span>
+                                <span th:unless="${coupon.bookTitle != null}">-</span>
+                            </p>
+                        </div>
+                        <div>
+
+                            <!-- 할인 금액이 있을 때 -->
+                            <p class="card-text" th:if="${coupon.salePrice != null}">
+                                할인 금액: <span th:text="${coupon.salePrice}"></span>
+                            </p>
+
+                            <!-- 할인 금액이 없을 때 -->
+                            <div th:unless="${coupon.salePrice != null}">
+                                <p class="card-text">할인 율:
+                                    <span th:if="${coupon.saleRate != null}" th:text="${coupon.saleRate}"></span>
+                                    <span th:unless="${coupon.saleRate != null}">-</span>
+                                </p>
+                                <p class="card-text">최대 할인금액:
+                                    <span th:if="${coupon.maxSalePrice != null}" th:text="${coupon.maxSalePrice}"></span>
+                                    <span th:unless="${coupon.maxSalePrice != null}">-</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <p class="card-text">최소 주문금액:
+                            <span th:if="${coupon.minOrderPrice != null}" th:text="${coupon.minOrderPrice}"></span>
+                            <span th:unless="${coupon.minOrderPrice != null}">-</span>
+                        </p>
+
+                        <!-- 정책 사용 여부와 쿠폰 사용 여부 묶어서 표시 -->
+                        <p class="card-text">정책 사용 여부:
+                            <span th:if="${coupon.policyIsUsed != null}" th:text="${coupon.policyIsUsed ? '사용함' : '사용 안 함'}"></span>
+                            <span th:unless="${coupon.policyIsUsed != null}">-</span> / 쿠폰 사용 여부:
+                            <span th:if="${coupon.isUsed != null}" th:text="${coupon.isUsed ? '사용함' : '사용 안 함'}"></span>
+                            <span th:unless="${coupon.isUsed != null}">-</span>
+                        </p>
+
+                        <!-- 쿠폰 발행일과 만료일을 맨 아래로 이동 -->
+                        <p class="card-text">쿠폰 발행일:
+                            <span th:if="${coupon.issueDate != null}" th:text="${coupon.issueDate}"></span>
+                            <span th:unless="${coupon.issueDate != null}">-</span>
+                        </p>
+
+                        <p class="card-text">쿠폰 만료일:
+                            <span th:if="${coupon.expiredDate != null}" th:text="${coupon.expiredDate}"></span>
+                            <span th:unless="${coupon.expiredDate != null}">-</span>
+                        </p>
                     </div>
                 </div>
             </div>

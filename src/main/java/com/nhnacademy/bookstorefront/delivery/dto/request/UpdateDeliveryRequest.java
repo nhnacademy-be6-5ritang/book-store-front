@@ -1,7 +1,6 @@
 package com.nhnacademy.bookstorefront.delivery.dto.request;
 
-import lombok.Builder;
+import jakarta.validation.constraints.NotNull;
 
-@Builder
-public record UpdateDeliveryRequest(Long deliveryStatusId) {
+public record UpdateDeliveryRequest(@NotNull Long deliveryStatusId) {
 }

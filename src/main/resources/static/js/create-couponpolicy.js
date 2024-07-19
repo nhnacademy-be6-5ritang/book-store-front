@@ -202,11 +202,11 @@ $(document).ready(function () {
 
         // 폼 데이터 채우기
         $('#policyIdEdit').val(row.find('.couponPolicyId').val());
-        $('#minOrderPriceEdit').val(row.find('.minOrderPrice').val());
-        $('#salePriceEdit').val(row.find('.salePrice').val());
-        $('#saleRateEdit').val(row.find('.saleRate').val());
-        $('#maxSalePriceEdit').val(row.find('.maxSalePrice').val());
-        $('#typeEdit').val(row.find('.type').val());
+        $('#minOrderPriceEdit').val(row.find('.minOrderPriceHidden').val());
+        $('#salePriceEdit').val(row.find('.salePriceHidden').val());
+        $('#saleRateEdit').val(row.find('.saleRateHidden').val());
+        $('#maxSalePriceEdit').val(row.find('.maxSalePriceHidden').val());
+        $('#typeEdit').val(row.find('.typeHidden').val());
 
         var isUsedValue = row.find('.isUsed').val();
         // Set the radio button based on the value
@@ -215,8 +215,10 @@ $(document).ready(function () {
         } else if (isUsedValue === "false") {
             $('#isUsedFalse').prop('checked', true);
         }
-        $('#categoryNameEdit').val(row.find('.categoryName').val());
-        $('#bookTitleEdit').val(row.find('.bookTitle').val());
+        $('#categoryNameEdit').val(row.find('.categoryNameHidden').val());
+        $('#bookTitleEdit').val(row.find('.bookTitleHidden').val());
+
+
 
         // `th:action` URL 업데이트
         $('#editCouponForm').attr('action', '/coupons/policies/' + policyId);

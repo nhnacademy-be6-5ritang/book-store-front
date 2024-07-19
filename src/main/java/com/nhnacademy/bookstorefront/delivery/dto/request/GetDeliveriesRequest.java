@@ -1,7 +1,6 @@
 package com.nhnacademy.bookstorefront.delivery.dto.request;
 
-import lombok.Builder;
+import jakarta.validation.constraints.NotNull;
 
-@Builder
-public record GetDeliveriesRequest(Long userId) {
+public record GetDeliveriesRequest(@NotNull Long userId) {
 }

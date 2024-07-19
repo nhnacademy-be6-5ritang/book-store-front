@@ -18,6 +18,7 @@ import com.nhnacademy.bookstorefront.point.dto.response.GetPointTransactionRespo
 import com.nhnacademy.bookstorefront.point.service.impl.PointEarningPolicyServiceImpl;
 import com.nhnacademy.bookstorefront.point.service.impl.PointTransactionServiceImpl;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -61,7 +62,7 @@ public class PointController {
 	}
 
 	@PostMapping("/point-earning-policies/admin")
-	public ModelAndView createPointEarningPolicy(@ModelAttribute CreatePointEarningPolicyRequest request) {
+	public ModelAndView createPointEarningPolicy(@Valid @ModelAttribute CreatePointEarningPolicyRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
 		pointEarningPolicyService.createPointEarningPolicy(request);
 		modelAndView.setViewName("redirect:/api/point-earning-policies/admin");
@@ -78,7 +79,7 @@ public class PointController {
 
 	@PostMapping("/point-earning-policies/admin/{policyId}")
 	public ModelAndView updatePointEarningPolicy(@PathVariable Long policyId,
-		@ModelAttribute UpdatePointEarningPolicyRequest request) {
+		@Valid @ModelAttribute UpdatePointEarningPolicyRequest request) {
 		pointEarningPolicyService.updatePointEarningPolicy(policyId, request);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("redirect:/api/point-earning-policies/admin");

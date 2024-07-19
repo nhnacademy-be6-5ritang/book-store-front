@@ -2,14 +2,15 @@ package com.nhnacademy.bookstorefront.delivery.dto.request;
 
 import java.time.LocalDateTime;
 
-import lombok.Builder;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
-@Builder
 public record CreateDeliveryRequest(
-	String deliveryReceiver,
-	String deliveryReceiverPhone,
-	LocalDateTime deliveryReceiverDate,
-	String deliveryReceiverAddress,
-	String deliveryReceiverAddress2
+	@NotBlank @Size(max = 20) String deliveryReceiver,
+	@NotBlank @Size(max = 20) String deliveryReceiverPhone,
+	@NotNull LocalDateTime deliveryReceiverDate,
+	@NotBlank @Size(max = 40) String deliveryReceiverAddress,
+	@NotBlank @Size(max = 60) String deliveryReceiverAddress2
 ) {
 }
