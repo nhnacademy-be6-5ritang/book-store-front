@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
 </head>
 
 
@@ -68,8 +68,10 @@
                                                     <td th:text="${index.index + 1}">1</td>
                                                     <td th:text="${bookStatus.bookStatusName}">도서상태 이름</td>
                                                     <td style="display: flex; align-items: center;">
-                                                        <a th:href="@{/api/bookStatuses/update/{bookStatusId} (bookStatusId=${bookStatus.bookStatusId})}" class="btn btn-warning">편집</a>
-                                                        <form th:action="@{/api/bookStatuses/{bookStatusId} (bookStatusId=${bookStatus.bookStatusId})}" th:method="delete">
+                                                        <a th:href="@{/api/bookStatuses/update/{bookStatusId} (bookStatusId=${bookStatus.bookStatusId})}"
+                                                           class="btn btn-warning">편집</a>
+                                                        <form th:action="@{/api/bookStatuses/{bookStatusId} (bookStatusId=${bookStatus.bookStatusId})}"
+                                                              th:method="delete">
                                                             <button type="submit" class="btn btn-danger">삭제</button>
                                                         </form>
                                                     </td>

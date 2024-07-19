@@ -26,21 +26,6 @@ import jakarta.servlet.http.HttpServletResponse;
 public class GlobalExceptionHandler {
 
 	/**
-	 * 예외를 처리하고 에러 페이지로 리다이렉트합니다.
-	 *
-	 * @param exception 발생한 예외 객체
-	 * @param model     예외 메시지를 저장할 모델 객체
-	 * @return 에러 페이지 뷰 이름
-	 */
-	@ExceptionHandler(value = Exception.class)
-	public ModelAndView handleException(Exception exception, Model model) {
-		ModelAndView modelAndView = new ModelAndView("global/error");
-		modelAndView.addObject("message", exception.getMessage());
-		modelAndView.setStatus(HttpStatus.INTERNAL_SERVER_ERROR); // 기본 상태 코드를 500으로 설정
-		return modelAndView;
-	}
-
-	/**
 	 * FeignException 을 처리하고 상태 코드에 따라 응답을 반환합니다.
 	 *
 	 * @param exception 발생한 Feign 예외 객체
@@ -52,13 +37,7 @@ public class GlobalExceptionHandler {
 		ModelAndView modelAndView = new ModelAndView("global/error");
 		modelAndView.addObject("message", exception.getMessage());
 
-		if (exception.status() == 404) {
-			modelAndView.setStatus(HttpStatus.NOT_FOUND); // 404 상태 코드 설정
-		} else if (exception.status() == 409) {
-			modelAndView.setStatus(HttpStatus.CONFLICT); // 409 상태 코드 설정
-		} else {
-			modelAndView.setStatus(HttpStatus.valueOf(exception.status())); // 기타 상태 코드 설정
-		}
+		modelAndView.setStatus(HttpStatus.valueOf(exception.status()));
 
 		return modelAndView;
 	}
@@ -93,7 +72,7 @@ public class GlobalExceptionHandler {
 		try {
 			script = response.getWriter();
 			script.println("<script>");
-			script.println("alert('"+ errorStatus.getMessage() + "')");
+			script.println("alert('" + errorStatus.getMessage() + "')");
 			script.println("history.back()");
 			script.println("</script>");
 			script.flush();
@@ -102,6 +81,21 @@ public class GlobalExceptionHandler {
 			throw new RuntimeException(e);
 		}
 
-
 	}
+
+	/**
+	 * 예외를 처리하고 에러 페이지로 리다이렉트합니다.
+	 *
+	 * @param exception 발생한 예외 객체
+	 * @param model     예외 메시지를 저장할 모델 객체
+	 * @return 에러 페이지 뷰 이름
+	 */
+	@ExceptionHandler(value = Exception.class)
+	public ModelAndView handleException(Exception exception, Model model) {
+		ModelAndView modelAndView = new ModelAndView("global/error");
+		modelAndView.addObject("message", exception.getMessage());
+		modelAndView.setStatus(HttpStatus.INTERNAL_SERVER_ERROR); // 기본 상태 코드를 500으로 설정
+		return modelAndView;
+	}
+
 }

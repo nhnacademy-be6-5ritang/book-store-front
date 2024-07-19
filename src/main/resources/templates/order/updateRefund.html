@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
 </head>
 
 
@@ -53,28 +53,31 @@
                                         <div class="page-section-title">
                                             <h1>환불 정책 수정</h1>
                                         </div>
-                                        <form th:action="@{/api/orders/admin/refundPolicy/{refundPolicyId}(refundPolicyId=${refundPolicyId})}" method="post">
+                                        <form th:action="@{/api/orders/admin/refundPolicy/{refundPolicyId}(refundPolicyId=${refundPolicyId})}"
+                                              method="post">
                                             <div class="form-group">
                                                 <label for="refundPolicyContent">환불 정책 내용</label>
-                                                <input type="text" class="form-control" id="refundPolicyContent" name="refundPolicyContent" required>
+                                                <input type="text" class="form-control" id="refundPolicyContent"
+                                                       name="refundPolicyContent" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="refundPolicyDate">환불 정책 기간 (송신일 기준 ~일 이내)</label>
-                                                <input type="text" class="form-control" id="refundPolicyDate" name="refundPolicyDate" required>
+                                                <input type="text" class="form-control" id="refundPolicyDate"
+                                                       name="refundPolicyDate" required>
                                             </div>
                                             <button type="submit" class="btn btn-primary">정책 저장</button>
                                         </form>
+                                    </div>
+
+
                                 </div>
-
-
                             </div>
+                            <!-- My Account Tab Content End -->
                         </div>
-                        <!-- My Account Tab Content End -->
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </div>
 

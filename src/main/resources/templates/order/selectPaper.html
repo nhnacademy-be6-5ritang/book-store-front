@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" th:href="@{/css/pages/wishlist.css}"/>
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
 </head>
 
 <body>
@@ -64,7 +64,9 @@
                                                 th:text="${bookOrder.getBookResponse().bookTitle()}"></span></td>
                                         <td class="form-group">
                                             <select class="form-control" id="paperId" name="paperId" required>
-                                                <option th:each="paper : ${getAllPaperResponse}" th:value="${paper.paperId()}" th:text="${paper.paperName() + '(' + paper.paperPrice() +')'}"></option>
+                                                <option th:each="paper : ${getAllPaperResponse}"
+                                                        th:value="${paper.paperId()}"
+                                                        th:text="${paper.paperName() + '(' + paper.paperPrice() +')'}"></option>
                                             </select>
                                         </td>
                                     </tr>
