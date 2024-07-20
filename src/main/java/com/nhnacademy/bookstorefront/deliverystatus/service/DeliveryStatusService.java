@@ -4,9 +4,7 @@ import java.util.List;
 
 import com.nhnacademy.bookstorefront.deliverystatus.dto.request.CreateDeliveryStatusRequest;
 import com.nhnacademy.bookstorefront.deliverystatus.dto.request.UpdateDeliveryStatusRequest;
-import com.nhnacademy.bookstorefront.deliverystatus.dto.response.CreateDeliveryStatusResponse;
 import com.nhnacademy.bookstorefront.deliverystatus.dto.response.GetDeliveryStatusResponse;
-import com.nhnacademy.bookstorefront.deliverystatus.dto.response.UpdateDeliveryStatusResponse;
 
 /**
  * @author 이경헌
@@ -32,18 +30,16 @@ public interface DeliveryStatusService {
 	 * 새로운 배송 상태를 생성합니다.
 	 *
 	 * @param request 생성할 배송 상태 정보를 담은 요청 객체
-	 * @return 생성된 배송 상태의 응답 정보
 	 */
-	CreateDeliveryStatusResponse createDeliveryStatus(CreateDeliveryStatusRequest request);
+	void createDeliveryStatus(CreateDeliveryStatusRequest request);
 
 	/**
 	 * 주어진 배송 상태 ID에 해당하는 배송 상태를 수정합니다.
 	 *
 	 * @param deliveryStatusId 수정할 배송 상태의 ID
 	 * @param request          수정할 배송 상태 정보를 담은 요청 객체
-	 * @return 수정된 배송 상태의 응답 정보
 	 */
-	UpdateDeliveryStatusResponse updateDeliveryStatus(Long deliveryStatusId, UpdateDeliveryStatusRequest request);
+	void updateDeliveryStatus(Long deliveryStatusId, UpdateDeliveryStatusRequest request);
 
 	/**
 	 * 주어진 배송 상태 ID에 해당하는 배송 상태를 삭제합니다.
