@@ -65,7 +65,7 @@
                                 <input type="hidden" name="couponId" value="0">
                             </div>
                             <div th:unless="${#lists.isEmpty(couponList)}">
-                                <button type="button" id="noCouponBtn" class="btn btn-secondary mb-3">쿠폰 사용 안 함</button>
+
                                 <table class="table table-bordered table-hover" id="couponTable">
                                     <thead class="thead-dark">
                                     <tr>
@@ -108,7 +108,8 @@
                                        style="display: none;">
                             </div>
                             <div class="text-right">
-                                <button type="submit" class="btn btn-primary">Use Selected Coupons</button>
+                                <button type="submit" class="btn btn-primary">쿠폰 선택</button>
+                                <button type="button" id="noCouponBtn" class="btn btn-secondary mb-3">쿠폰 사용 안함</button>
                             </div>
                         </form>
                     </div>

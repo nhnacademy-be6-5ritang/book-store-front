@@ -133,6 +133,11 @@
                             <span th:if="${coupon.expiredDate != null}" th:text="${coupon.expiredDate}"></span>
                             <span th:unless="${coupon.expiredDate != null}">-</span>
                         </p>
+                        <p class="card-text">쿠폰 사용일:
+                            <span th:if="${coupon.usedDate != null}" th:text="${coupon.usedDate}"></span>
+                            <span th:unless="${coupon.usedDate != null}">-</span>
+                        </p>
+
                     </div>
                 </div>
             </div>
