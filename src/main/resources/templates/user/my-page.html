@@ -24,7 +24,7 @@
         <section id="my-page-header">
             <div style="height: 100%; display: grid; place-items: center;">
                 <div th:if="${myUserInfo.userStatusName == 'ACTIVE'}"
-                     style="width: 7px; height: 7px; border-radius: 50%; background-color: #D90000"></div>
+                     style="width: 7px; height: 7px; border-radius: 50%; background-color: #007924"></div>
                 <div th:if="${myUserInfo.userStatusName == 'DORMANT'}"
                      style="width: 7px; height: 7px; border-radius: 50%; background-color: #a8a8a8"></div>
             </div>
@@ -77,7 +77,19 @@
                     <td class="table-label">비밀번호</td>
                     <td class="table-left-data">********</td>
                     <td class="table-label">가입일</td>
-                    <td th:text="${myUserInfo.createdAt.toString().split('T')[0]}"></td>
+                    <td th:text="${myUserInfo.createdAt.toString().split('T')[0].replaceAll('-', ' - ')}"></td>
+                </tr>
+                <tr>
+                    <td><br/></td>
+                </tr>
+                <tr>
+                    <td><br/></td>
+                </tr>
+                <tr>
+                    <td class="table-label">생년월일</td>
+                    <!--                    <td class="table-left-data">********</td>-->
+                    <td class="table-left-data" th:text="${myUserInfo.birth.toString().replaceAll('-', ' - ')}">생년월일
+                    </td>
                 </tr>
                 <tr>
                     <td><br/></td>
@@ -88,7 +100,8 @@
                 <tr>
                     <td class="table-label">내 주소</td>
                     <td style="display: flex">
-                        <span th:text="${myAddress.baseAddress + ', ' + myAddress.detailAddress}"></span>
+                        <span th:if="${myAddress != null}"
+                              th:text="${myAddress.baseAddress + ', ' + myAddress.detailAddress}"></span>
                         <a class="my-address-a" th:href="@{/addresses/my-address}">내 주소
                             관리</a>
                     </td>

@@ -2,6 +2,7 @@ package com.nhnacademy.bookstorefront.auth.controller;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -45,6 +46,7 @@ public class AuthController {
 
 	@PostMapping("/sign-up")
 	public String signUpProcess(@ModelAttribute SignUpRequest signUpRequest) {
+		LocalDate birth = signUpRequest.getBirthDate();
 		SignUpResponse signUpResponse;
 		try {
 			signUpResponse = authService.signUp(signUpRequest).getBody();
