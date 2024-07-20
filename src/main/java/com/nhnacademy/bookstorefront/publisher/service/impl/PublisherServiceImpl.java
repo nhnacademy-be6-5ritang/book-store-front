@@ -33,13 +33,13 @@ public class PublisherServiceImpl implements PublisherService {
 	}
 
 	@Override
-	public PublisherDto createPublisher(PublisherDto publisherDto) {
-		return publisherServiceClient.createPublisher(publisherDto).getBody();
+	public void createPublisher(PublisherDto publisherDto) {
+		publisherServiceClient.createPublisher(publisherDto);
 	}
 
 	@Override
-	public PublisherDto updatePublisher(Long publisherId, PublisherDto publisherDto) {
-		return publisherServiceClient.updatePublisher(publisherId, publisherDto).getBody();
+	public void updatePublisher(Long publisherId, PublisherDto publisherDto) {
+		publisherServiceClient.updatePublisher(publisherId, publisherDto);
 	}
 
 	@Override

@@ -28,11 +28,11 @@ public interface PublisherServiceClient {
 	ResponseEntity<PublisherDto> getPublisher(@PathVariable Long publisherId);
 
 	@PostMapping
-	ResponseEntity<PublisherDto> createPublisher(
+	ResponseEntity<Void> createPublisher(
 		@RequestBody PublisherDto request);
 
 	@PutMapping("/{publisherId}")
-	ResponseEntity<PublisherDto> updatePublisher(@PathVariable Long publisherId,
+	ResponseEntity<Void> updatePublisher(@PathVariable Long publisherId,
 		@RequestBody PublisherDto request);
 
 	@DeleteMapping("/{publisherId}")
