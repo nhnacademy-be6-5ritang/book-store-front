@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @FeignClient(name = "swaggerClient", url = "http://localhost:8090")
 public interface SwaggerApiClient {
-	@GetMapping("/coupons/api-test")
+	@GetMapping("/coupons/api")
 	ResponseEntity<String> getSwaggerJson();
 }

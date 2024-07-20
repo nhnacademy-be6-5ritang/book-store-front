@@ -11,6 +11,48 @@
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/pages/usercoupon-issue-page.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}"/>
 
+    <style>
+        /* 커스텀 스타일 */
+        .coupon-card {
+            border: 2px solid #000; /* 검정색 테두리 */
+            border-radius: 8px; /* 둥근 모서리 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 약간의 그림자 */
+            transition: transform 0.3s, box-shadow 0.3s; /* 부드러운 전환 효과 */
+            margin-bottom: 20px; /* 카드 사이의 간격 */
+        }
+
+        .coupon-card:hover {
+            transform: translateY(-5px); /* 호버 시 카드 위로 이동 */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 더 진한 그림자 */
+        }
+
+        .card-footer {
+            background-color: #fff; /* 흰색 배경 */
+            border-top: 2px solid #000; /* 검정색 테두리 */
+        }
+
+        .issue-btn button {
+            background-color: #fff; /* 흰색 배경 */
+            border: 2px solid #000; /* 검정색 테두리 */
+            color: #000; /* 검정색 글자 */
+            transition: background-color 0.3s, color 0.3s; /* 부드러운 전환 효과 */
+        }
+
+        .issue-btn button:hover {
+            background-color: #000; /* 검정색 배경 */
+            color: #fff; /* 흰색 글자 */
+        }
+
+        .coupon-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px; /* 쿠폰 사이의 간격 */
+        }
+
+        .coupon-card-wrapper {
+            flex: 0 0 calc(50% - 20px); /* 한 줄에 두 개씩 표시, 간격 조정 */
+        }
+    </style>
 </head>
 <body>
 
@@ -30,26 +72,30 @@
                     <div class="col-md-6 d-flex mb-4">
                         <div class="coupon-card card w-100">
                             <div class="card-body coupon-card-body">
-                                <p>이 쿠폰은 "<span th:text="${coupontemplate.type}"></span>" 타입 입니다.</p>
+
+
+                                <p>이 쿠폰은 "<span th:text="${coupontemplate.type != null ? coupontemplate.type : '-'}"></span>" 타입 입니다.</p>
 
                                 <div th:if="${coupontemplate.type == 'category'}">
-                                    <p>카테고리 이름: <span th:text="${coupontemplate.categoryName}"></span></p>
-                                </div>
-                                <div th:if="${coupontemplate.type == 'book'}">
-                                    <p>도서 제목</p>: <span th:text="${coupontemplate.bookTitle}"></span></p>
+                                    <p>카테고리 이름: <span th:text="${coupontemplate.categoryName != null ? coupontemplate.categoryName : '-'}"></span></p>
                                 </div>
 
-                                <p>최소 주문금액: <span th:text="${coupontemplate.minOrderPrice}"></span></p>
+                                <div th:if="${coupontemplate.type == 'book'}">
+                                    <p>도서 제목: <span th:text="${coupontemplate.bookTitle != null ? coupontemplate.bookTitle : '-'}"></span></p>
+                                </div>
+
+                                <p>최소 주문금액: <span th:text="${coupontemplate.minOrderPrice != null ? #numbers.formatDecimal(coupontemplate.minOrderPrice, 1, 'COMMA', 0, 'POINT') : '-'}"></span></p>
 
                                 <div th:if="${coupontemplate.saleRate != null}">
-                                    <p>할인율: <span th:text="${coupontemplate.saleRate}"></span></p>
-                                    <p>최대 할인가격: <span th:text="${coupontemplate.maxSalePrice}"></span></p>
-                                </div>
-                                <div th:if="${coupontemplate.salePrice != null}">
-                                    <p>할인 금액: <span th:text="${coupontemplate.salePrice}"></span></p>
+                                    <p>할인율: <span th:text="${#numbers.formatDecimal(coupontemplate.saleRate * 100, 1, 'COMMA', 0, 'POINT')+'%'}"></span></p>
+                                    <p>최대 할인가격: <span th:text="${coupontemplate.maxSalePrice != null ? #numbers.formatDecimal(coupontemplate.maxSalePrice, 1, 'COMMA', 0, 'POINT') : '-'}"></span></p>
                                 </div>
 
-                                <p>만료일: <span th:text="${coupontemplate.expiredDate}"></span></p>
+                                <div th:if="${coupontemplate.salePrice != null}">
+                                    <p>할인 금액: <span th:text="${#numbers.formatDecimal(coupontemplate.salePrice, 1, 'COMMA', 0, 'POINT')}"></span></p>
+                                </div>
+
+                                <p>만료일: <span th:text="${coupontemplate.expiredDate != null ? #temporals.format(coupontemplate.expiredDate, 'yyyy.MM.dd HH:mm') : '-'}"></span></p>
                             </div>
                             <div class="card-footer issue-btn">
                                 <form th:action="@{/coupons/{couponTemplateId}(couponTemplateId=${coupontemplate.id})}"
