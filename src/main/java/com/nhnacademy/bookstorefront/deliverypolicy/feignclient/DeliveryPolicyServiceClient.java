@@ -14,10 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.nhnacademy.bookstorefront.deliverypolicy.dto.request.CreateDeliveryPolicyRequest;
 import com.nhnacademy.bookstorefront.deliverypolicy.dto.request.UpdateDeliveryPolicyRequest;
-import com.nhnacademy.bookstorefront.deliverypolicy.dto.response.CreateDeliveryPolicyResponse;
 import com.nhnacademy.bookstorefront.deliverypolicy.dto.response.GetDeliveryPoliciesResponse;
 import com.nhnacademy.bookstorefront.deliverypolicy.dto.response.GetDeliveryPolicyResponse;
-import com.nhnacademy.bookstorefront.deliverypolicy.dto.response.UpdateDeliveryPolicyResponse;
 
 @FeignClient(name = "delivery-policy-feign-client", url = "http://localhost:8090/api/deliveryPolicies")
 public interface DeliveryPolicyServiceClient {
@@ -29,11 +27,11 @@ public interface DeliveryPolicyServiceClient {
 	ResponseEntity<GetDeliveryPolicyResponse> getDeliveryPolicy(@PathVariable Long deliveryPolicyId);
 
 	@PostMapping
-	ResponseEntity<CreateDeliveryPolicyResponse> createDeliveryPolicy(
+	ResponseEntity<Void> createDeliveryPolicy(
 		@RequestBody CreateDeliveryPolicyRequest request);
 
 	@PutMapping("/{deliveryPolicyId}")
-	ResponseEntity<UpdateDeliveryPolicyResponse> updateDeliveryPolicy(@PathVariable Long deliveryPolicyId,
+	ResponseEntity<Void> updateDeliveryPolicy(@PathVariable Long deliveryPolicyId,
 		@RequestBody UpdateDeliveryPolicyRequest request);
 
 	@DeleteMapping("/{deliveryPolicyId}")
