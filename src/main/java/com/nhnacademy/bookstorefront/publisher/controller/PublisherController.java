@@ -30,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/publishers")
 public class PublisherController {
 	private final PublisherServiceImpl publisherService;
-	private final String REDIRECT_URL = "redirect:/api/publishers/page";
+	private static final String REDIRECT_URL = "redirect:/api/publishers/page";
 
 	/**
 	 * 새로운 출판사 생성 폼을 반환합니다.
@@ -74,7 +74,7 @@ public class PublisherController {
 	 * @param model    모델 객체
 	 * @return 출판사 리스트 뷰 이름
 	 */
-	@GetMapping("page")
+	@GetMapping("/page")
 	public String getPublishers(@PageableDefault(page = 1) Pageable pageable, Model model) {
 		Page<PublisherDto> publishers = publisherService.getPublishers(pageable);
 		model.addAttribute("publishers", publishers);
