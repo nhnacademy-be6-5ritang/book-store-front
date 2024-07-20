@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.nhnacademy.bookstorefront.deliverystatus.dto.request.CreateDeliveryStatusRequest;
 import com.nhnacademy.bookstorefront.deliverystatus.dto.request.UpdateDeliveryStatusRequest;
-import com.nhnacademy.bookstorefront.deliverystatus.dto.response.CreateDeliveryStatusResponse;
 import com.nhnacademy.bookstorefront.deliverystatus.dto.response.GetDeliveryStatusResponse;
-import com.nhnacademy.bookstorefront.deliverystatus.dto.response.UpdateDeliveryStatusResponse;
 
 @FeignClient(name = "delivery-status-feign-client", url = "http://localhost:8090/api/deliveryStatuses")
 public interface DeliveryStatusServiceClient {
@@ -27,11 +25,11 @@ public interface DeliveryStatusServiceClient {
 	ResponseEntity<GetDeliveryStatusResponse> getDeliveryStatus(@PathVariable Long deliveryStatusId);
 
 	@PostMapping
-	ResponseEntity<CreateDeliveryStatusResponse> createDeliveryStatus(
+	ResponseEntity<Void> createDeliveryStatus(
 		@RequestBody CreateDeliveryStatusRequest request);
 
 	@PutMapping("/{deliveryStatusId}")
-	ResponseEntity<UpdateDeliveryStatusResponse> updateDeliveryStatus(@PathVariable Long deliveryStatusId,
+	ResponseEntity<Void> updateDeliveryStatus(@PathVariable Long deliveryStatusId,
 		@RequestBody UpdateDeliveryStatusRequest request);
 
 	@DeleteMapping("/{deliveryStatusId}")

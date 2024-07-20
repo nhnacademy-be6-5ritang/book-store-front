@@ -6,9 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.deliverystatus.dto.request.CreateDeliveryStatusRequest;
 import com.nhnacademy.bookstorefront.deliverystatus.dto.request.UpdateDeliveryStatusRequest;
-import com.nhnacademy.bookstorefront.deliverystatus.dto.response.CreateDeliveryStatusResponse;
 import com.nhnacademy.bookstorefront.deliverystatus.dto.response.GetDeliveryStatusResponse;
-import com.nhnacademy.bookstorefront.deliverystatus.dto.response.UpdateDeliveryStatusResponse;
 import com.nhnacademy.bookstorefront.deliverystatus.feignclient.DeliveryStatusServiceClient;
 import com.nhnacademy.bookstorefront.deliverystatus.service.DeliveryStatusService;
 
@@ -30,14 +28,14 @@ public class DeliveryStatusServiceImpl implements DeliveryStatusService {
 	}
 
 	@Override
-	public CreateDeliveryStatusResponse createDeliveryStatus(CreateDeliveryStatusRequest request) {
-		return deliveryStatusServiceClient.createDeliveryStatus(request).getBody();
+	public void createDeliveryStatus(CreateDeliveryStatusRequest request) {
+		deliveryStatusServiceClient.createDeliveryStatus(request);
 	}
 
 	@Override
-	public UpdateDeliveryStatusResponse updateDeliveryStatus(Long deliveryStatusId,
+	public void updateDeliveryStatus(Long deliveryStatusId,
 		UpdateDeliveryStatusRequest request) {
-		return deliveryStatusServiceClient.updateDeliveryStatus(deliveryStatusId, request).getBody();
+		deliveryStatusServiceClient.updateDeliveryStatus(deliveryStatusId, request);
 	}
 
 	@Override
