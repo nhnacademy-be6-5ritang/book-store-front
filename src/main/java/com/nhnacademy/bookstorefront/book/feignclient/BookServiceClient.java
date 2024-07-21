@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.UpdateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.response.BookSearchResult;
-import com.nhnacademy.bookstorefront.book.dto.response.CreateBookResponse;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
-import com.nhnacademy.bookstorefront.book.dto.response.UpdateBookResponse;
 
 @FeignClient(name = "book-feign-client", url = "http://localhost:8090/api/books")
 public interface BookServiceClient {
@@ -50,10 +48,10 @@ public interface BookServiceClient {
 	ResponseEntity<String> fetchAndSaveBook(@RequestParam String isbn);
 
 	@PostMapping
-	ResponseEntity<CreateBookResponse> createBook(@RequestBody CreateBookRequest request);
+	ResponseEntity<Void> createBook(@RequestBody CreateBookRequest request);
 
 	@PutMapping("/{bookId}")
-	ResponseEntity<UpdateBookResponse> updateBookById(@PathVariable Long bookId,
+	ResponseEntity<Void> updateBookById(@PathVariable Long bookId,
 		@RequestBody UpdateBookRequest request);
 
 	@DeleteMapping("/{bookId}")

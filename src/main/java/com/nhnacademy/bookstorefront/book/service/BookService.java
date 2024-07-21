@@ -9,9 +9,7 @@ import org.springframework.http.ResponseEntity;
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.UpdateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.response.BookSearchResult;
-import com.nhnacademy.bookstorefront.book.dto.response.CreateBookResponse;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
-import com.nhnacademy.bookstorefront.book.dto.response.UpdateBookResponse;
 
 /**
  * 외부 Book 서비스와 통신하여 책 정보를 관리하는 인터페이스입니다.
@@ -48,18 +46,16 @@ public interface BookService {
 	 * 새로운 책을 생성합니다.
 	 *
 	 * @param request 생성할 책 정보 DTO
-	 * @return 생성된 책의 응답 DTO
 	 */
-	CreateBookResponse createBook(CreateBookRequest request);
+	void createBook(CreateBookRequest request);
 
 	/**
 	 * 주어진 책 ID에 해당하는 책을 업데이트합니다.
 	 *
 	 * @param bookId  업데이트할 책 ID
 	 * @param request 업데이트할 책 정보 DTO
-	 * @return 업데이트된 책의 응답 DTO
 	 */
-	UpdateBookResponse updateBookById(Long bookId, UpdateBookRequest request);
+	void updateBookById(Long bookId, UpdateBookRequest request);
 
 	/**
 	 * ISBN을 통해 도서 정보를 가져와 저장하는 메서드입니다.

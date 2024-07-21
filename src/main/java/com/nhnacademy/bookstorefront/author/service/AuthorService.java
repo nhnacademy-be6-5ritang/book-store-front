@@ -39,18 +39,16 @@ public interface AuthorService {
 	 * 새로운 작가 정보를 생성합니다.
 	 *
 	 * @param authorDto 생성할 작가 정보 DTO
-	 * @return 생성된 작가 정보
 	 */
-	AuthorDto createAuthor(AuthorDto authorDto);
+	void createAuthor(AuthorDto authorDto);
 
 	/**
 	 * 주어진 작가 ID에 해당하는 작가 정보를 수정합니다.
 	 *
 	 * @param authorId  수정할 작가 ID
 	 * @param authorDto 수정할 작가 정보 DTO
-	 * @return 수정된 작가 정보
 	 */
-	AuthorDto updateAuthor(Long authorId, AuthorDto authorDto);
+	void updateAuthor(Long authorId, AuthorDto authorDto);
 
 	/**
 	 * 주어진 작가 ID에 해당하는 작가 정보를 삭제합니다.
