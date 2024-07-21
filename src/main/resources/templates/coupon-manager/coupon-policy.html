@@ -9,6 +9,93 @@
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/pages/coupon-policy.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}"/>
+    <style>
+        /* 테이블 전체 스타일 */
+        #couponTable {
+            width: 100%; /* 테이블이 부모 컨테이너에 맞게 늘어나도록 설정 */
+            table-layout: fixed; /* 열 너비 고정 */
+        }
+
+        /* 테이블 헤더 및 본문 스타일 */
+        #couponTable th, #couponTable td {
+            text-align: center; /* 헤더와 본문의 텍스트 정렬 중앙으로 설정 */
+            overflow: hidden; /* 콘텐츠가 넘치는 경우 숨기기 */
+            white-space: nowrap; /* 내용이 줄바꿈되지 않도록 설정 */
+            padding: 0.5rem; /* 셀 내부 여백 */
+        }
+
+        /* 헤더의 텍스트 크기 조정 */
+        #couponTable th {
+            font-size: 0.875rem; /* 헤더 폰트 사이즈 조정 */
+        }
+
+        /* 입력 필드 스타일 */
+        #couponTable .form-control {
+            width: 100%; /* 열 너비에 맞게 설정 */
+            padding: 0.25rem; /* 내부 여백 조정 */
+            box-sizing: border-box; /* 패딩과 테두리를 너비에 포함시킴 */
+            font-size: 0.75rem; /* 폰트 사이즈 조정 */
+        }
+
+        /* 버튼 스타일 조정 */
+        #couponTable .btn {
+            font-size: 0.625rem; /* 폰트 사이즈를 더 작게 조정 */
+            padding: 0.25rem 0.5rem; /* 버튼의 내부 여백을 줄여서 버튼 크기 조정 */
+            box-sizing: border-box; /* 패딩과 테두리를 너비에 포함시킴 */
+        }
+
+        /* 버튼 그룹 스타일 */
+        #couponTable .btn-group {
+            display: flex; /* 버튼을 가로로 정렬 */
+            gap: 0.5rem; /* 버튼 간의 간격 설정 */
+        }
+
+        /* 테이블 헤더 셀 너비 조정 */
+        #couponTable th:nth-child(1),
+        #couponTable td:nth-child(1) {
+            width: 15%; /* 최소 주문금액 열 너비 */
+        }
+
+        #couponTable th:nth-child(2),
+        #couponTable td:nth-child(2) {
+            width: 12%; /* 할인 금액 열 너비 */
+        }
+
+        #couponTable th:nth-child(3),
+        #couponTable td:nth-child(3) {
+            width: 12%; /* 할인률 열 너비 */
+        }
+
+        #couponTable th:nth-child(4),
+        #couponTable td:nth-child(4) {
+            width: 15%; /* 최대 할인금액 열 너비 */
+        }
+
+        #couponTable th:nth-child(5),
+        #couponTable td:nth-child(5) {
+            width: 15%; /* 쿠폰 타입 열 너비 */
+        }
+
+        #couponTable th:nth-child(6),
+        #couponTable td:nth-child(6) {
+            width: 15%; /* 정책 사용여부 열 너비 */
+        }
+
+        #couponTable th:nth-child(7),
+        #couponTable td:nth-child(7) {
+            width: 15%; /* 카테고리 이름 열 너비 */
+        }
+
+        #couponTable th:nth-child(8),
+        #couponTable td:nth-child(8) {
+            width: 15%; /* 도서 제목 열 너비 */
+        }
+
+        #couponTable th:nth-child(9),
+        #couponTable td:nth-child(9) {
+            width: 32%; /* 액션 열 너비 */
+        }
+    </style>
 
 </head>
 <body>
@@ -19,6 +106,12 @@
 <div th:insert="~{global/header}"></div>
 <div class="container">
 
+    <div class="row">
+        <div class="col-lg-3 col-12">
+            <!-- 사용자 계정 메뉴 -->
+            <div th:insert="~{fragments/admin-account-menu.html}"></div>
+        </div>
+        <div class="col-lg-9 col-12">
     <main class="page-section inner-page-sec-padding-bottom">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb--30 mb-lg--0">
@@ -129,6 +222,8 @@
 
         </div>
     </main>
+        </div>
+    </div>
 </div>
 <!--=================================
             Footer Area

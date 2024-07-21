@@ -49,6 +49,6 @@ public class SearchController {
 		model.addAttribute("searchResults", searchResult);
 		PagingModel.pagingProcessing(pageable, model, searchResult, "/search?searchType=" + searchType + "&query=" + query, 5);
 
-		return "book/list-book-by-category";
+		return "search/search-result";
 	}
 }

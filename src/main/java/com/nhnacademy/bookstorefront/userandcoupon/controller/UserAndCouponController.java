@@ -119,7 +119,7 @@ public class UserAndCouponController {
 
 
     @GetMapping("/users/user")
-    public String getUserAndCouponByIdPaging( @PageableDefault(page = 1, size = 3)Pageable pageable,Model model) {
+    public String getUserAndCouponByIdPaging( @PageableDefault(page = 1, size = 4)Pageable pageable,Model model) {
         Page<UserAndCouponResponseDTO> userAndCoupon = userAndCouponService.getUserAndCouponByIdPaging(pageable);
 
 
@@ -138,7 +138,7 @@ public class UserAndCouponController {
     public String getAllUserAndCouponPaging(
         @RequestParam(required = false) Long userId,
         @RequestParam(required = false) String type,
-        @PageableDefault(page = 1, size = 3)Pageable pageable,Model model) {
+        @PageableDefault(page = 1, size = 4)Pageable pageable,Model model) {
         Page<UserAndCouponResponseDTO> userAndCoupon = userAndCouponService.getAllUserAndCouponPaging(userId, type, pageable);
 
 
