@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookTitleResponse;
 import com.nhnacademy.bookstorefront.review.dto.request.CreateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.request.UpdateReviewRequest;
-import com.nhnacademy.bookstorefront.review.dto.response.CreateReviewResponse;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
 
 @FeignClient(name = "review-feign-client", url = "http://localhost:8090/api")
@@ -47,7 +46,7 @@ public interface ReviewServiceClient {
 	ResponseEntity<Page<GetReviewResponse>> getPhotoReviewsByUserId(Pageable pageable);
 
 	@PostMapping("/reviews")
-	ResponseEntity<CreateReviewResponse> createReview(@RequestBody CreateReviewRequest request);
+	ResponseEntity<Void> createReview(@RequestBody CreateReviewRequest request);
 
 	@GetMapping("/reviews/{reviewId}")
 	ResponseEntity<GetReviewResponse> getReview(@PathVariable Long reviewId);

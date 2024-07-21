@@ -26,13 +26,13 @@ public class BookStatusServiceImpl implements BookStatusService {
 	}
 
 	@Override
-	public BookStatusDto createBookStatus(BookStatusDto bookStatusDto) {
-		return bookStatusServiceClient.createBookStatus(bookStatusDto).getBody();
+	public void createBookStatus(BookStatusDto bookStatusDto) {
+		bookStatusServiceClient.createBookStatus(bookStatusDto);
 	}
 
 	@Override
-	public BookStatusDto updateBookStatus(Long bookStatusId, BookStatusDto bookStatusDto) {
-		return bookStatusServiceClient.updateBookStatus(bookStatusId, bookStatusDto).getBody();
+	public void updateBookStatus(Long bookStatusId, BookStatusDto bookStatusDto) {
+		bookStatusServiceClient.updateBookStatus(bookStatusId, bookStatusDto);
 	}
 
 	@Override

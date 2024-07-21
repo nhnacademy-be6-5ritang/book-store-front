@@ -23,10 +23,10 @@ public interface BookStatusServiceClient {
 	ResponseEntity<BookStatusDto> getBookStatus(@PathVariable Long bookStatusId);
 
 	@PostMapping
-	ResponseEntity<BookStatusDto> createBookStatus(@RequestBody BookStatusDto request);
+	ResponseEntity<Void> createBookStatus(@RequestBody BookStatusDto request);
 
 	@PutMapping("/{bookStatusId}")
-	ResponseEntity<BookStatusDto> updateBookStatus(@PathVariable Long bookStatusId,
+	ResponseEntity<Void> updateBookStatus(@PathVariable Long bookStatusId,
 		@RequestBody BookStatusDto request);
 
 	@DeleteMapping("/{bookStatusId}")
