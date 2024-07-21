@@ -8,233 +8,267 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main/main.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/book/book.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/pages/list-review-by-book.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
 
 <body>
-<div class="site-wrapper" id="top">
-    <!--=================================
-    Header Area
-    ===================================== -->
-    <div th:insert="~{global/header}"></div>
+<header th:insert="~{global/header}"></header>
 
-    <section class="breadcrumb-section">
-        <h2 class="sr-only">Site Breadcrumb</h2>
-        <div class="container">
-            <div class="breadcrumb-contents">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a th:href="@{/api/books/main}">홈</a></li>
-                        <li class="breadcrumb-item active">도서 상세정보</li>
-                    </ol>
-                </nav>
+<br/>
+
+<section id="book-details" class="top-container">
+    <div class="book-details-info">
+        <div style="display: flex">
+            <span style="color:#a8a8a8">카테고리&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;</span>
+            <div th:each="bookCategory, iterStat : ${bookCategories}">
+                <a class="category-a" th:href="@{/api/books/page/category(categoryName=${bookCategory.categoryName})}"
+                   th:text="${bookCategory.categoryName}"></a>
+                <span style="color:#a8a8a8" th:if="${!iterStat.last}">&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;</span>
             </div>
         </div>
-    </section>
-
-    <main class="inner-page-sec-padding-bottom">
-        <div class="container">
-            <div class="row  mb--60">
-                <div class="col-lg-5 mb--30">
-                    <!-- Product Details Slider Big Image-->
-                    <div class="product-details-slider sb-slick-slider arrow-type-two"
-                         data-slick-setting='{
-                         "slidesToShow": 1,
-                         "arrows": false,
-                         "fade": true,
-                         "draggable": false,
-                         "swipe": false,
-                         "asNavFor": ".product-slider-nav"
-                         }'>
-                        <div class="single-slide">
-                            <img th:src="${book.bookImageUrl}" alt="">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-7">
-                    <div class="product-details-info pl-lg--30 ">
-                        <p class="tag-block">카테고리:
-                            <span th:each="bookCategory : ${bookCategories}">
-                                <a th:href="@{#}" th:text="${bookCategory.categoryName}"></a>&nbsp;
-                            </span>
-                        </p>
-
-                        <h3 class="product-title" th:text="${book.bookTitle}"></h3>
-                        <ul class="list-unstyled">
-                            <li>작가: <a class="list-value font-weight-bold" th:text="${book.authorName}"></a></li>
-                            <li>출판사: <a class="list-value font-weight-bold" th:text="${book.publisherName}"></a></li>
-                            <li>출판일: <a class="list-value font-weight-bold"
-                                        th:text="${#dates.format(book.bookPublishDate, 'yyyy-MM-dd')}"></a></li>
-                            <li>ISBN: <span class="list-value" th:text="${book.bookIsbn}"></span></li>
-                            <li>지급 포인트: <span class="list-value"> 200</span></li>
-                            <li>상태: <span class="list-value" th:text="${book.bookStatusName}"></span></li>
-                            <li>재고: <span class="list-value" th:text="${book.bookQuantity} + '권'"></span></li>
-                        </ul>
-
-                        <div>할인율: <span class="price-discount" th:text="${book.bookSalePercent + '%'}">할인율 정보 없음</span>
-                        </div>
-
-                        <div class="price-block">
-                            할인가: <span class="price-new" th:text="${book.bookSalePrice} + '₩'"></span>
-                            정가: <span class="price-old" th:text="${book.bookPrice} + '₩'"></span>
-                        </div>
-
-                        <p class="tag-block">태그:
-                            <span th:each="bookTag : ${bookTags}">
-                                <a th:href="@{#}" th:text="'#' + ${bookTag.tagName}"></a>&nbsp;
-                            </span>
-                        </p>
-                        <div class="rating-widget">
-                            <div class="rating-block">
-                                <span th:each="reviewStar : ${#numbers.sequence(1, 5)}">
-                                    <span th:if="${reviewStar <= reviewsAverageScore.intValue()}"
-                                          class="fas fa-star star_on"></span>
-                                    <span th:if="${reviewStar > reviewsAverageScore.intValue()}"
-                                          class="fas fa-star"></span>
-                                </span>
-                            </div>
-                            <div class="review-widget">
-                                <a th:text=" ${reviewsAverageScore} + ' 점(' + ${reviews.getTotalElements()} + ' 개 리뷰) |'"></a>
-                                <a th:href="@{/api/reviews/create/{bookId} (bookId=${book.bookId})}">리뷰 쓰기</a>
-                            </div>
-                        </div>
-                        <div class="add-to-cart-row">
-                            <div class="add-cart-btn">
-                                <a th:attr="data-book-id=${book.bookId}"
-                                   class="btn btn-outlined--primary add-to-bookCart"><span
-                                        class="plus-icon">+</span>카트에 담기</a>
-                                <a th:href="@{/api/orders/createBookOrderTest/{book_id}(book_id=${book.bookId()})}"
-                                   class="btn btn-primary"><span class="plus-icon">+</span>주문하기</a>
-                            </div>
-                        </div>
-                        <div class="compare-wishlist-row">
-                            <a th:attr="data-book-id=${book.bookId}" class="add-to-wishlist"><i
-                                    class="fas fa-heart"></i>위시리스트에 추가</a>
-                        </div>
-                    </div>
-                </div>
+        <div style="display: flex; justify-content: start">
+            <span style="margin-right: 1rem; color:#a8a8a8" th:each="bookTag : ${bookTags}">
+                <span th:text="'#' + ${bookTag.tagName}"></span>
+            </span>
+        </div>
+        <div style="display: flex; align-items: center">
+            <h3 id="book-title" th:text="${book.bookTitle}"></h3>
+            <div style="margin-left: 2rem">
+                <span style="font-size: 1.2rem;" th:each="reviewStar : ${#numbers.sequence(1, 5)}">
+                    <i style="color: #797979" th:if="${reviewStar <= reviewsAverageScore.intValue()}"
+                       class="fa-solid fa-star"></i>
+                    <i style="color:#a8a8a8" th:if="${reviewStar > reviewsAverageScore.intValue()}"
+                       class="fa-regular fa-star"></i>
+                </span>
             </div>
-
-
+            <span style="margin-left: 0.5rem; color: #797979"
+                  th:text="${reviewsAverageScore} + '점'"></span>
+            <a style="margin-left: 0.5rem; color: #797979; font-size: 0.85rem"
+               th:text="'[' + ${reviews.getTotalElements()} + '리뷰]'"
+               th:href="'#book-reviews'"></a>
+        </div>
+        <br/>
+        <br/>
+        <div class="info-table">
+            <span class="table-label">작가</span>
+            <span class="table-data" th:text="${book.authorName}"></span>
+        </div>
+        <br/>
+        <br/>
+        <div class="info-table two-data-columns">
             <div>
-                <h2>도서 설명</h2>
-                <article class="review-article">
-                    <h1 class="sr-only">Tab Article</h1>
-                    <div th:utext="${book.bookDescription}"></div>
-                </article>
-
-                <div class="sb-custom-tab review-tab section-padding">
-                    <ul class="nav nav-tabs nav-style-2" id="myTab2" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="tab1" data-bs-toggle="tab" href="#tab-1" role="tab"
-                               aria-controls="tab-1" aria-selected="true"> 리뷰 (<span
-                                    th:text="${reviews.getTotalElements()}"></span>)</a>
-                        </li>
-                    </ul>
-
-                    <a th:href="@{/api/books/{bookId} (bookId=${book.bookId}, reviewType='전체')}"
-                       class="btn btn-primary">전체리뷰 </a>
-                    <a th:href="@{/api/books/{bookId} (bookId=${book.bookId}, reviewType='일반')}"
-                       class="btn btn-primary">일반리뷰 </a>
-                    <a th:href="@{/api/books/{bookId} (bookId=${book.bookId}, reviewType='사진')}"
-                       class="btn btn-primary">사진리뷰 </a>
-
-                    <div class="tab-content space-db--20" id="myTabContent">
-                        <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="tab1">
-                            <div class="review-wrapper">
-                                <div th:each="review : ${reviews}">
-                                    <div class="review-comment">
-                                        <div class="avatar">
-                                            <img th:src="@{/image/icon/author-logo.png}" alt="Author Avatar">
-                                        </div>
-                                        <div class="text">
-                                            <div class="rating-block mb--15">
-                                                 <span th:each="reviewStar : ${#numbers.sequence(1, 5)}">
-                                                     <span th:if="${reviewStar <= review.reviewScore}"
-                                                           class="ion-android-star-outline star_on"></span>
-                                                     <span th:if="${reviewStar > review.reviewScore}"
-                                                           class="ion-android-star-outline"></span>
-                                                 </span>
-                                            </div>
-                                            <h6 class="author">
-                                                <span th:text="${review.userName}"></span> –
-                                                <span class="font-weight-400"
-                                                      th:text="${#temporals.format(review.reviewCreatedAt, 'yyyy-MM-dd')}"></span>
-                                            </h6>
-                                            <div class="review-content">
-                                                <div><img th:if="${review.reviewImageUrl != null}"
-                                                          th:src="${review.reviewImageUrl}" alt="리뷰 이미지"></div>
-                                                <div class="review-text">
-                                                    <p th:text="${review.reviewComment}"></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- 페이징 처리 시작-->
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination justify-content-center mt-4">
-                                    <!-- 첫번째 페이지로 이동 -->
-                                    <li class="page-item" th:classappend="${reviews.first} ? 'disabled'">
-                                        <a class="page-link"
-                                           th:href="@{'/api/books/' + ${book.bookId} (page=1, size=${reviews.size}, reviewType=${reviewType})}"
-                                           aria-label="First">
-                                            <span aria-hidden="true">&laquo; 처음</span>
-                                        </a>
-                                    </li>
-
-                                    <!-- 이전 페이지로 이동 -->
-                                    <li class="page-item" th:classappend="${reviews.first} ? 'disabled'">
-                                        <a class="page-link"
-                                           th:href="@{'/api/books/' + ${book.bookId} (page=${reviews.number}, size=${reviews.size}, reviewType=${reviewType})}"
-                                           aria-label="Previous">
-                                            <span aria-hidden="true">&lsaquo; 이전</span>
-                                        </a>
-                                    </li>
-
-
-                                    <!-- 페이지 번호 링크 -->
-                                    <li class="page-item" th:each="page: ${#numbers.sequence(startPage, endPage)}"
-                                        th:classappend="${page == reviews.number + 1} ? 'active'">
-                                        <a class="page-link"
-                                           th:href="@{'/api/books/' + ${book.bookId} (page=${page}, size=${reviews.size}, reviewType=${reviewType})}"
-                                           th:text="${page}"></a>
-                                    </li>
-
-                                    <!-- 다음 페이지로 이동 -->
-                                    <li class="page-item" th:classappend="${reviews.last} ? 'disabled'">
-                                        <a class="page-link"
-                                           th:href="@{'/api/books/' + ${book.bookId} (page=${reviews.number + 2}, size=${reviews.size}, reviewType=${reviewType})}"
-                                           aria-label="Next">
-                                            <span aria-hidden="true">다음 &rsaquo;</span>
-                                        </a>
-                                    </li>
-
-                                    <!-- 마지막 페이지로 이동 -->
-                                    <li class="page-item" th:classappend="${reviews.last} ? 'disabled'">
-                                        <a class="page-link"
-                                           th:href="@{'/api/books/' + ${book.bookId} (page=${reviews.totalPages}, size=${reviews.size}, reviewType=${reviewType})}"
-                                           aria-label="Last">
-                                            <span aria-hidden="true">끝 &raquo;</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                            <!-- 페이징 처리 끝-->
-                        </div>
-                    </div>
-                </div>
+                <span class="table-label">ISBN</span>
+                <span class="table-data" th:text="${book.bookIsbn}"></span>
+            </div>
+            <div>
+                <span class="table-label">재고</span>
+                <span class="table-data" th:text="${book.bookQuantity} + ' 권'"></span>
             </div>
         </div>
-    </main>
+        <br/>
+        <br/>
+        <div class="info-table two-data-columns">
+            <div>
+                <span class="table-label">출판사</span>
+                <span class="table-data" th:text="${book.publisherName}"></span>
+            </div>
+            <div>
+                <span class="table-label">출판일</span>
+                <span class="table-data" th:text="${#dates.format(book.bookPublishDate, 'yyyy년 M월 d일')}"></span>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <div class="info-table two-data-columns">
+            <div style="font-size: 12px;" th:if="${book.bookSalePercent != 0.00}">
+                <span style="width: 80px; color: #a8a8a8; text-decoration: line-through;"
+                      th:text="${book.bookPrice} + '₩'"></span>
+                <span style="width: 220px; color: #D90000; font-weight: bold"
+                      th:text="${'-' + book.bookSalePercent + '%'}"></span>
+            </div>
+            <div style="margin-right: 13.1rem" th:if="${book.bookSalePercent == 0.00}">
+                <span class="table-data" style="font-size:1.3rem; font-weight: bold"
+                      th:text="${book.bookSalePrice} + ' ₩'"></span>
+            </div>
+            <div>
+                <span class="table-label">포인트</span>
+                <span style="color: #797979">+ 200</span>
+                <span style="color: #D90000">P</span>
+            </div>
+        </div>
+        <div class="info-table" th:if="${book.bookSalePercent != 0.00}">
+            <div style="margin-right: 13.1rem">
+                <span class="table-data" style="font-size:1.3rem; font-weight: bold"
+                      th:text="${book.bookSalePrice} + ' ₩'"></span>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <div class="info-table" style="display: flex; justify-content: start; margin-left: 300px">
+            <a th:attr="data-book-id=${book.bookId}" class="add-to-bookCart">
+                <div class="book-menu-buttons" id="cart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="menu-tag">장바구니</span>
+                </div>
+            </a>
+            <a th:href="@{/api/orders/createBookOrderTest/{book_id}(book_id=${book.bookId()})}">
+                <div class="book-menu-buttons" id="order">
+                    <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                    <span class="menu-tag">바로 주문</span>
+                </div>
+            </a>
+            <a th:attr="data-book-id=${book.bookId}" class="add-to-wishlist">
+                <div class="book-menu-buttons" id="likes">
+                    <i class="fa-solid fa-heart"></i>
+                    <span class="menu-tag">좋아요</span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="book-details-image-container">
+        <img class="background-image" th:src="${book.bookImageUrl}" alt="">
+        <img class="front-image" th:src="${book.bookImageUrl}" alt="">
+    </div>
+</section>
+
+<div class="top-container">
+    <hr style="margin: 4rem 0">
 </div>
 
-<!--=================================
-Footer Area
-===================================== -->
-<div th:insert="~{global/footer}"></div>
+<section id="book-explanation" class="top-container">
+    <p style="color: #a8a8a8; font-size: 1.2rem; font-weight: bold; text-align: center">상품 설명</p>
+    <article class="review-article">
+        <h1 class="sr-only">Tab Article</h1>
+        <div th:utext="${book.bookDescription}"></div>
+    </article>
+</section>
+
+<div class="top-container">
+    <hr style="margin: 4rem 0">
+</div>
+
+<section id="book-reviews" class="top-container">
+    <p style="color: #a8a8a8; font-size: 1.2rem; font-weight: bold; text-align: center"
+       th:text="'리뷰 (' + ${reviews.getTotalElements()} + ')'">리뷰</p>
+
+    <a th:href="@{/api/books/{bookId} (bookId=${book.bookId}, reviewType='전체')}"
+       class="btn btn-primary">전체리뷰 </a>
+    <a th:href="@{/api/books/{bookId} (bookId=${book.bookId}, reviewType='일반')}"
+       class="btn btn-primary">일반리뷰 </a>
+    <a th:href="@{/api/books/{bookId} (bookId=${book.bookId}, reviewType='사진')}"
+       class="btn btn-primary">사진리뷰 </a>
+
+    <!--    <ul id="reviews" role="tablist">-->
+    <!--        <li class="nav-item">-->
+    <!--            <a class="nav-link active" id="reviews1" data-bs-toggle="tab" href="#reviews-1" role="tab"-->
+    <!--               aria-controls="tab-1" aria-selected="true">전체 리뷰 (<span-->
+    <!--                    th:text="${reviews.getTotalElements()}"></span>)</a>-->
+    <!--        </li>-->
+    <!--        <li class="nav-item">-->
+    <!--            <a class="nav-link" id="reviews2" data-bs-toggle="tab" href="#reviews-2" role="tab"-->
+    <!--               aria-controls="tab-2" aria-selected="true">일반 리뷰 (<span-->
+    <!--                    th:text="${generalReviews.getTotalElements()}"></span>)</a>-->
+    <!--        </li>-->
+    <!--        <li class="nav-item">-->
+    <!--            <a class="nav-link" id="reviews3" data-bs-toggle="tab" href="#reviews-3" role="tab"-->
+    <!--               aria-controls="tab-2" aria-selected="true">포토 리뷰 (<span-->
+    <!--                    th:text="${photoReviews.getTotalElements()}"></span>)</a>-->
+    <!--        </li>-->
+    <!--    </ul>-->
+    <div th:if="${reviews.getContent().size() == 0}" style="text-align: center">
+        <span>등록된 리뷰가 없습니다.</span>
+    </div>
+    <div th:if="${reviews.size != 0}" th:each="review : ${reviews}" class="reviews-container">
+        <div class="single-review">
+            <div class="avatar-profile">
+                <img th:src="@{/image/LEFT_REVIEW_AVATAR.png}" alt="avatar">
+            </div>
+            <div class="review-content">
+                <div>
+                    <span th:text="${review.userName} + ' 님의 리뷰'"></span>
+                    <span style="color: #a8a8a8">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                    <span th:text="${#temporals.format(review.reviewCreatedAt, 'yyyy-MM-dd')}"></span>
+                    <br/>
+                    <span style="font-size: 1.2rem;" th:each="reviewStar : ${#numbers.sequence(1, 5)}">
+                        <i style="color: #797979" th:if="${reviewStar <= review.reviewScore}"
+                           class="fa-solid fa-star"></i>
+                        <i style="color:#a8a8a8" th:if="${reviewStar > review.reviewScore}"
+                           class="fa-regular fa-star"></i>
+                    </span>
+                    <br/>
+                    <div class="review-with-image" th:if="${review.reviewImageUrl != null}">
+                        <span th:text="${review.reviewComment()}"></span>
+                        <img th:if="${review.reviewImageUrl != null}"
+                             th:src="${review.reviewImageUrl}" alt="리뷰 이미지">
+                    </div>
+                    <span th:if="${review.reviewImageUrl == null}" th:text="${review.reviewComment()}"></span>
+                </div>
+            </div>
+        </div>
+        <br/>
+    </div>
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center mt-4">
+            <!-- 첫번째 페이지로 이동 -->
+            <li class="page-item" th:classappend="${reviews.first} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{'/api/books/' + ${book.bookId} (page=1, size=${reviews.size}, reviewType=${reviewType})}"
+                   aria-label="First">
+                    <span aria-hidden="true">&laquo; 처음</span>
+                </a>
+            </li>
+
+            <!-- 이전 페이지로 이동 -->
+            <li class="page-item" th:classappend="${reviews.first} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{'/api/books/' + ${book.bookId} (page=${reviews.number}, size=${reviews.size}, reviewType=${reviewType})}"
+                   aria-label="Previous">
+                    <span aria-hidden="true">&lsaquo; 이전</span>
+                </a>
+            </li>
+
+
+            <!-- 페이지 번호 링크 -->
+            <li class="page-item" th:each="page: ${#numbers.sequence(startPage, endPage)}"
+                th:classappend="${page == reviews.number + 1} ? 'active'">
+                <a class="page-link"
+                   th:href="@{'/api/books/' + ${book.bookId} (page=${page}, size=${reviews.size}, reviewType=${reviewType})}"
+                   th:text="${page}"></a>
+            </li>
+
+            <!-- 다음 페이지로 이동 -->
+            <li th:classappend="${reviews.last} ? 'disabled'">
+                <a
+                        th:href="@{'/api/books/' + ${book.bookId} (page=${reviews.number + 2}, size=${reviews.size}, reviewType=${reviewType})}"
+                        aria-label="Next">
+                    <span aria-hidden="true">다음 &rsaquo;</span>
+                </a>
+            </li>
+
+            <!-- 마지막 페이지로 이동 -->
+            <li class="page-item" th:classappend="${reviews.last} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{'/api/books/' + ${book.bookId} (page=${reviews.totalPages}, size=${reviews.size}, reviewType=${reviewType})}"
+                   aria-label="Last">
+                    <span aria-hidden="true">끝 &raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</section>
+
+<br/>
+<br/>
+<br/>
+<br/>
+
+<footer th:insert="~{global/footer.html}"></footer>
 
 <!-- Use Minified Plugins Version For Fast Page Load -->
 <script th:src="@{/js/plugins.js}"></script>

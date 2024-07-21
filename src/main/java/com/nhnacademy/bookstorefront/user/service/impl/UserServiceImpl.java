@@ -1,10 +1,12 @@
 package com.nhnacademy.bookstorefront.user.service.impl;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.nhnacademy.bookstorefront.address.dto.response.GetAddressResponse;
 import com.nhnacademy.bookstorefront.user.dto.response.GetMyUserInfoResponse;
 import com.nhnacademy.bookstorefront.user.feignclient.UserClient;
 import com.nhnacademy.bookstorefront.user.service.UserService;
@@ -20,6 +22,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public ResponseEntity<GetMyUserInfoResponse> getMyUserInfo() {
 		return userClient.getMyUserInfo();
+	}
+
+	@Override
+	public ResponseEntity<Optional<GetAddressResponse>> getDefaultAddress() {
+		return userClient.getDefaultAddress();
 	}
 
 	@Override

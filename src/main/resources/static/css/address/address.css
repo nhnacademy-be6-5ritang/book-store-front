@@ -1,0 +1,45 @@
+.address-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 1rem;
+}
+
+.address-field {
+    color: #797979;
+}
+
+.edit-button, .delete-button {
+    color: #797979;
+}
+
+.edit-button:hover {
+    color: #4285F4;
+}
+
+.delete-button:hover {
+    color: #EA4335;
+}
+
+.button-container {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.default-address {
+    color: #D90000;
+}
+
+.add_address-button {
+    color: #a8a8a8;
+}
+
+.add_address-button:hover {
+    color: #333333;
+}
+
+.address-row:hover {
+    cursor: pointer;
+}
