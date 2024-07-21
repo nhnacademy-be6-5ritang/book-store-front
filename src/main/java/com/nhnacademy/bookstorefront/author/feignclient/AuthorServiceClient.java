@@ -28,10 +28,10 @@ public interface AuthorServiceClient {
 	ResponseEntity<AuthorDto> getAuthor(@PathVariable Long authorId);
 
 	@PostMapping
-	ResponseEntity<AuthorDto> createAuthor(@RequestBody AuthorDto request);
+	ResponseEntity<Void> createAuthor(@RequestBody AuthorDto request);
 
 	@PutMapping("/{authorId}")
-	ResponseEntity<AuthorDto> updateAuthor(@PathVariable Long authorId, @RequestBody AuthorDto request);
+	ResponseEntity<Void> updateAuthor(@PathVariable Long authorId, @RequestBody AuthorDto request);
 
 	@DeleteMapping("/{authorId}")
 	ResponseEntity<Void> deleteAuthor(@PathVariable Long authorId);

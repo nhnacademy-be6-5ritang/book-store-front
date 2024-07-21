@@ -33,13 +33,13 @@ public class AuthorServiceImpl implements AuthorService {
 	}
 
 	@Override
-	public AuthorDto createAuthor(AuthorDto authorDto) {
-		return authorServiceClient.createAuthor(authorDto).getBody();
+	public void createAuthor(AuthorDto authorDto) {
+		authorServiceClient.createAuthor(authorDto);
 	}
 
 	@Override
-	public AuthorDto updateAuthor(Long authorId, AuthorDto authorDto) {
-		return authorServiceClient.updateAuthor(authorId, authorDto).getBody();
+	public void updateAuthor(Long authorId, AuthorDto authorDto) {
+		authorServiceClient.updateAuthor(authorId, authorDto);
 	}
 
 	@Override
