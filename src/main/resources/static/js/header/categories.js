@@ -17,23 +17,23 @@ document.querySelectorAll('.categories-container > div').forEach(item => {
 
     if (categoryLink && subMenu) {
         categoryLink.addEventListener('mouseenter', () => {
-            item.classList.add('show-sub-menu');
+            item.classList.add('monte-show-sub-menu');
         });
 
         categoryLink.addEventListener('mouseleave', () => {
             setTimeout(() => {
                 if (!item.querySelector('.sub-menu:hover')) {
-                    item.classList.remove('show-sub-menu');
+                    item.classList.remove('monte-show-sub-menu');
                 }
             }, 100);
         });
 
         subMenu.addEventListener('mouseenter', () => {
-            item.classList.add('show-sub-menu');
+            item.classList.add('monte-show-sub-menu');
         });
 
         subMenu.addEventListener('mouseleave', () => {
-            item.classList.remove('show-sub-menu');
+            item.classList.remove('monte-show-sub-menu');
         });
     }
 });
