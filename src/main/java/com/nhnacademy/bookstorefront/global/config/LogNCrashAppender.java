@@ -18,7 +18,6 @@ import ch.qos.logback.core.AppenderBase;
 public class LogNCrashAppender extends AppenderBase<ILoggingEvent> {
 	private final RestTemplate restTemplate = new RestTemplate();
 	private static final Logger logger = LoggerFactory.getLogger(LogNCrashAppender.class);
-	private static final String PROFILE = System.getenv("SERVER_PROFILE");
 
 	@Override
 	protected void append(ILoggingEvent loggingEvent) {
