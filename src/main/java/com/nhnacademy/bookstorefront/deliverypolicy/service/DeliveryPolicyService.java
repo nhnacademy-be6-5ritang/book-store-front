@@ -1,5 +1,6 @@
 package com.nhnacademy.bookstorefront.deliverypolicy.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.nhnacademy.bookstorefront.deliverypolicy.dto.request.CreateDeliveryPolicyRequest;
@@ -48,4 +49,15 @@ public interface DeliveryPolicyService {
 	 * @param deliveryPolicyId 삭제할 배송 정책의 ID
 	 */
 	void deleteDeliveryPolicy(Long deliveryPolicyId);
+
+	/**
+	 * 주어진 가격 이하의 기준 가격을 가진 배송 정책 중에서 가장 높은 기준 가격을 가진 배송 정책을 찾습니다.
+	 *
+	 * @param deliveryId 배송 정책을 식별하기 위한 고유 식별자입니다. 이 ID를 사용하여 특정 배송 정책을 검색합니다.
+	 * @param price 배송 정책의 기준 가격으로, 이 가격 이하의 기준 가격을 가진 배송 정책만 결과로 포함됩니다.
+	 * @return 주어진 가격 이하의 기준 가격을 가진 배송 정책 중에서 가장 높은 기준 가격을 가진 정책을 나타내는
+	 *         {@link GetDeliveryPolicyResponse} 객체입니다. 해당 정책이 존재하지 않을 경우, 반환 값은 null일 수 있습니다.
+	 */
+	GetDeliveryPolicyResponse findByDeliveryPolicyStandardPriceLessThanEqualOrderByDeliveryPolicyStandardPriceDesc(
+		Long deliveryId, BigDecimal price);
 }

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookTitleResponse;
-import com.nhnacademy.bookstorefront.point.dto.response.GetPointTransactionResponse;
 import com.nhnacademy.bookstorefront.point.feignclient.PointServiceClient;
 import com.nhnacademy.bookstorefront.review.dto.request.CreateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.request.UpdateReviewRequest;
@@ -62,7 +61,7 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public GetPointTransactionResponse createReview(CreateReviewRequest request, MultipartFile file) {
+	public void createReview(CreateReviewRequest request, MultipartFile file) {
 		String fileName = null;
 		String reviewType = "REVIEW";
 		if (!file.isEmpty()) {
@@ -70,7 +69,7 @@ public class ReviewServiceImpl implements ReviewService {
 			reviewType = "PHOTO_REVIEW";
 		}
 		reviewServiceClient.createReview(CreateReviewRequest.from(request, fileName));
-		return pointServiceClient.reviewPointTransaction(reviewType).getBody();
+		pointServiceClient.reviewPointTransaction(reviewType);
 	}
 
 	@Override

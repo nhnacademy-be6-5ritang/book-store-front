@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.nhnacademy.bookstorefront.category.dto.request.CreateCategoryRequest;
 import com.nhnacademy.bookstorefront.category.dto.request.UpdateCategoryRequest;
 import com.nhnacademy.bookstorefront.category.dto.response.CategorySearchResult;
-import com.nhnacademy.bookstorefront.category.dto.response.CreateCategoryResponse;
 import com.nhnacademy.bookstorefront.category.dto.response.GetCategoryResponse;
-import com.nhnacademy.bookstorefront.category.dto.response.UpdateCategoryResponse;
 
 @FeignClient(name = "category-feign-client", url = "http://localhost:8090/api/categories")
 public interface CategoryServiceClient {
@@ -37,16 +35,15 @@ public interface CategoryServiceClient {
 	ResponseEntity<GetCategoryResponse> getCategory(@PathVariable Long categoryId);
 
 	@PostMapping
-	ResponseEntity<CreateCategoryResponse> createCategory(
+	ResponseEntity<Void> createCategory(
 		@RequestBody CreateCategoryRequest request);
 
 	@PutMapping("/{categoryId}")
-	ResponseEntity<UpdateCategoryResponse> updateCategory(@PathVariable Long categoryId,
+	ResponseEntity<Void> updateCategory(@PathVariable Long categoryId,
 		@RequestBody UpdateCategoryRequest request);
 
 	@DeleteMapping("/{categoryId}")
 	ResponseEntity<Void> deleteCategory(@PathVariable Long categoryId);
-
 
 	@GetMapping("/search/test")
 	ResponseEntity<List<CategorySearchResult>> searchCategories(@RequestParam("key") String search);

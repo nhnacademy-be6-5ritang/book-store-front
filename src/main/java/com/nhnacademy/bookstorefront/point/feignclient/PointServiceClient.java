@@ -47,6 +47,6 @@ public interface PointServiceClient {
 	ResponseEntity<Page<GetAllPointTransactionResponse>> getAllPointTransactions(Pageable pageable);
 
 	@PostMapping("/point-transactions/reviews")
-	ResponseEntity<GetPointTransactionResponse> reviewPointTransaction(@RequestParam String reviewType);
+	ResponseEntity<Void> reviewPointTransaction(@RequestParam String reviewType);
 
 }
