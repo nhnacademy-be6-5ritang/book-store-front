@@ -1,6 +1,7 @@
 package com.nhnacademy.bookstorefront.user.controller;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.nhnacademy.bookstorefront.address.dto.response.GetAddressResponse;
 import com.nhnacademy.bookstorefront.user.dto.response.GetMyUserInfoResponse;
 import com.nhnacademy.bookstorefront.user.service.UserService;
 
@@ -30,8 +32,13 @@ public class UserController {
 		ResponseEntity<GetMyUserInfoResponse> getMyUserInfoResponse = userService.getMyUserInfo();
 		model.addAttribute("myUserInfo", getMyUserInfoResponse.getBody());
 
+		model.addAttribute("role", getMyUserInfoResponse.getBody().roles().stream().findFirst().orElse(null));
+
 		ResponseEntity<BigDecimal> getMyTotalOrderPriceResponse = userService.getMyTotalOrderPrice();
 		model.addAttribute("myTotalOrderPrice", getMyTotalOrderPriceResponse.getBody());
+
+		ResponseEntity<Optional<GetAddressResponse>> getDefaultAddressResponse = userService.getDefaultAddress();
+		model.addAttribute("myAddress", getDefaultAddressResponse.getBody().orElse(null));
 		return "user/my-page";
 	}
 

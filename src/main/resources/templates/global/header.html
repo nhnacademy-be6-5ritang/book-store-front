@@ -15,11 +15,17 @@
             </a>
         </div>
         <div>
-            <form class="search-form">
+            <form class="search-form" action="/api/search" method="get">
+                <select name="searchType" class="search-type">
+                    <option value="books">도서</option>
+                    <option value="authors">저자</option>
+                    <option value="publisher">출판사</option>
+                    <option value="tag">태그</option>
+                </select>
                 <label>
-                    <input class="search-input" type="text" placeholder="찾고 싶은 도서를 검색해보세요">
+                    <input class="search-input" type="text" name="query" placeholder="찾고 싶은 도서를 검색해보세요">
                 </label>
-                <button class="search-button">
+                <button class="search-button" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </form>
@@ -74,7 +80,13 @@
                     <span class="menu-tag">주문</span>
                 </div>
             </a>
-            <a th:href="@{/api/users/me}">
+            <a th:href="@{/api/orders/orderCheck/Non}">
+                <div class="menu-button">
+                    <i class="fa-regular fa-user"></i>
+                    <span class="menu-tag">비회원</span>
+                </div>
+            </a>
+            <a th:href="@{/users/my-page}">
                 <div class="menu-button">
                     <i class="fa-solid fa-user"></i>
                     <span class="menu-tag">마이페이지</span>

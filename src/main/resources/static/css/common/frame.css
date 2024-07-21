@@ -3,6 +3,12 @@
     src: url("../../fonts/GMarketSansTTF/GmarketSansTTFLight.ttf") format('truetype');
 }
 
+@font-face {
+    font-family: 'GMarketSans';
+    src: url("../../fonts/GMarketSansTTF/GmarketSansTTFBold.ttf") format('truetype');
+    font-weight: bold;
+}
+
 body {
     font-family: 'GMarketSans', sans-serif;
     width: 100vw;

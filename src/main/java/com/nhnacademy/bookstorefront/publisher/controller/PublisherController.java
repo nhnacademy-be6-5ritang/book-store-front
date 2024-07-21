@@ -22,12 +22,6 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * 출판사 관리 웹 페이지 컨트롤러입니다.
- * 이 컨트롤러는 출판사 정보를 생성, 조회, 수정, 삭제하는 기능을 제공합니다.
- * 또한 웹 페이지에서 사용할 뷰를 반환합니다.
- *
- * <p>출판사 정보를 조회하는 메서드에서는 출판사 목록을 뷰로 반환합니다.
- * 출판사 생성 및 수정 시 해당 폼을 뷰로 반환합니다.
- * 삭제 시 해당 출판사를 삭제하고 출판사 목록 페이지로 리다이렉트합니다.
  *
  * @version 1.0
  */
@@ -36,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/publishers")
 public class PublisherController {
 	private final PublisherServiceImpl publisherService;
+	private static final String REDIRECT_URL = "redirect:/api/publishers/page";
 
 	/**
 	 * 새로운 출판사 생성 폼을 반환합니다.
@@ -79,7 +74,7 @@ public class PublisherController {
 	 * @param model    모델 객체
 	 * @return 출판사 리스트 뷰 이름
 	 */
-	@GetMapping("page")
+	@GetMapping("/page")
 	public String getPublishers(@PageableDefault(page = 1) Pageable pageable, Model model) {
 		Page<PublisherDto> publishers = publisherService.getPublishers(pageable);
 		model.addAttribute("publishers", publishers);
@@ -98,7 +93,7 @@ public class PublisherController {
 	@PostMapping
 	public String createPublisher(@Valid @ModelAttribute PublisherDto request) {
 		publisherService.createPublisher(request);
-		return "redirect:/api/publishers/page";
+		return REDIRECT_URL;
 	}
 
 	/**
@@ -111,7 +106,7 @@ public class PublisherController {
 	@PutMapping("/{publisherId}")
 	public String updatePublisher(@PathVariable Long publisherId, @Valid @ModelAttribute PublisherDto request) {
 		publisherService.updatePublisher(publisherId, request);
-		return "redirect:/api/publishers/page";
+		return REDIRECT_URL;
 	}
 
 	/**
@@ -123,6 +118,6 @@ public class PublisherController {
 	@DeleteMapping("/{publisherId}")
 	public String deletePublisher(@PathVariable Long publisherId) {
 		publisherService.deletePublisher(publisherId);
-		return "redirect:/api/publishers/page";
+		return REDIRECT_URL;
 	}
 }

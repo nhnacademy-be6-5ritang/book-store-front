@@ -4,87 +4,65 @@
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>내 주소</title>
+    <title>책 파는 오리탕집</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/user/my-page.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/address/address.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
-    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/pages/address.css}"/>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
 
+
 <body>
-<div class="site-wrapper" id="top">
-    <!--=================================
-    Header Area
-    ===================================== -->
-    <div th:insert="~{global/header}"></div>
+<header th:insert="~{global/header}"></header>
 
-    <section class="breadcrumb-section">
-        <h2 class="sr-only">Site Breadcrumb</h2>
-        <div class="container">
-            <div class="breadcrumb-contents">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a th:href="@{/books/main}">홈</a></li>
-                        <li class="breadcrumb-item active">내 주소</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </section>
-
-    <div class="page-section inner-page-sec-padding">
-        <div class="container" style="">
-            <div class="row">
-                <!-- My Account Tab Menu Start -->
-                <div class="col-lg-3 col-12">
-                    <!-- 사용자 계정 메뉴 -->
-                    <div th:insert="~{fragments/user-account-menu.html}"></div>
-                </div>
-                <div class="col-lg-9 col-12">
-                    <div>
-                        <h5>내 주소</h5>
-                    </div>
-                    <table class="address-table">
-                        <tr>
-                            <th></th>
-                            <th class="address-field">별칭</th>
-                            <th class="address-field">주소</th>
-                        </tr>
-                        <tr th:each="address : ${myAddresses}" th:id="${address.id}"
-                            th:classappend="${address.isDefault} == true ? 'default-address' : ''"
-                            th:onclick="'confirmUpdateDefaultAddress(' + ${address.id} + ')'">
-                            <td></td>
-                            <td th:text="${address.alias}" class="address-field"></td>
-                            <td th:text="${'[' + address.postCode + '] ' + address.baseAddress + ', ' + address.detailAddress}"
-                                class="address-field"></td>
-                            <td class="address-field">
-                                <button type="button"
-                                        th:onclick="'openUpdateModal(' + ${address.id} + '); event.stopPropagation();'">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </button>
-                            </td>
-                            <td class="address-field">
-                                <button type="button"
-                                        th:onclick="'deleteAddress(' + ${address.id} + '); event.stopPropagation();'">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    </table>
-                    <button type="button"
-                            onclick="if(checkAddressLimit()){
+<section id="my-page" class="top-container">
+    <section id="my-page-menu-container" th:insert="~{fragments/user-menu.html}"></section>
+    <section id="my-page-content">
+        <section id="my-page-header">
+            <h5>내 주소</h5>
+        </section>
+        <section id="my-page-body">
+            <table class="address-table">
+                <tr>
+                    <th class="address-field">별칭</th>
+                    <th class="address-field">주소</th>
+                </tr>
+                <tr class="address-row" th:each="address : ${myAddresses}" th:id="${address.id}"
+                    th:classappend="${address.isDefault} == true ? 'default-address' : ''"
+                    th:onclick="'confirmUpdateDefaultAddress(' + ${address.id} + ')'">
+                    <td th:text="${address.alias}"></td>
+                    <td th:text="${'[' + address.postCode + '] ' + address.baseAddress + ', ' + address.detailAddress}"></td>
+                    <td class="address-field">
+                        <button type="button" class="edit-button"
+                                th:onclick="'openUpdateMdal(' + ${address.id} + '); event.stopPropagation();'">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                    </td>
+                    <td class="address-field">
+                        <button type="button" class="delete-button"
+                                th:onclick="'deleteAddress(' + ${address.id} + '); event.stopPropagation();'">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+            <div class="button-container">
+                <button type="button"
+                        class="add_address-button"
+                        onclick="if(checkAddressLimit()){
                                 $('#addressModal').modal('show');
                             }">
-                        주소 추가
-                    </button>
-                </div>
+                    주소 추가
+                </button>
             </div>
-        </div>
-    </div>
-</div>
+        </section>
+    </section>
+</section>
 
 <div class="modal fade" id="addressModal" tabindex="-1" role="dialog" aria-labelledby="addressModalLabel"
      aria-hidden="true">
@@ -163,9 +141,6 @@
     </div>
 </div>
 
-<!--=================================
-Footer Area
-===================================== -->
 <div th:insert="~{global/footer}"></div>
 
 <!-- Use Minified Plugins Version For Fast Page Load -->
