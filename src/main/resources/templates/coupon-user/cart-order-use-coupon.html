@@ -69,18 +69,14 @@
                                 <table class="table table-bordered table-hover" id="couponTable">
                                     <thead class="thead-dark">
                                     <tr>
-                                        <th>Select</th>
-                                        <th>Coupon ID</th>
-                                        <th>Type</th>
-                                        <th>Sale Price</th>
-                                        <th>minOrderPrice</th>
-                                        <th>maxSalePrice</th>
-                                        <th>Sale Rate</th>
-                                        <th>Book ID</th>
-                                        <th>Book Title</th>
-                                        <th>Category ID</th>
-                                        <th>Category Name</th>
-                                        <th>expired Date</th>
+                                        <th>선택</th>
+                                        <th>타입</th>
+                                        <th>할인금액</th>
+                                        <th>최소주문금액</th>
+                                        <th>최대주문금액</th>
+                                        <th>할인률</th>
+                                        <th>도서 제목</th>
+                                        <th>카테고리 이름</th>
                                     </tr>
                                     </thead>
                                     <tbody th:each="coupon1 : ${couponList}">
@@ -89,24 +85,20 @@
                                         <td><label>
                                             <input type="radio" name="couponId" th:value="${coupon.id}" class="form-check-input">
                                         </label></td>
-                                        <td th:text="${coupon.id()}"></td>
-                                        <td th:text="${coupon.type()}"></td>
-                                        <td th:text="${coupon.salePrice()}"></td>
-                                        <td th:text="${coupon.minOrderPrice()}"></td>
-                                        <td th:text="${coupon.maxSalePrice()}"></td>
-                                        <td th:text="${coupon.saleRate()}"></td>
-                                        <td th:text="${coupon.bookId()}"></td>
-                                        <td th:text="${coupon.bookTitle()}"></td>
-                                        <td th:text="${coupon.categoryId()}"></td>
-                                        <td th:text="${coupon.categoryName()}"></td>
-                                        <td th:text="${coupon.expiredDate()}"></td>
+                                        <td th:text="${coupon.type != null ? coupon.type : 'N/A'}"></td>
+                                        <td th:text="${coupon.salePrice != null ? #numbers.formatDecimal(coupon.salePrice, 1, 'COMMA', 0, 'POINT') : 'N/A'}"></td>
+                                        <td th:text="${coupon.minOrderPrice != null ? #numbers.formatDecimal(coupon.minOrderPrice, 1, 'COMMA', 0, 'POINT') : 'N/A'}"></td>
+                                        <td th:text="${coupon.maxSalePrice != null ? #numbers.formatDecimal(coupon.maxSalePrice, 1, 'COMMA', 0, 'POINT') : 'N/A'}"></td>
+                                        <td th:text="${coupon.saleRate != null ? coupon.saleRate : 'N/A'}"></td>
+                                        <td th:text="${coupon.bookTitle != null ? coupon.bookTitle : 'N/A'}"></td>
+                                        <td th:text="${coupon.categoryName != null ? coupon.categoryName : 'N/A'}"></td>
                                     </tr>
                                     </tbody>
                                 </table>
                                 <input type="hidden" id="noCouponInput" name="couponId" value="0" style="display: none;">
                             </div>
                             <div class="text-right">
-                                <button type="submit" class="btn btn-primary">쿠폰 선택</button>
+                                <button type="submit" class="btn btn-primary">주문 하기</button>
                                 <button type="button" id="noCouponBtn" class="btn btn-secondary mb-3">쿠폰 사용 안함</button>
                             </div>
                         </form>
