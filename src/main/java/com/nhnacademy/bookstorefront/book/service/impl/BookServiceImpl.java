@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.UpdateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.response.BookSearchResult;
-import com.nhnacademy.bookstorefront.book.dto.response.CreateBookResponse;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
-import com.nhnacademy.bookstorefront.book.dto.response.UpdateBookResponse;
 import com.nhnacademy.bookstorefront.book.feignclient.BookServiceClient;
 import com.nhnacademy.bookstorefront.book.service.BookService;
 
@@ -53,13 +51,13 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public CreateBookResponse createBook(CreateBookRequest request) {
-		return bookServiceClient.createBook(request).getBody();
+	public void createBook(CreateBookRequest request) {
+		bookServiceClient.createBook(request);
 	}
 
 	@Override
-	public UpdateBookResponse updateBookById(Long bookId, UpdateBookRequest request) {
-		return bookServiceClient.updateBookById(bookId, request).getBody();
+	public void updateBookById(Long bookId, UpdateBookRequest request) {
+		bookServiceClient.updateBookById(bookId, request);
 	}
 
 	@Override
