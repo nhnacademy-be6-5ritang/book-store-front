@@ -22,7 +22,7 @@ public class LogNCrashAppender extends AppenderBase<ILoggingEvent> {
 
 	@Override
 	protected void append(ILoggingEvent loggingEvent) {
-		if (PROFILE.equals("prod")) {
+		if (!PROFILE.equals("dev")) {
 			Map<String, Object> logData = new HashMap<>();
 			logData.put("projectName", "Xyx7DoyszcG66ULx");
 			logData.put("projectVersion", "1.0.0");

@@ -33,7 +33,7 @@ public class BookCartController {
 	/**
 	 * 현재 사용자의 도서 장바구니 목록을 조회합니다.
 	 *
-	 * @param model  View에 전달할 데이터를 담는 Model 객체
+	 * @param model  View 에 전달할 데이터를 담는 Model 객체
 	 * @param cartId 쿠키에서 가져온 장바구니 ID
 	 * @param resp   HttpServletResponse 객체
 	 * @return 도서 장바구니 목록을 보여주는 View 이름 ("cart/list-cart")
@@ -77,7 +77,7 @@ public class BookCartController {
 	 *
 	 * @param bookId 업데이트할 도서의 ID
 	 * @param cartId 쿠키에서 가져온 장바구니 ID
-	 * @return 도서 장바구니 목록을 보여주는 View로 리다이렉트합니다. ("/api/carts/me")
+	 * @return 도서 장바구니 목록을 보여주는 View 로 리다이렉트합니다. ("/api/carts/me")
 	 */
 	@DeleteMapping("/{bookId}")
 	public String deleteBookCart(@PathVariable Long bookId,

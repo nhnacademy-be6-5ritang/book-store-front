@@ -4,3 +4,4 @@ public record GetBookTitleResponse(
 	Long bookId,
 	String bookTitle) {
 }
+
