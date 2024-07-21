@@ -8,9 +8,7 @@ import org.springframework.data.domain.Pageable;
 import com.nhnacademy.bookstorefront.category.dto.request.CreateCategoryRequest;
 import com.nhnacademy.bookstorefront.category.dto.request.UpdateCategoryRequest;
 import com.nhnacademy.bookstorefront.category.dto.response.CategorySearchResult;
-import com.nhnacademy.bookstorefront.category.dto.response.CreateCategoryResponse;
 import com.nhnacademy.bookstorefront.category.dto.response.GetCategoryResponse;
-import com.nhnacademy.bookstorefront.category.dto.response.UpdateCategoryResponse;
 
 /**
  * 외부 Category 서비스와 통신하여 카테고리 정보를 관리하는 인터페이스입니다.
@@ -54,18 +52,16 @@ public interface CategoryService {
 	 * 새로운 카테고리를 생성합니다.
 	 *
 	 * @param request 생성할 카테고리 정보 DTO
-	 * @return 생성된 카테고리 정보 DTO
 	 */
-	CreateCategoryResponse createCategory(CreateCategoryRequest request);
+	void createCategory(CreateCategoryRequest request);
 
 	/**
 	 * 주어진 카테고리 ID에 해당하는 카테고리를 업데이트합니다.
 	 *
 	 * @param categoryId 카테고리 ID
 	 * @param request   업데이트할 카테고리 정보 DTO
-	 * @return 업데이트된 카테고리 정보 DTO
 	 */
-	UpdateCategoryResponse updateCategory(Long categoryId, UpdateCategoryRequest request);
+	void updateCategory(Long categoryId, UpdateCategoryRequest request);
 
 	/**
 	 * 주어진 카테고리 ID에 해당하는 카테고리를 삭제합니다.
@@ -73,7 +69,6 @@ public interface CategoryService {
 	 * @param categoryId 삭제할 카테고리 ID
 	 */
 	void deleteCategory(Long categoryId);
-
 
 	List<CategorySearchResult> searchCategories(String query);
 }

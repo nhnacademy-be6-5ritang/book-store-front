@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 import com.nhnacademy.bookstorefront.category.dto.request.CreateCategoryRequest;
 import com.nhnacademy.bookstorefront.category.dto.request.UpdateCategoryRequest;
 import com.nhnacademy.bookstorefront.category.dto.response.CategorySearchResult;
-import com.nhnacademy.bookstorefront.category.dto.response.CreateCategoryResponse;
 import com.nhnacademy.bookstorefront.category.dto.response.GetCategoryResponse;
-import com.nhnacademy.bookstorefront.category.dto.response.UpdateCategoryResponse;
 import com.nhnacademy.bookstorefront.category.feignclient.CategoryServiceClient;
 import com.nhnacademy.bookstorefront.category.service.CategoryService;
 
@@ -43,13 +41,13 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public CreateCategoryResponse createCategory(CreateCategoryRequest request) {
-		return categoryServiceClient.createCategory(request).getBody();
+	public void createCategory(CreateCategoryRequest request) {
+		categoryServiceClient.createCategory(request);
 	}
 
 	@Override
-	public UpdateCategoryResponse updateCategory(Long categoryId, UpdateCategoryRequest request) {
-		return categoryServiceClient.updateCategory(categoryId, request).getBody();
+	public void updateCategory(Long categoryId, UpdateCategoryRequest request) {
+		categoryServiceClient.updateCategory(categoryId, request);
 	}
 
 	@Override
@@ -57,9 +55,8 @@ public class CategoryServiceImpl implements CategoryService {
 		categoryServiceClient.deleteCategory(categoryId);
 	}
 
-
 	@Override
 	public List<CategorySearchResult> searchCategories(String query) {
-	 return	categoryServiceClient.searchCategories(query).getBody();
+		return categoryServiceClient.searchCategories(query).getBody();
 	}
 }
