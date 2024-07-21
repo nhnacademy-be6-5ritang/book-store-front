@@ -21,15 +21,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 /**
+ * @author 이경헌
  * 태그 관리 웹 페이지 컨트롤러입니다.
- * 이 컨트롤러는 태그 정보를 생성, 조회, 수정, 삭제하는 기능을 제공합니다.
- * 또한 웹 페이지에서 사용할 뷰를 반환합니다.
- *
- * <p>태그 정보를 조회하는 메서드에서는 태그 목록을 뷰로 반환합니다.
- * 태그 생성 및 수정 시 해당 폼을 뷰로 반환합니다.
- * 삭제 시 해당 태그를 삭제하고 태그 목록 페이지로 리다이렉트합니다.
- *
- * @version 1.0
  */
 @Controller
 @RequiredArgsConstructor
