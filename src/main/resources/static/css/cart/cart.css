@@ -22,7 +22,7 @@
 }
 
 .add-to-bookCart {
-    min-width: 200px;
+    width: 200px;
 }
 
 .bookcart-thumbnail {
@@ -91,6 +91,7 @@
 }
 
 .bookcart-actions {
+    width: 200px;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -134,4 +135,15 @@
 .summary-right a:hover {
     font-size: 1rem;
     color: #333333;
+}
+
+.cart-book-data {
+    display: flex;
+}
+
+.bookCart_details {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
 }
