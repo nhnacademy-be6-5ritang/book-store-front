@@ -158,5 +158,12 @@ Footer Area
 <script th:src="@{/js/custom.js}"></script>
 <script th:src="@{/js/create-wishList.js}"></script>
 <script th:src="@{/js/update-bookCart.js}"></script>
+
+<script type="text/javascript">
+    function createBookOrder(bookId) {
+        const url = `/api/orders/createBookOrderTest/${bookId}`;
+        window.location.href = url;
+    }
+</script>
 </body>
 </html>
