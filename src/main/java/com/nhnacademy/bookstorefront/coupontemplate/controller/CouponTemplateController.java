@@ -30,6 +30,7 @@ public class CouponTemplateController {
 	@PostMapping
 	public String createCoupon(@Valid @ModelAttribute CouponTemplateCreateRequestDTO requestDTO) {
 		couponTemplateService.createCouponTemplate(requestDTO);
+
 	 return "redirect:/coupons/policies";
 	}
 
@@ -61,6 +62,12 @@ public class CouponTemplateController {
 		PagingModel.pagingProcessing(pageable, model, couponTemplates, "/coupons/issue", 5);
 
 		model.addAttribute("coupontemplates", couponTemplates);
+
+
+		// 메시지가 있는지 확인
+		if (model.containsAttribute("message")) {
+			System.out.println("Message in model: " + model.getAttribute("message"));
+		}
 
 
 

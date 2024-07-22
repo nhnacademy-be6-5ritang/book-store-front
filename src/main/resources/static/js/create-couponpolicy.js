@@ -126,32 +126,50 @@ $(document).ready(function () {
 
         var policyId = $(this).data('policy-id');
         $('#couponPolicyId').val(policyId);
+// 현재 시간을 설정하는 함수
+        function setCurrentTime() {
+            var now = new Date();
+
+            // 년, 월, 일, 시, 분을 추출
+            var year = now.getFullYear();
+            var month = String(now.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+            var day = String(now.getDate()).padStart(2, '0');
+            var hour = String(now.getHours()).padStart(2, '0');
+            var minute = String(now.getMinutes()).padStart(2, '0');
+
+            // 'YYYY-MM-DDTHH:MM' 형식으로 조합
+            var formattedNow = `${year}-${month}-${day}T${hour}:${minute}`;
+
+            // input 필드에 값 설정
+            $('#expiredDate').val(formattedNow);
+            $('#issueDate').val(formattedNow);
+        }
 
         // 현재 시간을 설정
-        var now = new Date().toISOString().slice(0, 16);
-        $('#expiredDate').val(now);
-        $('#issueDate').val(now);
+        setCurrentTime();
 
+        // 모달을 보여줍니다
         $('#addCouponModal').modal('show');
-
 
         // 폼 제출 전에 issueDate를 다시 한번 현재 시간으로 설정
         $('#addCouponForm').on('submit', function (e) {
-            var now = new Date().toISOString().slice(0, 16);
-            $('#issueDate').val(now);
-        });
+            var now = new Date();
+            var year = now.getFullYear();
+            var month = String(now.getMonth() + 1).padStart(2, '0');
+            var day = String(now.getDate()).padStart(2, '0');
+            var hour = String(now.getHours()).padStart(2, '0');
+            var minute = String(now.getMinutes()).padStart(2, '0');
+            var formattedNow = `${year}-${month}-${day}T${hour}:${minute}`;
 
+            $('#issueDate').val(formattedNow);
+        });
 
         // Close modal on clicking the close button
         $('#addCouponModal .close, #addCouponModal .btn-secondary').on('click', function() {
             $('#addCouponModal').modal('hide');
         });
-
     });
-
-
 });
-
 
 // 정책 수정시 정률쿠폰 정액쿠폰 동시에 input 활성화 방지
 $(document).ready(function () {

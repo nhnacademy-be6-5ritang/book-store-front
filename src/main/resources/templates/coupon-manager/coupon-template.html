@@ -147,12 +147,12 @@
 
                     <td class="wide-col">
                         <input type="text" class="form-control"
-                               th:value="${coupon.minOrderPrice != null ? #numbers.formatDecimal(coupon.minOrderPrice,1,'COMMA', 0, 'POINT') : '-'}"
+                               th:value="${coupon.minOrderPrice != null ? #numbers.formatDecimal(coupon.minOrderPrice,1,'COMMA', 0, 'POINT')+'원' : '-'}"
                                readonly>
                     </td>
                     <td class="wide-col">
                         <input type="text" class="form-control"
-                               th:value="${coupon.salePrice != null ? #numbers.formatDecimal(coupon.salePrice, 1, 'COMMA', 0, 'POINT') : '-'}"
+                               th:value="${coupon.salePrice != null ? #numbers.formatDecimal(coupon.salePrice, 1, 'COMMA', 0, 'POINT')+'원' : '-'}"
                                readonly>
                     </td>
                     <td class="wide-col">
@@ -162,7 +162,7 @@
                     </td>
                     <td class="wide-col">
                         <input type="text" class="form-control"
-                               th:value="${coupon.maxSalePrice != null ? #numbers.formatDecimal(coupon.maxSalePrice, 1, 'COMMA', 0, 'POINT') : '-'}"
+                               th:value="${coupon.maxSalePrice != null ? #numbers.formatDecimal(coupon.maxSalePrice, 1, 'COMMA', 0, 'POINT')+'원' : '-'}"
                                readonly>
                     </td>
                     <td class="wide-col">

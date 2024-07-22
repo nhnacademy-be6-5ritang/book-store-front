@@ -86,10 +86,10 @@
                                             <input type="radio" name="couponId" th:value="${coupon.id}" class="form-check-input">
                                         </label></td>
                                         <td th:text="${coupon.type != null ? coupon.type : 'N/A'}"></td>
-                                        <td th:text="${coupon.salePrice != null ? #numbers.formatDecimal(coupon.salePrice, 1, 'COMMA', 0, 'POINT') : 'N/A'}"></td>
-                                        <td th:text="${coupon.minOrderPrice != null ? #numbers.formatDecimal(coupon.minOrderPrice, 1, 'COMMA', 0, 'POINT') : 'N/A'}"></td>
-                                        <td th:text="${coupon.maxSalePrice != null ? #numbers.formatDecimal(coupon.maxSalePrice, 1, 'COMMA', 0, 'POINT') : 'N/A'}"></td>
-                                        <td th:text="${coupon.saleRate != null ? coupon.saleRate : 'N/A'}"></td>
+                                        <td th:text="${coupon.salePrice != null ? #numbers.formatDecimal(coupon.salePrice, 1, 'COMMA', 0, 'POINT')+'원' : 'N/A'}"></td>
+                                        <td th:text="${coupon.minOrderPrice != null ? #numbers.formatDecimal(coupon.minOrderPrice, 1, 'COMMA', 0, 'POINT')+'원' : 'N/A'}"></td>
+                                        <td th:text="${coupon.maxSalePrice != null ? #numbers.formatDecimal(coupon.maxSalePrice, 1, 'COMMA', 0, 'POINT')+'원' : 'N/A'}"></td>
+                                        <td th:text="${coupon.saleRate != null ? #numbers.formatDecimal(coupon.saleRate * 100, 1, 'COMMA', 0, 'POINT')+'%': 'N/A'}"></td>
                                         <td th:text="${coupon.bookTitle != null ? coupon.bookTitle : 'N/A'}"></td>
                                         <td th:text="${coupon.categoryName != null ? coupon.categoryName : 'N/A'}"></td>
                                     </tr>

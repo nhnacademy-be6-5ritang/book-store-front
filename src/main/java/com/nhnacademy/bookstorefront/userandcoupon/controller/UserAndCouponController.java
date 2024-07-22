@@ -37,8 +37,9 @@ public class UserAndCouponController {
     }
 
     @PostMapping("/{couponId}")
-    public String createUserAndCoupon(@PathVariable("couponId") Long couponTemplateId) {
+    public String createUserAndCoupon(@PathVariable("couponId") Long couponTemplateId,  RedirectAttributes redirectAttributes) {
         userAndCouponService.createUserAndCoupon(couponTemplateId);
+        redirectAttributes.addFlashAttribute("message", "쿠폰이 발급되었습니다.");
         return "redirect:/coupons/issue";
     }
 
