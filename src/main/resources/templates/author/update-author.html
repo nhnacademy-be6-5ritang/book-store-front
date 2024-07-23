@@ -22,9 +22,9 @@
         <section id="page-header">
             <h5 style="margin: 0 1rem">작가</h5>
         </section>
+        <hr style="width: 100%"/>
         <section id="page-body">
-            <h3>작가 수정</h3>
-            <!-- 작가 수정 폼 -->
+            <h3>작가 수정 폼</h3>
             <form th:action="@{/api/authors/{authorId}(authorId=${author.authorId})}"
                   th:method="put" th:object="${author}">
                 <div class="form-group">

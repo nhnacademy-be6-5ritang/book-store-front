@@ -17,44 +17,38 @@
 <header th:insert="~{global/header}"></header>
 
 <section id="page" class="top-container">
-    <section id="page-menu-container" th:insert="~{fragments/admin-menu.html}"></section>
+    <section id="page-menu-container" th:insert="~{fragments/user-menu.html}"></section>
     <section id="page-content">
         <section id="page-header">
-            <h5 style="margin: 0 1rem">작가</h5>
+            <h5 style="margin: 0 1rem">배송내역</h5>
         </section>
         <hr style="width: 100%"/>
         <section id="page-body">
-            <h3>작가 리스트</h3>
-            <h3><a th:href="@{/api/authors/create}" class="btn btn-primary">작가 추가</a></h3>
-            <div th:if="${authors.getContent().size() > 0}">
+            <div th:if="${deliveries.getTotalElements() > 0}">
                 <table class="table table-bordered">
                     <thead>
-                    <tr class="inline-text">
+                    <tr>
                         <th>번호</th>
-                        <th>작가 이름</th>
+                        <th>배송상태</th>
+                        <th>배송 수신 주소</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="author, index : ${authors}">
-                        <td th:text="${index.index + 1  + (pageable.pageNumber - 1) * pageable.pageSize}"></td>
-                        <td th:text="${author.authorName}">작가 이름</td>
+                    <tr th:each="delivery, index : ${deliveries}">
+                        <td th:text="${index.index + 1}">1</td>
+                        <td th:text="${delivery.deliveryStatusName}">배송 상태</td>
+                        <td th:text="${delivery.deliveryReceiverAddress}">배송 수신 주소</td>
                         <td style="display: flex; align-items: center;">
-                            <a th:href="@{/api/authors/update/{authorId} (authorId=${author.authorId})}"
-                               class="btn btn-warning inline-text">편집</a>
-                            <form th:action="@{/api/authors/{authorId} (authorId=${author.authorId})}"
-                                  th:method="delete">
-                                <button type="submit" class="btn btn-danger inline-text">
-                                    삭제
-                                </button>
-                            </form>
+                            <a th:href="@{/api/deliveries/delivery/{deliveryId} (deliveryId=${delivery.deliveryId})}"
+                               class="btn btn-info inline-text">보기</a>
                         </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <div th:if="${authors.getContent().size() == 0}">
-                <p>작가가 없습니다.</p>
+            <div th:if="${deliveries.getTotalElements() < 1}">
+                <p>배송 내역이 없습니다.</p>
             </div>
             <!-- 페이징 처리 시작-->
             <div th:insert="~{global/paging.html}"></div>
@@ -62,6 +56,10 @@
         </section>
     </section>
 </section>
+
+<div id="to-admin-container" class="top-container">
+    <a th:href="@{/api/users/admin}">관리자이신가요?</a>
+</div>
 
 <footer th:insert="~{global/footer}"></footer>
 

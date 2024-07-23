@@ -1,7 +1,7 @@
 package com.nhnacademy.bookstorefront.order;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 import java.math.BigDecimal;
@@ -17,11 +17,18 @@ import org.springframework.http.ResponseEntity;
 
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.OrderCheckNonRequest;
-import com.nhnacademy.bookstorefront.order.dto.response.*;
+import com.nhnacademy.bookstorefront.order.dto.response.CreateCartOrderResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetAllOrderResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetNonOrderByInfoResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetUserPointOrderResponse;
 import com.nhnacademy.bookstorefront.order.feignclient.OrderServiceClient;
 import com.nhnacademy.bookstorefront.order.service.Impl.OrderServiceImpl;
 
-public class OrderServiceImplTest {
+class OrderServiceImplTest {
 
 	@Mock
 	private OrderServiceClient orderServiceClient;
@@ -35,7 +42,7 @@ public class OrderServiceImplTest {
 	}
 
 	@Test
-	public void testCreateOrder() {
+	void testCreateOrder() {
 		CreateOrderRequest request = new CreateOrderRequest(
 			"John Doe",
 			"john.doe@example.com",
@@ -65,7 +72,7 @@ public class OrderServiceImplTest {
 	}
 
 	@Test
-	public void testFindAllUserId() {
+	void testFindAllUserId() {
 		GetAllOrderResponse orderResponse = new GetAllOrderResponse(
 			1L,
 			LocalDateTime.now(),
@@ -85,7 +92,7 @@ public class OrderServiceImplTest {
 	}
 
 	@Test
-	public void testFindByOrderInfoId() {
+	void testFindByOrderInfoId() {
 		String orderInfoId = "order123";
 		GetOrderByInfoResponse response = mock(GetOrderByInfoResponse.class);
 
@@ -98,7 +105,7 @@ public class OrderServiceImplTest {
 	}
 
 	@Test
-	public void testFindByOrderStatusWait() {
+	void testFindByOrderStatusWait() {
 		GetAllListOrderByStatusResponse response = mock(GetAllListOrderByStatusResponse.class);
 
 		when(orderServiceClient.getOrderStatusWait())
@@ -110,7 +117,7 @@ public class OrderServiceImplTest {
 	}
 
 	@Test
-	public void testFindByOrderStatusGoing() {
+	void testFindByOrderStatusGoing() {
 		GetAllListOrderByStatusResponse response = mock(GetAllListOrderByStatusResponse.class);
 
 		when(orderServiceClient.getOrderStatusGoing())
@@ -122,7 +129,7 @@ public class OrderServiceImplTest {
 	}
 
 	@Test
-	public void testFindByOrderStatusComplete() {
+	void testFindByOrderStatusComplete() {
 		GetAllListOrderByStatusResponse response = mock(GetAllListOrderByStatusResponse.class);
 
 		when(orderServiceClient.getOrderStatusComplete())
@@ -134,7 +141,7 @@ public class OrderServiceImplTest {
 	}
 
 	@Test
-	public void testFindByOrderStatusRefunded() {
+	void testFindByOrderStatusRefunded() {
 		GetAllListOrderByStatusResponse response = mock(GetAllListOrderByStatusResponse.class);
 
 		when(orderServiceClient.getOrderStatusRefunded())
@@ -146,7 +153,7 @@ public class OrderServiceImplTest {
 	}
 
 	@Test
-	public void testFindByOrderStatusRefunding() {
+	void testFindByOrderStatusRefunding() {
 		GetAllListOrderByStatusResponse response = mock(GetAllListOrderByStatusResponse.class);
 
 		when(orderServiceClient.getOrderStatusRefunding())
@@ -158,7 +165,7 @@ public class OrderServiceImplTest {
 	}
 
 	@Test
-	public void testFindByOrderInfoIdByEmail() {
+	void testFindByOrderInfoIdByEmail() {
 		OrderCheckNonRequest request = mock(OrderCheckNonRequest.class);
 		GetNonOrderByInfoResponse response = mock(GetNonOrderByInfoResponse.class);
 
@@ -171,7 +178,7 @@ public class OrderServiceImplTest {
 	}
 
 	@Test
-	public void testGetUserPoint() {
+	void testGetUserPoint() {
 		GetUserPointOrderResponse response = mock(GetUserPointOrderResponse.class);
 
 		when(orderServiceClient.getUserPointOrders())
@@ -183,7 +190,7 @@ public class OrderServiceImplTest {
 	}
 
 	@Test
-	public void testRefundedOrder() {
+	void testRefundedOrder() {
 		String orderInfoId = "order123";
 
 		when(orderServiceClient.refundedOrder(orderInfoId))
@@ -194,7 +201,7 @@ public class OrderServiceImplTest {
 	}
 
 	@Test
-	public void testRefundingOrder() {
+	void testRefundingOrder() {
 		String orderInfoId = "order123";
 
 		when(orderServiceClient.refundingOrder(orderInfoId))
@@ -205,7 +212,7 @@ public class OrderServiceImplTest {
 	}
 
 	@Test
-	public void testCreateCartOrder() {
+	void testCreateCartOrder() {
 		CreateCartOrderResponse response = mock(CreateCartOrderResponse.class);
 
 		when(orderServiceClient.createCartOrders())
@@ -217,7 +224,7 @@ public class OrderServiceImplTest {
 	}
 
 	@Test
-	public void testUpdateCartOrder() {
+	void testUpdateCartOrder() {
 		CreateOrderRequest request = mock(CreateOrderRequest.class);
 		Long orderId = 1L;
 		CreateOrderResponse response = mock(CreateOrderResponse.class);

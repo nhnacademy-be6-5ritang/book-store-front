@@ -62,11 +62,13 @@
                     </h5>
                     <span th:text="${book.authorName}" class="book-author">작가 없음</span>
                     <div class="price-info">
-                        <span class="book-price" th:text="${book.bookSalePrice} + '₩'">가격 정보 없음₩</span>
+                        <span class="book-price"
+                              th:text="${#numbers.formatDecimal(book.bookSalePrice, 1, 'COMMA', 0, 'POINT') + '원'}">가격 정보 없음₩</span>
                         <div class="original-price-info">
-                            <del class="book-original-price" th:text="${book.bookPrice} + '₩'"></del>
+                            <del class="book-original-price"
+                                 th:text="${#numbers.formatDecimal(book.bookPrice, 1, 'COMMA', 0, 'POINT') + '원'}"></del>
                             <span class="book-price-discount"
-                                  th:text="${'-' + book.bookSalePercent + '%'}">할인율 정보 없음</span>
+                                  th:text="${'-' + #numbers.formatDecimal(book.bookSalePercent, 1, 'COMMA', 0, 'POINT') + '%'}">할인율 정보 없음</span>
                         </div>
                     </div>
                 </div>
@@ -103,11 +105,13 @@
                     </h5>
                     <span th:text="${book.authorName}" class="book-author">작가 없음</span>
                     <div class="price-info">
-                        <span class="book-price" th:text="${book.bookSalePrice} + '₩'">가격 정보 없음₩</span>
+                        <span class="book-price"
+                              th:text="${#numbers.formatDecimal(book.bookSalePrice, 1, 'COMMA', 0, 'POINT') + '원'}">가격 정보 없음₩</span>
                         <div class="original-price-info">
-                            <del class="book-original-price" th:text="${book.bookPrice} + '₩'"></del>
+                            <del class="book-original-price"
+                                 th:text="${#numbers.formatDecimal(book.bookPrice, 1, 'COMMA', 0, 'POINT') + '원'}"></del>
                             <span class="book-price-discount"
-                                  th:text="${'-' + book.bookSalePercent + '%'}">할인율 정보 없음</span>
+                                  th:text="${'-' + #numbers.formatDecimal(book.bookSalePercent, 1, 'COMMA', 0, 'POINT') + '%'}">할인율 정보 없음</span>
                         </div>
                     </div>
                 </div>
@@ -144,11 +148,13 @@
                     </h5>
                     <span th:text="${book.authorName}" class="book-author">작가 없음</span>
                     <div class="price-info">
-                        <span class="book-price" th:text="${book.bookSalePrice} + '₩'">가격 정보 없음₩</span>
+                        <span class="book-price"
+                              th:text="${#numbers.formatDecimal(book.bookSalePrice, 1, 'COMMA', 0, 'POINT') + '원'}">가격 정보 없음₩</span>
                         <div class="original-price-info">
-                            <del class="book-original-price" th:text="${book.bookPrice} + '₩'"></del>
+                            <del class="book-original-price"
+                                 th:text="${#numbers.formatDecimal(book.bookPrice, 1, 'COMMA', 0, 'POINT') + '원'}"></del>
                             <span class="book-price-discount"
-                                  th:text="${'-' + book.bookSalePercent + '%'}">할인율 정보 없음</span>
+                                  th:text="${'-' + #numbers.formatDecimal(book.bookSalePercent, 1, 'COMMA', 0, 'POINT') + '%'}">할인율 정보 없음</span>
                         </div>
                     </div>
                 </div>
