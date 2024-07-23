@@ -15,14 +15,13 @@
 // import org.springframework.test.web.servlet.MockMvc;
 // import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 // import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-// import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 // import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 //
 // import com.fasterxml.jackson.databind.ObjectMapper;
 // import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.request.CouponPolicyCreateRequestDTO;
+// import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.request.CouponPolicyUpdateRequestDTO;
 // import com.nhnacademy.bookstorefront.couponpolicy.service.impl.CouponPolicyServiceImpl;
 // import com.nhnacademy.bookstorefront.global.config.CacheConfig;
-// import com.nhnacademy.bookstorefront.global.controller.GlobalDataControllerAdvice;
 //
 // @WebMvcTest(CouponPolicyController.class)
 // class CouponPolicyControllerTest {
@@ -36,9 +35,6 @@
 // 	@MockBean
 // 	private CouponPolicyServiceImpl couponPolicyService;
 //
-//
-// 	@MockBean
-// 	private GlobalDataControllerAdvice globalDataControllerAdvice;
 //
 // 	@MockBean
 // 	private CacheConfig cacheConfig;
@@ -181,92 +177,70 @@
 // 		verify(couponPolicyService, times(1)).issueSaleCoupon(any(CouponPolicyCreateRequestDTO.class));
 // 	}
 //
+//
+//
+//
 // 	@Test
-// 	void testCreateCouponPolicy_Failure_BookIdNull() throws Exception {
-// 		CouponPolicyCreateRequestDTO requestDTO = new CouponPolicyCreateRequestDTO(
-// 			BigDecimal.valueOf(10000), BigDecimal.valueOf(10000), null, null, "book", null, "Some Book", null, null
+// 	void testUpdateCouponPolicy_Success() throws Exception {
+// 		// given
+// 		CouponPolicyUpdateRequestDTO requestDTO = new CouponPolicyUpdateRequestDTO(
+// 			BigDecimal.valueOf(10000), BigDecimal.valueOf(5000), null, null, true
 // 		);
 //
-// 		mockMvc.perform(MockMvcRequestBuilders.post("/coupons/policies")
+//
+// 		doNothing().when(couponPolicyService).updateCouponPolicy(1L,requestDTO);
+// 		// when
+// 		mockMvc.perform(MockMvcRequestBuilders.patch("/coupons/policies/1")
 // 				.param("minOrderPrice", requestDTO.minOrderPrice().toString())
 // 				.param("salePrice", requestDTO.salePrice() != null ? requestDTO.salePrice().toString() : "")
 // 				.param("saleRate", requestDTO.saleRate() != null ? requestDTO.saleRate().toString() : "")
 // 				.param("maxSalePrice", requestDTO.maxSalePrice() != null ? requestDTO.maxSalePrice().toString() : "")
-// 				.param("type", requestDTO.type())
-// 				.param("bookId", requestDTO.bookId() != null ? requestDTO.bookId().toString() : "")
-// 				.param("bookTitle", requestDTO.bookTitle() != null ? requestDTO.bookTitle() : "")
-// 				.param("categoryId", requestDTO.categoryId() != null ? requestDTO.categoryId().toString() : "")
-// 				.param("categoryName", requestDTO.categoryName() != null ? requestDTO.categoryName() : ""))
-// 			.andExpect(status().isBadRequest())
-// 			.andExpect(MockMvcResultMatchers.content().string("책쿠폰 정책등록시 book id가 필요합니다."))
+// 				.param("isUsed", requestDTO.isUsed().toString()))
+// 			.andExpect(status().is3xxRedirection())
+// 			.andExpect(redirectedUrl("/coupons/policies"))
 // 			.andDo(MockMvcResultHandlers.print());
 //
-// 		verify(couponPolicyService, times(0)).issueSaleCoupon(any(CouponPolicyCreateRequestDTO.class));
+// 		// then
+// 		verify(couponPolicyService, times(1)).updateCouponPolicy(eq(1L), any(CouponPolicyUpdateRequestDTO.class));
 // 	}
 //
 // 	@Test
-// 	void testCreateCouponPolicy_Failure_CategoryIdNull() throws Exception {
-// 		CouponPolicyCreateRequestDTO requestDTO = new CouponPolicyCreateRequestDTO(
-// 			BigDecimal.valueOf(10000), BigDecimal.valueOf(10000), null, null, "category", null, null, 1L, null
+// 	void testUpdateCouponPolicy_Failure_Validation() throws Exception {
+// 		// given
+// 		CouponPolicyUpdateRequestDTO requestDTO = new CouponPolicyUpdateRequestDTO(
+// 			BigDecimal.valueOf(10000), BigDecimal.valueOf(5000), BigDecimal.valueOf(10), BigDecimal.valueOf(20000), true
 // 		);
-//
-// 		mockMvc.perform(MockMvcRequestBuilders.post("/coupons/policies")
+// 		doNothing().when(couponPolicyService).updateCouponPolicy(1L,requestDTO);
+// 		// when
+// 		mockMvc.perform(MockMvcRequestBuilders.patch("/coupons/policies/1")
 // 				.param("minOrderPrice", requestDTO.minOrderPrice().toString())
 // 				.param("salePrice", requestDTO.salePrice() != null ? requestDTO.salePrice().toString() : "")
 // 				.param("saleRate", requestDTO.saleRate() != null ? requestDTO.saleRate().toString() : "")
 // 				.param("maxSalePrice", requestDTO.maxSalePrice() != null ? requestDTO.maxSalePrice().toString() : "")
-// 				.param("type", requestDTO.type())
-// 				.param("bookId", requestDTO.bookId() != null ? requestDTO.bookId().toString() : "")
-// 				.param("bookTitle", requestDTO.bookTitle() != null ? requestDTO.bookTitle() : "")
-// 				.param("categoryId", requestDTO.categoryId() != null ? requestDTO.categoryId().toString() : "")
-// 				.param("categoryName", requestDTO.categoryName() != null ? requestDTO.categoryName() : ""))
+// 				.param("isUsed", requestDTO.isUsed().toString()))
 // 			.andExpect(status().isBadRequest())
-// 			.andExpect(MockMvcResultMatchers.content().string("카테고리쿠폰 정책등록시 category id가 필요합니다."))
+// 			.andExpect(content().string("쿠폰 정책등록시 할인가격은 할인률, 최대할인가격과 함께 등록할 수 없습니다."))
 // 			.andDo(MockMvcResultHandlers.print());
-//
-//
-// 		verify(couponPolicyService, times(0)).issueCategoryCoupon(any(CouponPolicyCreateRequestDTO.class));
+// 		verify(couponPolicyService, times(0)).updateCouponPolicy(eq(1L), any(CouponPolicyUpdateRequestDTO.class));
 // 	}
 //
 // 	@Test
-// 	void testCreateCouponPolicy_Failure_InvalidType() throws Exception {
-// 		CouponPolicyCreateRequestDTO requestDTO = new CouponPolicyCreateRequestDTO(
-// 			BigDecimal.valueOf(10000), BigDecimal.valueOf(10000), null, null, "invalid", null, null, null, null
+// 	void testUpdateCouponPolicy_Failure_EmptyFields() throws Exception {
+// 		// given
+// 		CouponPolicyUpdateRequestDTO requestDTO = new CouponPolicyUpdateRequestDTO(
+// 			BigDecimal.valueOf(10000), null, null, null, true
 // 		);
 //
-// 		mockMvc.perform(MockMvcRequestBuilders.post("/coupons/policies")
-// 				.param("minOrderPrice", requestDTO.minOrderPrice().toString())
-// 				.param("salePrice", requestDTO.salePrice() != null ? requestDTO.salePrice().toString() : "")
-// 				.param("saleRate", requestDTO.saleRate() != null ? requestDTO.saleRate().toString() : "")
-// 				.param("maxSalePrice", requestDTO.maxSalePrice() != null ? requestDTO.maxSalePrice().toString() : "")
-// 				.param("type", requestDTO.type())
-// 				.param("bookId", requestDTO.bookId() != null ? requestDTO.bookId().toString() : "")
-// 				.param("bookTitle", requestDTO.bookTitle() != null ? requestDTO.bookTitle() : "")
-// 				.param("categoryId", requestDTO.categoryId() != null ? requestDTO.categoryId().toString() : "")
-// 				.param("categoryName", requestDTO.categoryName() != null ? requestDTO.categoryName() : ""))
-// 			.andExpect(status().isBadRequest())
-// 			.andExpect(MockMvcResultMatchers.content().string("해당 쿠폰 타입은 등록할 수 없습니다."))
-// 			.andDo(MockMvcResultHandlers.print());
+// 		// when
+// 		mockMvc.perform(MockMvcRequestBuilders.patch("/coupons/policies/1")
+// 				.flashAttr("requestDTO", requestDTO))
+// 			.andExpect(status().is3xxRedirection())
+// 			.andExpect(redirectedUrl("/coupons/policies"))
+// 			.andDo(print());
+//
+// 		// then
+// 		verify(couponPolicyService, times(1)).updateCouponPolicy(eq(1L), any(CouponPolicyUpdateRequestDTO.class));
 // 	}
 //
-// 	@Test
-// 	void testCreateCouponPolicy_Failure_Validation() throws Exception {
-// 		CouponPolicyCreateRequestDTO requestDTO = new CouponPolicyCreateRequestDTO(
-// 			BigDecimal.valueOf(10000), null, null, BigDecimal.valueOf(5000), "welcome", null, null, null, null
-// 		);
 //
-// 		mockMvc.perform(MockMvcRequestBuilders.post("/coupons/policies")
-// 				.param("minOrderPrice", requestDTO.minOrderPrice().toString())
-// 				.param("salePrice", requestDTO.salePrice() != null ? requestDTO.salePrice().toString() : "")
-// 				.param("saleRate", requestDTO.saleRate() != null ? requestDTO.saleRate().toString() : "")
-// 				.param("maxSalePrice", requestDTO.maxSalePrice() != null ? requestDTO.maxSalePrice().toString() : "")
-// 				.param("type", requestDTO.type())
-// 				.param("bookId", requestDTO.bookId() != null ? requestDTO.bookId().toString() : "")
-// 				.param("bookTitle", requestDTO.bookTitle() != null ? requestDTO.bookTitle() : "")
-// 				.param("categoryId", requestDTO.categoryId() != null ? requestDTO.categoryId().toString() : "")
-// 				.param("categoryName", requestDTO.categoryName() != null ? requestDTO.categoryName() : ""))
-// 			.andExpect(status().isBadRequest())
-// 			.andExpect(MockMvcResultMatchers.content().string("쿠폰 정책등록시 할인가격은 할인률, 최대할인가격과 함께 등록할 수 없습니다."))
-// 			.andDo(MockMvcResultHandlers.print());
-// 	}
 // }

@@ -81,7 +81,7 @@
 <div class="container">
     <div class="row mt-4">
         <div class="col-md-12">
-            <div th:if="${message}" class="alert-custom" role="alert">
+            <div id="messageAlert" th:if="${message}" class="alert-custom" role="alert">
                 <p th:text="${message}"></p>
             </div>
             <h4>발행가능 쿠폰리스트</h4>
@@ -140,16 +140,25 @@
 <!--            Footer Area-->
 <!--=====================================-->
 <div th:insert="~{global/footer}"></div>
-
 <script>
+    // 페이지가 로드된 후 실행되는 함수
     document.addEventListener("DOMContentLoaded", function() {
-        const message = /*[[${message}]]*/ '';
-        if (message) {
-            alert(message); // Show alert with the message
+        // 메시지 알림 div를 선택
+        var messageAlert = document.getElementById('messageAlert');
+
+        // 메시지 알림이 존재하는 경우
+        if (messageAlert) {
+            console.log('Message alert found. Setting timeout to hide it.');
+            // 10초 후에 메시지 숨기기
+            setTimeout(function() {
+                messageAlert.style.display = 'none'; // 메시지 숨기기
+                console.log('Message alert hidden.');
+            }, 5000); // 5000 밀리초 = 5초
+        } else {
+            console.log('No message alert found.');
         }
     });
 </script>
-
 
 </body>
 </html>

@@ -14,7 +14,7 @@
     <style>
         /* 테이블 전체 스타일 */
         #couponTable {
-            width: 140%; /* 테이블이 부모 컨테이너에 맞게 늘어나도록 설정 */
+            width: 160%; /* 테이블이 부모 컨테이너에 맞게 늘어나도록 설정 */
             table-layout: fixed; /* 열 너비 고정 */
         }
 
@@ -99,8 +99,8 @@
         }
 
         .create-policy .form-control {
-            width: 150%; /* Increase width by 20% */
-            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            width: 165%;
+            box-sizing: border-box;
         }
     </style>
 
@@ -209,7 +209,7 @@
                             <td>
                                 <div class="btn-group" role="group">
                                     <button class="btn btn-primary btn-sm editBtn"
-                                            th:data-policy-id="${policy.id}" th:data-is-used="${policy.isUsed}">쿠폰정책 변경
+                                            th:data-policy-id="${policy.id}" th:data-is-used="${policy.isUsed}" >쿠폰정책 변경
                                     </button>
                                     <button class="btn btn-success btn-sm addBtn" th:data-policy-id="${policy.id}"
                                             data-toggle="modal" data-target="#addCouponModal"
@@ -238,6 +238,9 @@
             Footer Area
 ===================================== -->
 <div th:insert="~{global/footer}"></div>
+
+
+
 
 
 <!-- Edit Modal -->
@@ -327,7 +330,7 @@
                     </div>
                     <div class="form-group">
                         <label for="expiredDate">쿠폰 만료일</label>
-                        <input type="datetime-local" class="form-control" id="expiredDate" name="expiredDate">
+                        <input type="datetime-local" class="form-control" id="expiredDate" name="expiredDate" required>
                     </div>
                     <div class="form-group">
                         <label for="issueDate">쿠폰 발행일</label>
@@ -335,7 +338,7 @@
                     </div>
                     <div class="form-group">
                         <label for="quantity">쿠폰 수량</label>
-                        <input type="number" class="form-control" id="quantity" name="quantity">
+                        <input type="number" class="form-control" id="quantity" name="quantity" required>
                     </div>
                 </div>
                 <div class="modal-footer">
