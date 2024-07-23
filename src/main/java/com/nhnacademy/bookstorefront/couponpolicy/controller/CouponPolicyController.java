@@ -42,10 +42,10 @@ public class CouponPolicyController {
 		@Valid @ModelAttribute  CouponPolicyCreateRequestDTO requestDTO) {
 
 			// SalePrice와 SaleRate 유효성 검사 추가
-			if ((requestDTO.salePrice() == null && requestDTO.saleRate() == null && requestDTO.maxSalePrice() == null) ||
-				(requestDTO.salePrice() != null && requestDTO.saleRate() != null && requestDTO.maxSalePrice() != null)||
-				(requestDTO.salePrice() != null && requestDTO.saleRate() != null  && requestDTO.maxSalePrice() == null)||
-				(requestDTO.salePrice() != null && requestDTO.saleRate() == null  && requestDTO.maxSalePrice() != null)) {
+			if (requestDTO.salePrice() == null && requestDTO.saleRate() == null && requestDTO.maxSalePrice() == null
+				|| requestDTO.salePrice() != null && requestDTO.saleRate() != null && requestDTO.maxSalePrice() != null
+				|| requestDTO.salePrice() != null && requestDTO.saleRate() != null
+				|| requestDTO.salePrice() != null && requestDTO.maxSalePrice() != null) {
 				ErrorStatus errorStatus = ErrorStatus.from("쿠폰 정책등록시 할인가격은 할인률, 최대할인가격과 함께 등록할 수 없습니다.", HttpStatus.BAD_REQUEST, LocalDateTime.now());
 				throw new CouponPolicyValidationException(errorStatus);
 			}
@@ -88,10 +88,10 @@ public class CouponPolicyController {
 	@Valid	@ModelAttribute CouponPolicyUpdateRequestDTO requestDTO) {
 
 			// SalePrice와 SaleRate 유효성 검사 추가
-			if ((requestDTO.salePrice() == null && requestDTO.saleRate() == null && requestDTO.maxSalePrice() == null) ||
-				(requestDTO.salePrice() != null && requestDTO.saleRate() != null && requestDTO.maxSalePrice() != null) ||
-				(requestDTO.salePrice() != null && requestDTO.saleRate() != null  && requestDTO.maxSalePrice() == null)||
-				(requestDTO.salePrice() != null && requestDTO.saleRate() == null  && requestDTO.maxSalePrice() != null)) {
+			if (requestDTO.salePrice() == null && requestDTO.saleRate() == null && requestDTO.maxSalePrice() == null
+				|| requestDTO.salePrice() != null && requestDTO.saleRate() != null && requestDTO.maxSalePrice() != null
+				|| requestDTO.salePrice() != null && requestDTO.saleRate() != null
+				|| requestDTO.salePrice() != null && requestDTO.maxSalePrice() != null) {
 				ErrorStatus errorStatus = ErrorStatus.from("쿠폰 정책등록시 할인가격은 할인률, 최대할인가격과 함께 등록할 수 없습니다.", HttpStatus.BAD_REQUEST, LocalDateTime.now());
 				throw new CouponPolicyValidationException(errorStatus);
 			}
