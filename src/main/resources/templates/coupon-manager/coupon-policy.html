@@ -95,6 +95,11 @@
         #couponTable td:nth-child(9) {
             width: 32%; /* 액션 열 너비 */
         }
+
+        .create-policy .form-control {
+            width: 120%; /* Increase width by 20% */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
     </style>
 
 </head>
@@ -116,7 +121,7 @@
         <div class="row">
             <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb--30 mb-lg--0">
                 <!-- Create Coupon Policy Form -->
-                <form action="/coupons/policies" method="post">
+                <form class="create-policy" action="/coupons/policies" method="post">
                     <div class="form-group">
                         <h4 class="form-title">쿠폰 정책 발행 페이지</h4>
                         <label for="minOrderPrice">최소 주문금액</label>
@@ -124,7 +129,7 @@
                         <label for="salePrice">할인 금액</label>
                         <input type="text" class="form-control" id="salePrice" name="salePrice" placeholder="할인율, 최대할인가격과 같이 사용할 수 없습니다">
                         <label for="saleRate">할인율</label>
-                        <input type="text" class="form-control" id="saleRate" name="saleRate" placeholder="할인 금액과 같이 사용 할 수 없습니다">
+                        <input type="text" class="form-control" id="saleRate" name="saleRate" placeholder="0~1사이, 소숫점두자리 수, 할인 금액과 같이 사용 할 수 없습니다">
                         <label for="maxSalePrice">최대 할인가격</label>
                         <input type="text" class="form-control" id="maxSalePrice" name="maxSalePrice" required>
                         <label for="type">타입</label>
@@ -258,7 +263,7 @@
                     </div>
                     <div class="form-group">
                         <label for="saleRateEdit">할인률</label>
-                        <input type="text" class="form-control" id="saleRateEdit" name="saleRate" placeholder="할인 금액과 같이 사용 할 수 없습니다">
+                        <input type="text" class="form-control" id="saleRateEdit" name="saleRate" placeholder="0~1사이, 소숫점두자리 수, 할인 금액과 같이 사용 할 수 없습니다">
                     </div>
                     <div class="form-group">
                         <label for="maxSalePriceEdit">최대 할인금액</label>

@@ -136,6 +136,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                <div th:if="${#lists.isEmpty(couponTemplates)}">
+                    <p>현재 발급가능한 쿠폰이 없습니다.</p>
+                </div>
                 <!-- Loop through coupons and display each coupon -->
                 <tr th:each="coupon : ${coupons}">
                     <td class="narrow-col">
