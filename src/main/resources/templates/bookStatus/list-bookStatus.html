@@ -23,8 +23,8 @@
             <h5 style="margin: 0 1rem">도서상태</h5>
         </section>
         <section id="page-body">
+            <h3>도서상태 리스트</h3>
             <h3><a th:href="@{/api/bookStatuses/create}" class="btn btn-primary">도서상태 추가</a></h3>
-            <p>
             <div th:if="${bookStatuses.size() > 0}">
                 <table class="table table-bordered">
                     <thead>
@@ -53,7 +53,6 @@
             <div th:if="${bookStatuses.size() == 0}">
                 <p>도서상태가 없습니다.</p>
             </div>
-            </p>
         </section>
     </section>
 </section>

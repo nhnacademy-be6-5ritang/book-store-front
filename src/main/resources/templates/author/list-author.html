@@ -24,7 +24,7 @@
         </section>
         <section id="page-body">
             <h3>작가 리스트</h3>
-            <a th:href="@{/api/authors/create}" class="btn btn-primary">작가 추가</a>
+            <h3><a th:href="@{/api/authors/create}" class="btn btn-primary">작가 추가</a></h3>
             <div th:if="${authors.getContent().size() > 0}">
                 <table class="table table-bordered">
                     <thead>
@@ -36,9 +36,7 @@
                     </thead>
                     <tbody>
                     <tr th:each="author, index : ${authors}">
-                        <td th:text="${index.index + 1  + (pageable.pageNumber - 1) * pageable.pageSize}">
-                            1
-                        </td>
+                        <td th:text="${index.index + 1  + (pageable.pageNumber - 1) * pageable.pageSize}"></td>
                         <td th:text="${author.authorName}">작가 이름</td>
                         <td style="display: flex; align-items: center;">
                             <a th:href="@{/api/authors/update/{authorId} (authorId=${author.authorId})}"

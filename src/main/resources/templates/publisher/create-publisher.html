@@ -8,87 +8,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
 
-
 <body>
-<div class="site-wrapper" id="top">
-    <!--=================================
-    Header Area
-    ===================================== -->
-    <div th:insert="~{global/header}"></div>
+<header th:insert="~{global/header}"></header>
 
-    <section class="breadcrumb-section">
-        <h2 class="sr-only">Site Breadcrumb</h2>
-        <div class="container">
-            <div class="breadcrumb-contents">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a th:href="@{/books/main}">홈</a></li>
-                        <li class="breadcrumb-item active">출판사 추가</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </section>
-
-    <div class="page-section inner-page-sec-padding">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="row">
-                        <!-- My Account Tab Menu Start -->
-                        <div class="col-lg-3 col-12">
-                            <!-- 관리자 계정 메뉴 -->
-                            <div th:insert="~{fragments/admin-account-menu.html}"></div>
-                        </div>
-                        <!-- My Account Tab Menu End -->
-                        <!-- My Account Tab Content Start -->
-                        <div class="col-lg-9 col-12 mt--30 mt-lg--0">
-                            <div class="tab-content" id="myaccountContent">
-                                <!-- 출판사 Tab Content Start -->
-                                <div class="tab-pane fade show active" id="delivery" role="tabpanel">
-                                    <div class="myaccount-content">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <h3>출판사</h3>
-                                        </div>
-                                        <div class="card mt-4">
-                                            <div class="card-body">
-                                                <!-- 상태 추가 폼 -->
-                                                <form th:action="@{/api/publishers}" method="post">
-                                                    <div class="form-group">
-                                                        <label for="publisherName">출판사 이름</label>
-                                                        <input type="text" class="form-control" id="publisherName"
-                                                               name="publisherName" required>
-                                                    </div>
-                                                    <button type="submit" class="btn btn-primary">추가</button>
-                                                    <a class="btn btn-secondary" onclick="history.back()">취소</a>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 출판사 Tab Content End -->
-                            </div>
-                        </div>
-                        <!-- My Account Tab Content End -->
-                    </div>
+<section id="page" class="top-container">
+    <section id="page-menu-container" th:insert="~{fragments/admin-menu.html}"></section>
+    <section id="page-content">
+        <section id="page-header">
+            <h5 style="margin: 0 1rem">출판사</h5>
+        </section>
+        <section id="page-body">
+            <h3>출판사 추가 폼</h3>
+            <form th:action="@{/api/publishers}" method="post">
+                <div class="form-group">
+                    <label for="publisherName">출판사 이름</label>
+                    <input type="text" class="form-control" id="publisherName"
+                           name="publisherName" required>
                 </div>
-            </div>
-        </div>
-    </div>
+                <button type="submit" class="btn btn-primary">추가</button>
+                <a class="btn btn-secondary" onclick="history.back()">취소</a>
+            </form>
+        </section>
+    </section>
+</section>
 
-</div>
-<!--=================================
-Footer Area
-===================================== -->
-<div th:insert="~{global/footer}"></div>
+<footer th:insert="~{global/footer}"></footer>
 
-<!-- Use Minified Plugins Version For Fast Page Load -->
-<script th:src="@{/js/plugins.js}"></script>
-<script th:src="@{/js/ajax-mail.js}"></script>
-<script th:src="@{/js/custom.js}"></script>
+<script th:src="@{/js/my-page.js}"></script>
 </body>
-
 </html>
