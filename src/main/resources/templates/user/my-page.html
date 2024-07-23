@@ -9,7 +9,6 @@
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
-    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/user/my-page.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/user/my-info.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
@@ -30,6 +29,7 @@
             </div>
             <h5 style="margin: 0 1rem" th:text="${myUserInfo.name} + ' 님의 마이 페이지'"></h5>
         </section>
+        <hr style="width: 100%"/>
         <section id="page-body">
             <span style="color: #797979" onmouseover="displayUserGrades()"
                   onmouseout="hideUserGrades()"
@@ -119,6 +119,8 @@
         </section>
     </section>
 </section>
+
+<div th:insert="~{fragments/to-admin-button}"></div>
 
 <footer th:insert="~{global/footer}"></footer>
 
