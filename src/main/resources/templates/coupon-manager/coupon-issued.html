@@ -7,7 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}"/>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <style>
         .card {
             border: 1px solid #ddd; /* Light grey border */
@@ -38,193 +40,191 @@
    Header Area
    ===================================== -->
 
-<div th:insert="~{global/header}"></div>
+<header th:insert="~{global/header}"></header>
 
 
 
-<div class="container mt-5">
 
-    <div class="row">
-        <div class="col-lg-3 col-12">
-            <!-- 사용자 계정 메뉴 -->
-            <div th:insert="~{fragments/admin-account-menu.html}"></div>
-        </div>
-        <div class="col-lg-9 col-12">
-    <h2 class="mb-4">사용자쿠폰 관리페이지</h2>
+<section id="page" class="top-container">
+    <section id="page-menu-container" th:insert="~{fragments/admin-menu.html}"></section>
+    <section id="page-content">
+        <section id="page-header">
+            <h5 style="margin: 0 1rem">사용자 쿠폰관리 페이지</h5>
+        </section>
+        <hr style="width: 100%"/>
+        <section id="page-body">
+            <!-- Search and Filter Form -->
+            <form th:action="@{/coupons/users}" method="get" class="mb-4">
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="userId" placeholder="유저아이디를 검색하세요" th:value="${param.userId}">
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" name="type">
+                            <option value="" >모든 타입</option>
+                            <option value="welcome" th:selected="${#strings.equals(param.type, 'welcome')}">웰컴쿠폰</option>
+                            <option value="birthday" th:selected="${#strings.equals(param.type, 'birthday')}">생일쿠폰</option>
+                            <option value="book" th:selected="${#strings.equals(param.type, 'book')}">도서쿠폰</option>
+                            <option value="category" th:selected="${#strings.equals(param.type, 'category')}">카테고리쿠폰</option>
+                            <option value="sale" th:selected="${#strings.equals(param.type, 'sale')}">세일쿠폰</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary w-100">Search</button>
+                    </div>
 
-    <!-- Search and Filter Form -->
-    <form th:action="@{/coupons/users}" method="get" class="mb-4">
-        <div class="form-row">
-            <div class="form-group">
-                <input type="text" class="form-control" name="userId" placeholder="유저아이디를 검색하세요" th:value="${param.userId}">
-            </div>
-            <div class="form-group">
-                <select class="form-control" name="type">
-                    <option value="" >모든 타입</option>
-                    <option value="welcome" th:selected="${#strings.equals(param.type, 'welcome')}">웰컴쿠폰</option>
-                    <option value="birthday" th:selected="${#strings.equals(param.type, 'birthday')}">생일쿠폰</option>
-                    <option value="book" th:selected="${#strings.equals(param.type, 'book')}">도서쿠폰</option>
-                    <option value="category" th:selected="${#strings.equals(param.type, 'category')}">카테고리쿠폰</option>
-                    <option value="sale" th:selected="${#strings.equals(param.type, 'sale')}">세일쿠폰</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary w-100">Search</button>
-            </div>
-
-        </div>
-    </form>
-
-
-
-    <!-- Check if there are coupons to display -->
-    <div th:if="${not #lists.isEmpty(userAndCoupon)}">
-        <div class="row">
-            <!-- Iterate over each UserAndCouponResponseDTO -->
-            <div th:each="coupon : ${userAndCoupon}" class="col-md-6 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <p class="card-title">유저 아이디
-                            <span th:if="${coupon.userId != null}" th:text="${coupon.userId}"></span>
-                            <span th:unless="${coupon.userId != null}">-</span>의 쿠폰아이디:
-                            <span th:if="${coupon.id != null}" th:text="${coupon.id}"></span>
-                            <span th:unless="${coupon.id != null}">-</span>
-                        </p>
+                </div>
+            </form>
 
 
 
-                        <p class="card-text">쿠폰 타입:
-                            <span th:if="${coupon.type != null}" th:text="${coupon.type}"></span>
-                            <span th:unless="${coupon.type != null}">-</span>
-                        </p>
-
-                        <!-- Category type 처리 -->
-                        <div th:if="${coupon.type == 'category'}">
-                            <p class="card-text">카테고리 이름:
-                                <span th:if="${coupon.categoryName != null}" th:text="${coupon.categoryName}"></span>
-                                <span th:unless="${coupon.categoryName != null}">-</span>
-                            </p>
-                        </div>
-                        <div th:if="${coupon.type == 'book'}">
-                            <p class="card-text">도서 제목:
-                                <span th:if="${coupon.bookTitle != null}" th:text="${coupon.bookTitle}"></span>
-                                <span th:unless="${coupon.bookTitle != null}">-</span>
-                            </p>
-                        </div>
-
-
-                        <div>
-                            <!-- 할인 금액이 있을 때 -->
-                            <p class="card-text" th:if="${coupon.salePrice != null}">
-                                할인 금액: <span th:text="${#numbers.formatDecimal(coupon.salePrice, 1, 'COMMA', 0, 'POINT')+'원'}"></span>
-                            </p>
-
-                            <!-- 할인 금액이 없을 때 -->
-                            <div th:unless="${coupon.salePrice != null}">
-                                <p class="card-text">할인율:
-                                    <span th:if="${coupon.saleRate != null}" th:text="${#numbers.formatDecimal(coupon.saleRate * 100, 1, 'COMMA', 0, 'POINT')+ '%'}"></span>
-                                    <span th:unless="${coupon.saleRate != null}">-</span>
+            <!-- Check if there are coupons to display -->
+            <div th:if="${not #lists.isEmpty(userAndCoupon)}">
+                <div class="row">
+                    <!-- Iterate over each UserAndCouponResponseDTO -->
+                    <div th:each="coupon : ${userAndCoupon}" class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-title">유저 아이디
+                                    <span th:if="${coupon.userId != null}" th:text="${coupon.userId}"></span>
+                                    <span th:unless="${coupon.userId != null}">-</span>의 쿠폰아이디:
+                                    <span th:if="${coupon.id != null}" th:text="${coupon.id}"></span>
+                                    <span th:unless="${coupon.id != null}">-</span>
                                 </p>
-                                <p class="card-text">최대 할인금액:
-                                    <span th:if="${coupon.maxSalePrice != null}" th:text="${#numbers.formatDecimal(coupon.maxSalePrice, 1, 'COMMA', 0, 'POINT')+'원'}"></span>
-                                    <span th:unless="${coupon.maxSalePrice != null}">-</span>
+
+
+
+                                <p class="card-text">쿠폰 타입:
+                                    <span th:if="${coupon.type != null}" th:text="${coupon.type}"></span>
+                                    <span th:unless="${coupon.type != null}">-</span>
                                 </p>
+
+                                <!-- Category type 처리 -->
+                                <div th:if="${coupon.type == 'category'}">
+                                    <p class="card-text">카테고리 이름:
+                                        <span th:if="${coupon.categoryName != null}" th:text="${coupon.categoryName}"></span>
+                                        <span th:unless="${coupon.categoryName != null}">-</span>
+                                    </p>
+                                </div>
+                                <div th:if="${coupon.type == 'book'}">
+                                    <p class="card-text">도서 제목:
+                                        <span th:if="${coupon.bookTitle != null}" th:text="${coupon.bookTitle}"></span>
+                                        <span th:unless="${coupon.bookTitle != null}">-</span>
+                                    </p>
+                                </div>
+
+
+                                <div>
+                                    <!-- 할인 금액이 있을 때 -->
+                                    <p class="card-text" th:if="${coupon.salePrice != null}">
+                                        할인 금액: <span th:text="${#numbers.formatDecimal(coupon.salePrice, 1, 'COMMA', 0, 'POINT')+'원'}"></span>
+                                    </p>
+
+                                    <!-- 할인 금액이 없을 때 -->
+                                    <div th:unless="${coupon.salePrice != null}">
+                                        <p class="card-text">할인율:
+                                            <span th:if="${coupon.saleRate != null}" th:text="${#numbers.formatDecimal(coupon.saleRate * 100, 1, 'COMMA', 0, 'POINT')+ '%'}"></span>
+                                            <span th:unless="${coupon.saleRate != null}">-</span>
+                                        </p>
+                                        <p class="card-text">최대 할인금액:
+                                            <span th:if="${coupon.maxSalePrice != null}" th:text="${#numbers.formatDecimal(coupon.maxSalePrice, 1, 'COMMA', 0, 'POINT')+'원'}"></span>
+                                            <span th:unless="${coupon.maxSalePrice != null}">-</span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <p class="card-text">최소 주문금액:
+                                    <span th:if="${coupon.minOrderPrice != null}" th:text="${#numbers.formatDecimal(coupon.minOrderPrice, 1, 'COMMA', 0, 'POINT')+'원'}"></span>
+                                    <span th:unless="${coupon.minOrderPrice != null}">-</span>
+                                </p>
+
+                                <!-- 정책 사용 여부와 쿠폰 사용 여부 묶어서 표시 -->
+                                <p class="card-text">정책 사용 여부:
+                                    <span th:if="${coupon.policyIsUsed != null}" th:text="${coupon.policyIsUsed ? '사용함' : '사용 안 함'}"></span>
+                                    <span th:unless="${coupon.policyIsUsed != null}">-</span> / 쿠폰 사용 여부:
+                                    <span th:if="${coupon.isUsed != null}" th:text="${coupon.isUsed ? '사용함' : '사용 안 함'}"></span>
+                                    <span th:unless="${coupon.isUsed != null}">-</span>
+                                </p>
+
+
+
+
+                                <p class="card-text">쿠폰 발행일:
+                                    <span th:if="${coupon.issueDate != null}" th:text="${#temporals.format(coupon.issueDate, 'yyyy.MM.dd HH:mm')}"></span>
+                                    <span th:unless="${coupon.issueDate != null}">-</span>
+                                </p>
+
+                                <p class="card-text">쿠폰 만료일:
+                                    <span th:if="${coupon.expiredDate != null}" th:text="${#temporals.format(coupon.expiredDate, 'yyyy.MM.dd HH:mm')}"></span>
+                                    <span th:unless="${coupon.expiredDate != null}">-</span>
+                                </p>
+
+                                <p class="card-text">쿠폰 사용일:
+                                    <span th:if="${coupon.usedDate != null}" th:text="${#temporals.format(coupon.usedDate, 'yyyy.MM.dd HH:mm')}"></span>
+                                    <span th:unless="${coupon.usedDate != null}">-</span>
+                                </p>
+
                             </div>
                         </div>
-
-                        <p class="card-text">최소 주문금액:
-                            <span th:if="${coupon.minOrderPrice != null}" th:text="${#numbers.formatDecimal(coupon.minOrderPrice, 1, 'COMMA', 0, 'POINT')+'원'}"></span>
-                            <span th:unless="${coupon.minOrderPrice != null}">-</span>
-                        </p>
-
-                        <!-- 정책 사용 여부와 쿠폰 사용 여부 묶어서 표시 -->
-                        <p class="card-text">정책 사용 여부:
-                            <span th:if="${coupon.policyIsUsed != null}" th:text="${coupon.policyIsUsed ? '사용함' : '사용 안 함'}"></span>
-                            <span th:unless="${coupon.policyIsUsed != null}">-</span> / 쿠폰 사용 여부:
-                            <span th:if="${coupon.isUsed != null}" th:text="${coupon.isUsed ? '사용함' : '사용 안 함'}"></span>
-                            <span th:unless="${coupon.isUsed != null}">-</span>
-                        </p>
-
-
-
-
-                        <p class="card-text">쿠폰 발행일:
-                            <span th:if="${coupon.issueDate != null}" th:text="${#temporals.format(coupon.issueDate, 'yyyy.MM.dd HH:mm')}"></span>
-                            <span th:unless="${coupon.issueDate != null}">-</span>
-                        </p>
-
-                        <p class="card-text">쿠폰 만료일:
-                            <span th:if="${coupon.expiredDate != null}" th:text="${#temporals.format(coupon.expiredDate, 'yyyy.MM.dd HH:mm')}"></span>
-                            <span th:unless="${coupon.expiredDate != null}">-</span>
-                        </p>
-
-                        <p class="card-text">쿠폰 사용일:
-                            <span th:if="${coupon.usedDate != null}" th:text="${#temporals.format(coupon.usedDate, 'yyyy.MM.dd HH:mm')}"></span>
-                            <span th:unless="${coupon.usedDate != null}">-</span>
-                        </p>
-
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-        </div>
-    </div>
 
-    <!-- If no coupons are available -->
-    <div th:if="${#lists.isEmpty(userAndCoupon)}">
-        <p>No coupons found.</p>
-    </div>
-    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center mt-4">
-            <!-- 첫번째 페이지로 이동 -->
-            <li class="page-item" th:classappend="${userAndCoupon.first} ? 'disabled'">
-                <a class="page-link"
-                   th:href="@{/coupons/users(page=1, size=${userAndCoupon.size}, userId=${param.userId}, type=${param.type})}"
-                   aria-label="First">
-                    <span aria-hidden="true">&laquo; First</span>
-                </a>
-            </li>
+            <!-- If no coupons are available -->
+            <div th:if="${#lists.isEmpty(userAndCoupon)}">
+                <p>No coupons found.</p>
+            </div>
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center mt-4">
+                    <!-- 첫번째 페이지로 이동 -->
+                    <li class="page-item" th:classappend="${userAndCoupon.first} ? 'disabled'">
+                        <a class="page-link"
+                           th:href="@{/coupons/users(page=1, size=${userAndCoupon.size}, userId=${param.userId}, type=${param.type})}"
+                           aria-label="First">
+                            <span aria-hidden="true">&laquo; First</span>
+                        </a>
+                    </li>
 
-            <!-- 이전 페이지로 이동 -->
-            <li class="page-item" th:classappend="${userAndCoupon.first} ? 'disabled'">
-                <a class="page-link"
-                   th:href="@{/coupons/users(page=${userAndCoupon.number}, size=${userAndCoupon.size}, userId=${param.userId}, type=${param.type})}"
-                   aria-label="Previous">
-                    <span aria-hidden="true">&lsaquo; Previous</span>
-                </a>
-            </li>
+                    <!-- 이전 페이지로 이동 -->
+                    <li class="page-item" th:classappend="${userAndCoupon.first} ? 'disabled'">
+                        <a class="page-link"
+                           th:href="@{/coupons/users(page=${userAndCoupon.number}, size=${userAndCoupon.size}, userId=${param.userId}, type=${param.type})}"
+                           aria-label="Previous">
+                            <span aria-hidden="true">&lsaquo; Previous</span>
+                        </a>
+                    </li>
 
 
-            <!-- 페이지 번호 링크 -->
-            <li class="page-item" th:each="page: ${#numbers.sequence(startPage, endPage)}"
-                th:classappend="${page == userAndCoupon.number + 1} ? 'active'">
-                <a class="page-link"
-                   th:href="@{/coupons/users(page=${page}, size=${userAndCoupon.size}, userId=${param.userId}, type=${param.type})}"
-                   th:text="${page}"></a>
-            </li>
+                    <!-- 페이지 번호 링크 -->
+                    <li class="page-item" th:each="page: ${#numbers.sequence(startPage, endPage)}"
+                        th:classappend="${page == userAndCoupon.number + 1} ? 'active'">
+                        <a class="page-link"
+                           th:href="@{/coupons/users(page=${page}, size=${userAndCoupon.size}, userId=${param.userId}, type=${param.type})}"
+                           th:text="${page}"></a>
+                    </li>
 
-            <!-- 다음 페이지로 이동 -->
-            <li class="page-item" th:classappend="${userAndCoupon.last} ? 'disabled'">
-                <a class="page-link"
-                   th:href="@{/coupons/users(page=${userAndCoupon.number + 2}, size=${userAndCoupon.size}, userId=${param.userId}, type=${param.type})}"
-                   aria-label="Next">
-                    <span aria-hidden="true">Next &rsaquo;</span>
-                </a>
-            </li>
+                    <!-- 다음 페이지로 이동 -->
+                    <li class="page-item" th:classappend="${userAndCoupon.last} ? 'disabled'">
+                        <a class="page-link"
+                           th:href="@{/coupons/users(page=${userAndCoupon.number + 2}, size=${userAndCoupon.size}, userId=${param.userId}, type=${param.type})}"
+                           aria-label="Next">
+                            <span aria-hidden="true">Next &rsaquo;</span>
+                        </a>
+                    </li>
 
-            <!-- 마지막 페이지로 이동 -->
-            <li class="page-item" th:classappend="${userAndCoupon.last} ? 'disabled'">
-                <a class="page-link"
-                   th:href="@{/coupons/users(page=${userAndCoupon.totalPages}, size=${userAndCoupon.size}, userId=${param.userId}, type=${param.type})}"
-                   aria-label="Last">
-                    <span aria-hidden="true">Last &raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-
-</div>
+                    <!-- 마지막 페이지로 이동 -->
+                    <li class="page-item" th:classappend="${userAndCoupon.last} ? 'disabled'">
+                        <a class="page-link"
+                           th:href="@{/coupons/users(page=${userAndCoupon.totalPages}, size=${userAndCoupon.size}, userId=${param.userId}, type=${param.type})}"
+                           aria-label="Last">
+                            <span aria-hidden="true">Last &raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </section>
+</section>
+</section>
 <!--=================================
             Footer Area
 ===================================== -->
