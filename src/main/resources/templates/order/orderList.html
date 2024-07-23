@@ -66,7 +66,7 @@
                                         <td class="pro-description"> <span
                                                 th:utext="${book.bookDescription()}"></span></td>
                                         <td class="pro-price"><span
-                                                th:text="${book.bookSalePrice()}"></span></td>
+                                                th:text="${book.bookSalePrice().setScale(0)} + 원"></span></td>
                                         <td class="pro-quantity">
                                             <div class="pro-qty">
                                                 <div class="count-input-block">

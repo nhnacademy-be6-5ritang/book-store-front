@@ -72,7 +72,7 @@
                                                             <span th:text="${orders.orderId()}"></span>
                                                         </td>
                                                         <td class="pro-price"><span
-                                                                th:text="${orders.orderPrice()}"></span></td>
+                                                                th:text="${orders.orderPrice().setScale(0)} + 원"></span></td>
                                                         <td class="pro-date"><span
                                                                 th:text="${orders.orderDate()}"></span></td>
                                                         <td class="pro-info"><span

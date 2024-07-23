@@ -73,7 +73,7 @@
                                                         <td class="pro-policy"> <span
                                                                 th:text="${point.policyId()}"></span></td>
                                                         <td class="pro-amount"><span
-                                                                th:text="${point.amount()}"></span></td>
+                                                                th:text="${point.amount().setScale(0)} + 원"></span></td>
                                                         <td class="pro-date"><span
                                                                 th:text="${point.date()}"></span></td>
                                                     </tr>
