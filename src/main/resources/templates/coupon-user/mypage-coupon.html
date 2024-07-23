@@ -7,7 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}"/>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <style>
         /*.card {*/
         /*    border: 1px solid #ddd; !* Light grey border *!*/
@@ -200,8 +202,12 @@
 
             <!-- If no coupons are available -->
             <section th:if="${#lists.isEmpty(userAndCoupon)}">
-                <p>No coupons found.</p>
+                <p>쿠폰이 없습니다.</p>
             </section>
+
+            <div id="to-admin-container" class="top-container">
+                <a th:href="@{/api/users/admin}">관리자이신가요?</a>
+            </div>
         </section>
     </section>
 </section>
