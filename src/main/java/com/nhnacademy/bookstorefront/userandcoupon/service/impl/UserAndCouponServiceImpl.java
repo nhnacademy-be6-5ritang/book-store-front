@@ -1,6 +1,7 @@
 package com.nhnacademy.bookstorefront.userandcoupon.service.impl;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -149,7 +150,7 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 		}
 		// 정률 쿠폰 적용
 		else if (saleRate != null && maxSalePrice != null) {
-			BigDecimal calculatedDiscount = orderPrice.multiply(saleRate);
+			BigDecimal calculatedDiscount = orderPrice.multiply(saleRate).setScale(0, RoundingMode.CEILING);
 			if (calculatedDiscount.compareTo(maxSalePrice) > 0) {
 				calculatedDiscount = maxSalePrice;
 			}
@@ -201,7 +202,7 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 		}
 		// 정률 쿠폰 적용
 		else if (saleRate != null && maxSalePrice != null) {
-			BigDecimal calculatedDiscount = orderPrice.multiply(saleRate);
+			BigDecimal calculatedDiscount = orderPrice.multiply(saleRate).setScale(0, RoundingMode.CEILING);
 			if (calculatedDiscount.compareTo(maxSalePrice) > 0) {
 				calculatedDiscount = maxSalePrice;
 			}

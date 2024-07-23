@@ -17,26 +17,23 @@
 <header th:insert="~{global/header}"></header>
 
 <section id="page" class="top-container">
-    <section id="page-menu-container" th:insert="~{fragments/admin-menu.html}"></section>
+    <section id="page-menu-container" th:insert="~{fragments/user-menu.html}"></section>
     <section id="page-content">
         <section id="page-header">
-            <h5 style="margin: 0 1rem">작가</h5>
+            <h5 style="margin: 0 1rem">여기에 페이지 제목 넣으세요</h5>
         </section>
+        <hr style="width: 100%"/>
         <section id="page-body">
-            <h3>작가 추가</h3>
-            <!-- 상태 추가 폼 -->
-            <form th:action="@{/api/authors}" method="post">
-                <div class="form-group">
-                    <label for="authorName">작가 이름</label>
-                    <input type="text" class="form-control" id="authorName"
-                           name="authorName" required>
-                </div>
-                <button type="submit" class="btn btn-primary">추가</button>
-                <a class="btn btn-secondary" onclick="history.back()">취소</a>
-            </form>
+            <p>이거 지우고 담을 내용 담으세요이거 지우고 담을 내용 담으세요이거 지우고 담을 내용 담으세요이거 지우고 담을 내용 담으세요이거 지우고 담을 내용 담으세요이거 지우고 담을 내용 담으세요이거
+                지우고 담을 내용 담으세요이거 지우고 담을 내용 담으세요이거 지우고 담을 내용 담으세요이거 지우고 담을 내용 담으세요이거 지우고 담을 내용 담으세요이거 지우고 담을 내용 담으세요이거
+                지우고 담을 내용 담으세요</p>
         </section>
     </section>
 </section>
+
+<div id="to-admin-container" class="top-container">
+    <a th:href="@{/api/users/admin}">관리자이신가요?</a>
+</div>
 
 <footer th:insert="~{global/footer}"></footer>
 

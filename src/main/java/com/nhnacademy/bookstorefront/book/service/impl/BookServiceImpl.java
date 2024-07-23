@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
@@ -61,8 +60,8 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public ResponseEntity<String> fetchAndSaveBook(String isbn) {
-		return bookServiceClient.fetchAndSaveBook(isbn);
+	public void saveBookByIsbn(String isbn) {
+		bookServiceClient.saveBookByIsbn(isbn);
 	}
 
 	@Override
