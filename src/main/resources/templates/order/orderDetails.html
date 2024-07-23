@@ -83,7 +83,7 @@
                                                     <td class="pro-status"><span
                                                             th:text="${order.status()}"></span></td>
                                                     <td class="pro-price"><span
-                                                            th:text="${order.price()}"></span></td>
+                                                            th:text="${order.price().setScale(0)} + 원"></span></td>
                                                     <td class="pro-payment">
                                                         <a th:href="@{/api/payments/transactions/{order_info_id}(order_info_id=${order.infoId()})}">
                                                             <button type="button">결제 정보 보기</button>
