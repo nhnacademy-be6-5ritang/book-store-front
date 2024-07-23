@@ -35,7 +35,8 @@ public class GlobalExceptionHandler {
 	 */
 	@ExceptionHandler(FeignException.class)
 	public ModelAndView handleFeignStatusException(FeignException exception, Model model) {
-		if (exception.status() == HttpStatus.FORBIDDEN.value()) {
+		if (exception.status() == HttpStatus.FORBIDDEN.value()
+			|| exception.status() == HttpStatus.UNAUTHORIZED.value()) {
 			// 403 예외인 경우 로그인 페이지로 리다이렉트
 			return new ModelAndView(new RedirectView("/auth/login"));
 		}
