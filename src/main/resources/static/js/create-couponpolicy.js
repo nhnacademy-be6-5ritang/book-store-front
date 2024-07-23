@@ -171,26 +171,27 @@ $(document).ready(function () {
     });
 });
 
-// 정책 수정시 정률쿠폰 정액쿠폰 동시에 input 활성화 방지
+
 $(document).ready(function () {
     $('#editModal').on('show.bs.modal', function (event) {
         const salePriceInputEdit = $('#salePriceEdit');
         const saleRateInputEdit = $('#saleRateEdit');
         const maxSalePriceInputEdit = $('#maxSalePriceEdit');
 
+
         function updateFieldState() {
             if (salePriceInputEdit.val().trim() !== '') {
                 saleRateInputEdit.val('').attr('disabled', 'disabled');
                 maxSalePriceInputEdit.val('').attr('disabled', 'disabled');
-            } else {
+                salePriceInputEdit.removeAttr('disabled');
+            } else if(saleRateInputEdit.val().trim() !== '' && maxSalePriceInputEdit.val().trim() !== ''){
+                salePriceInputEdit.val('').attr('disabled', 'disabled');
                 saleRateInputEdit.removeAttr('disabled');
                 maxSalePriceInputEdit.removeAttr('disabled');
             }
-            if (saleRateInputEdit.val().trim() !== '' || maxSalePriceInputEdit.val().trim() !== '') {
-                salePriceInputEdit.val('').attr('disabled', 'disabled');
-            } else {
-                salePriceInputEdit.removeAttr('disabled');
-            }
+
+
+
         }
 
         salePriceInputEdit.on('input', updateFieldState);
@@ -199,6 +200,10 @@ $(document).ready(function () {
 
         updateFieldState();
     });
+
+
+
+
 
 
 
@@ -226,7 +231,7 @@ $(document).ready(function () {
         $('#maxSalePriceEdit').val(row.find('.maxSalePriceHidden').val());
         $('#typeEdit').val(row.find('.typeHidden').val());
 
-        var isUsedValue = row.find('.isUsed').val();
+        var isUsedValue = row.find('.isUsedHidden').val();
         // Set the radio button based on the value
         if (isUsedValue === "true") {
             $('#isUsedTrue').prop('checked', true);
@@ -235,6 +240,8 @@ $(document).ready(function () {
         }
         $('#categoryNameEdit').val(row.find('.categoryNameHidden').val());
         $('#bookTitleEdit').val(row.find('.bookTitleHidden').val());
+
+
 
 
 
