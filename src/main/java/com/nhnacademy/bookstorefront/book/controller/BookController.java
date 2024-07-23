@@ -3,7 +3,9 @@ package com.nhnacademy.bookstorefront.book.controller;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -111,12 +113,24 @@ public class BookController {
 	}
 
 	@GetMapping("/page/category")
-	public String findAllBooksByCategoryName(@PageableDefault(page = 1, size = 10) Pageable pageable,
+	public String findAllBooksByCategoryName(
+		@PageableDefault(page = 1, size = 12, sort = {
+			"bookPublishDate"}, direction = Sort.Direction.DESC) Pageable defaultPageable,
+		@RequestParam(defaultValue = "bookPublishDate") String sortBy,
+		@RequestParam(defaultValue = "DESC") String direction,
 		@RequestParam String categoryName, Model model) {
+
+		Sort.Direction sortDirection = Sort.Direction.fromString(direction.toUpperCase());
+		Sort sort = Sort.by(sortDirection, sortBy);
+		Pageable pageable = PageRequest.of(defaultPageable.getPageNumber(), defaultPageable.getPageSize(), sort);
+
 		Page<GetBookDetailResponse> books = bookService.findAllBooksByCategory(pageable, categoryName);
 		model.addAttribute("books", books);
 		model.addAttribute("categoryName", categoryName);
-		PagingModel.pagingProcessing(pageable, model, books, "/api/books/page/category?categoryName=" + categoryName,
+		model.addAttribute("sortBy", sortBy);
+		model.addAttribute("direction", direction);
+		PagingModel.pagingProcessing(pageable, model, books,
+			"/api/books/page/category?categoryName=" + categoryName + "&direction=" + direction + "&sortBy=" + sortBy,
 			5);
 
 		return "book/list-book-by-category";
