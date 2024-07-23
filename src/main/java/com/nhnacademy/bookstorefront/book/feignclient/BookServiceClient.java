@@ -45,7 +45,7 @@ public interface BookServiceClient {
 	ResponseEntity<String> fetchAndSaveBooks(@RequestParam Long count);
 
 	@PostMapping("/fetch")
-	ResponseEntity<String> fetchAndSaveBook(@RequestParam String isbn);
+	ResponseEntity<Void> saveBookByIsbn(@RequestParam String isbn);
 
 	@PostMapping
 	ResponseEntity<Void> createBook(@RequestBody CreateBookRequest request);

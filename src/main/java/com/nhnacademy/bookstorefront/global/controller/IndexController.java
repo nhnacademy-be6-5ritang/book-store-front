@@ -28,4 +28,9 @@ public class IndexController {
 	public String userPage() {
 		return "user/user-account";
 	}
+
+	@GetMapping("/template")
+	public String showTemplate() {
+		return "menu-template";
+	}
 }

@@ -1,198 +1,145 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="zxx">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>책 파는 오리탕집 - 도서 추가</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CSS -->
-    <link rel="stylesheet" th:href="@{/css/plugins.css}"/>
-    <link rel="stylesheet" th:href="@{/css/main.css}"/>
-    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}"/>
+    <title>책 파는 오리탕집</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
 
 <body>
-<div class="site-wrapper" id="top">
-    <!-- Header -->
-    <div th:insert="~{global/header}"></div>
+<header th:insert="~{global/header}"></header>
 
-    <!-- Breadcrumb -->
-    <section class="breadcrumb-section">
-        <div class="container">
-            <div class="breadcrumb-contents">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a th:href="@{/api/books/main}">홈</a></li>
-                        <li class="breadcrumb-item active">도서 추가</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </section>
+<section id="page" class="top-container">
+    <section id="page-menu-container" th:insert="~{fragments/user-menu.html}"></section>
+    <section id="page-content">
+        <section id="page-header">
+            <h5 style="margin: 0 1rem">도서</h5>
+        </section>
+        <section id="page-body">
+            <h3>도서 추가</h3>
+            <!-- Book Form -->
+            <form th:action="@{/api/books}" method="post" id="form">
 
-    <!-- Page Content -->
-    <div class="page-section inner-page-sec-padding">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="row">
-                        <!-- Side Menu -->
-                        <div class="col-lg-3 col-12">
-                            <!-- 관리자 계정 메뉴 -->
-                            <div th:insert="~{fragments/admin-account-menu.html}"></div>
+                <div class="form-group" id="categorySelectionGroup">
+                    <!-- 초기 카테고리 선택란 -->
+                    <div>
+                        <label for="categories" class="mr-2">카테고리 1</label>
+                        <div class="d-flex align-items-center">
+                            <select class="form-control" id="categories"
+                                    name="categories">
+                                <option th:each="category : ${categories}"
+                                        th:value="${category.categoryId}"
+                                        th:text="${category.categoryName}">카테고리 선택
+                                </option>
+                            </select>
                         </div>
-                        <!-- Side Menu End -->
-
-                        <!-- Content Area -->
-                        <div class="col-lg-9 col-12 mt--30 mt-lg--0">
-                            <div class="tab-content" id="myaccountContent">
-                                <!-- Book Tab Content -->
-                                <div class="tab-pane fade show active" id="delivery" role="tabpanel">
-                                    <div class="myaccount-content">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <h3>도서 추가</h3>
-                                        </div>
-                                        <div class="card mt-4">
-                                            <div class="card-body">
-                                                <!-- Book Form -->
-                                                <form th:action="@{/api/books}" method="post" id="form">
-
-                                                    <div class="form-group" id="categorySelectionGroup">
-                                                        <!-- 초기 카테고리 선택란 -->
-                                                        <div>
-                                                            <label for="categories" class="mr-2">카테고리 1</label>
-                                                            <div class="d-flex align-items-center">
-                                                                <select class="form-control" id="categories"
-                                                                        name="categories">
-                                                                    <option th:each="category : ${categories}"
-                                                                            th:value="${category.categoryId}"
-                                                                            th:text="${category.categoryName}">카테고리 선택
-                                                                    </option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- 카테고리 추가 선택 버튼 -->
-                                                    <button type="button" class="btn btn-primary mt-2"
-                                                            onclick="addCategorySelect()">카테고리 항목 추가
-                                                    </button>
-
-                                                    <div class="form-group" id="tagSelectionGroup">
-                                                        <!-- 초기 태그 선택란 -->
-                                                        <div class="tag-select-row">
-
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- 태그 추가 버튼 -->
-                                                    <button type="button" class="btn btn-primary mt-2"
-                                                            onclick="addTagSelect()">태그 항목 추가
-                                                    </button>
-
-                                                    <div class="form-group">
-                                                        <label for="bookTitle">도서 제목</label>
-                                                        <input type="text" class="form-control" id="bookTitle"
-                                                               name="bookTitle" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="authorName">저자 이름</label>
-                                                        <input type="text" class="form-control" id="authorName"
-                                                               name="authorName" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="publisherName">출판사 이름</label>
-                                                        <input type="text" class="form-control" id="publisherName"
-                                                               name="publisherName" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="bookPublishDate">출판일</label>
-                                                        <input type="date" class="form-control" id="bookPublishDate"
-                                                               name="bookPublishDate" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="bookStatusName">도서 상태</label>
-                                                        <select class="form-control" id="bookStatusName"
-                                                                name="bookStatusName" required>
-                                                            <option th:each="bookStatus : ${bookStatuses}"
-                                                                    th:value="${bookStatus.bookStatusName}"
-                                                                    th:text="${bookStatus.bookStatusName}">카테고리 선택
-                                                            </option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>도서 설명</label>
-                                                        <div id="toastUi"></div>
-                                                        <input type="hidden" id="bookDescription"
-                                                               name="bookDescription">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="bookQuantity">재고 수량</label>
-                                                        <input type="number" class="form-control" id="bookQuantity"
-                                                               name="bookQuantity" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="bookIsbn">도서 ISBN</label>
-                                                        <input type="text" class="form-control" id="bookIsbn"
-                                                               name="bookIsbn" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="bookPrice">도서 정가</label>
-                                                        <input type="number" class="form-control" id="bookPrice"
-                                                               name="bookPrice" step="0.01" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="bookSalePercent">도서 할인율</label>
-                                                        <input type="number" class="form-control" id="bookSalePercent"
-                                                               name="bookSalePercent" step="0.01">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="bookSalePrice">도서 할인가</label>
-                                                        <input type="number" class="form-control" id="bookSalePrice"
-                                                               name="bookSalePrice" step="0.01">
-                                                    </div>
-
-                                                    <button type="submit" class="btn btn-primary">
-                                                        추가
-                                                    </button>
-                                                    <a class="btn btn-secondary" onclick="history.back()">취소</a>
-                                                </form>
-                                                <!-- End Book Form -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Book Tab Content End -->
-                            </div>
-                        </div>
-                        <!-- Content Area End -->
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <!-- Page Content End -->
 
-</div>
-<!-- Footer -->
-<div th:insert="~{global/footer}"></div>
+                <!-- 카테고리 추가 선택 버튼 -->
+                <button type="button" class="btn btn-primary mt-2"
+                        onclick="addCategorySelect()">카테고리 항목 추가
+                </button>
 
-<!-- JavaScript -->
-<script th:src="@{/js/plugins.js}"></script>
-<script th:src="@{/js/ajax-mail.js}"></script>
-<script th:src="@{/js/custom.js}"></script>
+                <div class="form-group" id="tagSelectionGroup">
+                    <!-- 초기 태그 선택란 -->
+                    <div class="tag-select-row">
+
+                    </div>
+                </div>
+
+                <!-- 태그 추가 버튼 -->
+                <button type="button" class="btn btn-primary mt-2"
+                        onclick="addTagSelect()">태그 항목 추가
+                </button>
+
+                <div class="form-group">
+                    <label for="bookTitle">도서 제목</label>
+                    <input type="text" class="form-control" id="bookTitle"
+                           name="bookTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="authorName">저자 이름</label>
+                    <input type="text" class="form-control" id="authorName"
+                           name="authorName" required>
+                </div>
+                <div class="form-group">
+                    <label for="publisherName">출판사 이름</label>
+                    <input type="text" class="form-control" id="publisherName"
+                           name="publisherName" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookPublishDate">출판일</label>
+                    <input type="date" class="form-control" id="bookPublishDate"
+                           name="bookPublishDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookStatusName">도서 상태</label>
+                    <select class="form-control" id="bookStatusName"
+                            name="bookStatusName" required>
+                        <option th:each="bookStatus : ${bookStatuses}"
+                                th:value="${bookStatus.bookStatusName}"
+                                th:text="${bookStatus.bookStatusName}">카테고리 선택
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>도서 설명</label>
+                    <div id="toastUi"></div>
+                    <input type="hidden" id="bookDescription"
+                           name="bookDescription">
+                </div>
+                <div class="form-group">
+                    <label for="bookQuantity">재고 수량</label>
+                    <input type="number" class="form-control" id="bookQuantity"
+                           name="bookQuantity" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookIsbn">도서 ISBN</label>
+                    <input type="text" class="form-control" id="bookIsbn"
+                           name="bookIsbn" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookPrice">도서 정가</label>
+                    <input type="number" class="form-control" id="bookPrice"
+                           name="bookPrice" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookSalePercent">도서 할인율</label>
+                    <input type="number" class="form-control" id="bookSalePercent"
+                           name="bookSalePercent" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="bookSalePrice">도서 할인가</label>
+                    <input type="number" class="form-control" id="bookSalePrice"
+                           name="bookSalePrice" step="0.01">
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    추가
+                </button>
+                <a class="btn btn-secondary" onclick="history.back()">취소</a>
+            </form>
+            <!-- End Book Form -->
+        </section>
+    </section>
+</section>
+
+<footer th:insert="~{global/footer}"></footer>
+
+<script th:src="@{/js/my-page.js}"></script>
 <script th:src="@{/js/create-book.js}"></script>
 <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 <script th:inline="javascript">
-    /* 카테고리 옵션들 추가 */
-    var categories = /*[[${categories}]]*/ [];
-
-    /* 태그 옵션들 추가 */
-    var tags = /*[[${tags}]]*/ [];
+    var categories = /*[[${categories}]]*/ [];      /* 카테고리 옵션들 추가 */
+    var tags = /*[[${tags}]]*/ [];                  /* 태그 옵션들 추가 */
 </script>
 </body>
-
 </html>

@@ -9,7 +9,6 @@
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
-    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/user/my-page.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/user/my-info.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
@@ -18,10 +17,10 @@
 <body>
 <header th:insert="~{global/header}"></header>
 
-<section id="my-page" class="top-container">
-    <section id="my-page-menu-container" th:insert="~{fragments/user-menu.html}"></section>
-    <section id="my-page-content">
-        <section id="my-page-header">
+<section id="page" class="top-container">
+    <section id="page-menu-container" th:insert="~{fragments/user-menu.html}"></section>
+    <section id="page-content">
+        <section id="page-header">
             <div style="height: 100%; display: grid; place-items: center;">
                 <div th:if="${myUserInfo.userStatusName == 'ACTIVE'}"
                      style="width: 7px; height: 7px; border-radius: 50%; background-color: #007924"></div>
@@ -30,8 +29,9 @@
             </div>
             <h5 style="margin: 0 1rem" th:text="${myUserInfo.name} + ' 님의 마이 페이지'"></h5>
         </section>
-        <section id="my-page-body">
-            <span style="color: #797979; margin-left: 1.4rem" onmouseover="displayUserGrades()"
+        <hr style="width: 100%"/>
+        <section id="page-body">
+            <span style="color: #797979" onmouseover="displayUserGrades()"
                   onmouseout="hideUserGrades()"
                   th:text="${myUserInfo.userGradeName} + ' ' + ${role}"></span>
             <table class="my-info-table">
@@ -119,6 +119,8 @@
         </section>
     </section>
 </section>
+
+<div th:insert="~{fragments/to-admin-button}"></div>
 
 <footer th:insert="~{global/footer}"></footer>
 
