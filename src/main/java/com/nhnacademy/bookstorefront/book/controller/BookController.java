@@ -183,14 +183,14 @@ public class BookController {
 	}
 
 	/**
-	 * ISBN을 통한 도서정보 조회 및 저장
+	 * ISBN 을 통한 도서정보 조회 및 저장
 	 *
 	 * @param isbn 도서 ISBN
 	 * @return 도서저장결과
 	 */
 	@PostMapping("/fetch")
 	String fetchAndSaveBook(@RequestParam String isbn) {
-		bookService.fetchAndSaveBook(isbn);
+		bookService.saveBookByIsbn(isbn);
 		return REDIRECT_URL;
 	}
 

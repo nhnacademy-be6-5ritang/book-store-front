@@ -161,12 +161,9 @@ class BookServiceImplTest {
 	void testFetchAndSaveBook() {
 		String isbn = "1234567890";
 
-		when(bookServiceClient.fetchAndSaveBook(isbn)).thenReturn(ResponseEntity.ok("Success"));
-
-		ResponseEntity<String> response = bookService.fetchAndSaveBook(isbn);
-
-		assertEquals("Success", response.getBody());
-		verify(bookServiceClient).fetchAndSaveBook(isbn);
+		bookService.saveBookByIsbn(isbn);
+		
+		verify(bookServiceClient).saveBookByIsbn(isbn);
 	}
 
 	@Test
