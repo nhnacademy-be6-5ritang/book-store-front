@@ -66,7 +66,7 @@
                                             <select class="form-control" id="paperId" name="paperId" required>
                                                 <option th:each="paper : ${getAllPaperResponse}"
                                                         th:value="${paper.paperId()}"
-                                                        th:text="${paper.paperName() + '(' + paper.paperPrice() +')'}"></option>
+                                                        th:text="${paper.paperName() + '(' + paper.paperPrice().setScale(0) + '원' +')'}"></option>
                                             </select>
                                         </td>
                                     </tr>

@@ -52,7 +52,7 @@
                         <li>주문 날짜: <strong><span
                                 th:text="${order.orderDate()}"></span></strong></li>
                         <li>총 가격: <strong><span
-                                th:text="${order.price()}"></span></strong></li>
+                                th:text="${order.price().setScale(0)} + 원"></span></strong></li>
                     </ul>
 
                     <h3 class="order-table-title">주문 상품 내역</h3>
@@ -71,7 +71,7 @@
                                         th:text="${list.quantity()}"></span> </strong>
                                 </td>
                                 <td><strong><span
-                                        th:text="${list.getBookResponse().bookPrice() * list.quantity()}"></span></strong></td>
+                                        th:text="${list.getBookResponse().bookPrice().setScale(0) * list.quantity()} + 원"></span></strong></td>
                             </tr>
                             </tbody>
                             <tfoot>
@@ -84,13 +84,13 @@
                             <tr>
                                 <th>할인 가격</th>
                                 <td><strong><span
-                                        th:text="- ${order.couponSale() + order.pointSale() }"></span></strong></td>
+                                        th:text="- ${order.couponSale().setScale(0) + order.pointSale().setScale(0)} + 원"></span></strong></td>
                             </tr>
 
                             <tr>
                                 <th>Total:</th>
                                 <td><strong><span
-                                        th:text="${order.price()}"></span></strong></td>
+                                        th:text="${order.price().setScale(0)} + 원"></span></strong></td>
                             </tr>
                             </tfoot>
                         </table>

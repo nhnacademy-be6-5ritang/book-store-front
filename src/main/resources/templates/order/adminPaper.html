@@ -71,7 +71,7 @@
                                                         <td class="pro-content"><span
                                                                 th:text="${list.paperContent()}"></span></td>
                                                         <td class="pro-date"><span
-                                                                th:text="${list.paperPrice()}"></span></td>
+                                                                th:text="${list.paperPrice().setScale(0)} + 원"></span></td>
                                                         <td class="pro-action">
                                                             <a th:href="@{/api/orders/admin/paper/{paperTypeId}(paperTypeId=${list.paperId()})}">
                                                                 <button class="btn btn-success">삭제</button>

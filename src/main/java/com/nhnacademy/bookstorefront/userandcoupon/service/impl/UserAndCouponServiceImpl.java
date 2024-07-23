@@ -234,7 +234,7 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 	public NoCouponResponseDTO noCouponReturnModel(GetBookOrderResponse orderResponse, GetDeliveryPolicyResponse deliveryPolicyResponse, GetListWrappingResponse wrappingResponse) {
 		// 정액쿠폰인지 체크
 
-		BigDecimal orderPrice= orderResponse.getBookResponse().bookPrice().multiply(BigDecimal.valueOf(orderResponse.quantity()));
+		BigDecimal orderPrice= orderResponse.getBookResponse().bookPrice().multiply(BigDecimal.valueOf(orderResponse.quantity())).setScale(0, RoundingMode.CEILING);
 
 
 
