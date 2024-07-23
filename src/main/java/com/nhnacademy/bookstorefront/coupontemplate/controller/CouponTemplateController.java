@@ -55,7 +55,7 @@ public class CouponTemplateController {
 
 			PagingModel.pagingProcessing(pageable, model, couponTemplates, "/coupons/issue", 5);
 
-			model.addAttribute("coupontemplates", couponTemplates);
+			model.addAttribute("couponTemplates", couponTemplates);
 
 			// 메시지가 있는지 확인
 			if (model.containsAttribute("message")) {
