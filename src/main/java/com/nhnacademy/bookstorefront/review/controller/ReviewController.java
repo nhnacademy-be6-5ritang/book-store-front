@@ -71,23 +71,6 @@ public class ReviewController {
 	}
 
 	/**
-	 * 특정 책에 대한 리뷰 목록을 페이징하여 조회합니다.
-	 *
-	 * @param pageable 페이징 정보
-	 * @param bookId   책 ID
-	 * @param model    데이터 모델
-	 * @return 특정 책에 대한 리뷰 목록 페이지의 뷰 이름
-	 */
-	@GetMapping("/books/{bookId}/reviews/page")
-	public String getBookReviews(@PageableDefault(page = 1, size = 5) Pageable pageable, @PathVariable Long bookId,
-		Model model) {
-		Page<GetReviewResponse> reviews = reviewService.getReviewsByBookId(pageable, bookId);
-		model.addAttribute("reviews", reviews);
-		PagingModel.pagingProcessing(pageable, model, reviews, "/api/books/" + bookId + "/reviews/page", 5);
-		return "review/list-by-book-review";
-	}
-
-	/**
 	 * 리뷰를 생성합니다.
 	 *
 	 * @param request 리뷰 생성 요청 객체
