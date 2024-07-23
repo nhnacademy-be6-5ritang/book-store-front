@@ -11,7 +11,6 @@
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main/main.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/book/book.css}"/>
-    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/pages/list-review-by-book.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
@@ -227,9 +226,9 @@
 
             <!-- 다음 페이지로 이동 -->
             <li th:classappend="${reviews.last} ? 'disabled'">
-                <a
-                        th:href="@{'/api/books/' + ${book.bookId} (page=${reviews.number + 2}, size=${reviews.size}, reviewType=${reviewType})}"
-                        aria-label="Next">
+                <a class="page-link"
+                   th:href="@{'/api/books/' + ${book.bookId} (page=${reviews.number + 2}, size=${reviews.size}, reviewType=${reviewType})}"
+                   aria-label="Next">
                     <span aria-hidden="true">다음 &rsaquo;</span>
                 </a>
             </li>
