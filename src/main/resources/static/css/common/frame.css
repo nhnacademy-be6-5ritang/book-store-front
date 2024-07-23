@@ -40,3 +40,64 @@ a:hover {
 input:focus {
     outline: none;
 }
+
+#page {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 2fr 9fr;
+    margin-bottom: 5rem;
+}
+
+#page-menu-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: start;
+    margin-right: 1rem;
+}
+
+#page-menu-container .my-page-menu-icon {
+    width: 2rem;
+    text-align: center;
+}
+
+#page-menu-container a {
+    width: 100%;
+    height: 4rem;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 1rem;
+    font-size: 1rem;
+    color: #797979;
+    /*border: 1px solid #a8a8a8;*/
+}
+
+#page-menu-container a:hover {
+    font-size: 1.2rem;
+    color: #333333;
+    border-top: 1px solid #F2F2F2;
+    border-bottom: 1px solid #F2F2F2;
+}
+
+#page-content {
+    width: 100%;
+    height: 100%;
+    border-left: 1px solid #c8c8c8;
+    padding: 1.1rem 1.1rem 1.1rem 2.1rem;
+}
+
+#page-header {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+#page-body {
+    margin-left: 1rem;
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+}

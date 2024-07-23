@@ -44,7 +44,10 @@
         <div class="book-carousel">
             <div th:each="book : ${orderedBooksCache}" class="book">
                 <div class="book-thumbnail-container">
-                    <img class="book-thumbnail" th:src="${book.bookImageUrl}"
+                    <img class="book-background-thumbnail" th:src="${book.bookImageUrl}"
+                         th:alt="${book.bookTitle}"
+                         th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
+                    <img class="book-front-thumbnail" th:src="${book.bookImageUrl}"
                          th:alt="${book.bookTitle}"
                          th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
                 </div>
@@ -80,7 +83,10 @@
         <div class="book-carousel">
             <div th:each="book : ${likesBooksCache}" class="book">
                 <div class="book-thumbnail-container">
-                    <img class="book-thumbnail" th:src="${book.bookImageUrl}"
+                    <img class="book-background-thumbnail" th:src="${book.bookImageUrl}"
+                         th:alt="${book.bookTitle}"
+                         th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
+                    <img class="book-front-thumbnail" th:src="${book.bookImageUrl}"
                          th:alt="${book.bookTitle}"
                          th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
                 </div>
@@ -116,7 +122,10 @@
         <div class="book-carousel">
             <div th:each="book : ${newestBooksCache}" class="book">
                 <div class="book-thumbnail-container">
-                    <img class="book-thumbnail" th:src="${book.bookImageUrl}"
+                    <img class="book-background-thumbnail" th:src="${book.bookImageUrl}"
+                         th:alt="${book.bookTitle}"
+                         th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
+                    <img class="book-front-thumbnail" th:src="${book.bookImageUrl}"
                          th:alt="${book.bookTitle}"
                          th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
                 </div>
