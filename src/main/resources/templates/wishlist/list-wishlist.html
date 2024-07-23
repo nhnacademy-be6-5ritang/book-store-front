@@ -23,7 +23,7 @@
     <h3 style="color: #797979">내 좋아요</h3>
     <hr style="margin: 2rem 0">
     <div class="wishlist-container">
-        <div th:if="${wishLists!=null}" th:each="wishlist: ${wishLists}">
+        <div th:if="${!wishLists.isEmpty()}" th:each="wishlist: ${wishLists}">
             <div class="wishlist-item">
                 <div class="wishlist-book">
                     <a th:href="@{/api/books/{bookId} (bookId=${wishlist.bookId})}">
@@ -45,7 +45,7 @@
                         <div>
                             <span style="font-size: 1rem; color: #797979">현재가&nbsp;</span>
                             <span style="font-size: 1.1rem; color: #333333"
-                                  th:text="${wishlist.bookSalePrice} + ' ₩'">Price</span>
+                                  th:text="${#numbers.formatDecimal(wishlist.bookSalePrice, 1, 'COMMA', 0, 'POINT')+'원'}">Price</span>
                         </div>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
             </div>
             <hr>
         </div>
-        <div th:if="${wishLists == null}">
+        <div th:if="${wishLists.isEmpty()}">
             <p>현재 위시리스트가 비어 있습니다.</p>
         </div>
     </div>

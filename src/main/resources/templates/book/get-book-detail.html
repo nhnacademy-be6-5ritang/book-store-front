@@ -22,6 +22,7 @@
         <section id="page-header">
             <h5 style="margin: 0 1rem">도서</h5>
         </section>
+        <hr style="width: 100%"/>
         <section id="page-body">
             <h3>도서 상세정보</h3>
             <!-- 도서 Tab Content Start -->
@@ -71,14 +72,14 @@
                                                   th:text="${book.bookQuantity} + '권'"></span></li>
                                 </ul>
                                 <div>할인율: <span class="price-discount"
-                                                th:text="${book.bookSalePercent + '%'}">할인율 정보 없음</span>
+                                                th:text="${#numbers.formatDecimal(book.bookSalePercent, 1, 'COMMA', 0, 'POINT')} + '%'">할인율 정보 없음</span>
                                 </div>
 
                                 <div class="price-block">
                                     할인가: <span class="price-new"
-                                               th:text="${book.bookSalePrice} + '₩'"></span>
+                                               th:text="${#numbers.formatDecimal(book.bookSalePrice, 1, 'COMMA', 0, 'POINT')} + '원'"></span>
                                     정가: <span class="price-old"
-                                              th:text="${book.bookPrice} + '₩'"></span>
+                                              th:text="${#numbers.formatDecimal(book.bookPrice, 1, 'COMMA', 0, 'POINT')} + '원'"></span>
                                 </div>
 
                                 <p class="tag-block">태그:
@@ -87,7 +88,7 @@
                                                         </span>
                                 </p>
 
-                                <div class="d-flex justify-content-end">
+                                <div class="d-flex inline-text">
                                     <a th:href="@{/api/books/update/{bookId} (bookId=${book.bookId})}"
                                        class="btn btn-warning">편집</a>
                                     <form th:action="@{/api/books/{bookId} (bookId=${book.bookId})}"

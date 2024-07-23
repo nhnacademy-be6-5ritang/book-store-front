@@ -62,13 +62,13 @@
                                     <div>
                                         <span style="font-size: 1rem; color: #797979">현재가&nbsp;</span>
                                         <span style="font-size: 1.4rem; color: #333333"
-                                              th:text="${bookCart.bookSalePrice} + ' ₩'">Price</span>
+                                              th:text="${#numbers.formatDecimal(bookCart.bookSalePrice, 1, 'COMMA', 0, 'POINT')+'원'}">Price</span>
                                     </div>
                                     <div style="display: flex; flex-direction: column; margin-left: 2rem">
                                     <span style="font-size: 0.9rem; color: #797979; text-decoration: line-through"
-                                          th:text="${bookCart.bookPrice() + ' ₩'}">Original Price</span>
+                                          th:text="${#numbers.formatDecimal(bookCart.bookPrice, 1, 'COMMA', 0, 'POINT')+'원'}">Original Price</span>
                                         <span style="font-size: 0.9rem; color: #D90000"
-                                              th:text="'-' + ${bookCart.bookSalePercent} + '%'">Discount</span>
+                                              th:text="'-' + ${#numbers.formatDecimal(bookCart.bookSalePercent, 1, 'COMMA', 0, 'POINT')+'%'}">Discount</span>
                                     </div>
                                 </div>
                             </div>
@@ -78,11 +78,12 @@
                                    th:text="${bookCart.bookTitle}">Book Title</a>
 
                                 <p class="bookCart_price">
-                                    <span th:text="${bookCart.bookSalePrice} + '원'">11,700원</span>
+                                    <span th:text="${#numbers.formatDecimal(bookCart.bookSalePrice, 1, 'COMMA', 0, 'POINT')+'원'}"></span>
+
                                     <span class="bookCart_regular_price"
-                                          th:text="${bookCart.bookPrice} + '원'">13,000원</span>
+                                          th:text="${#numbers.formatDecimal(bookCart.bookPrice, 1, 'COMMA', 0, 'POINT')+'원'} + '원'">13,000원</span>
                                     <span class="bookCart_discount"
-                                          th:text="'(' + ${bookCart.bookSalePercent} + '% 할인)'">(10% 할인)</span>
+                                          th:text="'(' + ${#numbers.formatDecimal(bookCart.bookSalePercent, 1, 'COMMA', 0, 'POINT')+'원'} + '% 할인)'">(10% 할인)</span>
                                 </p>
                                 <p class="bookCart_inventoryQuantity"
                                    th:text="'재고: ' + ${bookCart.inventorQuantity}"></p>
@@ -107,7 +108,7 @@
                         </div>
                     </td>
                     <td class="bookCart_total inline-text" style="width: 120px; text-align: center">
-                        <span th:text="${bookCart.bookSalePrice * bookCart.bookQuantity} + '원'">23,400원</span>
+                        <span th:text="${#numbers.formatDecimal(bookCart.bookSalePrice * bookCart.bookQuantity, 1, 'COMMA', 0, 'POINT')+'원'}"></span>
                     </td>
                     <td class="add-to-bookCart">
                         <div class="bookcart-actions">

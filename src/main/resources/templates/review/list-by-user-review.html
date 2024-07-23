@@ -23,6 +23,7 @@
         <section id="page-header">
             <h5 style="margin: 0 1rem">리뷰</h5>
         </section>
+        <hr style="width: 100%"/>
         <section id="page-body">
             <h3>작성한 리뷰 리스트</h3>
             <h3>
@@ -161,6 +162,10 @@
         </section>
     </section>
 </section>
+
+<div id="to-admin-container" class="top-container">
+    <a th:href="@{/api/users/admin}">관리자이신가요?</a>
+</div>
 
 <footer th:insert="~{global/footer}"></footer>
 
