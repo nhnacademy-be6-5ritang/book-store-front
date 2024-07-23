@@ -105,13 +105,13 @@ public class ReviewController {
 	 * @return 사용자의 리뷰 목록 페이지의 뷰 이름
 	 */
 	@GetMapping("/users/me/reviews/page")
-	public String getBookReviews(@PageableDefault(page = 1, size = 5) Pageable pageable, Model model,
-		@RequestParam(required = false) String reviewType) {
+	public String getReviewsByUserId(@PageableDefault(page = 1, size = 5) Pageable pageable, Model model,
+		@RequestParam(required = false, defaultValue = "전체") String reviewType) {
 
 		List<GetBookTitleResponse> possibleBooks = reviewService.getBooksByOrderStatusCompletionAndUserId();
 		model.addAttribute("possibleBooks", possibleBooks);
 
-		Page<GetReviewResponse> reviews = null;
+		Page<GetReviewResponse> reviews;
 		if (reviewType != null && reviewType.equals("일반")) {
 			reviews = reviewService.getGeneralReviewsByUserId(pageable);
 		} else if (reviewType != null && reviewType.equals("사진")) {
@@ -122,21 +122,8 @@ public class ReviewController {
 
 		model.addAttribute("reviewType", reviewType);
 		model.addAttribute("reviews", reviews);
-		int blockLimit = 5;
-		int startPage = 1; // 1 4 7 10 ~~
-		int endPage = 1;
-
-		if (!reviews.isEmpty()) {
-			// 검색 결과가 있는 경우에만 페이지 번호 계산
-			int adjustedPage = Math.max(pageable.getPageNumber(), 1);
-			startPage = (((int)(Math.ceil((double)adjustedPage / blockLimit))) - 1) * blockLimit + 1;
-			endPage = Math.min((startPage + blockLimit - 1), reviews.getTotalPages());
-		}
-
-		model.addAttribute("pageable", pageable);
-		model.addAttribute("blockLimit", blockLimit);
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("endPage", endPage);
+		PagingModel.pagingProcessing(pageable, model, reviews,
+			"/api/users/me/reviews/page" + "?reviewType=" + reviewType, 5);
 
 		return "review/list-by-user-review";
 	}

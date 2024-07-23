@@ -38,3 +38,10 @@
     object-fit: cover;
     border-radius: 8px;
 }
+
+.review-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}

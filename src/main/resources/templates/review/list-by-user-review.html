@@ -26,33 +26,33 @@
         <hr style="width: 100%"/>
         <section id="page-body">
             <h3>작성한 리뷰 리스트</h3>
-            <h3>
-                <label>
-                    <select th:if="${possibleBooks.size() > 0}"
-                            class="form-control" id="bookId"
-                            name="bookId" required>
-                        <option value="">도서를 선택하세요</option>
-                        <option th:each="book : ${possibleBooks}"
-                                th:value="${book.bookId}"
-                                th:text="${book.bookTitle}">
-                        </option>
-                    </select>
-                </label>
-            </h3>
-            <h3>
-                <a th:if="${possibleBooks.size() > 0}" class="btn btn-primary"
-                   onclick="submitReviewForm()">리뷰 작성</a>
-                <a th:if="${possibleBooks.size() < 1}"> 작성 가능한 리뷰가 없습니다.</a>
-            </h3>
-            <hr style="width: 100%"/>
-            <h3><a>리뷰 (<span th:text="${reviews.getTotalElements()}"></span>)</a></h3>
-            <div class="d-flex">
-                <h3><a th:href="@{/api/users/me/reviews/page (reviewType='전체')}"
-                       class="btn btn-primary">전체리뷰 </a></h3>
-                <h3><a th:href="@{/api/users/me/reviews/page (reviewType='일반')}"
-                       class="btn btn-primary">일반리뷰 </a></h3>
-                <h3><a th:href="@{/api/users/me/reviews/page (reviewType='사진')}"
-                       class="btn btn-primary">사진리뷰 </a></h3>
+            <label>
+                <select th:if="${possibleBooks.size() > 0}"
+                        class="form-control" id="bookId"
+                        name="bookId" required>
+                    <option value="">도서를 선택하세요</option>
+                    <option th:each="book : ${possibleBooks}"
+                            th:value="${book.bookId}"
+                            th:text="${book.bookTitle}">
+                    </option>
+                </select>
+            </label>
+
+            <p th:if="${possibleBooks.size() > 0}" class="btn btn-primary"
+               onclick="submitReviewForm()">리뷰 작성</p>
+            <p th:if="${possibleBooks.size() < 1}"> 작성 가능한 리뷰가 없습니다.</p>
+
+            <hr style="width: 100%; text-align: center"/>
+            <p style="color: #a8a8a8; font-size: 1.2rem; font-weight: bold; text-align: center"
+               th:text="${reviewType} + ' 리뷰 (' + ${reviews.getTotalElements()} + ')'">
+            </p>
+            <div class="review-button-container">
+                <a th:href="@{/api/users/me/reviews/page (reviewType='전체')}"
+                   class="btn btn-primary">전체리뷰 </a>
+                <a th:href="@{/api/users/me/reviews/page (reviewType='일반')}"
+                   class="btn btn-primary">일반리뷰 </a>
+                <a th:href="@{/api/users/me/reviews/page (reviewType='사진')}"
+                   class="btn btn-primary">사진리뷰 </a>
             </div>
 
             <div th:if="${reviews.getContent().size() == 0}" style="text-align: center">
