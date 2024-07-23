@@ -11,7 +11,6 @@
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main/main.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/book/book.css}"/>
-    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/pages/list-review-by-book.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
@@ -87,13 +86,13 @@
         <div class="info-table two-data-columns">
             <div style="font-size: 12px;" th:if="${book.bookSalePercent != 0.00}">
                 <span style="width: 80px; color: #a8a8a8; text-decoration: line-through;"
-                      th:text="${book.bookPrice} + '₩'"></span>
+                      th:text="${#numbers.formatDecimal(book.bookPrice, 1, 'COMMA', 0, 'POINT') + ' 원'}"></span>
                 <span style="width: 220px; color: #D90000; font-weight: bold"
-                      th:text="${'-' + book.bookSalePercent + '%'}"></span>
+                      th:text="${'-' + #numbers.formatDecimal(book.bookSalePercent, 1, 'COMMA', 0, 'POINT') + ' %'}"></span>
             </div>
             <div style="margin-right: 13.1rem" th:if="${book.bookSalePercent == 0.00}">
                 <span class="table-data" style="font-size:1.3rem; font-weight: bold"
-                      th:text="${book.bookSalePrice} + ' ₩'"></span>
+                      th:text="${#numbers.formatDecimal(book.bookSalePrice, 1, 'COMMA', 0, 'POINT')} + ' 원'"></span>
             </div>
             <div>
                 <span class="table-label">포인트</span>
@@ -104,7 +103,7 @@
         <div class="info-table" th:if="${book.bookSalePercent != 0.00}">
             <div style="margin-right: 13.1rem">
                 <span class="table-data" style="font-size:1.3rem; font-weight: bold"
-                      th:text="${book.bookSalePrice} + ' ₩'"></span>
+                      th:text="${#numbers.formatDecimal(book.bookSalePrice, 1, 'COMMA', 0, 'POINT')} + ' 원'"></span>
             </div>
         </div>
         <br/>
@@ -164,23 +163,6 @@
     <a th:href="@{/api/books/{bookId} (bookId=${book.bookId}, reviewType='사진')}"
        class="btn btn-primary">사진리뷰 </a>
 
-    <!--    <ul id="reviews" role="tablist">-->
-    <!--        <li class="nav-item">-->
-    <!--            <a class="nav-link active" id="reviews1" data-bs-toggle="tab" href="#reviews-1" role="tab"-->
-    <!--               aria-controls="tab-1" aria-selected="true">전체 리뷰 (<span-->
-    <!--                    th:text="${reviews.getTotalElements()}"></span>)</a>-->
-    <!--        </li>-->
-    <!--        <li class="nav-item">-->
-    <!--            <a class="nav-link" id="reviews2" data-bs-toggle="tab" href="#reviews-2" role="tab"-->
-    <!--               aria-controls="tab-2" aria-selected="true">일반 리뷰 (<span-->
-    <!--                    th:text="${generalReviews.getTotalElements()}"></span>)</a>-->
-    <!--        </li>-->
-    <!--        <li class="nav-item">-->
-    <!--            <a class="nav-link" id="reviews3" data-bs-toggle="tab" href="#reviews-3" role="tab"-->
-    <!--               aria-controls="tab-2" aria-selected="true">포토 리뷰 (<span-->
-    <!--                    th:text="${photoReviews.getTotalElements()}"></span>)</a>-->
-    <!--        </li>-->
-    <!--    </ul>-->
     <div th:if="${reviews.getContent().size() == 0}" style="text-align: center">
         <span>등록된 리뷰가 없습니다.</span>
     </div>
@@ -244,9 +226,9 @@
 
             <!-- 다음 페이지로 이동 -->
             <li th:classappend="${reviews.last} ? 'disabled'">
-                <a
-                        th:href="@{'/api/books/' + ${book.bookId} (page=${reviews.number + 2}, size=${reviews.size}, reviewType=${reviewType})}"
-                        aria-label="Next">
+                <a class="page-link"
+                   th:href="@{'/api/books/' + ${book.bookId} (page=${reviews.number + 2}, size=${reviews.size}, reviewType=${reviewType})}"
+                   aria-label="Next">
                     <span aria-hidden="true">다음 &rsaquo;</span>
                 </a>
             </li>

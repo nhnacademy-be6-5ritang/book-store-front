@@ -1,9 +1,9 @@
 package com.nhnacademy.bookstorefront.delivery.service;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.nhnacademy.bookstorefront.delivery.dto.request.CreateDeliveryRequest;
-import com.nhnacademy.bookstorefront.delivery.dto.request.GetDeliveriesRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.request.UpdateDeliveryByOrderIdRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.request.UpdateDeliveryRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.response.CreateDeliveryResponse;
@@ -12,7 +12,7 @@ import com.nhnacademy.bookstorefront.delivery.dto.response.UpdateDeliveryAddOrde
 import com.nhnacademy.bookstorefront.delivery.dto.response.UpdateDeliveryResponse;
 
 public interface DeliveryService {
-	Page<GetDeliveryResponse> getDeliveriesByUserId(int page, int size, String sort, GetDeliveriesRequest request);
+	Page<GetDeliveryResponse> getDeliveriesByUserId(Pageable pageable);
 
 	GetDeliveryResponse getDelivery(Long deliveryId);
 

@@ -84,13 +84,13 @@
                                                                 th:utext="${orderList.getBookResponse().bookDescription()}"></span>
                                                         </li>
                                                         <li><strong>도서 가격</strong> <span
-                                                                th:text="${orderList.getBookResponse().bookPrice()}"></span>
+                                                                th:text="${orderList.getBookResponse().bookPrice().setScale(0)} + 원"></span>
                                                         </li>
                                                         <li><strong>수량</strong> <span
                                                                 th:text="${orderList.quantity()}"></span>
                                                         </li>
                                                         <li><strong>주문 가격</strong> <span
-                                                                th:text="${orderList.quantity() * orderList.getBookResponse().bookPrice()}"></span>
+                                                                th:text="${orderList.quantity() * orderList.getBookResponse().bookPrice().setScale(0)} + 원"></span>
                                                         </li>
 
                                                     </ul>
@@ -107,7 +107,7 @@
                                                                 </td>
                                                                 <td th:if="${selectCoupon.salePrice != null}">
                                                                     <strong>할인 가격:</strong> <span
-                                                                        th:text="${selectCoupon.salePrice}"></span>
+                                                                        th:text="${selectCoupon.salePrice.setScale(0)} + 원"></span>
                                                                 </td>
                                                                 <td th:if="${selectCoupon.saleRate != null}">
                                                                     <strong>할인율:</strong> <span
@@ -115,7 +115,7 @@
                                                                 </td>
                                                                 <td th:if="${selectCoupon.maxSalePrice != null}">
                                                                     <strong>최대 할인 가격:</strong> <span
-                                                                        th:text="${selectCoupon.maxSalePrice}"></span>
+                                                                        th:text="${selectCoupon.maxSalePrice.setScale(0)} + 원"></span>
                                                                 </td>
                                                             </tr>
                                                             <tr th:if="${selectCoupon == null}">
@@ -128,16 +128,16 @@
 
                                                     <div id="coupon-info" th:if="${selectCoupon != null && oneResult != null}">
                                                             <p><strong>주문 가격:</strong> <span
-                                                                    th:text="${oneResult.orderPrice()}"></span></p>
+                                                                    th:text="${oneResult.orderPrice().setScale(0)} + 원 "></span></p>
                                                             <p><strong>쿠폰 적용 금액:</strong> <span
-                                                                    th:text="${oneResult.discount()}"></span>
+                                                                    th:text="${oneResult.discount().setScale(0)} + 원"></span>
                                                                 <input type="hidden" name="couponSale"
                                                                        th:value="${oneResult.discount()}"/>
                                                                 <input type="hidden" name="couponId"
                                                                        th:value="${selectCoupon.id()}"/>
                                                             </p>
                                                             <p><strong>쿠폰 적용 후 가격:</strong> <span
-                                                                    th:text="${oneResult.orderPriceAfterCoupon()}"></span>
+                                                                    th:text="${oneResult.orderPriceAfterCoupon()} + 원"></span>
                                                             </p>
                                                             <p th:each="wrapping : ${wrappingList.wrapping()}">
                                                                 <li><strong>포장지:</strong> <span
@@ -145,28 +145,28 @@
                                                                 <li><strong>수량:</strong> <span
                                                                         th:text="${wrapping.quantity()}"></span></li>
                                                                 <li><strong>포장비:</strong> <span
-                                                                        th:text="${wrapping.price()}"></span></li>
+                                                                        th:text="${wrapping.price().setScale(0)} + 원"></span></li>
                                                             </p>
 
                                                             <p>배송비: <span
-                                                                    th:text="${delivery.deliveryPolicyPrice()}"></span>
+                                                                    th:text="${delivery.deliveryPolicyPrice().setScale(0)} + 원"></span>
                                                             </p>
                                                             <p><strong>포인트 차감전 가격(포장지, 배송비 추가):</strong> <span
                                                                     id="orderPriceBeforePoint"
-                                                                    th:text="${oneResult.orderPriceBeforePoint()}"></span>
+                                                                    th:text="${oneResult.orderPriceBeforePoint().setScale(0)} + 원"></span>
                                                             </p>
                                                     </div>
                                                     <div id="no-coupon-info"
                                                          th:if="${selectCoupon == null && noResult != null}">
                                                         <p><strong>주문 가격:</strong> <span
-                                                                th:text="${noResult.orderPrice()}"></span></p>
+                                                                th:text="${noResult.orderPrice().setScale(0)} + 원"></span></p>
                                                         <p><strong>쿠폰 적용 금액:</strong> <span
-                                                                th:text="${noResult.discount()}"></span>
+                                                                th:text="${noResult.discount().setScale(0)} + 원"></span>
                                                             <input type="hidden" name="couponSale"
                                                                    th:value="${noResult.discount()}"/>
                                                         </p>
                                                         <p><strong>쿠폰 적용 후 가격:</strong> <span
-                                                                th:text="${noResult.orderPrice()}"></span></p>
+                                                                th:text="${noResult.orderPrice().setScale(0)} + 원"></span></p>
                                                         <!-- 포장지 및 배송비 -->
                                                         <p th:each="wrapping : ${wrappingList.wrapping()}">
                                                             <li><strong>포장지:</strong> <span
@@ -174,22 +174,22 @@
                                                             <li><strong>수량:</strong> <span
                                                                     th:text="${wrapping.quantity()}"></span></li>
                                                             <li><strong>포장비:</strong> <span
-                                                                    th:text="${wrapping.price()}"></span></li>
+                                                                    th:text="${wrapping.price().setScale(0)} + 원"></span></li>
                                                         </p>
 
                                                         <p>배송비: <span
-                                                                th:text="${delivery.deliveryPolicyPrice()}"></span>
+                                                                th:text="${delivery.deliveryPolicyPrice().setScale(0)} + 원"></span>
                                                         </p>
                                                         <p><strong>포인트 차감전 가격(포장지, 배송비 추가):</strong> <span
                                                                 id="orderPriceBeforePointWithoutCoupon"
-                                                                th:text="${noResult.orderPriceBeforePoint()}"></span>
+                                                                th:text="${noResult.orderPriceBeforePoint().setScale(0)} + 원"></span>
                                                         </p>
                                                     </div>
                                                     <div id="none-member"
                                                          th:if="${selectCoupon == null && noResultByNone != null}">
                                                         <!--비회원의 경우 쿠폰 적용 x-->
                                                         <p><strong>주문 가격:</strong> <span
-                                                                th:text="${noResultByNone.orderPrice()}"></span></p>
+                                                                th:text="${noResultByNone.orderPrice().setScale(0)} + 원"></span></p>
                                                             <input type="hidden" name="couponSale"
                                                                    th:value="${noResultByNone.discount()}"/>
                                                         <!-- 포장지 및 배송비 -->
@@ -199,22 +199,22 @@
                                                             <li><strong>수량:</strong> <span
                                                                     th:text="${wrapping.quantity()}"></span></li>
                                                             <li><strong>포장비:</strong> <span
-                                                                    th:text="${wrapping.price()}"></span></li>
+                                                                    th:text="${wrapping.price().setScale(0)} + 원"></span></li>
                                                         </p>
 
                                                         <p>배송비: <span
-                                                                th:text="${delivery.deliveryPolicyPrice()}"></span>
+                                                                th:text="${delivery.deliveryPolicyPrice().setScale(0)} + 원"></span>
                                                         </p>
                                                         <p><strong>포인트 차감전 가격(포장지, 배송비 추가):</strong> <span
                                                                 id="orderPriceNoneMember"
-                                                                th:text="${noResultByNone.orderPriceBeforePoint()}"></span>
+                                                                th:text="${noResultByNone.orderPriceBeforePoint().setScale(0)} + 원"></span>
                                                         </p>
                                                     </div>
 
 
                                                     <div th:if="${point != null}">
                                                         <p>보유 포인트 <span id="pointDiscount"
-                                                                        th:text="${point.userPoint()}"></span></p>
+                                                                        th:text="${point.userPoint().setScale(0)}"></span></p>
                                                         <p>사용할 포인트 입력</p>
                                                         <label for="pointInput"></label><input type="number"
                                                                                                id="pointInput"
@@ -269,8 +269,9 @@ Footer Area
             // orderPriceNoneMember의 값을 가져옵니다.
             const orderPriceBeforePoint = parseFloat(orderPriceNoneMemberElement.textContent) || 0;
 
-            // 최종 가격을 grandTotal에 설정합니다.
-            grandTotal.textContent = orderPriceBeforePoint.toFixed(2);
+            // 최종 가격을 소수점 없이 포맷하고 '원' 기호를 추가합니다.
+            // grandTotal에 포맷된 가격을 설정합니다.
+            grandTotal.textContent = `${Math.round(orderPriceBeforePoint)}원`;
 
             // hidden input에 값 설정
             const orderPriceInput = document.getElementById('orderPrice');
@@ -369,11 +370,13 @@ Footer Area
             console.log("Final price is less than 0");
             pointExceedWarning.style.display = 'block'; // 경고 메시지를 보이게 설정
             pointInput.value = 0; // 포인트 입력 초기화
-            grandTotal.textContent = orderPriceBeforePoint.toFixed(2);
+
+            grandTotal.textContent = `${Math.round(orderPriceBeforePoint)}원`;
+
             orderPriceElement.value = orderPriceBeforePoint.toFixed(2); // orderPrice를 orderPriceBeforePoint로 설정
         } else {
             pointExceedWarning.style.display = 'none'; // 경고 메시지를 숨김
-            grandTotal.textContent = finalPrice.toFixed(2);
+            grandTotal.textContent = `${Math.round(finalPrice)}원`;
             orderPriceElement.value = finalPrice.toFixed(2); // orderPrice를 finalPrice로 설정
         }
     }

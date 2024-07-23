@@ -12,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.nhnacademy.bookstorefront.global.controller.payload.ErrorStatus;
 
@@ -34,9 +35,14 @@ public class GlobalExceptionHandler {
 	 */
 	@ExceptionHandler(FeignException.class)
 	public ModelAndView handleFeignStatusException(FeignException exception, Model model) {
+		if (exception.status() == HttpStatus.FORBIDDEN.value()
+			|| exception.status() == HttpStatus.UNAUTHORIZED.value()) {
+			// 403 예외인 경우 로그인 페이지로 리다이렉트
+			return new ModelAndView(new RedirectView("/auth/login"));
+		}
+
 		ModelAndView modelAndView = new ModelAndView("global/error");
 		modelAndView.addObject("message", exception.getMessage());
-
 		modelAndView.setStatus(HttpStatus.valueOf(exception.status()));
 
 		return modelAndView;

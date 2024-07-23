@@ -2,10 +2,8 @@ package com.nhnacademy.bookstorefront.delivery.dto.response;
 
 import java.time.LocalDateTime;
 
-import lombok.Builder;
-
-@Builder
 public record GetDeliveryResponse(
+	Long deliveryId,
 	String deliverySenderName,
 	String deliverySenderPhone,
 	LocalDateTime deliverySenderDate,

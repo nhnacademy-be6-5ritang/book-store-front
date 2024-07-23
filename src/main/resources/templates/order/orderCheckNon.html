@@ -8,87 +8,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/order/order-non.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
 </head>
 
 
 <body>
-<div class="site-wrapper" id="top">
-    <!--=================================
-    Header Area
-    ===================================== -->
-    <div th:insert="~{global/header}"></div>
+<header th:insert="~{global/header}"></header>
 
-    <section class="breadcrumb-section">
-        <h2 class="sr-only">Site Breadcrumb</h2>
-        <div class="container">
-            <div class="breadcrumb-contents">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a th:href="@{/api/categories/main}">홈</a></li>
-                        <li class="breadcrumb-item active">주문 확인</li>
-                    </ol>
-                </nav>
+<section id="page" class="top-container">
+    <section id="page-menu-container" th:insert="~{fragments/user-menu.html}"></section>
+    <section id="page-content">
+        <section id="page-header">
+            <h5 style="margin: 0 1rem">비회원 주문 확인</h5>
+        </section>
+        <hr style="width: 100%"/>
+        <section id="page-body">
+            <div class="order-non-input-container">
+                <h6 style="font-weight: bold; color: #797979">주문 정보 입력</h6>
+                <br/>
+                <form th:action="@{/api/orders/orderCheck/Non}" method="post">
+                    <table>
+                        <tr>
+                            <td style="text-align: end">
+                                <label for="order-id-input"><i class="fa-solid fa-credit-card"></i></label>
+                            </td>
+                            <td>
+                                <input id="order-id-input" type="text" name="orderInfoId" placeholder="주문 번호를 입력해주세요">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><br/></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: end">
+                                <label for="email-input"><i class="fas fa-envelope"></i></label>
+                            </td>
+                            <td>
+                                <input id="email-input" type="email" name="payerEmail" placeholder="결제자 이메일을 입력해주세요">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><br/></td>
+                        </tr>
+                    </table>
+                    <button type="submit">검색하기
+                    </button>
+                </form>
             </div>
-        </div>
+        </section>
     </section>
+</section>
 
-    <div class="page-section inner-page-sec-padding">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="row">
-                        <!-- My Account Tab Menu Start -->
-                        <div class="col-lg-3 col-12">
-                            <!-- 관리자 계정 메뉴 -->
-                            <div th:insert="~{fragments/user-account-menu.html}"></div>
-                        </div>
-                        <!-- My Account Tab Menu End -->
-                        <!-- My Account Tab Content Start -->
-                        <div class="col-lg-9 col-12 mt--30 mt-lg--0">
-                            <div class="tab-content" id="myaccountContent">
-                                <div class="cart_area inner-page-sec-padding-bottom">
-                                    <div class="container">
-                                        <div class="page-section-title">
-                                            <h1>비회원 주문 확인</h1>
-                                        </div>
-                                        <form th:action="@{/api/orders/orderCheck/Non}"
-                                              method="post">
-                                            <div class="col-lg-12 mb--20">
-                                                <!-- Billing Address -->
-                                                <div id="billing-form" class="mb-40">
-                                                    <h4 class="checkout-title">주문 정보 입력</h4>
-                                                    <div class="row">
-                                                        <div class="col-12 mb--20">
-                                                            <label>주문 보안 아이디</label>
-                                                            <input type="text" name="orderInfoId">
-                                                        </div>
-                                                        <div class="col-12 mb--20">
-                                                            <label>결제자 이메일</label>
-                                                            <input type="email" name="payerEmail">
-                                                        </div>
-                                                        <div>
-                                                            <button class="place-order w-100" type="submit">검색하기</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div id="to-admin-container" class="top-container">
+    <a th:href="@{/api/users/admin}">관리자이신가요?</a>
 </div>
 
-<!--=================================
-Footer Area
-===================================== -->
-<div th:insert="~{global/footer}"></div>
+<footer th:insert="~{global/footer}"></footer>
 
 <!-- Use Minified Plugins Version For Fast Page Load -->
 <script th:src="@{/js/plugins.js}"></script>

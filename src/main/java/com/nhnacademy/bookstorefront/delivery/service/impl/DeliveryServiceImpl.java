@@ -1,10 +1,10 @@
 package com.nhnacademy.bookstorefront.delivery.service.impl;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.delivery.dto.request.CreateDeliveryRequest;
-import com.nhnacademy.bookstorefront.delivery.dto.request.GetDeliveriesRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.request.UpdateDeliveryByOrderIdRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.request.UpdateDeliveryRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.response.CreateDeliveryResponse;
@@ -22,9 +22,8 @@ public class DeliveryServiceImpl implements DeliveryService {
 	private final DeliveryServiceClient deliveryServiceClient;
 
 	@Override
-	public Page<GetDeliveryResponse> getDeliveriesByUserId(int page, int size, String sort,
-		GetDeliveriesRequest request) {
-		return deliveryServiceClient.getDeliveriesByUserId(page, size, sort, request).getBody();
+	public Page<GetDeliveryResponse> getDeliveriesByUserId(Pageable pageable) {
+		return deliveryServiceClient.getDeliveriesByUserId(pageable).getBody();
 	}
 
 	@Override

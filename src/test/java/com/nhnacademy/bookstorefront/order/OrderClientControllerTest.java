@@ -1,5 +1,23 @@
 package com.nhnacademy.bookstorefront.order;
 
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
 import com.nhnacademy.bookstorefront.bookcart.dto.response.GetBookCartResponse;
@@ -28,7 +46,6 @@ import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAdminAllPaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
-import com.nhnacademy.bookstorefront.order.dto.response.GetAllOrderByStatusResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllPaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllRefundResponse;
@@ -51,25 +68,6 @@ import com.nhnacademy.bookstorefront.order.service.Impl.WrappingPaperServiceImpl
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.NoCouponResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCouponOrderResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.service.UserAndCouponService;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-
-import java.util.List;
 
 import jakarta.servlet.http.Cookie;
 
@@ -123,11 +121,11 @@ class OrderClientControllerTest {
 		MockitoAnnotations.openMocks(this);
 		mockMvc = MockMvcBuilders.standaloneSetup(new OrderClientController(
 				bookOrderServiceImpl,
-				orderServiceImpl,paperTypeServiceImpl,
+				orderServiceImpl, paperTypeServiceImpl,
 				wrappingPaperServiceImpl,
 				deliveryServiceImpl,
-				bookServiceImpl,deliveryPolicyServiceImpl,
-				refundPolicyServiceImpl,userAndCouponService,bookCartService,orderStatusServiceImpl))
+				bookServiceImpl, deliveryPolicyServiceImpl,
+				refundPolicyServiceImpl, userAndCouponService, bookCartService, orderStatusServiceImpl))
 			.build();
 		objectMapper = new ObjectMapper();
 	}
@@ -215,26 +213,32 @@ class OrderClientControllerTest {
 			.andExpect(redirectedUrl("/api/deliveries/1"));
 	}
 
-
 	@Test
 	void testCreateOrder() throws Exception {
 		// 더미 데이터 생성
-		GetBookOrderGetBookResponse bookResponse = new GetBookOrderGetBookResponse("Test Book", new BigDecimal("10.00"), "Test Description", 1L);
+		GetBookOrderGetBookResponse bookResponse = new GetBookOrderGetBookResponse("Test Book", new BigDecimal("10.00"),
+			"Test Description", 1L);
 		GetBookOrderResponse bookOrderResponse = new GetBookOrderResponse(bookResponse, 1, 1L, 1L);
 
-		GetWrappingResponse wrappingResponse1 = new GetWrappingResponse(1L, "Wrapping Paper 1", new BigDecimal("2.00"), 1);
-		GetWrappingResponse wrappingResponse2 = new GetWrappingResponse(2L, "Wrapping Paper 2", new BigDecimal("3.00"), 2);
-		GetListWrappingResponse wrappingResponse = new GetListWrappingResponse(Arrays.asList(wrappingResponse1, wrappingResponse2));
+		GetWrappingResponse wrappingResponse1 = new GetWrappingResponse(1L, "Wrapping Paper 1", new BigDecimal("2.00"),
+			1);
+		GetWrappingResponse wrappingResponse2 = new GetWrappingResponse(2L, "Wrapping Paper 2", new BigDecimal("3.00"),
+			2);
+		GetListWrappingResponse wrappingResponse = new GetListWrappingResponse(
+			Arrays.asList(wrappingResponse1, wrappingResponse2));
 
 		GetUserPointOrderResponse pointResponse = new GetUserPointOrderResponse(new BigDecimal("100.00"));
 
-		GetDeliveryPolicyResponse deliveryPolicyResponse = new GetDeliveryPolicyResponse(1L, "Standard Delivery", new BigDecimal("5.00"), "Delivery within 5 days", new BigDecimal("50.00"));
+		GetDeliveryPolicyResponse deliveryPolicyResponse = new GetDeliveryPolicyResponse(1L, "Standard Delivery",
+			new BigDecimal("5.00"), "Delivery within 5 days", new BigDecimal("50.00"));
 
 		// Mock 설정
 		when(bookOrderServiceImpl.getBookOrder(anyLong())).thenReturn(bookOrderResponse);
 		when(wrappingPaperServiceImpl.getWrappingPaperByOrderListId(anyLong())).thenReturn(wrappingResponse);
 		when(orderServiceImpl.getUserPoint()).thenReturn(pointResponse);
-		when(deliveryPolicyServiceImpl.findByDeliveryPolicyStandardPriceLessThanEqualOrderByDeliveryPolicyStandardPriceDesc(anyLong(), any(BigDecimal.class)))
+		when(
+			deliveryPolicyServiceImpl.findByDeliveryPolicyStandardPriceLessThanEqualOrderByDeliveryPolicyStandardPriceDesc(
+				anyLong(), any(BigDecimal.class)))
 			.thenReturn(deliveryPolicyResponse);
 
 		// 테스트 수행
@@ -249,8 +253,6 @@ class OrderClientControllerTest {
 			.andExpect(model().attributeExists("delivery"))
 			.andExpect(model().attributeExists("point"));
 	}
-
-
 
 	@Test
 	void testCompleteOrder() throws Exception {
@@ -344,18 +346,19 @@ class OrderClientControllerTest {
 
 		// 배송 정보
 		LocalDateTime deliveryTime = LocalDateTime.now().minusDays(1);
-		GetDeliveryResponse deliveryResponse = GetDeliveryResponse.builder()
-			.deliverySenderName("Online Store")
-			.deliverySenderPhone("010-1234-5678")
-			.deliverySenderDate(deliveryTime)
-			.deliverySenderAddress("Warehouse #1, Industrial Park")
-			.deliveryReceiver("John Doe")
-			.deliveryReceiverPhone("010-9876-5432")
-			.deliveryReceiverDate(deliveryTime)
-			.deliveryReceiverAddress("123 Main St, Anytown")
-			.orderId(1L)
-			.deliveryStatusName("배송완료")
-			.build();
+		GetDeliveryResponse deliveryResponse = new GetDeliveryResponse(
+			1L,
+			"Online Store",
+			"010-1234-5678",
+			deliveryTime,
+			"Warehouse #1, Industrial Park",
+			"John Doe",
+			"01098765432",
+			deliveryTime,
+			"123 Main St, Anytown",
+			1L,
+			"배송완료"
+		);
 
 		// 환불 정책 정보 설정
 		GetAllRefundResponse allRefundResponse = GetAllRefundResponse.builder()
@@ -523,7 +526,6 @@ class OrderClientControllerTest {
 			.andExpect(model().attribute("orderStatus", orderStatuses)); // orderStatuses 리스트가 모델에 포함되어 있는지 확인
 	}
 
-
 	@Test
 	void testCreateOrderStatusAdmin() throws Exception {
 		mockMvc.perform(get("/api/orders/admin/order-status/create"))
@@ -559,7 +561,6 @@ class OrderClientControllerTest {
 			.andExpect(status().isBadRequest());  // Expecting HTTP 400
 	}
 
-
 	@Test
 	void testCreateOrderForMember() throws Exception {
 		// 쿠폰 응답 객체 설정
@@ -591,8 +592,11 @@ class OrderClientControllerTest {
 		when(wrappingPaperServiceImpl.getWrappingPaperByOrderListId(anyLong())).thenReturn(wrappingResponse);
 
 		// 배송 정책 응답 객체 설정
-		GetDeliveryPolicyResponse deliveryPolicy = new GetDeliveryPolicyResponse(1L, "Standard Delivery", BigDecimal.valueOf(5.00), "Delivery within 5 days", BigDecimal.valueOf(50.00));
-		when(deliveryPolicyServiceImpl.findByDeliveryPolicyStandardPriceLessThanEqualOrderByDeliveryPolicyStandardPriceDesc(anyLong(), any())).thenReturn(deliveryPolicy);
+		GetDeliveryPolicyResponse deliveryPolicy = new GetDeliveryPolicyResponse(1L, "Standard Delivery",
+			BigDecimal.valueOf(5.00), "Delivery within 5 days", BigDecimal.valueOf(50.00));
+		when(
+			deliveryPolicyServiceImpl.findByDeliveryPolicyStandardPriceLessThanEqualOrderByDeliveryPolicyStandardPriceDesc(
+				anyLong(), any())).thenReturn(deliveryPolicy);
 
 		// 테스트 수행
 		mockMvc.perform(get("/api/orders/createOrderTest/{order_list_id}/{delivery_id}?couponId=1", 1, 1))
@@ -604,8 +608,6 @@ class OrderClientControllerTest {
 			.andExpect(model().attributeExists("wrappingList"))
 			.andExpect(model().attributeExists("delivery"));
 	}
-
-
 
 	@Test
 	void testCreateOrderForNonMember() throws Exception {
@@ -627,8 +629,11 @@ class OrderClientControllerTest {
 		when(wrappingPaperServiceImpl.getWrappingPaperByOrderListId(anyLong())).thenReturn(wrappingResponse);
 
 		// 배송 정책 응답 객체 설정
-		GetDeliveryPolicyResponse deliveryPolicy = new GetDeliveryPolicyResponse(1L, "Standard Delivery", BigDecimal.valueOf(5.00), "Delivery within 5 days", BigDecimal.valueOf(50.00));
-		when(deliveryPolicyServiceImpl.findByDeliveryPolicyStandardPriceLessThanEqualOrderByDeliveryPolicyStandardPriceDesc(anyLong(), any())).thenReturn(deliveryPolicy);
+		GetDeliveryPolicyResponse deliveryPolicy = new GetDeliveryPolicyResponse(1L, "Standard Delivery",
+			BigDecimal.valueOf(5.00), "Delivery within 5 days", BigDecimal.valueOf(50.00));
+		when(
+			deliveryPolicyServiceImpl.findByDeliveryPolicyStandardPriceLessThanEqualOrderByDeliveryPolicyStandardPriceDesc(
+				anyLong(), any())).thenReturn(deliveryPolicy);
 
 		// Mock getUserPoint 호출 설정
 		GetUserPointOrderResponse pointResponse = new GetUserPointOrderResponse(BigDecimal.valueOf(10.00));
@@ -664,9 +669,6 @@ class OrderClientControllerTest {
 			.andExpect(model().attributeDoesNotExist("selectCoupon"));
 	}
 
-
-
-
 	@Test
 	void testUpdateAndDeletePaperAdmin() throws Exception {
 		// Update paper type with all required parameters
@@ -683,7 +685,6 @@ class OrderClientControllerTest {
 			.andExpect(redirectedUrl("/api/orders/admin/paper"));
 	}
 
-
 	@Test
 	void testAdminViewsAndActions() throws Exception {
 		// Testing admin view access
@@ -693,7 +694,8 @@ class OrderClientControllerTest {
 
 		// Testing create order status with valid data
 		mockMvc.perform(post("/api/orders/admin/order-status")
-				.param("orderStatusName", "New Status"))  // Ensure this parameter name matches the one expected by the controller
+				.param("orderStatusName",
+					"New Status"))  // Ensure this parameter name matches the one expected by the controller
 			.andExpect(status().is3xxRedirection())
 			.andExpect(redirectedUrl("/api/orders/admin/order-status"));
 
@@ -718,7 +720,8 @@ class OrderClientControllerTest {
 		);
 
 		// Mock 설정
-		when(orderServiceImpl.findByOrderInfoIdByEmail(any(OrderCheckNonRequest.class))).thenReturn(nonOrderByInfoResponse);
+		when(orderServiceImpl.findByOrderInfoIdByEmail(any(OrderCheckNonRequest.class))).thenReturn(
+			nonOrderByInfoResponse);
 
 		// 테스트 수행
 		mockMvc.perform(post("/api/orders/orderCheck/Non")
@@ -759,13 +762,15 @@ class OrderClientControllerTest {
 	@Test
 	void testCreateOrderTest() throws Exception {
 		GetBookOrderResponse bookOrderResponse = new GetBookOrderResponse(
-			new GetBookOrderGetBookResponse("Dummy Book Title", BigDecimal.valueOf(19.99), "This is a dummy book description.", 1L),
+			new GetBookOrderGetBookResponse("Dummy Book Title", BigDecimal.valueOf(19.99),
+				"This is a dummy book description.", 1L),
 			1, // quantity
 			1L, // orderListId
 			123L // orderId
 		);
 
-		GetDeliveryPolicyResponse deliveryPolicyResponse = new GetDeliveryPolicyResponse(1L, "Standard Delivery", BigDecimal.valueOf(5.00), "Delivery within 5 days", BigDecimal.valueOf(50.00));
+		GetDeliveryPolicyResponse deliveryPolicyResponse = new GetDeliveryPolicyResponse(1L, "Standard Delivery",
+			BigDecimal.valueOf(5.00), "Delivery within 5 days", BigDecimal.valueOf(50.00));
 
 		GetWrappingResponse wrappingResponse = new GetWrappingResponse(1L, "Standard Wrap", BigDecimal.valueOf(2), 2);
 		GetListWrappingResponse listWrappingResponse = new GetListWrappingResponse(Arrays.asList(wrappingResponse));
@@ -774,7 +779,9 @@ class OrderClientControllerTest {
 
 		// Mock 설정
 		when(bookOrderServiceImpl.getBookOrder(anyLong())).thenReturn(bookOrderResponse);
-		when(deliveryPolicyServiceImpl.findByDeliveryPolicyStandardPriceLessThanEqualOrderByDeliveryPolicyStandardPriceDesc(anyLong(), any())).thenReturn(deliveryPolicyResponse);
+		when(
+			deliveryPolicyServiceImpl.findByDeliveryPolicyStandardPriceLessThanEqualOrderByDeliveryPolicyStandardPriceDesc(
+				anyLong(), any())).thenReturn(deliveryPolicyResponse);
 		when(wrappingPaperServiceImpl.getWrappingPaperByOrderListId(anyLong())).thenReturn(listWrappingResponse);
 		when(orderServiceImpl.getUserPoint()).thenReturn(pointResponse);
 
@@ -790,7 +797,6 @@ class OrderClientControllerTest {
 			.andExpect(model().attributeExists("point"));
 	}
 
-
 	@Test
 	void testRefundedGet() throws Exception {
 		doNothing().when(orderServiceImpl).refundedOrder(anyString());
@@ -799,7 +805,6 @@ class OrderClientControllerTest {
 			.andExpect(status().is3xxRedirection())
 			.andExpect(redirectedUrl("/api/orders/orderDetails/order123"));
 	}
-
 
 	@Test
 	void testOrderStatusAdminView() throws Exception {
@@ -822,7 +827,7 @@ class OrderClientControllerTest {
 
 	@Test
 	void testCartOrder() throws Exception {
-		CreateCartOrderResponse cartOrderResponse = new CreateCartOrderResponse(1L,"orderInfoId123");
+		CreateCartOrderResponse cartOrderResponse = new CreateCartOrderResponse(1L, "orderInfoId123");
 
 		when(orderServiceImpl.createCartOrder()).thenReturn(cartOrderResponse);
 		when(bookCartService.getBookCartsByCartId(anyString(), any())).thenReturn(List.of(
@@ -866,19 +871,21 @@ class OrderClientControllerTest {
 
 		// Mock 서비스 호출 설정
 		List<GetBookOrderResponse> bookOrders = Arrays.asList(
-			new GetBookOrderResponse(new GetBookOrderGetBookResponse("Test Book 1", BigDecimal.valueOf(10), "Description 1", 1L), 1, 1L, 1L),
-			new GetBookOrderResponse(new GetBookOrderGetBookResponse("Test Book 2", BigDecimal.valueOf(20), "Description 2", 2L), 2, 2L, 2L)
+			new GetBookOrderResponse(
+				new GetBookOrderGetBookResponse("Test Book 1", BigDecimal.valueOf(10), "Description 1", 1L), 1, 1L, 1L),
+			new GetBookOrderResponse(
+				new GetBookOrderGetBookResponse("Test Book 2", BigDecimal.valueOf(20), "Description 2", 2L), 2, 2L, 2L)
 		);
 
 		when(bookOrderServiceImpl.getBookOrderByOrderId("orderInfoId123")).thenReturn(bookOrders);
 
 		// Perform the test and expect a redirection
 		mockMvc.perform(post("/api/orders/cart-order/wrapping/{orderInfoId}", "orderInfoId123")
-				.flashAttr("createCartOrderPost", createCartOrderPost))  // ensure the flash attribute name matches the expected parameter name in the controller
+				.flashAttr("createCartOrderPost",
+					createCartOrderPost))  // ensure the flash attribute name matches the expected parameter name in the controller
 			.andExpect(status().is3xxRedirection())
 			.andExpect(redirectedUrl("/api/deliveries/cart-order/orderInfoId123"));
 	}
-
 
 	@Test
 	void testCompleteCartOrder() throws Exception {
@@ -895,11 +902,13 @@ class OrderClientControllerTest {
 		);
 
 		CreateOrderResponse createOrderResponse = new CreateOrderResponse(
-			1L, "order123", BigDecimal.valueOf(85.00), LocalDateTime.now(), BigDecimal.valueOf(10.00), BigDecimal.valueOf(5.00)
+			1L, "order123", BigDecimal.valueOf(85.00), LocalDateTime.now(), BigDecimal.valueOf(10.00),
+			BigDecimal.valueOf(5.00)
 		);
 
 		when(bookOrderServiceImpl.getBookOrderByOrderId(anyString())).thenReturn(bookOrders);
-		when(orderServiceImpl.updateCartOrder(any(CreateOrderRequest.class), anyLong())).thenReturn(createOrderResponse);
+		when(orderServiceImpl.updateCartOrder(any(CreateOrderRequest.class), anyLong())).thenReturn(
+			createOrderResponse);
 
 		mockMvc.perform(post("/api/orders/complete/cart-order/{orderInfoId}/{delivery_id}", "orderInfoId123", 1L)
 				.flashAttr("createOrderRequest", createOrderRequest))
@@ -923,11 +932,11 @@ class OrderClientControllerTest {
 		CreateOrderStatusRequest createOrderStatusRequest = new CreateOrderStatusRequest("Updated");
 
 		mockMvc.perform(post("/api/orders/admin/order-status/{orderStatusId}", 1L)
-				.flashAttr("createOrderStatusRequest", createOrderStatusRequest))  // ensure the flash attribute name matches the expected parameter name in the controller
+				.flashAttr("createOrderStatusRequest",
+					createOrderStatusRequest))  // ensure the flash attribute name matches the expected parameter name in the controller
 			.andExpect(status().is3xxRedirection())
 			.andExpect(redirectedUrl("/api/orders/admin/order-status"));
 	}
-
 
 	@Test
 	void testRefundAdminDeleteWithValidId() throws Exception {
@@ -966,7 +975,8 @@ class OrderClientControllerTest {
 	@Test
 	void testPaperAdminCreatePost() throws Exception {
 		// Create a valid CreateWrappingTypeRequest object
-		CreateWrappingTypeRequest createWrappingTypeRequest = new CreateWrappingTypeRequest("New Paper", "Description", new BigDecimal("2.50"));
+		CreateWrappingTypeRequest createWrappingTypeRequest = new CreateWrappingTypeRequest("New Paper", "Description",
+			new BigDecimal("2.50"));
 
 		// Perform the test and expect a redirection
 		mockMvc.perform(post("/api/orders/admin/paper")
@@ -978,7 +988,8 @@ class OrderClientControllerTest {
 	@Test
 	void testPaperAdminUpdatePost() throws Exception {
 		// Create a valid UpdateWrappingTypeRequest object
-		UpdateWrappingTypeRequest updateWrappingTypeRequest = new UpdateWrappingTypeRequest("Updated Paper", "Updated Description", new BigDecimal("3.00"));
+		UpdateWrappingTypeRequest updateWrappingTypeRequest = new UpdateWrappingTypeRequest("Updated Paper",
+			"Updated Description", new BigDecimal("3.00"));
 
 		// Perform the test and expect a redirection
 		mockMvc.perform(post("/api/orders/admin/paper/{paperTypeId}", 1L)

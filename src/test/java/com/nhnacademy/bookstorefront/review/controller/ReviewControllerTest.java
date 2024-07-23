@@ -95,24 +95,6 @@ class ReviewControllerTest {
 	}
 
 	@Test
-	void testGetBookReviews() throws Exception {
-		GetReviewResponse reviewResponse = new GetReviewResponse(
-			1L, "User Name", 5, "Great book!", LocalDateTime.now(), "image-url");
-
-		Page<GetReviewResponse> reviewPage = new PageImpl<>(
-			Collections.singletonList(reviewResponse), PageRequest.of(0, 5), 1);
-
-		when(reviewService.getReviewsByBookId(any(Pageable.class), anyLong())).thenReturn(reviewPage);
-
-		mockMvc.perform(get("/api/books/1/reviews/page")
-				.param("page", "0")
-				.param("size", "5"))
-			.andExpect(status().isOk())
-			.andExpect(view().name("review/list-by-book-review"))
-			.andExpect(model().attribute("reviews", reviewPage));
-	}
-
-	@Test
 	void testCreateReview() throws Exception {
 		MockMultipartFile file = new MockMultipartFile("file", "testfile.txt", "text/plain", "test content".getBytes());
 
