@@ -52,7 +52,22 @@
         .coupon-card-wrapper {
             flex: 0 0 calc(50% - 20px); /* 한 줄에 두 개씩 표시, 간격 조정 */
         }
+
+        /* Custom styles */
+        .alert-custom {
+            background-color: #f8d7da; /* Light red background */
+            color: #721c24; /* Dark red text */
+            border-color: #f5c6cb; /* Red border */
+            width: 80%; /* Adjust the width as needed */
+            margin: 0 auto; /* Center align */
+            padding: 10px; /* Add some padding */
+            border-radius: 5px; /* Rounded corners */
+            text-align: center; /* Center text */
+        }
     </style>
+
+
+
 </head>
 <body>
 
@@ -66,6 +81,9 @@
 <div class="container">
     <div class="row mt-4">
         <div class="col-md-12">
+            <div th:if="${message}" class="alert-custom" role="alert">
+                <p th:text="${message}"></p>
+            </div>
             <h4>발행가능 쿠폰리스트</h4>
             <div class="d-flex flex-wrap justify-content-between">
                 <div class="row w-100" th:each="coupontemplate : ${coupontemplates}">
@@ -84,15 +102,15 @@
                                     <p>도서 제목: <span th:text="${coupontemplate.bookTitle != null ? coupontemplate.bookTitle : '-'}"></span></p>
                                 </div>
 
-                                <p>최소 주문금액: <span th:text="${coupontemplate.minOrderPrice != null ? #numbers.formatDecimal(coupontemplate.minOrderPrice, 1, 'COMMA', 0, 'POINT') : '-'}"></span></p>
+                                <p>최소 주문금액: <span th:text="${coupontemplate.minOrderPrice != null ? #numbers.formatDecimal(coupontemplate.minOrderPrice, 1, 'COMMA', 0, 'POINT')+'원' : '-'}"></span></p>
 
                                 <div th:if="${coupontemplate.saleRate != null}">
                                     <p>할인율: <span th:text="${#numbers.formatDecimal(coupontemplate.saleRate * 100, 1, 'COMMA', 0, 'POINT')+'%'}"></span></p>
-                                    <p>최대 할인가격: <span th:text="${coupontemplate.maxSalePrice != null ? #numbers.formatDecimal(coupontemplate.maxSalePrice, 1, 'COMMA', 0, 'POINT') : '-'}"></span></p>
+                                    <p>최대 할인가격: <span th:text="${coupontemplate.maxSalePrice != null ? #numbers.formatDecimal(coupontemplate.maxSalePrice, 1, 'COMMA', 0, 'POINT') +'원': '-'}"></span></p>
                                 </div>
 
                                 <div th:if="${coupontemplate.salePrice != null}">
-                                    <p>할인 금액: <span th:text="${#numbers.formatDecimal(coupontemplate.salePrice, 1, 'COMMA', 0, 'POINT')}"></span></p>
+                                    <p>할인 금액: <span th:text="${#numbers.formatDecimal(coupontemplate.salePrice, 1, 'COMMA', 0, 'POINT')+'원'}"></span></p>
                                 </div>
 
                                 <p>만료일: <span th:text="${coupontemplate.expiredDate != null ? #temporals.format(coupontemplate.expiredDate, 'yyyy.MM.dd HH:mm') : '-'}"></span></p>
@@ -119,6 +137,16 @@
 <!--            Footer Area-->
 <!--=====================================-->
 <div th:insert="~{global/footer}"></div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const message = /*[[${message}]]*/ '';
+        if (message) {
+            alert(message); // Show alert with the message
+        }
+    });
+</script>
+
 
 </body>
 </html>
