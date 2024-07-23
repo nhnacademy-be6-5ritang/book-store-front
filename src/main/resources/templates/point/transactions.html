@@ -70,7 +70,7 @@
                                                             <span th:text="${point.pointEarningPolicyType()}"></span>
                                                         </td>
                                                         <td class="pro-price"> <span
-                                                                th:text="${point.pointTransactionAmount()}"></span></td>
+                                                                th:text="${point.pointTransactionAmount().setScale(0)} + 원"></span></td>
                                                         <td class="pro-date"><span
                                                                 th:text="${point.pointTransactionDate()}"></span></td>
                                                     </tr>
