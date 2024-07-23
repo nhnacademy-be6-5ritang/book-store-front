@@ -83,7 +83,9 @@
     <div class="top-container book-list-container" style="text-align: end">
         <h3>좋아요 많은 도서 TOP 10</h3>
         <div class="book-carousel">
-            <div th:each="book : ${likesBooksCache}" class="main-page-book">
+            <div th:each="book : ${likesBooksCache}" class="main-page-book"
+                 th:data-href="@{/api/books/{bookId}(bookId=${book.bookId})}"
+                 onclick="location.href=this.getAttribute('data-href');">
                 <div class="book-thumbnail-container">
                     <img class="book-background-thumbnail" th:src="${book.bookImageUrl}"
                          th:alt="${book.bookTitle}"
@@ -122,7 +124,9 @@
     <div class="top-container book-list-container">
         <h3>신간 도서 NEW 10</h3>
         <div class="book-carousel">
-            <div th:each="book : ${newestBooksCache}" class="main-page-book">
+            <div th:each="book : ${newestBooksCache}" class="main-page-book"
+                 th:data-href="@{/api/books/{bookId}(bookId=${book.bookId})}"
+                 onclick="location.href=this.getAttribute('data-href');">
                 <div class="book-thumbnail-container">
                     <img class="book-background-thumbnail" th:src="${book.bookImageUrl}"
                          th:alt="${book.bookTitle}"
