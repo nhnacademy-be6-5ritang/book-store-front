@@ -111,10 +111,11 @@ public class BookController {
 	}
 
 	@GetMapping("/page/category")
-	public String findAllBooksByCategoryName(@PageableDefault(page = 1, size = 20) Pageable pageable,
+	public String findAllBooksByCategoryName(@PageableDefault(page = 1, size = 10) Pageable pageable,
 		@RequestParam String categoryName, Model model) {
 		Page<GetBookDetailResponse> books = bookService.findAllBooksByCategory(pageable, categoryName);
 		model.addAttribute("books", books);
+		model.addAttribute("categoryName", categoryName);
 		PagingModel.pagingProcessing(pageable, model, books, "/api/books/page/category?categoryName=" + categoryName,
 			5);
 
