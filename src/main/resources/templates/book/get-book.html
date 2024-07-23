@@ -154,15 +154,15 @@
 
 <section id="book-reviews" class="top-container">
     <p style="color: #a8a8a8; font-size: 1.2rem; font-weight: bold; text-align: center"
-       th:text="'리뷰 (' + ${reviews.getTotalElements()} + ')'">리뷰</p>
-
-    <a th:href="@{/api/books/{bookId} (bookId=${book.bookId}, reviewType='전체')}"
-       class="btn btn-primary">전체리뷰 </a>
-    <a th:href="@{/api/books/{bookId} (bookId=${book.bookId}, reviewType='일반')}"
-       class="btn btn-primary">일반리뷰 </a>
-    <a th:href="@{/api/books/{bookId} (bookId=${book.bookId}, reviewType='사진')}"
-       class="btn btn-primary">사진리뷰 </a>
-
+       th:text="${reviewType} + '리뷰 (' + ${reviews.getTotalElements()} + ')'">리뷰</p>
+    <div class="review-button-container">
+        <a th:href="@{/api/books/{bookId} (bookId=${book.bookId}, reviewType='전체')}"
+           class="btn btn-primary">전체리뷰 </a>
+        <a th:href="@{/api/books/{bookId} (bookId=${book.bookId}, reviewType='일반')}"
+           class="btn btn-primary">일반리뷰 </a>
+        <a th:href="@{/api/books/{bookId} (bookId=${book.bookId}, reviewType='사진')}"
+           class="btn btn-primary">사진리뷰 </a>
+    </div>
     <div th:if="${reviews.getContent().size() == 0}" style="text-align: center">
         <span>등록된 리뷰가 없습니다.</span>
     </div>
@@ -195,54 +195,9 @@
         </div>
         <br/>
     </div>
-    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center mt-4">
-            <!-- 첫번째 페이지로 이동 -->
-            <li class="page-item" th:classappend="${reviews.first} ? 'disabled'">
-                <a class="page-link"
-                   th:href="@{'/api/books/' + ${book.bookId} (page=1, size=${reviews.size}, reviewType=${reviewType})}"
-                   aria-label="First">
-                    <span aria-hidden="true">&laquo; 처음</span>
-                </a>
-            </li>
-
-            <!-- 이전 페이지로 이동 -->
-            <li class="page-item" th:classappend="${reviews.first} ? 'disabled'">
-                <a class="page-link"
-                   th:href="@{'/api/books/' + ${book.bookId} (page=${reviews.number}, size=${reviews.size}, reviewType=${reviewType})}"
-                   aria-label="Previous">
-                    <span aria-hidden="true">&lsaquo; 이전</span>
-                </a>
-            </li>
-
-
-            <!-- 페이지 번호 링크 -->
-            <li class="page-item" th:each="page: ${#numbers.sequence(startPage, endPage)}"
-                th:classappend="${page == reviews.number + 1} ? 'active'">
-                <a class="page-link"
-                   th:href="@{'/api/books/' + ${book.bookId} (page=${page}, size=${reviews.size}, reviewType=${reviewType})}"
-                   th:text="${page}"></a>
-            </li>
-
-            <!-- 다음 페이지로 이동 -->
-            <li th:classappend="${reviews.last} ? 'disabled'">
-                <a class="page-link"
-                   th:href="@{'/api/books/' + ${book.bookId} (page=${reviews.number + 2}, size=${reviews.size}, reviewType=${reviewType})}"
-                   aria-label="Next">
-                    <span aria-hidden="true">다음 &rsaquo;</span>
-                </a>
-            </li>
-
-            <!-- 마지막 페이지로 이동 -->
-            <li class="page-item" th:classappend="${reviews.last} ? 'disabled'">
-                <a class="page-link"
-                   th:href="@{'/api/books/' + ${book.bookId} (page=${reviews.totalPages}, size=${reviews.size}, reviewType=${reviewType})}"
-                   aria-label="Last">
-                    <span aria-hidden="true">끝 &raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    <!-- 페이징 처리 시작 -->
+    <div th:insert="~{global/paging.html}"></div>
+    <!-- 페이징 처리 끝 -->
 </section>
 
 <br/>

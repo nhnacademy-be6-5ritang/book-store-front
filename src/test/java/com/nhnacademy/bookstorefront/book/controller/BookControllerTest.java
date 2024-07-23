@@ -1,6 +1,5 @@
 package com.nhnacademy.bookstorefront.book.controller;
 
-import static org.hamcrest.core.IsNull.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -173,9 +172,7 @@ class BookControllerTest {
 			.andExpect(model().attribute("bookTags", List.of()))
 			.andExpect(model().attribute("reviews", reviews))
 			.andExpect(model().attribute("reviewsAverageScore", 4.5))
-			.andExpect(model().attribute("reviewType", nullValue()))
-			.andExpect(model().attribute("startPage", 1))
-			.andExpect(model().attribute("endPage", 1));
+			.andExpect(model().attribute("reviewType", "전체"));
 	}
 
 	@Test
