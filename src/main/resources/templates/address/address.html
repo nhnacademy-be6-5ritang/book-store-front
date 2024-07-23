@@ -26,6 +26,7 @@
         <section id="page-header">
             <h5>내 주소</h5>
         </section>
+        <hr style="width: 100%"/>
         <section id="page-body">
             <table class="address-table">
                 <tr>
@@ -139,6 +140,10 @@
             </div>
         </div>
     </div>
+</div>
+
+<div id="to-admin-container" class="top-container">
+    <a th:href="@{/api/users/admin}">관리자이신가요?</a>
 </div>
 
 <div th:insert="~{global/footer}"></div>

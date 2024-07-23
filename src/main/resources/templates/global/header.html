@@ -66,6 +66,7 @@
                 <div class="menu-button">
                     <i class="fa-solid fa-heart"></i>
                     <span class="menu-tag">좋아요</span>
+                    <!--                    TODO: 클릭하면 로그인으로 redirect-->
                 </div>
             </a>
             <a th:href="@{/api/carts/me}">
@@ -74,16 +75,11 @@
                     <span class="menu-tag">장바구니</span>
                 </div>
             </a>
-            <a th:href="@{/checkout}">
-                <div class="menu-button">
-                    <i class="fa-solid fa-circle-dollar-to-slot"></i>
-                    <span class="menu-tag">주문</span>
-                </div>
-            </a>
             <a th:href="@{/api/orders/orderCheck/Non}">
                 <div class="menu-button">
                     <i class="fa-regular fa-user"></i>
                     <span class="menu-tag">비회원</span>
+                    <!--                    TODO: 로그인 하면 비회원 제거-->
                 </div>
             </a>
             <a th:href="@{/users/my-page}">
