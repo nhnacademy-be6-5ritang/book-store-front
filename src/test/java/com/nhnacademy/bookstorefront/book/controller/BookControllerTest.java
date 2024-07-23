@@ -276,7 +276,7 @@ class BookControllerTest {
 			.andExpect(status().is3xxRedirection())
 			.andExpect(redirectedUrl("/api/books/page"));
 
-		verify(bookService).fetchAndSaveBook(isbn);
+		verify(bookService).saveBookByIsbn(isbn);
 	}
 
 	@Test
