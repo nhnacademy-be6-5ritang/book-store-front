@@ -3,7 +3,9 @@ package com.nhnacademy.bookstorefront.book.controller;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -111,11 +113,24 @@ public class BookController {
 	}
 
 	@GetMapping("/page/category")
-	public String findAllBooksByCategoryName(@PageableDefault(page = 1, size = 20) Pageable pageable,
+	public String findAllBooksByCategoryName(
+		@PageableDefault(page = 1, size = 12, sort = {
+			"bookPublishDate"}, direction = Sort.Direction.DESC) Pageable defaultPageable,
+		@RequestParam(defaultValue = "bookPublishDate") String sortBy,
+		@RequestParam(defaultValue = "DESC") String direction,
 		@RequestParam String categoryName, Model model) {
+
+		Sort.Direction sortDirection = Sort.Direction.fromString(direction.toUpperCase());
+		Sort sort = Sort.by(sortDirection, sortBy);
+		Pageable pageable = PageRequest.of(defaultPageable.getPageNumber(), defaultPageable.getPageSize(), sort);
+
 		Page<GetBookDetailResponse> books = bookService.findAllBooksByCategory(pageable, categoryName);
 		model.addAttribute("books", books);
-		PagingModel.pagingProcessing(pageable, model, books, "/api/books/page/category?categoryName=" + categoryName,
+		model.addAttribute("categoryName", categoryName);
+		model.addAttribute("sortBy", sortBy);
+		model.addAttribute("direction", direction);
+		PagingModel.pagingProcessing(pageable, model, books,
+			"/api/books/page/category?categoryName=" + categoryName + "&direction=" + direction + "&sortBy=" + sortBy,
 			5);
 
 		return "book/list-book-by-category";
@@ -130,14 +145,15 @@ public class BookController {
 	 */
 	@GetMapping("/{bookId}")
 	public String getBook(@PathVariable Long bookId, Model model,
-		@PageableDefault(page = 1, size = 5) Pageable pageable, @RequestParam(required = false) String reviewType) {
+		@PageableDefault(page = 1, size = 5) Pageable pageable,
+		@RequestParam(required = false, defaultValue = "전체") String reviewType) {
 		model.addAttribute("bookCategories", categoryService.getCategoriesByBookId(bookId));
 		model.addAttribute("bookTags", tagService.getTagsByBookId(bookId));
 		model.addAttribute("book", bookService.getBook(bookId));
 
 		model.addAttribute("reviewsAverageScore", reviewService.getReviewsAverageScoreByBookId(bookId));
 
-		Page<GetReviewResponse> reviews = null;
+		Page<GetReviewResponse> reviews;
 		if (reviewType != null && reviewType.equals("일반")) {
 			reviews = reviewService.getGeneralReviewsByBookId(pageable, bookId);
 		} else if (reviewType != null && reviewType.equals("사진")) {
@@ -148,21 +164,7 @@ public class BookController {
 
 		model.addAttribute("reviewType", reviewType);
 		model.addAttribute("reviews", reviews);
-		int blockLimit = 5;
-		int startPage = 1; // 1 4 7 10 ~~
-		int endPage = 1;
-
-		if (!reviews.isEmpty()) {
-			// 검색 결과가 있는 경우에만 페이지 번호 계산
-			int adjustedPage = Math.max(pageable.getPageNumber(), 1);
-			startPage = (((int)(Math.ceil((double)adjustedPage / blockLimit))) - 1) * blockLimit + 1;
-			endPage = Math.min((startPage + blockLimit - 1), reviews.getTotalPages());
-		}
-
-		model.addAttribute("pageable", pageable);
-		model.addAttribute("blockLimit", blockLimit);
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("endPage", endPage);
+		PagingModel.pagingProcessing(pageable, model, reviews, "/api/books/" + bookId + "?reviewType=" + reviewType, 5);
 
 		return "book/get-book";
 	}

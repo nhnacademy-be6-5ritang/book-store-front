@@ -2,7 +2,11 @@ package com.nhnacademy.bookstorefront.delivery.controller;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +19,9 @@ import com.nhnacademy.bookstorefront.address.service.AddressService;
 import com.nhnacademy.bookstorefront.delivery.dto.request.CreateDeliveryRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.request.UpdateDeliveryByOrderIdRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.response.CreateDeliveryResponse;
+import com.nhnacademy.bookstorefront.delivery.dto.response.GetDeliveryResponse;
 import com.nhnacademy.bookstorefront.delivery.service.DeliveryService;
+import com.nhnacademy.bookstorefront.global.util.PagingModel;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +32,20 @@ import lombok.RequiredArgsConstructor;
 public class DeliveryController {
 	private final DeliveryService deliveryService;
 	private final AddressService addressService;
+
+	@GetMapping("/me/page")
+	public String getDeliveriesPage(@PageableDefault(page = 1, size = 10) Pageable pageable, Model model) {
+		Page<GetDeliveryResponse> deliveries = deliveryService.getDeliveriesByUserId(pageable);
+		model.addAttribute("deliveries", deliveries);
+		PagingModel.pagingProcessing(pageable, model, deliveries, "/api/deliveries/me/page", 5);
+		return "delivery/list-delivery";
+	}
+
+	@GetMapping("/delivery/{deliveryId}")
+	public String getDelivery(@PathVariable Long deliveryId, Model model) {
+		model.addAttribute("delivery", deliveryService.getDelivery(deliveryId));
+		return "delivery/get-delivery";
+	}
 
 	@GetMapping("{order_list_id}")
 	public ModelAndView getDeliveriesPage(@PathVariable("order_list_id") Long orderListId) {
@@ -59,13 +79,11 @@ public class DeliveryController {
 	}
 
 	@PostMapping("/cart-order/{orderInfoId}")
-	public String createDeliveriesCartOrder(@Valid @ModelAttribute CreateDeliveryRequest createDeliveryRequest, @PathVariable String orderInfoId) {
+	public String createDeliveriesCartOrder(@Valid @ModelAttribute CreateDeliveryRequest createDeliveryRequest,
+		@PathVariable String orderInfoId) {
 		CreateDeliveryResponse response = deliveryService.createDelivery(createDeliveryRequest);
 		return "redirect:/coupons/orders/users/" + response.deliveryId() + "/" + orderInfoId;
 	}
-
-
-
 
 	@GetMapping("/{orderId}/sender")
 	public ModelAndView senderPage(@PathVariable("orderId") Long orderId) {

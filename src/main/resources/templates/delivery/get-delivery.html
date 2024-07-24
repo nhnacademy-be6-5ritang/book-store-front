@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>책 파는 오리탕집</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+</head>
+
+<body>
+<header th:insert="~{global/header}"></header>
+
+<section id="page" class="top-container">
+    <section id="page-menu-container" th:insert="~{fragments/user-menu.html}"></section>
+    <section id="page-content">
+        <section id="page-header">
+            <h5 style="margin: 0 1rem">배송내역</h5>
+        </section>
+        <hr style="width: 100%"/>
+        <h5 style="margin: 0 1rem">배송내역 상세 정보</h5>
+        <section id="page-body">
+                <div><strong>Sender Name:</strong> <span th:text="${delivery.deliverySenderName}"></span></div>
+                <div><strong>Sender Phone:</strong> <span th:text="${delivery.deliverySenderPhone}"></span></div>
+                <div><strong>Sender Date:</strong> <span th:text="${delivery.deliverySenderDate}"></span></div>
+                <div><strong>Sender Address:</strong> <span th:text="${delivery.deliverySenderAddress}"></span></div>
+                <div><strong>Receiver:</strong> <span th:text="${delivery.deliveryReceiver}"></span></div>
+                <div><strong>Receiver Phone:</strong> <span th:text="${delivery.deliveryReceiverPhone}"></span></div>
+                <div><strong>Receiver Date:</strong> <span th:text="${delivery.deliveryReceiverDate}"></span></div>
+                <div><strong>Receiver Address:</strong> <span th:text="${delivery.deliveryReceiverAddress}"></span>
+                </div>
+                <div><strong>Order ID:</strong> <span th:text="${delivery.orderId}"></span></div>
+                <div><strong>Status:</strong> <span th:text="${delivery.deliveryStatusName}"></span></div>
+            </div>
+        </section>
+    </section>
+</section>
+
+<div id="to-admin-container" class="top-container">
+    <a th:href="@{/api/users/admin}">관리자이신가요?</a>
+</div>
+
+<footer th:insert="~{global/footer}"></footer>
+
+<script th:src="@{/js/my-page.js}"></script>
+</body>
+</html>

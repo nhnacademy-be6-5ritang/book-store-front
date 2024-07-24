@@ -34,4 +34,7 @@ public interface BookCartServiceClient {
 	@DeleteMapping("/{bookId}")
 	ResponseEntity<Void> deleteBookCart(@PathVariable Long bookId,
 		@CookieValue(name = "cartId", required = false) String cartId);
+
+	@DeleteMapping("/all")
+	ResponseEntity<Void> deleteAllBookCart(@CookieValue(name = "cartId", required = false) String cartId);
 }

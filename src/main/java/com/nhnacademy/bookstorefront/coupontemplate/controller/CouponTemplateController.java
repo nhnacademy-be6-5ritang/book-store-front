@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nhnacademy.bookstorefront.coupontemplate.domain.dto.request.CouponTemplateCreateRequestDTO;
 import com.nhnacademy.bookstorefront.coupontemplate.domain.dto.response.CouponTemplateResponseDTO;
@@ -16,9 +17,11 @@ import com.nhnacademy.bookstorefront.coupontemplate.service.CouponTemplateServic
 import com.nhnacademy.bookstorefront.global.util.PagingModel;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/coupons")
+@Slf4j
 public class CouponTemplateController {
 
 	private final CouponTemplateService couponTemplateService;
@@ -47,7 +50,7 @@ public class CouponTemplateController {
 
 	// 쿠폰발급페이지 페이징처리
 	@GetMapping("/issue")
-	public String getAllCouponTemplatesIssuePaging(@PageableDefault(page = 1, size = 3) Pageable pageable,
+	public String getAllCouponTemplatesIssuePaging(@PageableDefault(page = 1, size = 3) Pageable pageable, @RequestParam(required = false) String message,
 		Model model) {
 
 			Page<CouponTemplateResponseDTO> couponTemplates = couponTemplateService.getAllCouponTemplatesByUserPaging(
@@ -57,10 +60,7 @@ public class CouponTemplateController {
 
 			model.addAttribute("couponTemplates", couponTemplates);
 
-			// 메시지가 있는지 확인
-			if (model.containsAttribute("message")) {
-				System.out.println("Message in model: " + model.getAttribute("message"));
-			}
+			model.addAttribute("message", message);
 
 			return "coupon-user/user-coupon-issue";
 

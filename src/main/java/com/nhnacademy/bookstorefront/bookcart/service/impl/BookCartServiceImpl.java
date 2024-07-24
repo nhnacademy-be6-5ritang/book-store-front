@@ -37,4 +37,8 @@ public class BookCartServiceImpl implements BookCartService {
 	public ResponseEntity<Void> deleteBookCart(Long bookId, String cartId) {
 		return bookCartServiceClient.deleteBookCart(bookId, cartId);
 	}
+
+	public ResponseEntity<Void> deleteAllBookCart(String cartId) {
+		return bookCartServiceClient.deleteAllBookCart(cartId);
+	}
 }
