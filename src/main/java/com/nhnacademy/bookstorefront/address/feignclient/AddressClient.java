@@ -1,6 +1,7 @@
 package com.nhnacademy.bookstorefront.address.feignclient;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -37,4 +38,7 @@ public interface AddressClient {
 
 	@PutMapping("/api/addresses/{addressId}/default")
 	ResponseEntity<Void> setDefaultAddress(@PathVariable Long addressId);
+
+	@GetMapping("/api/addresses/default")
+	ResponseEntity<Optional<GetAddressResponse>> getDefaultAddress();
 }

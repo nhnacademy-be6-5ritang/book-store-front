@@ -3,7 +3,6 @@ package com.nhnacademy.bookstorefront.order.feignclient;
 import java.util.List;
 
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +39,7 @@ import com.nhnacademy.bookstorefront.order.dto.response.GetPaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetUserPointOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetWrappingResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.UpdateBookOrderResponse;
+import com.nhnacademy.bookstorefront.user.dto.response.GetMyUserInfoResponse;
 
 @FeignClient(name = "order-feign-service", url = "http://localhost:8090")
 public interface OrderServiceClient {
@@ -191,5 +191,8 @@ public interface OrderServiceClient {
 	 */
 	@GetMapping("/api/orders/orderStatus/all")
 	List<GetOrderStatusResponse> orderStatusAll();
+
+	@GetMapping("/api/users/orders/self")
+	ResponseEntity<GetMyUserInfoResponse> getMyUserInfoByInfo();
 
 }

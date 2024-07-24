@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.nhnacademy.bookstorefront.address.dto.response.GetAddressResponse;
+import com.nhnacademy.bookstorefront.address.service.AddressService;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
 import com.nhnacademy.bookstorefront.bookcart.dto.response.GetBookCartResponse;
@@ -36,7 +39,6 @@ import com.nhnacademy.bookstorefront.order.dto.request.UpdateWrappingTypeRequest
 import com.nhnacademy.bookstorefront.order.dto.response.CreateBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateCartOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
-import com.nhnacademy.bookstorefront.order.dto.response.CreatePaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllPaperResponse;
@@ -78,6 +80,7 @@ public class OrderClientController {
 	private final UserAndCouponService userAndCouponService;
 	private final BookCartService bookCartService;
 	private final OrderStatusServiceImpl orderStatusServiceImpl;
+	private final AddressService addressService;
 
 	@GetMapping("/createBookOrderTest/{book_id}")
 	public ModelAndView createBookOrder(@PathVariable("book_id") Long bookId) {
@@ -211,8 +214,11 @@ public class OrderClientController {
 			modelAndView.setViewName("order/checkout");
 		}
 
-
-
+		if (orderServiceImpl.getMyUserInfoByOrder() != null){
+			modelAndView.addObject("myUserInfo", orderServiceImpl.getMyUserInfoByOrder());
+			Optional<GetAddressResponse> address = addressService.getDefaultAddress();
+			address.ifPresent(addressResponse -> modelAndView.addObject("address", addressResponse));
+		}
 		return modelAndView;
 	}
 
@@ -559,6 +565,11 @@ public class OrderClientController {
 		}
 
 
+		if (orderServiceImpl.getMyUserInfoByOrder() != null){
+			modelAndView.addObject("myUserInfo", orderServiceImpl.getMyUserInfoByOrder());
+			Optional<GetAddressResponse> address = addressService.getDefaultAddress();
+			address.ifPresent(addressResponse -> modelAndView.addObject("address", addressResponse));
+		}
 
 		return modelAndView;
 	}

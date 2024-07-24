@@ -13,6 +13,8 @@ import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetUserPointOrderResponse;
 import com.nhnacademy.bookstorefront.order.feignclient.OrderServiceClient;
 import com.nhnacademy.bookstorefront.order.service.OrderService;
+import com.nhnacademy.bookstorefront.user.dto.response.GetMyUserInfoResponse;
+
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -90,4 +92,7 @@ public class OrderServiceImpl implements OrderService {
 		return orderServiceClient.updateCartOrder(createOrderRequest, orderId).getBody();
 	}
 
+	public GetMyUserInfoResponse getMyUserInfoByOrder() {
+		return orderServiceClient.getMyUserInfoByInfo().getBody();
+	}
 }

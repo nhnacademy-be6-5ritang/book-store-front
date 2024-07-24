@@ -58,7 +58,7 @@
                                     <tbody>
                                     <tr th:each="list : ${bookOrder}">
                                         <td class="pro-thumbnail">
-                                            <a href="#"><img src="/image/products/product-1.jpg" alt="Product"></a>
+                                            <img th:src="${list.getBookResponse().image()}" alt="Product">
                                         </td>
                                         <td class="pro-title">
                                             <span th:text="${list.getBookResponse().bookTitle()}"></span>

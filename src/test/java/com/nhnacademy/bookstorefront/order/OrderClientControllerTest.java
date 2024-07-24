@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.bookstorefront.address.service.AddressService;
 import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
 import com.nhnacademy.bookstorefront.bookcart.dto.response.GetBookCartResponse;
 import com.nhnacademy.bookstorefront.bookcart.service.BookCartService;
@@ -69,6 +70,25 @@ import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.NoCouponR
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCouponOrderResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.service.UserAndCouponService;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+
+import java.util.List;
+
 import jakarta.servlet.http.Cookie;
 
 @WebMvcTest(OrderClientController.class)
@@ -110,6 +130,9 @@ class OrderClientControllerTest {
 	@MockBean
 	private OrderStatusServiceImpl orderStatusServiceImpl;
 
+	@MockBean
+	private AddressService addressService;
+
 	@InjectMocks
 	private OrderClientController orderClientController;
 
@@ -124,8 +147,8 @@ class OrderClientControllerTest {
 				orderServiceImpl, paperTypeServiceImpl,
 				wrappingPaperServiceImpl,
 				deliveryServiceImpl,
-				bookServiceImpl, deliveryPolicyServiceImpl,
-				refundPolicyServiceImpl, userAndCouponService, bookCartService, orderStatusServiceImpl))
+				bookServiceImpl,deliveryPolicyServiceImpl,
+				refundPolicyServiceImpl,userAndCouponService,bookCartService,orderStatusServiceImpl,addressService))
 			.build();
 		objectMapper = new ObjectMapper();
 	}
@@ -176,6 +199,7 @@ class OrderClientControllerTest {
 
 		GetBookOrderGetBookResponse bookResponse = new GetBookOrderGetBookResponse(
 			"Dummy Book Title",
+			"Dummy Book Title",
 			BigDecimal.valueOf(19.99),
 			"This is a dummy book description.",
 			1L // dummy bookId
@@ -213,11 +237,11 @@ class OrderClientControllerTest {
 			.andExpect(redirectedUrl("/api/deliveries/1"));
 	}
 
+
 	@Test
 	void testCreateOrder() throws Exception {
 		// 더미 데이터 생성
-		GetBookOrderGetBookResponse bookResponse = new GetBookOrderGetBookResponse("Test Book", new BigDecimal("10.00"),
-			"Test Description", 1L);
+		GetBookOrderGetBookResponse bookResponse = new GetBookOrderGetBookResponse("Test Book","Test Book", new BigDecimal("10.00"), "Test Description", 1L);
 		GetBookOrderResponse bookOrderResponse = new GetBookOrderResponse(bookResponse, 1, 1L, 1L);
 
 		GetWrappingResponse wrappingResponse1 = new GetWrappingResponse(1L, "Wrapping Paper 1", new BigDecimal("2.00"),
@@ -253,6 +277,8 @@ class OrderClientControllerTest {
 			.andExpect(model().attributeExists("delivery"))
 			.andExpect(model().attributeExists("point"));
 	}
+
+
 
 	@Test
 	void testCompleteOrder() throws Exception {
@@ -526,6 +552,7 @@ class OrderClientControllerTest {
 			.andExpect(model().attribute("orderStatus", orderStatuses)); // orderStatuses 리스트가 모델에 포함되어 있는지 확인
 	}
 
+
 	@Test
 	void testCreateOrderStatusAdmin() throws Exception {
 		mockMvc.perform(get("/api/orders/admin/order-status/create"))
@@ -561,6 +588,7 @@ class OrderClientControllerTest {
 			.andExpect(status().isBadRequest());  // Expecting HTTP 400
 	}
 
+
 	@Test
 	void testCreateOrderForMember() throws Exception {
 		// 쿠폰 응답 객체 설정
@@ -575,7 +603,7 @@ class OrderClientControllerTest {
 
 		// 책 주문 응답 객체 설정
 		GetBookOrderResponse bookOrder = new GetBookOrderResponse(
-			new GetBookOrderGetBookResponse("Test Book", BigDecimal.valueOf(100), "Description", 1L),
+			new GetBookOrderGetBookResponse("Test Book","Test Book", BigDecimal.valueOf(100), "Description", 1L),
 			1, // quantity
 			1L, // orderListId
 			1L  // orderId
@@ -609,11 +637,13 @@ class OrderClientControllerTest {
 			.andExpect(model().attributeExists("delivery"));
 	}
 
+
+
 	@Test
 	void testCreateOrderForNonMember() throws Exception {
 		// 책 주문 응답 객체 설정
 		GetBookOrderResponse bookOrder = new GetBookOrderResponse(
-			new GetBookOrderGetBookResponse("Test Book", BigDecimal.valueOf(100), "Description", 1L),
+			new GetBookOrderGetBookResponse("Test Book","Test Book", BigDecimal.valueOf(100), "Description", 1L),
 			1, // quantity
 			1L, // orderListId
 			1L  // orderId
@@ -669,6 +699,9 @@ class OrderClientControllerTest {
 			.andExpect(model().attributeDoesNotExist("selectCoupon"));
 	}
 
+
+
+
 	@Test
 	void testUpdateAndDeletePaperAdmin() throws Exception {
 		// Update paper type with all required parameters
@@ -684,6 +717,7 @@ class OrderClientControllerTest {
 			.andExpect(status().is3xxRedirection())
 			.andExpect(redirectedUrl("/api/orders/admin/paper"));
 	}
+
 
 	@Test
 	void testAdminViewsAndActions() throws Exception {
@@ -762,8 +796,7 @@ class OrderClientControllerTest {
 	@Test
 	void testCreateOrderTest() throws Exception {
 		GetBookOrderResponse bookOrderResponse = new GetBookOrderResponse(
-			new GetBookOrderGetBookResponse("Dummy Book Title", BigDecimal.valueOf(19.99),
-				"This is a dummy book description.", 1L),
+			new GetBookOrderGetBookResponse("Dummy Book Title","Dummy Book Title", BigDecimal.valueOf(19.99), "This is a dummy book description.", 1L),
 			1, // quantity
 			1L, // orderListId
 			123L // orderId
@@ -797,6 +830,7 @@ class OrderClientControllerTest {
 			.andExpect(model().attributeExists("point"));
 	}
 
+
 	@Test
 	void testRefundedGet() throws Exception {
 		doNothing().when(orderServiceImpl).refundedOrder(anyString());
@@ -805,6 +839,7 @@ class OrderClientControllerTest {
 			.andExpect(status().is3xxRedirection())
 			.andExpect(redirectedUrl("/api/orders/orderDetails/order123"));
 	}
+
 
 	@Test
 	void testOrderStatusAdminView() throws Exception {
@@ -844,7 +879,7 @@ class OrderClientControllerTest {
 	void testCartOrderWrappingGet() throws Exception {
 		List<GetBookOrderResponse> bookOrders = List.of(
 			new GetBookOrderResponse(
-				new GetBookOrderGetBookResponse("Test Book", BigDecimal.valueOf(10.00), "Description", 1L),
+				new GetBookOrderGetBookResponse("Test Book","Test Book", BigDecimal.valueOf(10.00), "Description", 1L),
 				1, 1L, 1L
 			)
 		);
@@ -871,10 +906,8 @@ class OrderClientControllerTest {
 
 		// Mock 서비스 호출 설정
 		List<GetBookOrderResponse> bookOrders = Arrays.asList(
-			new GetBookOrderResponse(
-				new GetBookOrderGetBookResponse("Test Book 1", BigDecimal.valueOf(10), "Description 1", 1L), 1, 1L, 1L),
-			new GetBookOrderResponse(
-				new GetBookOrderGetBookResponse("Test Book 2", BigDecimal.valueOf(20), "Description 2", 2L), 2, 2L, 2L)
+			new GetBookOrderResponse(new GetBookOrderGetBookResponse("Test Book 1","Test Book 1", BigDecimal.valueOf(10), "Description 1", 1L), 1, 1L, 1L),
+			new GetBookOrderResponse(new GetBookOrderGetBookResponse("Test Book 2","Test Book 2", BigDecimal.valueOf(20), "Description 2", 2L), 2, 2L, 2L)
 		);
 
 		when(bookOrderServiceImpl.getBookOrderByOrderId("orderInfoId123")).thenReturn(bookOrders);
@@ -887,11 +920,12 @@ class OrderClientControllerTest {
 			.andExpect(redirectedUrl("/api/deliveries/cart-order/orderInfoId123"));
 	}
 
+
 	@Test
 	void testCompleteCartOrder() throws Exception {
 		List<GetBookOrderResponse> bookOrders = List.of(
 			new GetBookOrderResponse(
-				new GetBookOrderGetBookResponse("Test Book", BigDecimal.valueOf(10.00), "Description", 1L),
+				new GetBookOrderGetBookResponse("Test Book","Test Book", BigDecimal.valueOf(10.00), "Description", 1L),
 				1, 1L, 1L
 			)
 		);
