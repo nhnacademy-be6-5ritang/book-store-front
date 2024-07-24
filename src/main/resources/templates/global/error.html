@@ -22,7 +22,11 @@
     <div style="width: 33%; display: grid; place-items: center">
         <h5 style="color: #d50000">ERROR</h5>
         <br/>
-        <p style="color: #333333; word-wrap: break-word" th:text="${message}"></p>
+        <p style="color: #333333; word-wrap: break-word" th:text="${message != null ? 'Message: '+ message : ''}"></p>
+        <br/>
+        <p style="color: #333333; word-wrap: break-word" th:text="${status != null ? 'Status Code: ' + status : ''}"></p>
+        <br/>
+        <p style="color: #333333; word-wrap: break-word" th:text="${timestamp != null ? 'Timestamp: ' + timestamp : ''}"></p>
         <br/>
         <a href="javascript:history.back()">돌아가기</a>
     </div>
