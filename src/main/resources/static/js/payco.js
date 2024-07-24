@@ -1,5 +1,5 @@
 const paycoLoginRequest = async () => {
-    const clientId = '3RD5T_6SsRZZqiV8oXgma4_';
+    const clientId = '3RD3uCdBFL1ANlmFIuoqa5l';
     // const redirectUri = 'http://local.host.com:8081/auth/payco/callback'; //TODO 컨트롤러에서 받도록 수정
     const redirectUri = 'https://5ritang.store/auth/payco/callback';
 
