@@ -25,7 +25,8 @@ public class SearchController {
 	private final SearchServiceImpl searchService;
 
 	@GetMapping
-	public String search(@PageableDefault(page = 1, size = 20, sort = {"bookPublishDate"}, direction = Sort.Direction.DESC) Pageable pageable,
+	public String search(
+		@PageableDefault(page = 1, size = 12, sort = {"bookPublishDate"}, direction = Sort.Direction.DESC) Pageable pageable,
 		@RequestParam(defaultValue = "bookPublishDate") String sortBy,
 		@RequestParam(defaultValue = "DESC") String direction,
 		@RequestParam String searchType,
@@ -59,7 +60,8 @@ public class SearchController {
 		model.addAttribute("query", query);
 		model.addAttribute("sortBy", sortBy);
 		model.addAttribute("direction", direction);
-		PagingModel.pagingProcessing(sortedPageable, model, searchResult, "/api/search?searchType=" + searchType + "&query=" + query, 5);
+		PagingModel.pagingProcessing(sortedPageable, model, searchResult,
+			"/api/search?searchType=" + searchType + "&query=" + query + "&sortBy=" + sortBy + "&direction=" + direction, 5);
 
 		return "search/search-result";
 	}
