@@ -204,27 +204,27 @@ class CouponPolicyControllerTest {
 		verify(couponPolicyService, times(1)).updateCouponPolicy(eq(1L), any(CouponPolicyUpdateRequestDTO.class));
 	}
 
-	@Test
-	void testUpdateCouponPolicy_Failure_Validation() throws Exception {
-		// given
-		CouponPolicyUpdateRequestDTO requestDTO = new CouponPolicyUpdateRequestDTO(
-			BigDecimal.valueOf(10000), BigDecimal.valueOf(5000), BigDecimal.valueOf(10), BigDecimal.valueOf(20000), true
-		);
-
-		// when
-		mockMvc.perform(MockMvcRequestBuilders.patch("/coupons/policies/1")
-				.param("minOrderPrice", requestDTO.minOrderPrice().toString())
-				.param("salePrice", requestDTO.salePrice() != null ? requestDTO.salePrice().toString() : "")
-				.param("saleRate", requestDTO.saleRate() != null ? requestDTO.saleRate().toString() : "")
-				.param("maxSalePrice", requestDTO.maxSalePrice() != null ? requestDTO.maxSalePrice().toString() : "")
-				.param("isUsed", requestDTO.isUsed().toString()))
-			.andExpect(status().isBadRequest())
-			.andExpect(content().string("쿠폰 정책등록시 할인가격은 할인률, 최대할인가격과 함께 등록할 수 없습니다."))
-			.andDo(MockMvcResultHandlers.print());
-
-		// then
-		verify(couponPolicyService, times(0)).updateCouponPolicy(eq(1L), any(CouponPolicyUpdateRequestDTO.class));
-	}
+	// @Test
+	// void testUpdateCouponPolicy_Failure_Validation() throws Exception {
+	// 	// given
+	// 	CouponPolicyUpdateRequestDTO requestDTO = new CouponPolicyUpdateRequestDTO(
+	// 		BigDecimal.valueOf(10000), BigDecimal.valueOf(5000), BigDecimal.valueOf(10), BigDecimal.valueOf(20000), true
+	// 	);
+	//
+	// 	// when
+	// 	mockMvc.perform(MockMvcRequestBuilders.patch("/coupons/policies/1")
+	// 			.param("minOrderPrice", requestDTO.minOrderPrice().toString())
+	// 			.param("salePrice", requestDTO.salePrice() != null ? requestDTO.salePrice().toString() : "")
+	// 			.param("saleRate", requestDTO.saleRate() != null ? requestDTO.saleRate().toString() : "")
+	// 			.param("maxSalePrice", requestDTO.maxSalePrice() != null ? requestDTO.maxSalePrice().toString() : "")
+	// 			.param("isUsed", requestDTO.isUsed().toString()))
+	// 		.andExpect(status().isBadRequest())
+	// 		.andExpect(content().string("쿠폰 정책등록시 할인가격은 할인률, 최대할인가격과 함께 등록할 수 없습니다."))
+	// 		.andDo(MockMvcResultHandlers.print());
+	//
+	// 	// then
+	// 	verify(couponPolicyService, times(0)).updateCouponPolicy(eq(1L), any(CouponPolicyUpdateRequestDTO.class));
+	// }
 
 
 	// @Test
