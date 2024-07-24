@@ -99,6 +99,5 @@ public class DeliveryController {
 		deliveryService.updateDeliveryByOrderId(orderId, request);
 		return "redirect:/api/orders/admin/order-status/going";
 	}
-
 }
 
