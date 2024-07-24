@@ -28,6 +28,18 @@
                      style="width: 7px; height: 7px; border-radius: 50%; background-color: #a8a8a8"></div>
             </div>
             <h5 style="margin: 0 1rem" th:text="${myUserInfo.name} + ' 님의 마이 페이지'"></h5>
+            <div th:if="${myUserInfo.userStatusName == 'DORMANT'}">
+                <button id="dormant-to-active-button" type="button"
+                        th:data-email="${myUserInfo.email}">
+                    휴면 해제
+                </button>
+                <div id="code-input-container" style="display: none">
+                    <input id="certify-code" type="text" placeholder="인증번호를 입력해주세요" required>
+                    <button type="button" class="verify-code" id="certify-code-button">
+                        인증번호 확인
+                    </button>
+                </div>
+            </div>
         </section>
         <hr style="width: 100%"/>
         <section id="page-body">
