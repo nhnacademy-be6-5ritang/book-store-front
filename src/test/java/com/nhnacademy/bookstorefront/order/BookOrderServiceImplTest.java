@@ -91,6 +91,7 @@ public class BookOrderServiceImplTest {
 		Long bookOrderId = 1L;
 		GetBookOrderGetBookResponse getBookResponse = new GetBookOrderGetBookResponse(
 			"Book Title",
+			"Book Title",
 			new BigDecimal("29.99"),
 			"Book Description",
 			1L
@@ -110,11 +111,13 @@ public class BookOrderServiceImplTest {
 		String orderInfoId = "order123";
 		GetBookOrderGetBookResponse getBookResponse1 = new GetBookOrderGetBookResponse(
 			"Book Title 1",
+			"Book Title 1",
 			new BigDecimal("19.99"),
 			"Book Description 1",
 			1L
 		);
 		GetBookOrderGetBookResponse getBookResponse2 = new GetBookOrderGetBookResponse(
+			"Book Title 2",
 			"Book Title 2",
 			new BigDecimal("29.99"),
 			"Book Description 2",

@@ -28,7 +28,6 @@ import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAdminAllPaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
-import com.nhnacademy.bookstorefront.order.dto.response.GetAllOrderByStatusResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllPaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllRefundResponse;
@@ -178,6 +177,7 @@ class OrderClientControllerTest {
 
 		GetBookOrderGetBookResponse bookResponse = new GetBookOrderGetBookResponse(
 			"Dummy Book Title",
+			"Dummy Book Title",
 			BigDecimal.valueOf(19.99),
 			"This is a dummy book description.",
 			1L // dummy bookId
@@ -219,7 +219,7 @@ class OrderClientControllerTest {
 	@Test
 	void testCreateOrder() throws Exception {
 		// 더미 데이터 생성
-		GetBookOrderGetBookResponse bookResponse = new GetBookOrderGetBookResponse("Test Book", new BigDecimal("10.00"), "Test Description", 1L);
+		GetBookOrderGetBookResponse bookResponse = new GetBookOrderGetBookResponse("Test Book","Test Book", new BigDecimal("10.00"), "Test Description", 1L);
 		GetBookOrderResponse bookOrderResponse = new GetBookOrderResponse(bookResponse, 1, 1L, 1L);
 
 		GetWrappingResponse wrappingResponse1 = new GetWrappingResponse(1L, "Wrapping Paper 1", new BigDecimal("2.00"), 1);
@@ -574,7 +574,7 @@ class OrderClientControllerTest {
 
 		// 책 주문 응답 객체 설정
 		GetBookOrderResponse bookOrder = new GetBookOrderResponse(
-			new GetBookOrderGetBookResponse("Test Book", BigDecimal.valueOf(100), "Description", 1L),
+			new GetBookOrderGetBookResponse("Test Book","Test Book", BigDecimal.valueOf(100), "Description", 1L),
 			1, // quantity
 			1L, // orderListId
 			1L  // orderId
@@ -611,7 +611,7 @@ class OrderClientControllerTest {
 	void testCreateOrderForNonMember() throws Exception {
 		// 책 주문 응답 객체 설정
 		GetBookOrderResponse bookOrder = new GetBookOrderResponse(
-			new GetBookOrderGetBookResponse("Test Book", BigDecimal.valueOf(100), "Description", 1L),
+			new GetBookOrderGetBookResponse("Test Book","Test Book", BigDecimal.valueOf(100), "Description", 1L),
 			1, // quantity
 			1L, // orderListId
 			1L  // orderId
@@ -759,7 +759,7 @@ class OrderClientControllerTest {
 	@Test
 	void testCreateOrderTest() throws Exception {
 		GetBookOrderResponse bookOrderResponse = new GetBookOrderResponse(
-			new GetBookOrderGetBookResponse("Dummy Book Title", BigDecimal.valueOf(19.99), "This is a dummy book description.", 1L),
+			new GetBookOrderGetBookResponse("Dummy Book Title","Dummy Book Title", BigDecimal.valueOf(19.99), "This is a dummy book description.", 1L),
 			1, // quantity
 			1L, // orderListId
 			123L // orderId
@@ -839,7 +839,7 @@ class OrderClientControllerTest {
 	void testCartOrderWrappingGet() throws Exception {
 		List<GetBookOrderResponse> bookOrders = List.of(
 			new GetBookOrderResponse(
-				new GetBookOrderGetBookResponse("Test Book", BigDecimal.valueOf(10.00), "Description", 1L),
+				new GetBookOrderGetBookResponse("Test Book","Test Book", BigDecimal.valueOf(10.00), "Description", 1L),
 				1, 1L, 1L
 			)
 		);
@@ -866,8 +866,8 @@ class OrderClientControllerTest {
 
 		// Mock 서비스 호출 설정
 		List<GetBookOrderResponse> bookOrders = Arrays.asList(
-			new GetBookOrderResponse(new GetBookOrderGetBookResponse("Test Book 1", BigDecimal.valueOf(10), "Description 1", 1L), 1, 1L, 1L),
-			new GetBookOrderResponse(new GetBookOrderGetBookResponse("Test Book 2", BigDecimal.valueOf(20), "Description 2", 2L), 2, 2L, 2L)
+			new GetBookOrderResponse(new GetBookOrderGetBookResponse("Test Book 1","Test Book 1", BigDecimal.valueOf(10), "Description 1", 1L), 1, 1L, 1L),
+			new GetBookOrderResponse(new GetBookOrderGetBookResponse("Test Book 2","Test Book 2", BigDecimal.valueOf(20), "Description 2", 2L), 2, 2L, 2L)
 		);
 
 		when(bookOrderServiceImpl.getBookOrderByOrderId("orderInfoId123")).thenReturn(bookOrders);
@@ -884,7 +884,7 @@ class OrderClientControllerTest {
 	void testCompleteCartOrder() throws Exception {
 		List<GetBookOrderResponse> bookOrders = List.of(
 			new GetBookOrderResponse(
-				new GetBookOrderGetBookResponse("Test Book", BigDecimal.valueOf(10.00), "Description", 1L),
+				new GetBookOrderGetBookResponse("Test Book","Test Book", BigDecimal.valueOf(10.00), "Description", 1L),
 				1, 1L, 1L
 			)
 		);
