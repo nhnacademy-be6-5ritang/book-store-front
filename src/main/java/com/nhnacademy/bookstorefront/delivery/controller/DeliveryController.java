@@ -1,6 +1,6 @@
 package com.nhnacademy.bookstorefront.delivery.controller;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.nhnacademy.bookstorefront.address.dto.response.GetAddressResponse;
+import com.nhnacademy.bookstorefront.address.service.AddressService;
 import com.nhnacademy.bookstorefront.delivery.dto.request.CreateDeliveryRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.request.UpdateDeliveryByOrderIdRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.response.CreateDeliveryResponse;
@@ -23,11 +25,16 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/deliveries")
 public class DeliveryController {
 	private final DeliveryService deliveryService;
+	private final AddressService addressService;
 
 	@GetMapping("{order_list_id}")
 	public ModelAndView getDeliveriesPage(@PathVariable("order_list_id") Long orderListId) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("orderListId", orderListId);
+		if (addressService.getDefaultAddress().isPresent()){
+			Optional<GetAddressResponse> address = addressService.getDefaultAddress();
+			address.ifPresent(addressResponse -> modelAndView.addObject("address", addressResponse));
+		}
 		modelAndView.setViewName("delivery/delivery");
 		return modelAndView;
 	}
@@ -42,6 +49,10 @@ public class DeliveryController {
 	@GetMapping("/cart-order/{orderInfoId}")
 	public ModelAndView getDeliveriesCartOrder(@PathVariable String orderInfoId) {
 		ModelAndView modelAndView = new ModelAndView();
+		if (addressService.getDefaultAddress().isPresent()){
+			Optional<GetAddressResponse> address = addressService.getDefaultAddress();
+			address.ifPresent(addressResponse -> modelAndView.addObject("address", addressResponse));
+		}
 		modelAndView.setViewName("delivery/delivery-cart");
 		modelAndView.addObject("orderInfoId", orderInfoId);
 		return modelAndView;

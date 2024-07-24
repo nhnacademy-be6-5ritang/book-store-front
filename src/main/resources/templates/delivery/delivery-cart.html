@@ -24,6 +24,21 @@
         }
 
         window.onload = setMinDate;
+
+        function fillAddressFields() {
+            const baseAddressElement = document.getElementById('defaultBaseAddress');
+            const detailAddressElement = document.getElementById('defaultDetailAddress');
+
+            if (baseAddressElement && detailAddressElement) {
+                const baseAddress = baseAddressElement.value;
+                const detailAddress = detailAddressElement.value;
+
+                document.getElementById('deliveryReceiverAddress').value = baseAddress;
+                document.getElementById('deliveryReceiverAddress2').value = detailAddress;
+            } else {
+                console.error('Hidden address input fields not found');
+            }
+        }
     </script>
 </head>
 
@@ -75,6 +90,9 @@
                                                             <input type="text" class="form-control" id="deliveryReceiverAddress" name="deliveryReceiverAddress" required readonly>
                                                             <div class="input-group-append">
                                                                 <button class="btn btn-outline-secondary" type="button" onclick="execDaumPostcode()">주소 찾기</button>
+                                                                <button th:if="${address != null}" type="button" class="btn btn-primary" onclick="fillAddressFields()">기본 배송지 가져오기</button>
+                                                                <input type="hidden" id="defaultBaseAddress" th:value="${address != null ? address.baseAddress() : ''}">
+                                                                <input type="hidden" id="defaultDetailAddress" th:value="${address != null ? address.detailAddress : ''}">
                                                             </div>
                                                         </div>
                                                     </div>

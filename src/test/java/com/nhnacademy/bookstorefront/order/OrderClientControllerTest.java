@@ -1,6 +1,7 @@
 package com.nhnacademy.bookstorefront.order;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.bookstorefront.address.service.AddressService;
 import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
 import com.nhnacademy.bookstorefront.bookcart.dto.response.GetBookCartResponse;
 import com.nhnacademy.bookstorefront.bookcart.service.BookCartService;
@@ -111,6 +112,9 @@ class OrderClientControllerTest {
 	@MockBean
 	private OrderStatusServiceImpl orderStatusServiceImpl;
 
+	@MockBean
+	private AddressService addressService;
+
 	@InjectMocks
 	private OrderClientController orderClientController;
 
@@ -126,7 +130,7 @@ class OrderClientControllerTest {
 				wrappingPaperServiceImpl,
 				deliveryServiceImpl,
 				bookServiceImpl,deliveryPolicyServiceImpl,
-				refundPolicyServiceImpl,userAndCouponService,bookCartService,orderStatusServiceImpl))
+				refundPolicyServiceImpl,userAndCouponService,bookCartService,orderStatusServiceImpl,addressService))
 			.build();
 		objectMapper = new ObjectMapper();
 	}

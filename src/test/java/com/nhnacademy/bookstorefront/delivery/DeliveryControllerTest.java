@@ -1,4 +1,5 @@
 package com.nhnacademy.bookstorefront.delivery;
+import com.nhnacademy.bookstorefront.address.service.AddressService;
 import com.nhnacademy.bookstorefront.delivery.controller.DeliveryController;
 import com.nhnacademy.bookstorefront.delivery.dto.request.CreateDeliveryRequest;
 import com.nhnacademy.bookstorefront.delivery.dto.request.UpdateDeliveryByOrderIdRequest;
@@ -31,6 +32,9 @@ public class DeliveryControllerTest {
 	@MockBean
 	private DeliveryService deliveryService;
 
+	@MockBean
+	private AddressService addressService;
+
 	private MockMvc mockMvc;
 
 	@BeforeEach
@@ -38,7 +42,7 @@ public class DeliveryControllerTest {
 		MockitoAnnotations.openMocks(this);
 
 		// 설정한 MockMvc 인스턴스를 사용합니다.
-		mockMvc = MockMvcBuilders.standaloneSetup(new DeliveryController(deliveryService))
+		mockMvc = MockMvcBuilders.standaloneSetup(new DeliveryController(deliveryService,addressService))
 			.build();
 	}
 

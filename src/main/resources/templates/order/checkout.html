@@ -52,19 +52,19 @@
                                         <div class="row">
                                             <div class="col-12 mb--20">
                                                 <label>결제자 이름</label>
-                                                <input type="text" name="payerName">
+                                                <input type="text" name="payerName" th:value="${myUserInfo.name()}">
                                             </div>
                                             <div class="col-12 mb--20">
                                                 <label>결제자 이메일</label>
-                                                <input type="email" name="payerEmail">
+                                                <input type="email" name="payerEmail" th:value="${myUserInfo.email()}">
                                             </div>
                                             <div class="col-12 mb--20">
                                                 <label>결제자 번호</label>
-                                                <input type="text" name="payerNumber">
+                                                <input type="text" name="payerNumber" th:value="${myUserInfo.contact()}">
                                             </div>
                                             <div class="col-12 col-12 mb--20">
                                                 <label>결제자 주소</label>
-                                                <input type="text" name="payerAddress">
+                                                <input type="text" name="payerAddress" th:value="${address.baseAddress() +' '+ address.detailAddress()}">
                                             </div>
                                         </div>
 
