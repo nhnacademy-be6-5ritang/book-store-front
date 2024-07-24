@@ -1,9 +1,7 @@
-package com.nhnacademy.bookstorefront.payment.controller;
+package com.nhnacademy.bookstorefront.payment;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -12,8 +10,6 @@ import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -26,16 +22,18 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.client.RestTemplate;
 
+import com.nhnacademy.bookstorefront.bookcart.service.impl.BookCartServiceImpl;
 import com.nhnacademy.bookstorefront.global.config.CacheConfig;
 import com.nhnacademy.bookstorefront.order.dto.response.FindByInfoIdBookOrderGetBookResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.FindByInfoIdBookOrderGetOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
+import com.nhnacademy.bookstorefront.payment.controller.PaymentController;
 import com.nhnacademy.bookstorefront.payment.dto.request.CancelTextRequest;
 import com.nhnacademy.bookstorefront.payment.dto.request.PaymentConfirmationRequest;
 import com.nhnacademy.bookstorefront.payment.dto.response.CancelResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.GetBookOrderByInfoIdResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.TransactionsResponse;
-import com.nhnacademy.bookstorefront.payment.service.Impl.PaymentServiceImpl;
+import com.nhnacademy.bookstorefront.payment.service.impl.PaymentServiceImpl;
 
 @WebMvcTest(PaymentController.class)
 class PaymentControllerTest {
@@ -46,6 +44,9 @@ class PaymentControllerTest {
 	private PaymentServiceImpl paymentServiceImpl;
 
 	@MockBean
+	private BookCartServiceImpl bookCartServiceImpl;
+
+	@MockBean
 	private RestTemplate paymentRestTemplate;
 
 	@MockBean
@@ -54,7 +55,8 @@ class PaymentControllerTest {
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
-		mockMvc = MockMvcBuilders.standaloneSetup(new PaymentController(paymentServiceImpl,paymentRestTemplate)).build();
+		mockMvc = MockMvcBuilders.standaloneSetup(
+			new PaymentController(paymentServiceImpl, paymentRestTemplate, bookCartServiceImpl)).build();
 	}
 
 	@Test
@@ -76,7 +78,8 @@ class PaymentControllerTest {
 		GetBookOrderByInfoIdResponse bookOrderResponse = new GetBookOrderByInfoIdResponse(
 			1L,
 			new FindByInfoIdBookOrderGetBookResponse("Book Title", BigDecimal.valueOf(100), "Book Description"),
-			new FindByInfoIdBookOrderGetOrderResponse(orderInfoId, BigDecimal.valueOf(200), LocalDateTime.now(), BigDecimal.valueOf(10), BigDecimal.valueOf(5)),
+			new FindByInfoIdBookOrderGetOrderResponse(orderInfoId, BigDecimal.valueOf(200), LocalDateTime.now(),
+				BigDecimal.valueOf(10), BigDecimal.valueOf(5)),
 			2,
 			"Order Title"
 		);
@@ -104,7 +107,8 @@ class PaymentControllerTest {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.set("Authorization", "Basic dGVzdF9za19BUTkyeW14TjM0MjllTUtFSmVManJhalJLWHZkOg==");
 
-		PaymentConfirmationRequest request = PaymentConfirmationRequest.form(paymentKey, Integer.parseInt(amount), orderId);
+		PaymentConfirmationRequest request = PaymentConfirmationRequest.form(paymentKey, Integer.parseInt(amount),
+			orderId);
 		HttpEntity<PaymentConfirmationRequest> entity = new HttpEntity<>(request, headers);
 
 		when(paymentRestTemplate.postForObject(anyString(), any(HttpEntity.class), any(Class.class)))

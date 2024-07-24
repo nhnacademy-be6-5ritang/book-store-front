@@ -5,6 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,12 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.nhnacademy.bookstorefront.bookcart.service.impl.BookCartServiceImpl;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.payment.dto.request.CancelTextRequest;
 import com.nhnacademy.bookstorefront.payment.dto.request.PaymentConfirmationRequest;
 import com.nhnacademy.bookstorefront.payment.dto.response.CancelResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.GetBookOrderByInfoIdResponse;
-import com.nhnacademy.bookstorefront.payment.service.Impl.PaymentServiceImpl;
+import com.nhnacademy.bookstorefront.payment.service.impl.PaymentServiceImpl;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +36,7 @@ public class PaymentController {
 
 	private final PaymentServiceImpl paymentServiceImpl;
 	private final RestTemplate paymentRestTemplate;
+	private final BookCartServiceImpl bookCartServiceImpl;
 
 	/**
 	 * 주문 결제 전 주문 보안 아이디로 주문을 html에 설정
@@ -54,7 +57,7 @@ public class PaymentController {
 	}
 
 	/**
-	 * 주문 성공 시 결제 승인 요청
+	 * 주문 성공 시 결제 승인 요청 및 장바구니 비우기
 	 * @param orderId 주문 보안 아이디
 	 * @param paymentKey 토스 페이먼츠 키
 	 * @param amount 결제 금액
@@ -62,7 +65,7 @@ public class PaymentController {
 	 */
 	@GetMapping("/success")
 	public ModelAndView paymentSuccess(@RequestParam String orderId, @RequestParam String paymentKey,
-		@RequestParam String amount) {
+		@RequestParam String amount, @CookieValue(name = "cartId", required = false) String cartId) {
 
 		String apiUrl = "https://api.tosspayments.com/v1/payments/confirm";
 		String authToken = "Basic dGVzdF9za19BUTkyeW14TjM0MjllTUtFSmVManJhalJLWHZkOg==";
@@ -76,6 +79,7 @@ public class PaymentController {
 		String response = paymentRestTemplate.postForObject(apiUrl, entity, String.class);
 
 		paymentServiceImpl.savePaymentResponse(response);
+		bookCartServiceImpl.deleteAllBookCart(cartId);
 		ModelAndView view = new ModelAndView();
 		view.setViewName("redirect:/api/orders/complete/" + orderId);
 		return view;
@@ -137,7 +141,7 @@ public class PaymentController {
 	 */
 	@PostMapping("/cancel/test/{order_info_id}")
 	public ModelAndView paymentCancel(@PathVariable("order_info_id") String orderInfoId, @Valid @ModelAttribute
-		CancelTextRequest cancelTextRequest) {
+	CancelTextRequest cancelTextRequest) {
 		CancelResponse cancelResponse = paymentServiceImpl.paymentFindByOrderInfoId(orderInfoId);
 
 		String url = "https://api.tosspayments.com/v1/payments/" + cancelResponse.paymentKey() + "/cancel";
