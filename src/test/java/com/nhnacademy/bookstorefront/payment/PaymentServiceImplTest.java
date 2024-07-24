@@ -1,8 +1,8 @@
 package com.nhnacademy.bookstorefront.payment;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -23,7 +23,7 @@ import com.nhnacademy.bookstorefront.payment.dto.response.PaymentSaveResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.TransactionsResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.UpdatePaymentResponse;
 import com.nhnacademy.bookstorefront.payment.feignclient.PaymentServiceClient;
-import com.nhnacademy.bookstorefront.payment.service.Impl.PaymentServiceImpl;
+import com.nhnacademy.bookstorefront.payment.service.impl.PaymentServiceImpl;
 
 class PaymentServiceImplTest {
 
@@ -57,7 +57,8 @@ class PaymentServiceImplTest {
 		GetBookOrderByInfoIdResponse response = new GetBookOrderByInfoIdResponse(
 			1L,
 			new FindByInfoIdBookOrderGetBookResponse("Book Title", BigDecimal.valueOf(100), "Book Description"),
-			new FindByInfoIdBookOrderGetOrderResponse("order123", BigDecimal.valueOf(200), LocalDateTime.now(), BigDecimal.valueOf(10), BigDecimal.valueOf(5)),
+			new FindByInfoIdBookOrderGetOrderResponse("order123", BigDecimal.valueOf(200), LocalDateTime.now(),
+				BigDecimal.valueOf(10), BigDecimal.valueOf(5)),
 			2,
 			"Order Title"
 		);

@@ -33,7 +33,7 @@ import com.nhnacademy.bookstorefront.payment.dto.request.PaymentConfirmationRequ
 import com.nhnacademy.bookstorefront.payment.dto.response.CancelResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.GetBookOrderByInfoIdResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.TransactionsResponse;
-import com.nhnacademy.bookstorefront.payment.service.Impl.PaymentServiceImpl;
+import com.nhnacademy.bookstorefront.payment.service.impl.PaymentServiceImpl;
 
 @WebMvcTest(PaymentController.class)
 class PaymentControllerTest {

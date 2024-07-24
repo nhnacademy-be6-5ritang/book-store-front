@@ -22,7 +22,7 @@ import com.nhnacademy.bookstorefront.payment.dto.request.CancelTextRequest;
 import com.nhnacademy.bookstorefront.payment.dto.request.PaymentConfirmationRequest;
 import com.nhnacademy.bookstorefront.payment.dto.response.CancelResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.GetBookOrderByInfoIdResponse;
-import com.nhnacademy.bookstorefront.payment.service.Impl.PaymentServiceImpl;
+import com.nhnacademy.bookstorefront.payment.service.impl.PaymentServiceImpl;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
