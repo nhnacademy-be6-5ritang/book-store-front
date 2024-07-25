@@ -35,7 +35,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="order : ${orderList}">
+                    <tr th:if="${orderList.size() == 0}">
+                        <td colspan="4">주문 내역이 없습니다.</td>
+                    </tr>
+                    <tr th:unless="${orderList.size() == 0}" th:each="order : ${orderList}">
                         <td class="pro-title">
                             <a th:href="@{/api/orders/orderDetails/{order_info_id}(order_info_id=${order.orderInfoId()})}"
                                th:text="${order.orderInfoId()}"></a>
@@ -44,7 +47,8 @@
                                 th:text="${order.orderPrice().setScale(0)} + 원"></span>
                         </td>
                         <td class="pro-date"><span
-                                th:text="${order.orderDate()}"></span></td>
+                                th:text="${order.orderDate().toString().split('T')[0]} + ' ' + ${#strings.substring(order.orderDate().toString().split('T')[1], 0, 8)}"></span>
+                        </td>
                         <td class="pro-status"><span
                                 th:text="${order.name()}"></span></td>
                     </tr>
