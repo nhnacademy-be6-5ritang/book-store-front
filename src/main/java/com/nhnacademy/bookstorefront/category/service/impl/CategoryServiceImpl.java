@@ -2,6 +2,7 @@ package com.nhnacademy.bookstorefront.category.service.impl;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -41,16 +42,19 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
+	@CacheEvict(value = "categoriesCache", allEntries = true)
 	public void createCategory(CreateCategoryRequest request) {
 		categoryServiceClient.createCategory(request);
 	}
 
 	@Override
+	@CacheEvict(value = "categoriesCache", allEntries = true)
 	public void updateCategory(Long categoryId, UpdateCategoryRequest request) {
 		categoryServiceClient.updateCategory(categoryId, request);
 	}
 
 	@Override
+	@CacheEvict(value = "categoriesCache", allEntries = true)
 	public void deleteCategory(Long categoryId) {
 		categoryServiceClient.deleteCategory(categoryId);
 	}

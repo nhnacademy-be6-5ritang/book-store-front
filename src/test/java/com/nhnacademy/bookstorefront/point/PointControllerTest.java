@@ -1,9 +1,7 @@
 package com.nhnacademy.bookstorefront.point;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -13,8 +11,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -26,7 +22,7 @@ import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.nhnacademy.bookstorefront.global.config.CacheConfig;
+import com.nhnacademy.bookstorefront.cache.service.impl.CacheServiceImpl;
 import com.nhnacademy.bookstorefront.point.controller.PointController;
 import com.nhnacademy.bookstorefront.point.dto.request.CreatePointEarningPolicyRequest;
 import com.nhnacademy.bookstorefront.point.dto.request.UpdatePointEarningPolicyRequest;
@@ -50,12 +46,15 @@ class PointControllerTest {
 	private PointTransactionServiceImpl pointTransactionService;
 
 	@MockBean
-	private CacheConfig cacheConfig;
+	private CacheServiceImpl cacheService;
 
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
-		mockMvc = MockMvcBuilders.standaloneSetup(new PointController(pointEarningPolicyService,pointTransactionService)).setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver()).build();
+		mockMvc = MockMvcBuilders.standaloneSetup(
+				new PointController(pointEarningPolicyService, pointTransactionService))
+			.setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
+			.build();
 	}
 
 	@Test
@@ -114,7 +113,8 @@ class PointControllerTest {
 
 	@Test
 	void testCreatePointEarningPolicy() throws Exception {
-		CreatePointEarningPolicyRequest request = new CreatePointEarningPolicyRequest("PolicyType", BigDecimal.valueOf(10));
+		CreatePointEarningPolicyRequest request = new CreatePointEarningPolicyRequest("PolicyType",
+			BigDecimal.valueOf(10));
 
 		when(pointEarningPolicyService.createPointEarningPolicy(any(CreatePointEarningPolicyRequest.class)))
 			.thenReturn(new CreatePointEarningPolicyResponse("PolicyType", BigDecimal.valueOf(10)));
@@ -136,7 +136,8 @@ class PointControllerTest {
 
 	@Test
 	void testUpdatePointEarningPolicy() throws Exception {
-		UpdatePointEarningPolicyRequest request = new UpdatePointEarningPolicyRequest("UpdatedPolicy", BigDecimal.valueOf(20));
+		UpdatePointEarningPolicyRequest request = new UpdatePointEarningPolicyRequest("UpdatedPolicy",
+			BigDecimal.valueOf(20));
 
 		when(pointEarningPolicyService.updatePointEarningPolicy(anyLong(), any(UpdatePointEarningPolicyRequest.class)))
 			.thenReturn(new UpdatePointEarningPolicyResponse("UpdatedPolicy", BigDecimal.valueOf(20)));
@@ -146,7 +147,6 @@ class PointControllerTest {
 			.andExpect(status().is3xxRedirection())
 			.andExpect(redirectedUrl("/api/point-earning-policies/admin"));
 	}
-
 
 	@Test
 	void testTransactions() throws Exception {
