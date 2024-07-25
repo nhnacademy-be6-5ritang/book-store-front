@@ -51,11 +51,11 @@
                         <td th:text="${user.userGradeName()}"></td>
                         <td>
                             <div class="roles-container">
-                                <span th:each="role : ${roles}"
-                                      class="role-tag"
-                                      th:classappend="${#lists.contains(user.roles(), role.roleName()) ? 'has-role' : 'has-no-role'}"
-                                      th:text="${role.roleName()}">
-                                </span>
+                                <div th:each="role : ${roles}"
+                                     class="role-tag"
+                                     th:classappend="${#lists.contains(user.roles(), role.roleName()) ? 'has-role' : 'has-no-role'}"
+                                     th:text="${role.roleName()}">
+                                </div>
                             </div>
                         </td>
                     </tr>
