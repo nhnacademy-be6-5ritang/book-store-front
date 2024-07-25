@@ -15,10 +15,10 @@ import lombok.RequiredArgsConstructor;
 @ControllerAdvice
 @RequiredArgsConstructor
 public class GlobalDataControllerAdvice {
-	private final CacheServiceImpl cacheDataService;
+	private final CacheServiceImpl cacheService;
 
 	@ModelAttribute
 	public void categories(Model model) {
-		model.addAttribute("categoriesCache", cacheDataService.getCachedCategories());
+		model.addAttribute("categoriesCache", cacheService.getCachedCategories());
 	}
 }

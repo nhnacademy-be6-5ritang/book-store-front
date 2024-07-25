@@ -36,7 +36,7 @@ class CouponPolicyControllerTest {
 	private CouponPolicyServiceImpl couponPolicyService;
 
 	@MockBean
-	private CacheServiceImpl cacheDataService;
+	private CacheServiceImpl cacheService;
 
 	@BeforeEach
 	void setUp() {

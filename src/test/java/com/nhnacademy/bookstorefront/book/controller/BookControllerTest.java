@@ -55,14 +55,14 @@ class BookControllerTest {
 	private ReviewService reviewService;
 
 	@Mock
-	private CacheServiceImpl cacheDataService;
+	private CacheServiceImpl cacheService;
 
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
 		mockMvc = MockMvcBuilders.standaloneSetup(
 				new BookController(bookService, categoryService, bookStatusService, tagService, reviewService,
-					cacheDataService))
+					cacheService))
 			.setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver()).build();
 	}
 
@@ -107,9 +107,9 @@ class BookControllerTest {
 
 	@Test
 	void testMainPage() throws Exception {
-		when(cacheDataService.getOrderedBooks()).thenReturn(List.of());
-		when(cacheDataService.getLikesBooks()).thenReturn(List.of());
-		when(cacheDataService.getNewestBooks()).thenReturn(List.of());
+		when(cacheService.getOrderedBooks()).thenReturn(List.of());
+		when(cacheService.getLikesBooks()).thenReturn(List.of());
+		when(cacheService.getNewestBooks()).thenReturn(List.of());
 
 		mockMvc.perform(get("/api/books/main"))
 			.andExpect(status().isOk())

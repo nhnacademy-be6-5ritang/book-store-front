@@ -47,7 +47,7 @@ public class BookController {
 	private final BookStatusServiceImpl bookStatusService;
 	private final TagServiceImpl tagService;
 	private final ReviewService reviewService;
-	private final CacheServiceImpl cacheDataService;
+	private final CacheServiceImpl cacheService;
 	private static final String REDIRECT_URL = "redirect:/api/books/page";
 
 	/**
@@ -90,9 +90,9 @@ public class BookController {
 	 */
 	@GetMapping("/main")
 	public String mainPage(Model model) {
-		model.addAttribute("orderedBooksCache", cacheDataService.getOrderedBooks());
-		model.addAttribute("likesBooksCache", cacheDataService.getLikesBooks());
-		model.addAttribute("newestBooksCache", cacheDataService.getNewestBooks());
+		model.addAttribute("orderedBooksCache", cacheService.getOrderedBooks());
+		model.addAttribute("likesBooksCache", cacheService.getLikesBooks());
+		model.addAttribute("newestBooksCache", cacheService.getNewestBooks());
 		return "index";
 	}
 

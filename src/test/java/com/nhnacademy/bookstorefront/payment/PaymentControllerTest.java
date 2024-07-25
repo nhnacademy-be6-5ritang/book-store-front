@@ -47,7 +47,7 @@ class PaymentControllerTest {
 	private BookCartServiceImpl bookCartServiceImpl;
 
 	@MockBean
-	private CacheServiceImpl cacheDataService;
+	private CacheServiceImpl cacheService;
 
 	@MockBean
 	private RestTemplate paymentRestTemplate;

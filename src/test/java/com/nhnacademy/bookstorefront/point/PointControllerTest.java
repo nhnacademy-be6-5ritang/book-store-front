@@ -46,7 +46,7 @@ class PointControllerTest {
 	private PointTransactionServiceImpl pointTransactionService;
 
 	@MockBean
-	private CacheServiceImpl cacheDataService;
+	private CacheServiceImpl cacheService;
 
 	@BeforeEach
 	void setUp() {

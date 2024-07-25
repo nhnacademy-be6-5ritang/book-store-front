@@ -115,7 +115,7 @@ class OrderClientControllerTest {
 	private AddressService addressService;
 
 	@MockBean
-	private CacheServiceImpl cacheDataService;
+	private CacheServiceImpl cacheService;
 
 	@InjectMocks
 	private OrderClientController orderClientController;
