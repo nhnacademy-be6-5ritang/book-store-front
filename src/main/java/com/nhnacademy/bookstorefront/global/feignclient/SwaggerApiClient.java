@@ -9,6 +9,6 @@ public interface SwaggerApiClient {
 	@GetMapping("/coupons/api")
 	ResponseEntity<String> getSwaggerJson();
 
-	@GetMapping("/back/api")
+	@GetMapping("/api")
 	ResponseEntity<String> getBackSwaggerJson();
 }
