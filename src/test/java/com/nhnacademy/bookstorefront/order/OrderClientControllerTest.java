@@ -15,6 +15,11 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -46,7 +51,6 @@ import com.nhnacademy.bookstorefront.order.dto.response.CreateCartOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAdminAllPaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusResponse;
-import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllPaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllRefundResponse;
@@ -130,6 +134,7 @@ class OrderClientControllerTest {
 				deliveryServiceImpl,
 				bookServiceImpl, deliveryPolicyServiceImpl,
 				refundPolicyServiceImpl, userAndCouponService, bookCartService, orderStatusServiceImpl, addressService))
+			.setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
 			.build();
 		objectMapper = new ObjectMapper();
 	}
@@ -297,30 +302,26 @@ class OrderClientControllerTest {
 
 	@Test
 	void testOrderCheck() throws Exception {
-		// 더미 데이터 생성
-		List<GetAllOrderResponse> orderList = List.of(
-			new GetAllOrderResponse(
-				1L,
-				LocalDateTime.now(),
-				new BigDecimal("100.00"),
-				"orderInfo123",
-				"John Doe"
-			),
+
+		Pageable pageable = PageRequest.of(0, 10);
+		List<GetAllOrderResponse> orders = List.of(
 			new GetAllOrderResponse(
 				2L,
 				LocalDateTime.now(),
 				new BigDecimal("200.00"),
 				"orderInfo456",
 				"Jane Doe"
-			)
-		);
-		GetAllListOrderResponse ordersResponse = new GetAllListOrderResponse(orderList);
+			));
 
+		// 더미 데이터 생성
+		Page<GetAllOrderResponse> ordersResponse = new PageImpl<>(orders, pageable, orders.size());
 		// Mock 설정
-		when(orderServiceImpl.findAllUserId()).thenReturn(ordersResponse);
+		when(orderServiceImpl.findAllPageByUserId(pageable)).thenReturn(ordersResponse);
 
 		// 테스트 수행
-		mockMvc.perform(get("/api/orders/orderCheck"))
+		mockMvc.perform(get("/api/orders/orderCheck")
+				.param("page", String.valueOf(pageable.getPageNumber()))
+				.param("size", String.valueOf(pageable.getPageSize())))
 			.andExpect(status().isOk())
 			.andExpect(view().name("order/orderCheck"))
 			.andExpect(model().attributeExists("orderList"));
