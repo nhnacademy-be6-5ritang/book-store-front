@@ -4,7 +4,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import com.nhnacademy.bookstorefront.global.config.CacheConfig;
+import com.nhnacademy.bookstorefront.cache.service.impl.CacheServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,10 +15,10 @@ import lombok.RequiredArgsConstructor;
 @ControllerAdvice
 @RequiredArgsConstructor
 public class GlobalDataControllerAdvice {
-	private final CacheConfig cacheConfig;
+	private final CacheServiceImpl cacheDataService;
 
 	@ModelAttribute
 	public void categories(Model model) {
-		model.addAttribute("categoriesCache", cacheConfig.getCachedCategories());
+		model.addAttribute("categoriesCache", cacheDataService.getCachedCategories());
 	}
 }

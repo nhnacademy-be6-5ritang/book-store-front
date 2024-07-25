@@ -23,7 +23,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.client.RestTemplate;
 
 import com.nhnacademy.bookstorefront.bookcart.service.impl.BookCartServiceImpl;
-import com.nhnacademy.bookstorefront.global.config.CacheConfig;
+import com.nhnacademy.bookstorefront.cache.service.impl.CacheServiceImpl;
 import com.nhnacademy.bookstorefront.order.dto.response.FindByInfoIdBookOrderGetBookResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.FindByInfoIdBookOrderGetOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
@@ -47,10 +47,10 @@ class PaymentControllerTest {
 	private BookCartServiceImpl bookCartServiceImpl;
 
 	@MockBean
-	private RestTemplate paymentRestTemplate;
+	private CacheServiceImpl cacheDataService;
 
 	@MockBean
-	private CacheConfig cacheConfig;
+	private RestTemplate paymentRestTemplate;
 
 	@BeforeEach
 	void setUp() {

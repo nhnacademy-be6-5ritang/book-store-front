@@ -29,8 +29,8 @@ import com.nhnacademy.bookstorefront.book.dto.response.BookSearchResult;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
 import com.nhnacademy.bookstorefront.bookstatus.service.impl.BookStatusServiceImpl;
+import com.nhnacademy.bookstorefront.cache.service.impl.CacheServiceImpl;
 import com.nhnacademy.bookstorefront.category.service.impl.CategoryServiceImpl;
-import com.nhnacademy.bookstorefront.global.config.CacheConfig;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
 import com.nhnacademy.bookstorefront.review.service.ReviewService;
 import com.nhnacademy.bookstorefront.tag.service.impl.TagServiceImpl;
@@ -55,13 +55,14 @@ class BookControllerTest {
 	private ReviewService reviewService;
 
 	@Mock
-	private CacheConfig cacheConfig;
+	private CacheServiceImpl cacheDataService;
 
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
 		mockMvc = MockMvcBuilders.standaloneSetup(
-				new BookController(bookService, categoryService, bookStatusService, tagService, reviewService, cacheConfig))
+				new BookController(bookService, categoryService, bookStatusService, tagService, reviewService,
+					cacheDataService))
 			.setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver()).build();
 	}
 
@@ -106,9 +107,9 @@ class BookControllerTest {
 
 	@Test
 	void testMainPage() throws Exception {
-		when(cacheConfig.getOrderedBooks()).thenReturn(List.of());
-		when(cacheConfig.getLikesBooks()).thenReturn(List.of());
-		when(cacheConfig.getNewestBooks()).thenReturn(List.of());
+		when(cacheDataService.getOrderedBooks()).thenReturn(List.of());
+		when(cacheDataService.getLikesBooks()).thenReturn(List.of());
+		when(cacheDataService.getNewestBooks()).thenReturn(List.of());
 
 		mockMvc.perform(get("/api/books/main"))
 			.andExpect(status().isOk())

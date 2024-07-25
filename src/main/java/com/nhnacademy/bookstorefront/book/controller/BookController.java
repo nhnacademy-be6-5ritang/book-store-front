@@ -25,8 +25,8 @@ import com.nhnacademy.bookstorefront.book.dto.response.BookSearchResult;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
 import com.nhnacademy.bookstorefront.bookstatus.service.impl.BookStatusServiceImpl;
+import com.nhnacademy.bookstorefront.cache.service.impl.CacheServiceImpl;
 import com.nhnacademy.bookstorefront.category.service.impl.CategoryServiceImpl;
-import com.nhnacademy.bookstorefront.global.config.CacheConfig;
 import com.nhnacademy.bookstorefront.global.util.PagingModel;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
 import com.nhnacademy.bookstorefront.review.service.ReviewService;
@@ -47,7 +47,7 @@ public class BookController {
 	private final BookStatusServiceImpl bookStatusService;
 	private final TagServiceImpl tagService;
 	private final ReviewService reviewService;
-	private final CacheConfig cacheConfig;
+	private final CacheServiceImpl cacheDataService;
 	private static final String REDIRECT_URL = "redirect:/api/books/page";
 
 	/**
@@ -90,9 +90,9 @@ public class BookController {
 	 */
 	@GetMapping("/main")
 	public String mainPage(Model model) {
-		model.addAttribute("orderedBooksCache", cacheConfig.getOrderedBooks());
-		model.addAttribute("likesBooksCache", cacheConfig.getLikesBooks());
-		model.addAttribute("newestBooksCache", cacheConfig.getNewestBooks());
+		model.addAttribute("orderedBooksCache", cacheDataService.getOrderedBooks());
+		model.addAttribute("likesBooksCache", cacheDataService.getLikesBooks());
+		model.addAttribute("newestBooksCache", cacheDataService.getNewestBooks());
 		return "index";
 	}
 

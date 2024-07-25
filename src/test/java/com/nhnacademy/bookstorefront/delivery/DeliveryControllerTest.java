@@ -1,11 +1,11 @@
 package com.nhnacademy.bookstorefront.delivery;
-import com.nhnacademy.bookstorefront.address.service.AddressService;
-import com.nhnacademy.bookstorefront.delivery.controller.DeliveryController;
-import com.nhnacademy.bookstorefront.delivery.dto.request.CreateDeliveryRequest;
-import com.nhnacademy.bookstorefront.delivery.dto.request.UpdateDeliveryByOrderIdRequest;
-import com.nhnacademy.bookstorefront.delivery.dto.response.CreateDeliveryResponse;
-import com.nhnacademy.bookstorefront.delivery.service.DeliveryService;
-import com.nhnacademy.bookstorefront.global.config.CacheConfig;
+
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,24 +16,25 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.time.LocalDateTime;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import com.nhnacademy.bookstorefront.address.service.AddressService;
+import com.nhnacademy.bookstorefront.cache.service.impl.CacheServiceImpl;
+import com.nhnacademy.bookstorefront.delivery.controller.DeliveryController;
+import com.nhnacademy.bookstorefront.delivery.dto.request.CreateDeliveryRequest;
+import com.nhnacademy.bookstorefront.delivery.dto.request.UpdateDeliveryByOrderIdRequest;
+import com.nhnacademy.bookstorefront.delivery.dto.response.CreateDeliveryResponse;
+import com.nhnacademy.bookstorefront.delivery.service.DeliveryService;
 
 @WebMvcTest(DeliveryController.class)
-public class DeliveryControllerTest {
-
-	@MockBean
-	private CacheConfig cacheConfig;
+class DeliveryControllerTest {
 
 	@MockBean
 	private DeliveryService deliveryService;
 
 	@MockBean
 	private AddressService addressService;
+
+	@MockBean
+	private CacheServiceImpl cacheDataService;
 
 	private MockMvc mockMvc;
 
@@ -42,7 +43,7 @@ public class DeliveryControllerTest {
 		MockitoAnnotations.openMocks(this);
 
 		// 설정한 MockMvc 인스턴스를 사용합니다.
-		mockMvc = MockMvcBuilders.standaloneSetup(new DeliveryController(deliveryService,addressService))
+		mockMvc = MockMvcBuilders.standaloneSetup(new DeliveryController(deliveryService, addressService))
 			.build();
 	}
 
