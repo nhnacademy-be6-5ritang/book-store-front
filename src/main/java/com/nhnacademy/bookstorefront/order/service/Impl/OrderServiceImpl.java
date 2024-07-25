@@ -1,5 +1,7 @@
 package com.nhnacademy.bookstorefront.order.service.Impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
@@ -8,6 +10,7 @@ import com.nhnacademy.bookstorefront.order.dto.response.CreateCartOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetAllOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetNonOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetUserPointOrderResponse;
@@ -92,7 +95,13 @@ public class OrderServiceImpl implements OrderService {
 		return orderServiceClient.updateCartOrder(createOrderRequest, orderId).getBody();
 	}
 
+	@Override
 	public GetMyUserInfoResponse getMyUserInfoByOrder() {
 		return orderServiceClient.getMyUserInfoByInfo().getBody();
+	}
+
+	@Override
+	public Page<GetAllOrderResponse> findAllPageByUserId(Pageable pageable) {
+		return orderServiceClient.findAllPageByUserId(pageable).getBody();
 	}
 }
