@@ -22,7 +22,7 @@ import com.nhnacademy.bookstorefront.couponpolicy.exception.CouponBookIdNullExce
 import com.nhnacademy.bookstorefront.couponpolicy.exception.CouponCategoryIdNullException;
 import com.nhnacademy.bookstorefront.couponpolicy.exception.CouponPolicyTypeIsNotExist;
 import com.nhnacademy.bookstorefront.couponpolicy.exception.CouponPolicyValidationException;
-import com.nhnacademy.bookstorefront.couponpolicy.service.impl.CouponPolicyServiceImpl;
+import com.nhnacademy.bookstorefront.couponpolicy.service.CouponPolicyService;
 import com.nhnacademy.bookstorefront.global.controller.payload.ErrorStatus;
 import com.nhnacademy.bookstorefront.global.util.PagingModel;
 
@@ -31,9 +31,9 @@ import jakarta.validation.Valid;
 @Controller
 @RequestMapping("/coupons/policies")
 public class CouponPolicyController {
-	private final CouponPolicyServiceImpl couponPolicyService;
+	private final CouponPolicyService couponPolicyService;
 
-	public CouponPolicyController(CouponPolicyServiceImpl couponPolicyService) {
+	public CouponPolicyController(CouponPolicyService couponPolicyService) {
 		this.couponPolicyService = couponPolicyService;
 	}
 
@@ -109,6 +109,8 @@ public class CouponPolicyController {
 
 		return "coupon-manager/coupon-policy"; // Ensure this view exists
 	}
+
+
 
 
 }
