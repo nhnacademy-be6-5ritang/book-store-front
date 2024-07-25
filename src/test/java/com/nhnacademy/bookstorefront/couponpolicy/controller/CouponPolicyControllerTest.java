@@ -1,7 +1,6 @@
 package com.nhnacademy.bookstorefront.couponpolicy.controller;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -346,6 +345,23 @@ class CouponPolicyControllerTest {
 	}
 
 
+	// @Test
+	// void testUpdateCouponPolicy_Failure_EmptyFields() throws Exception {
+	// 	// given
+	// 	CouponPolicyUpdateRequestDTO requestDTO = new CouponPolicyUpdateRequestDTO(
+	// 		BigDecimal.valueOf(10000), null, null, null, true
+	// 	);
+	//
+	// 	// when
+	// 	mockMvc.perform(MockMvcRequestBuilders.patch("/coupons/policies/1")
+	// 			.flashAttr("requestDTO", requestDTO))
+	// 		.andExpect(status().is3xxRedirection())
+	// 		.andExpect(redirectedUrl("/coupons/policies"))
+	// 		.andDo(print());
+	//
+	// 	// then
+	// 	verify(couponPolicyService, times(1)).updateCouponPolicy(eq(1L), any(CouponPolicyUpdateRequestDTO.class));
+	// }
 
 
 
@@ -376,4 +392,3 @@ class CouponPolicyControllerTest {
 			.andExpect(model().attribute("policies", mockPage));
 	}
 }
-

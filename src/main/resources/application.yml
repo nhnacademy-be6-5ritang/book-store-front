@@ -5,12 +5,23 @@ spring:
   profiles:
     active: dev
 
-  # HTML form에서 GET, POST 뿐 아니라 PUT, DELETE도 사용하기 위해서 설정
+  # HTML form 에서 GET, POST 뿐 아니라 PUT, DELETE 도 사용하기 위해서 설정
   mvc:
     hidden method:
       filter:
         enabled: true
 
+  data:
+    redis:
+      host: 133.186.241.167
+      port: 6379
+      password: ${REDIS_PASSWORD}
+      database: 20
+
 logging:
   file:
     path: ./logs
+
+  level:
+    com.netflix.discovery: ERROR
+    com.netflix.eureka: ERROR

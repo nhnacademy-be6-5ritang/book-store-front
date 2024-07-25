@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="zxx">
-
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,77 +7,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/pages/list-book-by-category.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
 
 <body>
-<div class="site-wrapper" id="top">
-    <!--=================================
-    Header Area
-    ===================================== -->
-    <div th:insert="~{global/header}"></div>
 
-    <!-- Search Result Section -->
-    <section class="page-section inner-page-sec-padding">
-        <div class="container">
-            <h2 class="sr-only">검색 결과</h2>
+<header th:insert="~{global/header}"></header>
 
-            <div class="row">
-                <!-- Loop through search results -->
-                <div th:each="book : ${searchResults}" class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="book-card">
-                        <div class="book-header">
-                            <h3><a th:href="@{/api/books/{bookId}(bookId=${book.bookId})}"
-                                   th:text="${#strings.length(book.bookTitle) > 50 ? #strings.substring(book.bookTitle, 0, 50) + '...' : book.bookTitle}">제목
-                                없음</a></h3>
-                        </div>
-                        <div class="book-image">
-                            <img th:src="${book.bookImageUrl}"
-                                 th:alt="${book.bookTitle}"
-                                 th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
-                            <div class="hover-contents">
-                                <div class="hover-btns">
-                                    <a th:attr="data-book-id=${book.bookId}"
-                                       class="single-btn add-to-bookCart">
-                                        <i class="fas fa-shopping-basket"></i>
-                                    </a>
-                                    <a th:attr="data-book-id=${book.bookId}"
-                                       class="single-btn add-to-wishlist">
-                                        <i class="fas fa-heart"></i>
-                                    </a>
-                                    <a th:href="@{/api/books/{bookId} (bookId=${book.bookId})}"
-                                       class="single-btn">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="price-block">
-                            <span class="price"
-                                  th:text="${book.bookSalePrice} + '₩'">가격 정보 없음₩</span>
-                            <del class="price-old" th:text="${book.bookPrice} + '₩'"></del>
-                            <span class="price-discount"
-                                  th:text="${book.bookSalePercent + '%'}">할인율 정보 없음</span>
+<!-- Search Result Section -->
+<section class="page-section inner-page-sec-padding">
+    <div class="top-container book-list-container">
+        <h2 class="search-title" th:text="'검색: ' + ${query}"></h2>
+
+        <section class="sort-section">
+            <form th:action="@{/api/search}" method="get">
+                <input type="hidden" name="searchType" th:value="${searchType}">
+                <input type="hidden" name="query" th:value="${query}">
+                <label for="direction">정렬 방식:</label>
+                <select id="direction" name="direction">
+                    <option value="DESC" th:selected="${direction == 'DESC'}">내림차순</option>
+                    <option value="ASC" th:selected="${direction == 'ASC'}">오름차순</option>
+                </select>
+
+                <label for="sortBy">기준 선택:</label>
+                <select id="sortBy" name="sortBy">
+                    <option value="bookPublishDate" th:selected="${sortBy == 'bookPublishDate'}">책 출판일</option>
+                    <option value="authorName" th:selected="${sortBy == 'authorName'}">저자</option>
+                    <option value="publisherName" th:selected="${sortBy == 'publisherName'}">출판사</option>
+                    <option value="bookTitle" th:selected="${sortBy == 'bookTitle'}">책 제목</option>
+                    <option value="bookPrice" th:selected="${sortBy == 'bookPrice'}">책 가격</option>
+                </select>
+
+                <button type="submit" class="sort-btn">정렬하기</button>
+            </form>
+        </section>
+
+        <div class="book-grid">
+            <div th:each="book : ${searchResults}" class="main-page-book"
+                 th:data-href="@{/api/books/{bookId}(bookId=${book.bookId})}"
+                 onclick="location.href=this.getAttribute('data-href');">
+                <div class="book-thumbnail-container">
+                    <img class="book-background-thumbnail" th:src="${book.bookImageUrl}"
+                         th:alt="${book.bookTitle}">
+                    <img class="book-front-thumbnail" th:src="${book.bookImageUrl}"
+                         th:alt="${book.bookTitle}">
+                </div>
+                <div class="book-info">
+                    <h5 class="book-title">
+                        <span th:text="${book.bookTitle}" class="book-title-link">제목 없음</span>
+                    </h5>
+                    <span th:text="${book.authorName}" class="book-author">작가 없음</span>
+                    <div class="price-info">
+                        <span class="book-price"
+                              th:text="${#numbers.formatDecimal(book.bookSalePrice, 1, 'COMMA', 0, 'POINT') + '원'}">가격 정보 없음₩</span>
+                        <div class="original-price-info">
+                            <del class="book-original-price"
+                                 th:text="${#numbers.formatDecimal(book.bookPrice, 1, 'COMMA', 0, 'POINT') + '원'}"></del>
+                            <span class="book-price-discount"
+                                  th:text="${'-' + #numbers.formatDecimal(book.bookSalePercent, 1, 'COMMA', 0, 'POINT') + '%'}">할인율 정보 없음</span>
                         </div>
                     </div>
                 </div>
-                <!-- End Loop -->
             </div>
-
-            <!-- Paging Section -->
-            <div th:insert="~{global/paging.html}"></div>
-            <!-- End Paging Section -->
         </div>
-    </section>
-    <!-- End Search Result Section -->
 
-</div>
-<!--=================================
-Footer Area
-===================================== -->
-<div th:insert="~{global/footer}"></div>
+        <div th:insert="~{global/paging.html}"></div>
+    </div>
+</section>
+
+<footer th:insert="~{global/footer}"></footer>
 
 <!-- Use Minified Plugins Version For Fast Page Load -->
 <script th:src="@{/js/plugins.js}"></script>
@@ -87,5 +87,4 @@ Footer Area
 <script th:src="@{/js/create-wishList.js}"></script>
 <script th:src="@{/js/create-bookCart.js}"></script>
 </body>
-
 </html>

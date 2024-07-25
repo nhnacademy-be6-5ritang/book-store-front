@@ -28,7 +28,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookTitleResponse;
 import com.nhnacademy.bookstorefront.book.service.BookService;
-import com.nhnacademy.bookstorefront.global.config.CacheConfig;
 import com.nhnacademy.bookstorefront.global.controller.GlobalDataControllerAdvice;
 import com.nhnacademy.bookstorefront.review.dto.request.CreateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.request.UpdateReviewRequest;
@@ -45,9 +44,6 @@ class ReviewControllerTest {
 
 	@MockBean
 	private BookService bookService;
-
-	@MockBean
-	private CacheConfig cacheConfig;
 
 	@MockBean
 	private GlobalDataControllerAdvice globalDataControllerAdvice;

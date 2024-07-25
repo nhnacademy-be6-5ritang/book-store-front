@@ -21,7 +21,6 @@ import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.nhnacademy.bookstorefront.global.config.CacheConfig;
 import com.nhnacademy.bookstorefront.global.controller.GlobalDataControllerAdvice;
 import com.nhnacademy.bookstorefront.tag.dto.response.TagDto;
 import com.nhnacademy.bookstorefront.tag.service.impl.TagServiceImpl;
@@ -33,9 +32,6 @@ class TagControllerTest {
 
 	@MockBean
 	private TagServiceImpl tagService;
-
-	@MockBean
-	private CacheConfig cacheConfig;
 
 	@MockBean
 	private GlobalDataControllerAdvice globalDataControllerAdvice;
@@ -84,7 +80,7 @@ class TagControllerTest {
 		List<TagDto> tagDtoList = List.of(tagDto);
 		Page<TagDto> page = new PageImpl<>(tagDtoList, PageRequest.of(0, 10, Sort.by(Sort.Direction.ASC, "tagId")),
 			tagDtoList.size());
-		
+
 		Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.ASC, "tagId"));
 		when(tagService.getTags(pageable)).thenReturn(page);
 

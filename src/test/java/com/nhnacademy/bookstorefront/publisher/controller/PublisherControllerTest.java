@@ -21,7 +21,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.nhnacademy.bookstorefront.global.config.CacheConfig;
 import com.nhnacademy.bookstorefront.global.controller.GlobalDataControllerAdvice;
 import com.nhnacademy.bookstorefront.publisher.dto.response.PublisherDto;
 import com.nhnacademy.bookstorefront.publisher.service.impl.PublisherServiceImpl;
@@ -32,9 +31,6 @@ class PublisherControllerTest {
 
 	@Mock
 	private PublisherServiceImpl publisherService;
-
-	@MockBean
-	private CacheConfig cacheConfig;
 
 	@MockBean
 	private GlobalDataControllerAdvice globalDataControllerAdvice;

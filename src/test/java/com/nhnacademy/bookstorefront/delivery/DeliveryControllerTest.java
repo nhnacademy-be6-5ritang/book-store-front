@@ -1,35 +1,46 @@
 package com.nhnacademy.bookstorefront.delivery;
-import com.nhnacademy.bookstorefront.delivery.controller.DeliveryController;
-import com.nhnacademy.bookstorefront.delivery.dto.request.CreateDeliveryRequest;
-import com.nhnacademy.bookstorefront.delivery.dto.request.UpdateDeliveryByOrderIdRequest;
-import com.nhnacademy.bookstorefront.delivery.dto.response.CreateDeliveryResponse;
-import com.nhnacademy.bookstorefront.delivery.service.DeliveryService;
-import com.nhnacademy.bookstorefront.global.config.CacheConfig;
+
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.time.LocalDateTime;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import com.nhnacademy.bookstorefront.address.service.AddressService;
+import com.nhnacademy.bookstorefront.cache.service.impl.CacheServiceImpl;
+import com.nhnacademy.bookstorefront.delivery.controller.DeliveryController;
+import com.nhnacademy.bookstorefront.delivery.dto.request.CreateDeliveryRequest;
+import com.nhnacademy.bookstorefront.delivery.dto.request.UpdateDeliveryByOrderIdRequest;
+import com.nhnacademy.bookstorefront.delivery.dto.response.CreateDeliveryResponse;
+import com.nhnacademy.bookstorefront.delivery.dto.response.GetDeliveryResponse;
+import com.nhnacademy.bookstorefront.delivery.service.DeliveryService;
 
 @WebMvcTest(DeliveryController.class)
-public class DeliveryControllerTest {
-
-	@MockBean
-	private CacheConfig cacheConfig;
+class DeliveryControllerTest {
 
 	@MockBean
 	private DeliveryService deliveryService;
+
+	@MockBean
+	private AddressService addressService;
+
+	@MockBean
+	private CacheServiceImpl cacheService;
 
 	private MockMvc mockMvc;
 
@@ -38,8 +49,49 @@ public class DeliveryControllerTest {
 		MockitoAnnotations.openMocks(this);
 
 		// 설정한 MockMvc 인스턴스를 사용합니다.
-		mockMvc = MockMvcBuilders.standaloneSetup(new DeliveryController(deliveryService))
+		mockMvc = MockMvcBuilders.standaloneSetup(new DeliveryController(deliveryService, addressService))
+			.setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
 			.build();
+	}
+
+	@Test
+	void testGetDeliveriesDeliveryPage() throws Exception {
+		List<GetDeliveryResponse> deliveriesList = List.of(
+			new GetDeliveryResponse(
+				1L, "Sender1", "1234567890", LocalDateTime.now(), "Sender Address 1",
+				"Receiver1", "0987654321", LocalDateTime.now(), "Receiver Address 1",
+				101L, "Delivered"
+			),
+			new GetDeliveryResponse(
+				2L, "Sender2", "1234567891", LocalDateTime.now(), "Sender Address 2",
+				"Receiver2", "0987654322", LocalDateTime.now(), "Receiver Address 2",
+				102L, "Pending"
+			)
+		);
+		Page<GetDeliveryResponse> mockPage = new PageImpl<>(deliveriesList);
+		when(deliveryService.getDeliveriesByUserId(any(Pageable.class))).thenReturn(mockPage);
+
+		mockMvc.perform(get("/api/deliveries/me/page")
+				.param("page", "1")
+				.param("size", "10"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("delivery/list-delivery"))
+			.andExpect(model().attribute("deliveries", mockPage));
+	}
+
+	@Test
+	void testGetDelivery() throws Exception {
+		GetDeliveryResponse mockDeliveryResponse = new GetDeliveryResponse(
+			1L, "Sender1", "1234567890", LocalDateTime.now(), "Sender Address 1",
+			"Receiver1", "0987654321", LocalDateTime.now(), "Receiver Address 1",
+			101L, "Delivered"
+		);
+		when(deliveryService.getDelivery(anyLong())).thenReturn(mockDeliveryResponse);
+		
+		mockMvc.perform(get("/api/deliveries/delivery/1"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("delivery/get-delivery"))
+			.andExpect(model().attribute("delivery", mockDeliveryResponse));
 	}
 
 	@Test
