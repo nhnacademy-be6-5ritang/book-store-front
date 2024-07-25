@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>책 파는 오리탕집</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/user/user-list.css}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+</head>
+
+<body>
+<header th:insert="~{global/header}"></header>
+
+<section id="page" class="top-container">
+    <section id="page-menu-container" th:insert="~{fragments/admin-menu.html}"></section>
+    <section id="page-content">
+        <section id="page-header">
+            <h5>회원 관리</h5>
+        </section>
+        <hr style="width: 100%"/>
+        <section id="page-body">
+            <div style="overflow-x: auto">
+                <table class="user-list-table">
+                    <thead>
+                    <tr style="color: #797979">
+                        <th style="width: 100px;">이름</th>
+                        <th style="width: 240px">이메일</th>
+                        <th style="width: 110px">가입일</th>
+                        <th style="width: 100px">등급</th>
+                        <th style="width: 450px">권한</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="user : ${users}">
+                        <td>
+                            <div class="user-status-container">
+                                <div th:if="${user.userStatusName()=='ACTIVE'}" class="active-dot"></div>
+                                <div th:if="${user.userStatusName()=='DORMANT'}" class="dormant-dot"></div>
+                                <div th:if="${user.userStatusName()=='WITHDRAW'}" class="withdraw-dot"></div>
+                                <span style="margin-left: 1rem" th:text="${user.name()}"></span>
+                            </div>
+                        </td>
+                        <td th:text="${user.email()}"></td>
+                        <td th:text="${user.createdAt().toString().split('T')[0]}"></td>
+                        <td th:text="${user.userGradeName()}"></td>
+                        <td>
+                            <div class="roles-container">
+                                <div th:each="role : ${roles}"
+                                     class="role-tag"
+                                     th:classappend="${#lists.contains(user.roles(), role.roleName()) ? 'has-role' : 'has-no-role'}"
+                                     th:text="${role.roleName()}">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:insert="~{global/paging.html}"></div>
+        </section>
+
+    </section>
+</section>
+
+<div id="to-admin-container" class="top-container">
+    <a th:href="@{/admin/users}">관리자이신가요?</a>
+</div>
+
+<footer th:insert="~{global/footer}"></footer>
+
+<script th:src="@{/js/my-page.js}"></script>
+</body>
+</html>

@@ -271,7 +271,7 @@ public class OrderClientController {
 		ModelAndView modelAndView = new ModelAndView();
 		//현재 카트아이디로 찾지만 로그인된 사용자의 아이디를 기준으로 찾을듯?
 		Page<GetAllOrderResponse> orders = orderServiceImpl.findAllPageByUserId(pageable);
-		modelAndView.addObject("orderList", orders);
+		modelAndView.addObject("orderList", orders.getContent());
 		modelAndView.setViewName("order/orderCheck");
 		modelAndView.addObject("objects", orders);
 		modelAndView.addObject("baseUrl", "/api/orders/orderCheck"); // 페이징 URL
