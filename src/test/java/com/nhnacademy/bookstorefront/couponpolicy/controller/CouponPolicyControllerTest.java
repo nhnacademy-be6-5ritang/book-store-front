@@ -18,10 +18,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.bookstorefront.cache.service.impl.CacheServiceImpl;
 import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.request.CouponPolicyCreateRequestDTO;
 import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.request.CouponPolicyUpdateRequestDTO;
 import com.nhnacademy.bookstorefront.couponpolicy.service.impl.CouponPolicyServiceImpl;
-import com.nhnacademy.bookstorefront.global.config.CacheConfig;
 
 @WebMvcTest(CouponPolicyController.class)
 class CouponPolicyControllerTest {
@@ -35,16 +35,14 @@ class CouponPolicyControllerTest {
 	@MockBean
 	private CouponPolicyServiceImpl couponPolicyService;
 
-
 	@MockBean
-	private CacheConfig cacheConfig;
+	private CacheServiceImpl cacheService;
 
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
 		mockMvc = MockMvcBuilders.standaloneSetup(new CouponPolicyController(couponPolicyService)).build();
 	}
-
 
 	@Test
 	void testCreateCouponPolicy_Success() throws Exception {
@@ -74,7 +72,6 @@ class CouponPolicyControllerTest {
 		verify(couponPolicyService, times(1)).issueWelcomeCoupon(any(CouponPolicyCreateRequestDTO.class));
 	}
 
-
 	@Test
 	void testCreateCouponPolicy_Success_Birthday() throws Exception {
 		CouponPolicyCreateRequestDTO requestDTO = new CouponPolicyCreateRequestDTO(
@@ -99,8 +96,6 @@ class CouponPolicyControllerTest {
 
 		verify(couponPolicyService, times(1)).issueBirthdayCoupon(any(CouponPolicyCreateRequestDTO.class));
 	}
-
-
 
 	@Test
 	void testCreateCouponPolicy_Success_Book() throws Exception {
@@ -130,7 +125,8 @@ class CouponPolicyControllerTest {
 	@Test
 	void testCreateCouponPolicy_Success_Category() throws Exception {
 		CouponPolicyCreateRequestDTO requestDTO = new CouponPolicyCreateRequestDTO(
-			BigDecimal.valueOf(10000), BigDecimal.valueOf(10000), null, null, "category", null, null, 1L, "Some Category"
+			BigDecimal.valueOf(10000), BigDecimal.valueOf(10000), null, null, "category", null, null, 1L,
+			"Some Category"
 		);
 
 		doNothing().when(couponPolicyService).issueCategoryCoupon(requestDTO);
@@ -177,9 +173,6 @@ class CouponPolicyControllerTest {
 		verify(couponPolicyService, times(1)).issueSaleCoupon(any(CouponPolicyCreateRequestDTO.class));
 	}
 
-
-
-
 	@Test
 	void testUpdateCouponPolicy_Success() throws Exception {
 		// given
@@ -187,8 +180,7 @@ class CouponPolicyControllerTest {
 			BigDecimal.valueOf(10000), BigDecimal.valueOf(5000), null, null, true
 		);
 
-
-		doNothing().when(couponPolicyService).updateCouponPolicy(1L,requestDTO);
+		doNothing().when(couponPolicyService).updateCouponPolicy(1L, requestDTO);
 		// when
 		mockMvc.perform(MockMvcRequestBuilders.patch("/coupons/policies/1")
 				.param("minOrderPrice", requestDTO.minOrderPrice().toString())
@@ -226,7 +218,6 @@ class CouponPolicyControllerTest {
 	// 	verify(couponPolicyService, times(0)).updateCouponPolicy(eq(1L), any(CouponPolicyUpdateRequestDTO.class));
 	// }
 
-
 	// @Test
 	// void testUpdateCouponPolicy_Failure_EmptyFields() throws Exception {
 	// 	// given
@@ -244,6 +235,5 @@ class CouponPolicyControllerTest {
 	// 	// then
 	// 	verify(couponPolicyService, times(1)).updateCouponPolicy(eq(1L), any(CouponPolicyUpdateRequestDTO.class));
 	// }
-
 
 }
