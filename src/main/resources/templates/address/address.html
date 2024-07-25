@@ -34,19 +34,18 @@
                     <th class="address-field">주소</th>
                 </tr>
                 <tr class="address-row" th:each="address : ${myAddresses}" th:id="${address.id}"
-                    th:classappend="${address.isDefault} == true ? 'default-address' : ''"
-                    th:onclick="'confirmUpdateDefaultAddress(' + ${address.id} + ')'">
+                    th:classappend="${address.isDefault} == true ? 'default-address' : ''">
                     <td th:text="${address.alias}"></td>
                     <td th:text="${'[' + address.postCode + '] ' + address.baseAddress + ', ' + address.detailAddress}"></td>
                     <td class="address-field">
                         <button type="button" class="edit-button"
-                                th:onclick="'openUpdateMdal(' + ${address.id} + '); event.stopPropagation();'">
+                                th:data-id="${address.id}">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </button>
                     </td>
                     <td class="address-field">
                         <button type="button" class="delete-button"
-                                th:onclick="'deleteAddress(' + ${address.id} + '); event.stopPropagation();'">
+                                th:data-id="${address.id}">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </td>
@@ -163,8 +162,8 @@
     /*]]>*/
 </script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script th:src="@{/js/address.js}"></script>
 </body>
