@@ -1,0 +1,62 @@
+.user-list-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 1rem;
+    table-layout: fixed;
+}
+
+/*.user-list-table tr {*/
+/*}*/
+
+.roles-container {
+    overflow-x: auto;
+    white-space: nowrap;
+    display: flex;
+    justify-content: space-around;
+}
+
+.user-status-container {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.active-dot, .dormant-dot, .withdraw-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 100%;
+}
+
+.active-dot {
+    background-color: #007924;
+}
+
+.dormant-dot {
+    background-color: #a8a8a8;
+}
+
+.withdraw-dot {
+    background-color: #D90000;
+}
+
+.role-tag {
+    margin: 0.5rem 0.5rem 0.5rem 0;
+}
+
+.has-role {
+    color: #333333;
+}
+
+.has-role:hover {
+    color: #D90000;
+    cursor: pointer;
+}
+
+.has-no-role {
+    color: #a8a8a8;
+}
+
+.has-no-role:hover {
+    color: #007924;
+    cursor: pointer;
+}
