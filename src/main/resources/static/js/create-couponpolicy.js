@@ -172,6 +172,8 @@ $(document).ready(function () {
 });
 
 
+
+
 $(document).ready(function () {
     $('#editModal').on('show.bs.modal', function (event) {
         const salePriceInputEdit = $('#salePriceEdit');
