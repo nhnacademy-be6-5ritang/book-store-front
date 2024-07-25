@@ -53,7 +53,7 @@
                                             <h1>주문 확인</h1>
                                         </div>
                                         <div th:if="${orderList != null}">
-                                            <div th:each="order : ${orderList.orders()}" class="order-item">
+                                            <div th:each="order : ${orderList}" class="order-item">
                                                 <table class="table">
                                                     <!-- Head Row -->
                                                     <thead>
@@ -72,7 +72,8 @@
                                                                th:text="${order.orderInfoId()}"></a>
                                                         </td>
                                                         <td class="pro-price"> <span
-                                                                th:text="${order.orderPrice().setScale(0)} + 원"></span></td>
+                                                                th:text="${order.orderPrice().setScale(0)} + 원"></span>
+                                                        </td>
                                                         <td class="pro-date"><span
                                                                 th:text="${order.orderDate()}"></span></td>
                                                         <td class="pro-status"><span
@@ -82,6 +83,9 @@
                                                 </table>
                                             </div>
                                         </div>
+                                        <!-- 페이징 처리 시작-->
+                                        <div th:insert="~{global/paging.html}"></div>
+                                        <!-- 페이징 처리 끝-->
                                         <div th:if="${orderList == null}">
                                             <p>주문 목록이 없습니다.</p>
                                         </div>

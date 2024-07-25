@@ -1,14 +1,19 @@
 package com.nhnacademy.bookstorefront.order.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.OrderCheckNonRequest;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateCartOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetAllOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetNonOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetUserPointOrderResponse;
+import com.nhnacademy.bookstorefront.user.dto.response.GetMyUserInfoResponse;
 
 public interface OrderService {
 	/**
@@ -99,4 +104,17 @@ public interface OrderService {
 	 * @return 주문 완료 페이지 내용
 	 */
 	CreateOrderResponse updateCartOrder(CreateOrderRequest createOrderRequest, Long orderId);
+
+	/**
+	 * 유저 정보 가져오기
+	 * @return 유저 정보
+	 */
+	GetMyUserInfoResponse getMyUserInfoByOrder();
+
+	/**
+	 * 유저 주문 정보 다 가져오기
+	 * @param pageable 페이징처리
+	 * @return 유저 주문 정보
+	 */
+	Page<GetAllOrderResponse> findAllPageByUserId(Pageable pageable);
 }

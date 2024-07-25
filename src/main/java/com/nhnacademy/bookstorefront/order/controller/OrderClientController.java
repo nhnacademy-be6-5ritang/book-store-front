@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +43,7 @@ import com.nhnacademy.bookstorefront.order.dto.response.CreateBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateCartOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusResponse;
-import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetAllOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllPaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllRefundResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
@@ -264,12 +267,24 @@ public class OrderClientController {
 	}
 
 	@GetMapping("/orderCheck")
-	public ModelAndView orderCheck() {
+	public ModelAndView orderCheck(@PageableDefault(page = 1) Pageable pageable) {
 		ModelAndView modelAndView = new ModelAndView();
 		//현재 카트아이디로 찾지만 로그인된 사용자의 아이디를 기준으로 찾을듯?
-		GetAllListOrderResponse orders = orderServiceImpl.findAllUserId();
+		Page<GetAllOrderResponse> orders = orderServiceImpl.findAllPageByUserId(pageable);
 		modelAndView.addObject("orderList", orders);
 		modelAndView.setViewName("order/orderCheck");
+		modelAndView.addObject("objects", orders);
+		modelAndView.addObject("baseUrl", "/api/orders/orderCheck"); // 페이징 URL
+
+		int blockLimit = 3;
+		int startPage =
+			(((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
+		int endPage = Math.min((startPage + blockLimit - 1), orders.getTotalPages());
+
+		modelAndView.addObject("pageable", pageable);
+		modelAndView.addObject("blockLimit", blockLimit);
+		modelAndView.addObject("startPage", startPage);
+		modelAndView.addObject("endPage", endPage);
 		return modelAndView;
 	}
 
