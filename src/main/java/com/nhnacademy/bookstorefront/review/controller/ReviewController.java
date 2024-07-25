@@ -17,14 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.nhnacademy.bookstorefront.book.dto.response.GetBookTitleResponse;
-import com.nhnacademy.bookstorefront.book.service.BookService;
 import com.nhnacademy.bookstorefront.global.util.PagingModel;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderGetBookResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.service.BookOrderService;
 import com.nhnacademy.bookstorefront.review.dto.request.CreateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.request.UpdateReviewRequest;
+import com.nhnacademy.bookstorefront.review.dto.response.GetBookOrderWithoutReviewResponse;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
 import com.nhnacademy.bookstorefront.review.service.ReviewService;
 
@@ -40,7 +39,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api")
 public class ReviewController {
 	private final ReviewService reviewService;
-	private final BookService bookService;
 	private static final String REDIRECT_URL = "redirect:/api/users/me/reviews/page";
 	private final BookOrderService bookOrderService;
 
@@ -68,11 +66,55 @@ public class ReviewController {
 	 * @return 모든 리뷰 목록 페이지의 뷰 이름
 	 */
 	@GetMapping("/reviews/page")
-	public String getReviews(@PageableDefault(page = 1, size = 10) Pageable pageable, Model model) {
-		Page<GetReviewResponse> reviews = reviewService.getReviews(pageable);
+	public String getReviews(@PageableDefault(page = 1, size = 5) Pageable pageable, Model model,
+		@RequestParam(required = false, defaultValue = "전체") String reviewType) {
+
+		Page<GetReviewResponse> reviews;
+		if (reviewType != null && reviewType.equals("일반")) {
+			reviews = reviewService.getGeneralReviews(pageable);
+		} else if (reviewType != null && reviewType.equals("사진")) {
+			reviews = reviewService.getPhotoReviews(pageable);
+		} else {
+			reviews = reviewService.getReviews(pageable);
+		}
+
+		model.addAttribute("reviewType", reviewType);
 		model.addAttribute("reviews", reviews);
-		PagingModel.pagingProcessing(pageable, model, reviews, "/api/reviews/page", 5);
+		PagingModel.pagingProcessing(pageable, model, reviews,
+			"/api/reviews/page" + "?reviewType=" + reviewType, 5);
+
 		return "review/list-all-review";
+	}
+
+	/**
+	 * 사용자의 리뷰 목록을 페이징하여 조회합니다.
+	 *
+	 * @param pageable 페이징 정보
+	 * @param model    데이터 모델
+	 * @return 사용자의 리뷰 목록 페이지의 뷰 이름
+	 */
+	@GetMapping("/users/me/reviews/page")
+	public String getReviewsByUserId(@PageableDefault(page = 1, size = 5) Pageable pageable, Model model,
+		@RequestParam(required = false, defaultValue = "전체") String reviewType) {
+
+		List<GetBookOrderWithoutReviewResponse> possibleBooks = reviewService.getBooksWithoutReviews();
+		model.addAttribute("possibleBooks", possibleBooks);
+
+		Page<GetReviewResponse> reviews;
+		if (reviewType != null && reviewType.equals("일반")) {
+			reviews = reviewService.getGeneralReviewsByUserId(pageable);
+		} else if (reviewType != null && reviewType.equals("사진")) {
+			reviews = reviewService.getPhotoReviewsByUserId(pageable);
+		} else {
+			reviews = reviewService.getReviewsByUserId(pageable);
+		}
+
+		model.addAttribute("reviewType", reviewType);
+		model.addAttribute("reviews", reviews);
+		PagingModel.pagingProcessing(pageable, model, reviews,
+			"/api/users/me/reviews/page" + "?reviewType=" + reviewType, 5);
+
+		return "review/list-by-user-review";
 	}
 
 	/**
@@ -100,37 +142,6 @@ public class ReviewController {
 	public String updateReview(@Valid @ModelAttribute UpdateReviewRequest request, @PathVariable Long reviewId) {
 		reviewService.updateReview(request, reviewId);
 		return REDIRECT_URL;
-	}
-
-	/**
-	 * 사용자의 리뷰 목록을 페이징하여 조회합니다.
-	 *
-	 * @param pageable 페이징 정보
-	 * @param model    데이터 모델
-	 * @return 사용자의 리뷰 목록 페이지의 뷰 이름
-	 */
-	@GetMapping("/users/me/reviews/page")
-	public String getReviewsByUserId(@PageableDefault(page = 1, size = 5) Pageable pageable, Model model,
-		@RequestParam(required = false, defaultValue = "전체") String reviewType) {
-
-		List<GetBookTitleResponse> possibleBooks = reviewService.getBooksByOrderStatusCompletionAndUserId();
-		model.addAttribute("possibleBooks", possibleBooks);
-
-		Page<GetReviewResponse> reviews;
-		if (reviewType != null && reviewType.equals("일반")) {
-			reviews = reviewService.getGeneralReviewsByUserId(pageable);
-		} else if (reviewType != null && reviewType.equals("사진")) {
-			reviews = reviewService.getPhotoReviewsByUserId(pageable);
-		} else {
-			reviews = reviewService.getReviewsByUserId(pageable);
-		}
-
-		model.addAttribute("reviewType", reviewType);
-		model.addAttribute("reviews", reviews);
-		PagingModel.pagingProcessing(pageable, model, reviews,
-			"/api/users/me/reviews/page" + "?reviewType=" + reviewType, 5);
-
-		return "review/list-by-user-review";
 	}
 
 	/**
