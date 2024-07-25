@@ -80,11 +80,15 @@
                         <input type="text" id="alias" name="alias" placeholder="별칭" class="form-control">
                     </div>
                     <div class="form-group" style="display: flex;">
-                        <input type="text" id="postCode" name="postCode" placeholder="우편번호" class="form-control">
+                        <input style="cursor: default" type="text" id="postCode" name="postCode" placeholder="우편번호"
+                               class="form-control"
+                               readonly>
                         <input type="button" onclick="execDaumPostcode()" class="btn btn-primary" value="주소 찾기">
                     </div>
                     <div class="form-group">
-                        <input type="text" id="baseAddress" name="baseAddress" placeholder="주소" class="form-control">
+                        <input style="cursor: default" type="text" id="baseAddress" name="baseAddress" placeholder="주소"
+                               class="form-control"
+                               readonly>
                     </div>
                     <div class="form-group">
                         <input type="text" id="detailAddress" name="detailAddress" placeholder="상세주소"
@@ -118,16 +122,19 @@
                         <input type="text" id="updateAlias" name="alias" placeholder="별칭" class="form-control">
                     </div>
                     <div class="form-group" style="display: flex;">
-                        <input type="text" id="updatePostCode" name="postCode" placeholder="우편번호" class="form-control">
+                        <input style="cursor: default" type="text" id="updatePostCode" name="postCode"
+                               placeholder="우편번호" class="form-control"
+                               readonly>
                         <input type="button" onclick="execDaumPostcode('updatePostCode', 'updateBaseAddress')"
                                class="btn btn-primary" value="주소 찾기">
                     </div>
                     <div class="form-group">
                         <input type="text" id="updateBaseAddress" name="baseAddress" placeholder="주소"
-                               class="form-control">
+                               class="form-control" readonly>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="updateDetailAddress" name="detailAddress" placeholder="상세주소"
+                        <input style="cursor: default" type="text" id="updateDetailAddress" name="detailAddress"
+                               placeholder="상세주소"
                                class="form-control">
                     </div>
                     <span id="updateGuide" style="color:#999;display:none"></span>
