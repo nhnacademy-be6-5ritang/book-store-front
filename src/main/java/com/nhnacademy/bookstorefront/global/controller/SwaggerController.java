@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.nhnacademy.bookstorefront.global.feignclient.SwaggerApiClient;
 
-
-
 @Controller
 public class SwaggerController {
 
@@ -28,5 +26,17 @@ public class SwaggerController {
 			model.addAttribute("swaggerJson", "{}");
 		}
 		return "api/coupon-api";
+	}
+
+	@GetMapping("/back/api")
+	public String getBackApi(Model model) {
+		try {
+			ResponseEntity<String> response = swaggerApiClient.getBackSwaggerJson();
+			String swaggerJson = response.getBody() != null ? response.getBody() : "{}";
+			model.addAttribute("swaggerJson", swaggerJson);
+		} catch (Exception e) {
+			model.addAttribute("swaggerJson", "{}");
+		}
+		return "api/back-api";
 	}
 }
