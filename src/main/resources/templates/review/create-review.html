@@ -39,10 +39,9 @@
             <form id="reviewForm" action="/api/reviews" method="post" enctype="multipart/form-data">
                 <div class="review-form">
                     <div class="header">
-                        <img th:src="${book.bookImageUrl}" alt="Book Cover">
+                        <img th:src="${book.image}" alt="Book Cover">
                         <div class="title">
                             <h3 th:text="${book.bookTitle}">제목 없음</h3>
-                            <p th:text="${book.authorName} + ' · ' + ${book.publisherName}">저자 · 출판사</p>
                         </div>
                         <span class="close-btn">&times;</span>
                     </div>
@@ -60,7 +59,7 @@
                         </button>
                     </div>
 
-                    <input type="hidden" name="bookId" th:value="${book.bookId}">
+                    <input type="hidden" name="orderListId" th:value="${orderBook.orderListId}">
                     <div class="rating">
                         <input type="radio" id="star5" name="reviewScore" value="5">
                         <label for="star5">★</label>
