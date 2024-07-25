@@ -52,10 +52,10 @@
                             <span th:text="${#temporals.format(review.reviewCreatedAt, 'yyyy-MM-dd')}"></span>
                             <br/>
                             <span style="font-size: 1.2rem;" th:each="reviewStar : ${#numbers.sequence(1, 5)}">
-                        <i style="color: #797979" th:if="${reviewStar <= review.reviewScore}"
-                           class="fa-solid fa-star"></i>
-                        <i style="color:#a8a8a8" th:if="${reviewStar > review.reviewScore}"
-                           class="fa-regular fa-star"></i>
+                                <i style="color: #797979" th:if="${reviewStar <= review.reviewScore}"
+                                   class="fa-solid fa-star"></i>
+                                <i style="color:#a8a8a8" th:if="${reviewStar > review.reviewScore}"
+                                   class="fa-regular fa-star"></i>
                             </span>
                             <br/>
                             <div class="review-with-image" th:if="${review.reviewImageUrl != null}">
@@ -64,7 +64,7 @@
                                      th:src="${review.reviewImageUrl}" alt="리뷰 이미지">
                             </div>
                             <span th:if="${review.reviewImageUrl == null}" th:text="${review.reviewComment()}"></span>
-                            <a th:href="@{/api/reviews/{reviewId} (reviewId=${review.reviewId})}"
+                            <a th:href="@{/api/reviews/user/{reviewId} (reviewId=${review.reviewId})}"
                                class="btn btn-primary">상세보기</a>
                         </div>
                     </div>

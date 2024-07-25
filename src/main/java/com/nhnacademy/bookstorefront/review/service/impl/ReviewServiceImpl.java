@@ -88,8 +88,16 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public void updateReview(UpdateReviewRequest request, Long reviewId) {
-		reviewServiceClient.updateReview(request, reviewId);
+	public void updateReview(UpdateReviewRequest request, Long reviewId, MultipartFile file) {
+		String fileName = null;
+		String reviewType = "REVIEW";
+		if (!file.isEmpty()) {
+			fileName = uploadServiceClient.upload(file).getBody();
+			reviewType = "PHOTO_REVIEW";
+		}
+		reviewServiceClient.updateReview(UpdateReviewRequest.from(request, fileName), reviewId);
+		pointServiceClient.reviewPointTransaction(reviewType);
+
 	}
 
 	@Override

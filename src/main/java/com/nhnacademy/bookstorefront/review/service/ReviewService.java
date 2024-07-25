@@ -114,7 +114,7 @@ public interface ReviewService {
 	 * @param request  리뷰 수정 요청 DTO
 	 * @param reviewId 수정할 리뷰의 ID
 	 */
-	void updateReview(UpdateReviewRequest request, Long reviewId);
+	void updateReview(UpdateReviewRequest request, Long reviewId, MultipartFile file);
 
 	/**
 	 * 주어진 리뷰 ID에 해당하는 리뷰를 삭제합니다.

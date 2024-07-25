@@ -59,6 +59,20 @@ public class ReviewController {
 	}
 
 	/**
+	 * 리뷰 수정 페이지로 이동합니다.
+	 *
+	 * @param reviewId 리뷰 ID
+	 * @param model  데이터 모델
+	 * @return 리뷰 작성 페이지의 뷰 이름
+	 */
+	@GetMapping("/reviews/update/{reviewId}")
+	public String updateReview(@PathVariable Long reviewId, Model model) {
+		GetReviewResponse review = reviewService.getReview(reviewId);
+		model.addAttribute("review", review);
+		return "review/update-review";
+	}
+
+	/**
 	 * 모든 리뷰 목록을 페이징하여 조회합니다.
 	 *
 	 * @param pageable 페이징 정보
@@ -117,6 +131,20 @@ public class ReviewController {
 		return "review/list-by-user-review";
 	}
 
+	@GetMapping("/reviews/book/{reviewId}")
+	public String getReviewByBook(@PathVariable Long reviewId, Model model) {
+		GetReviewResponse review = reviewService.getReview(reviewId);
+		model.addAttribute("review", review);
+		return "review/get-review-by-book";
+	}
+
+	@GetMapping("/reviews/user/{reviewId}")
+	public String getReviewByUser(@PathVariable Long reviewId, Model model) {
+		GetReviewResponse review = reviewService.getReview(reviewId);
+		model.addAttribute("review", review);
+		return "review/get-review-by-user";
+	}
+
 	/**
 	 * 리뷰를 생성합니다.
 	 *
@@ -139,8 +167,9 @@ public class ReviewController {
 	 * @return 리뷰 목록 페이지로 리다이렉트하는 URL
 	 */
 	@PutMapping("/reviews/{reviewId}")
-	public String updateReview(@Valid @ModelAttribute UpdateReviewRequest request, @PathVariable Long reviewId) {
-		reviewService.updateReview(request, reviewId);
+	public String updateReview(@Valid @ModelAttribute UpdateReviewRequest request, @PathVariable Long reviewId,
+		@RequestParam("file") MultipartFile file) {
+		reviewService.updateReview(request, reviewId, file);
 		return REDIRECT_URL;
 	}
 
