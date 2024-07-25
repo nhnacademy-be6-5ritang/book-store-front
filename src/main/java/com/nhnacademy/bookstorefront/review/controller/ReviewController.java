@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookTitleResponse;
 import com.nhnacademy.bookstorefront.book.service.BookService;
 import com.nhnacademy.bookstorefront.global.util.PagingModel;
+import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderGetBookResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
+import com.nhnacademy.bookstorefront.order.service.BookOrderService;
 import com.nhnacademy.bookstorefront.review.dto.request.CreateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.request.UpdateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
@@ -40,17 +42,20 @@ public class ReviewController {
 	private final ReviewService reviewService;
 	private final BookService bookService;
 	private static final String REDIRECT_URL = "redirect:/api/users/me/reviews/page";
+	private final BookOrderService bookOrderService;
 
 	/**
 	 * 책에 대한 리뷰 작성 페이지로 이동합니다.
 	 *
-	 * @param bookId 책 ID
+	 * @param bookOrderId 도서 주문 ID
 	 * @param model  데이터 모델
 	 * @return 리뷰 작성 페이지의 뷰 이름
 	 */
-	@GetMapping("/reviews/create/{bookId}")
-	public String createReview(@PathVariable Long bookId, Model model) {
-		GetBookDetailResponse book = bookService.getBook(bookId);
+	@GetMapping("/reviews/create/{bookOrderId}")
+	public String createReview(@PathVariable Long bookOrderId, Model model) {
+		GetBookOrderResponse orderBook = bookOrderService.getBookOrder(bookOrderId);
+		GetBookOrderGetBookResponse book = orderBook.getBookResponse();
+		model.addAttribute("orderBook", orderBook);
 		model.addAttribute("book", book);
 		return "review/create-review";
 	}
