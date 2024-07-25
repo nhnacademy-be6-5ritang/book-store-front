@@ -289,7 +289,7 @@ import com.nhnacademy.bookstorefront.userandcoupon.feignclient.UserAndCouponFeig
 
 
 		GetBookOrderResponse bookOrderResponse = new GetBookOrderResponse(
-			new GetBookOrderGetBookResponse("title", BigDecimal.valueOf(200), "description", 1L), 2, 1L, 1L
+			new GetBookOrderGetBookResponse("image", "title", BigDecimal.valueOf(100), "description", 1L), 2, 1L, 1L
 		);
 		GetDeliveryPolicyResponse deliveryPolicyResponse = new GetDeliveryPolicyResponse(1L, "name", BigDecimal.valueOf(100),
 			"content",BigDecimal.valueOf(30)
@@ -304,7 +304,7 @@ import com.nhnacademy.bookstorefront.userandcoupon.feignclient.UserAndCouponFeig
 		);
 
 		// Then
-		BigDecimal orderPrice = BigDecimal.valueOf(200).multiply(BigDecimal.valueOf(2));
+		BigDecimal orderPrice = BigDecimal.valueOf(100).multiply(BigDecimal.valueOf(2));
 		BigDecimal wrappingTotalPrice = BigDecimal.valueOf(100);
 		BigDecimal deliveryPrice = BigDecimal.valueOf(100);
 
@@ -328,7 +328,7 @@ import com.nhnacademy.bookstorefront.userandcoupon.feignclient.UserAndCouponFeig
 		 );
 
 		 GetBookOrderResponse bookOrderResponse = new GetBookOrderResponse(
-			 new GetBookOrderGetBookResponse("title", BigDecimal.valueOf(200), "description", 1L), 2, 1L, 1L
+			 new GetBookOrderGetBookResponse("image", "title" , BigDecimal.valueOf(200), "description", 1L), 2, 1L, 1L
 		 );
 		 GetDeliveryPolicyResponse deliveryPolicyResponse = new GetDeliveryPolicyResponse(
 			 1L, "name", BigDecimal.valueOf(100), "content", BigDecimal.valueOf(30)
@@ -458,7 +458,7 @@ import com.nhnacademy.bookstorefront.userandcoupon.feignclient.UserAndCouponFeig
 	void testNoCouponReturnModel() {
 		// Given
 		GetBookOrderResponse bookOrderResponse = new GetBookOrderResponse(
-			new GetBookOrderGetBookResponse("title", BigDecimal.valueOf(200), "description", 1L), 2, 1L, 1L
+			new GetBookOrderGetBookResponse("image", "title", BigDecimal.valueOf(100), "description", 1L), 2, 1L, 1L
 		);
 		GetDeliveryPolicyResponse deliveryPolicyResponse = new GetDeliveryPolicyResponse(1L, "name", BigDecimal.valueOf(100),
 			"content",BigDecimal.valueOf(30)
@@ -474,7 +474,7 @@ import com.nhnacademy.bookstorefront.userandcoupon.feignclient.UserAndCouponFeig
 		);
 
 		// Then
-		BigDecimal orderPrice = BigDecimal.valueOf(200).multiply(BigDecimal.valueOf(2));
+		BigDecimal orderPrice = BigDecimal.valueOf(100).multiply(BigDecimal.valueOf(2));
 		BigDecimal wrappingTotalPrice = BigDecimal.valueOf(100);
 		BigDecimal deliveryPrice = BigDecimal.valueOf(100);
 		BigDecimal expectedOrderPriceBeforePoint = orderPrice.add(wrappingTotalPrice).add(deliveryPrice);

@@ -26,7 +26,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.nhnacademy.bookstorefront.global.config.CacheConfig;
+import com.nhnacademy.bookstorefront.cache.service.CacheService;
+import com.nhnacademy.bookstorefront.global.controller.GlobalDataControllerAdvice;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookByOrderCouponResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderGetBookResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
@@ -48,10 +49,13 @@ public class UserAndCouponControllerTest {
 	private BookOrderServiceImpl bookOrderServiceImpl;
 
 	@MockBean
-	private CacheConfig cacheConfig;
+	private CacheService cacheService;
 
 	@InjectMocks
 	private UserAndCouponController userAndCouponController;
+
+	@MockBean
+	GlobalDataControllerAdvice globalDataControllerAdvice;
 
 
 
@@ -133,7 +137,7 @@ public class UserAndCouponControllerTest {
 		// Create mock book orders
 		List<GetBookOrderResponse> bookOrders = List.of(
 			new GetBookOrderResponse(
-				new GetBookOrderGetBookResponse("dd", BigDecimal.valueOf(10), "ㅇㅇ", 1L), // Mock inner response
+				new GetBookOrderGetBookResponse("image", "title", BigDecimal.valueOf(100), "description", 1L), // Mock inner response
 				2,
 				1L,
 				100L

@@ -20,10 +20,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import com.nhnacademy.bookstorefront.cache.service.CacheService;
 import com.nhnacademy.bookstorefront.coupontemplate.domain.dto.request.CouponTemplateCreateRequestDTO;
 import com.nhnacademy.bookstorefront.coupontemplate.domain.dto.response.CouponTemplateResponseDTO;
 import com.nhnacademy.bookstorefront.coupontemplate.service.CouponTemplateService;
-import com.nhnacademy.bookstorefront.global.config.CacheConfig;
+import com.nhnacademy.bookstorefront.global.controller.GlobalDataControllerAdvice;
+
 @WebMvcTest(CouponTemplateController.class)
 @AutoConfigureMockMvc(addFilters = false)
 public class CouponTemplateControllerTest {
@@ -35,7 +37,10 @@ public class CouponTemplateControllerTest {
 	private CouponTemplateService couponTemplateService;
 
 	@MockBean
-	private CacheConfig cacheConfig;
+	private CacheService cacheService;
+
+	@MockBean
+	private GlobalDataControllerAdvice globalDataControllerAdvice;
 
 	@Test
 	void testCreateCoupon() throws Exception {

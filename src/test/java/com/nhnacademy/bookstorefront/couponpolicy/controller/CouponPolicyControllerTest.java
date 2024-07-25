@@ -1,6 +1,7 @@
 package com.nhnacademy.bookstorefront.couponpolicy.controller;
 
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -19,15 +20,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.nhnacademy.bookstorefront.cache.service.CacheService;
 import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.request.CouponPolicyCreateRequestDTO;
 import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.request.CouponPolicyUpdateRequestDTO;
 import com.nhnacademy.bookstorefront.couponpolicy.domain.dto.response.CouponPolicyResponseDTO;
 import com.nhnacademy.bookstorefront.couponpolicy.service.CouponPolicyService;
-import com.nhnacademy.bookstorefront.global.config.CacheConfig;
+import com.nhnacademy.bookstorefront.global.controller.GlobalDataControllerAdvice;
 import com.nhnacademy.bookstorefront.global.controller.GlobalExceptionHandler;
 
 @WebMvcTest(CouponPolicyController.class)
@@ -43,7 +44,11 @@ class CouponPolicyControllerTest {
 	private CouponPolicyService couponPolicyService;
 
 	@MockBean
-	private CacheConfig cacheConfig;
+	private CacheService cacheService;
+
+
+	@MockBean
+	private GlobalDataControllerAdvice globalDataControllerAdvice;
 
 	@BeforeEach
 	void setUp() {
@@ -63,7 +68,7 @@ class CouponPolicyControllerTest {
 		doNothing().when(couponPolicyService).issueWelcomeCoupon(requestDTO);
 
 		// when
-		mockMvc.perform(MockMvcRequestBuilders.post("/coupons/policies")
+		mockMvc.perform(post("/coupons/policies")
 				.param("minOrderPrice", requestDTO.minOrderPrice().toString())
 				.param("salePrice", requestDTO.salePrice() != null ? requestDTO.salePrice().toString() : "")
 				.param("saleRate", requestDTO.saleRate() != null ? requestDTO.saleRate().toString() : "")
@@ -89,7 +94,7 @@ class CouponPolicyControllerTest {
 
 		doNothing().when(couponPolicyService).issueBirthdayCoupon(requestDTO);
 
-		mockMvc.perform(MockMvcRequestBuilders.post("/coupons/policies")
+		mockMvc.perform(post("/coupons/policies")
 				.param("minOrderPrice", requestDTO.minOrderPrice().toString())
 				.param("salePrice", requestDTO.salePrice() != null ? requestDTO.salePrice().toString() : "")
 				.param("saleRate", requestDTO.saleRate() != null ? requestDTO.saleRate().toString() : "")
@@ -114,7 +119,7 @@ class CouponPolicyControllerTest {
 
 		doNothing().when(couponPolicyService).issueBookCoupon(requestDTO);
 
-		mockMvc.perform(MockMvcRequestBuilders.post("/coupons/policies")
+		mockMvc.perform(post("/coupons/policies")
 				.param("minOrderPrice", requestDTO.minOrderPrice().toString())
 				.param("salePrice", requestDTO.salePrice() != null ? requestDTO.salePrice().toString() : "")
 				.param("saleRate", requestDTO.saleRate() != null ? requestDTO.saleRate().toString() : "")
@@ -140,7 +145,7 @@ class CouponPolicyControllerTest {
 
 		doNothing().when(couponPolicyService).issueCategoryCoupon(requestDTO);
 
-		mockMvc.perform(MockMvcRequestBuilders.post("/coupons/policies")
+		mockMvc.perform(post("/coupons/policies")
 				.param("minOrderPrice", requestDTO.minOrderPrice().toString())
 				.param("salePrice", requestDTO.salePrice() != null ? requestDTO.salePrice().toString() : "")
 				.param("saleRate", requestDTO.saleRate() != null ? requestDTO.saleRate().toString() : "")
@@ -165,7 +170,7 @@ class CouponPolicyControllerTest {
 
 		doNothing().when(couponPolicyService).issueSaleCoupon(requestDTO);
 
-		mockMvc.perform(MockMvcRequestBuilders.post("/coupons/policies")
+		mockMvc.perform(post("/coupons/policies")
 				.param("minOrderPrice", requestDTO.minOrderPrice().toString())
 				.param("salePrice", requestDTO.salePrice() != null ? requestDTO.salePrice().toString() : "")
 				.param("saleRate", requestDTO.saleRate() != null ? requestDTO.saleRate().toString() : "")
