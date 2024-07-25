@@ -8,101 +8,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/point/point.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
 </head>
 
-
 <body>
-<div class="site-wrapper" id="top">
-    <!--=================================
-    Header Area
-    ===================================== -->
-    <div th:insert="~{global/header}"></div>
+<header th:insert="~{global/header}"></header>
 
-    <section class="breadcrumb-section">
-        <h2 class="sr-only">Site Breadcrumb</h2>
-        <div class="container">
-            <div class="breadcrumb-contents">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a th:href="@{/api/categories/main}">홈</a></li>
-                        <li class="breadcrumb-item active">포인트 내역 조회</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </section>
+<section id="page" class="top-container">
+    <section id="page-menu-container" th:insert="~{fragments/user-menu.html}"></section>
+    <section id="page-content">
+        <section id="page-header">
+            <h5>포인트 내역 조회</h5>
+        </section>
+        <hr style="width: 100%"/>
+        <section id="page-body">
+            <div th:if="${pointTransactions != null}">
+                <div class="order-item">
+                    <table class="point-check-table">
+                        <!-- Head Row -->
+                        <thead>
+                        <tr>
+                            <th class="pro-title">포인트 정책 타입</th>
+                            <th class="pro-price">포인트 내역</th>
+                            <th class="pro-date">날짜</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Product Row -->
+                        <tr th:each="point : ${pointTransactions}" th:if="${point.pointTransactionAmount() != 0}">
+                            <td class="pro-title">
+                                <span th:if="${point.pointEarningPolicyType() == 'REGULAR'}"
+                                      th:text="${point.pointEarningPolicyType()} + ' 멤버십'"></span>
+                                <span th:if="${point.pointEarningPolicyType() == 'ROYAL'}"
+                                      th:text="${point.pointEarningPolicyType()} + ' 멤버십'"></span>
+                                <span th:if="${point.pointEarningPolicyType() == 'GRAND'}"
+                                      th:text="${point.pointEarningPolicyType()} + ' 멤버십'"></span>
+                                <span th:if="${point.pointEarningPolicyType() == 'PRESTIGE'}"
+                                      th:text="${point.pointEarningPolicyType()} + ' 멤버십'"></span>
+                                <span th:unless="${point.pointEarningPolicyType() == 'REGULAR' or point.pointEarningPolicyType() == 'ROYAL' or point.pointEarningPolicyType() == 'GRAND' or point.pointEarningPolicyType() == 'PRESTIGE'}"
+                                      th:text="${point.pointEarningPolicyType()}"></span>
+                            </td>
 
-    <div class="page-section inner-page-sec-padding">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="row">
-                        <!-- My Account Tab Menu Start -->
-                        <div class="col-lg-3 col-12">
-                            <!-- 관리자 계정 메뉴 -->
-                            <div th:insert="~{fragments/user-account-menu.html}"></div>
-                        </div>
-                        <!-- My Account Tab Menu End -->
-                        <!-- My Account Tab Content Start -->
-                        <div class="col-lg-9 col-12 mt--30 mt-lg--0">
-                            <div class="tab-content" id="myaccountContent">
-                                <div class="cart_area inner-page-sec-padding-bottom">
-                                    <div class="container">
-                                        <div class="page-section-title">
-                                            <h1>포인트 내역 조회</h1>
-                                        </div>
-                                        <div th:if="${pointTransactions != null}">
-                                            <div th:each="point : ${pointTransactions}" class="order-item">
-                                                <table class="table">
-                                                    <!-- Head Row -->
-                                                    <thead>
-                                                    <tr>
-                                                        <th class="pro-title">포인트 정책 타입</th>
-                                                        <th class="pro-price">포인트 내역</th>
-                                                        <th class="pro-date">날짜</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <!-- Product Row -->
-                                                    <tr>
-                                                        <td class="pro-title">
-                                                            <span th:text="${point.pointEarningPolicyType()}"></span>
-                                                        </td>
-                                                        <td class="pro-price"> <span
-                                                                th:text="${point.pointTransactionAmount().setScale(0)} + 원"></span></td>
-                                                        <td class="pro-date"><span
-                                                                th:text="${point.pointTransactionDate()}"></span></td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <!-- 페이징 처리 시작-->
-                                            <div th:insert="~{global/paging.html}"></div>
-                                            <!-- 페이징 처리 끝-->
-                                        </div>
-                                        <div th:if="${pointTransactions == null}">
-                                            <p>포인트 내역이 없습니다.</p>
-                                        </div>
-                                    </div>
-                                </div>
+                            <td class="pro-price"> <span
+                                    th:text="${point.pointTransactionAmount().setScale(0)} + 원"></span>
+                            </td>
+                            <td class="pro-date"><span
+                                    th:text="${point.pointTransactionDate().toString().split('T')[0]} + ' ' + ${#strings.substring(point.pointTransactionDate().toString().split('T')[1], 0, 8)}"></span>
+                            </td>
 
-                            </div>
-
-                        </div>
-                    </div>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
+                <div th:insert="~{global/paging.html}"></div>
             </div>
-        </div>
-    </div>
-</div>
+            <div th:if="${pointTransactions == null}">
+                <p>포인트 내역이 없습니다.</p>
+            </div>
+        </section>
+    </section>
+</section>
 
 <div th:insert="~{fragments/to-admin-button}"></div>
 
-<!--=================================
-Footer Area
-===================================== -->
-<div th:insert="~{global/footer}"></div>
+<footer th:insert="~{global/footer}"></footer>
 
 <!-- Use Minified Plugins Version For Fast Page Load -->
 <script th:src="@{/js/plugins.js}"></script>

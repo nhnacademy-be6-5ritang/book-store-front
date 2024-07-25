@@ -1,0 +1,72 @@
+.user-list-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 1rem;
+    table-layout: fixed;
+}
+
+/*.user-list-table tr {*/
+/*}*/
+
+.roles-container {
+    overflow-x: auto;
+    white-space: nowrap;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.user-status-container {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.active-dot, .dormant-dot, .withdraw-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 100%;
+}
+
+.active-dot {
+    background-color: #007924;
+}
+
+.dormant-dot {
+    background-color: #a8a8a8;
+}
+
+.withdraw-dot {
+    background-color: #D90000;
+}
+
+.role-tag {
+    margin: 0.5rem 0.5rem 0.5rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 11rem;
+}
+
+.has-role {
+    padding: 0 0.5rem;
+    border: 1px solid #333333;
+    color: #333333;
+}
+
+.has-role:hover {
+    padding: 0 calc(0.5rem - 1.7px);
+    color: #D90000;
+    cursor: pointer;
+    font-weight: bold;
+    border: 1px solid #D90000;
+}
+
+.has-no-role {
+    color: #a8a8a8;
+}
+
+.has-no-role:hover {
+    color: #007924;
+    cursor: pointer;
+}

@@ -1,0 +1,10 @@
+.point-check-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 1rem;
+    text-align: center;
+}
+
+.point-check-table th {
+    color: #797979;
+}

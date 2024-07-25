@@ -1,6 +1,29 @@
 document.addEventListener("DOMContentLoaded", () => {
     if (responseMessage)
         alert(responseMessage);
+
+    document.querySelectorAll('.edit-button').forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.stopPropagation();
+            const addressId = button.getAttribute('data-id');
+            openUpdateModal(addressId);
+        });
+    });
+
+    document.querySelectorAll('.delete-button').forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.stopPropagation();
+            const addressId = button.getAttribute('data-id');
+            deleteAddress(addressId);
+        });
+    });
+
+    document.querySelectorAll('.address-row').forEach(row => {
+        row.addEventListener('click', function () {
+            const addressId = row.getAttribute('id');
+            confirmUpdateDefaultAddress(addressId);
+        });
+    });
 });
 
 
@@ -43,7 +66,8 @@ const execDaumPostcodeUpdate = (postCodeId = 'postCode', baseAddressId = 'baseAd
 }
 
 const openUpdateModal = (addressId) => {
-    const address = myAddresses.find(address => address.id === addressId);
+    const address = myAddresses.find(address => address.id === +addressId);
+
     if (address) {
         document.getElementById('updateAddressId').value = address.id;
         document.getElementById('updateAlias').value = address.alias;
@@ -65,6 +89,7 @@ const checkAddressLimit = () => {
 }
 
 const deleteAddress = async (addressId) => {
+    console.log('delete: ', addressId);
     myAddresses = myAddresses.filter(address => address.id !== addressId);
     const row = document.getElementById(addressId);
     if (row) {
