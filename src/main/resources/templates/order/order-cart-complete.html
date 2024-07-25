@@ -82,7 +82,7 @@
                                         th:text="${total.setScale(0)} + 원"></span></strong></td>
                             </tr>
 
-                            <tr th:if="${order.couponSale() != null}">
+                            <tr th:if="${order.couponSale() != null && order.couponSale() != 0}">
                                 <th>쿠폰 할인 가격</th>
                                 <td><strong><span
                                         th:text="- ${order.couponSale().setScale(0)} + 원"></span></strong></td>
