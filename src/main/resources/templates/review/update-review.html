@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>리뷰 수정하기</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
+    <link rel="stylesheet" th:href="@{/css/pages/create-review.css}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+</head>
+
+<body>
+<header th:insert="~{global/header}"></header>
+
+<section id="page" class="top-container">
+    <section id="page-menu-container" th:insert="~{fragments/user-menu.html}"></section>
+    <section id="page-content">
+        <section id="page-header">
+            <h5 style="margin: 0 1rem">리뷰 수정</h5>
+        </section>
+        <hr style="width: 100%"/>
+        <section id="page-body">
+            <!-- 리뷰 수정 폼 -->
+            <form id="editReviewForm" th:action="@{/api/reviews/{reviewId} (reviewId=${review.reviewId})}"
+                  th:method="put" enctype="multipart/form-data">
+                <div class="review-form">
+
+                    <!-- 리뷰 작성자 및 날짜 -->
+                    <div class="review-header">
+                        <h3 th:text="${review.userName} + ' 님의 리뷰'"></h3>
+                        <span style="color: #a8a8a8">작성 날짜 &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                        <span th:text="${#temporals.format(review.reviewCreatedAt, 'yyyy-MM-dd')}"></span>
+                    </div>
+
+                    <!-- 이미지 업로드 -->
+                    <div class="image-upload">
+                        <input type="file" id="file" name="file" accept="image/*"
+                               onchange="previewImage(this)">
+                        <div class="image-preview" id="imagePreview">
+                            <img id="previewImg" src="" alt="Image Preview" class="image-preview__image"
+                                 style="display: none;">
+                            <span class="image-preview__default-text">이미지 미리보기</span>
+                        </div>
+                        <button type="button" id="cancelImage" style="display: none;" onclick="resetImagePreview()">이미지
+                            취소
+                        </button>
+                    </div>
+
+                    <!-- 별점 -->
+                    <input type="hidden" name="reviewId" th:value="${review.reviewId}">
+                    <div class="review-rating">
+                        <div class="rating">
+                            <input type="radio" id="star5" name="reviewScore" value="5"
+                                   th:field="*{review.reviewScore}">
+                            <label for="star5">★</label>
+                            <input type="radio" id="star4" name="reviewScore" value="4"
+                                   th:field="*{review.reviewScore}">
+                            <label for="star4">★</label>
+                            <input type="radio" id="star3" name="reviewScore" value="3"
+                                   th:field="*{review.reviewScore}">
+                            <label for="star3">★</label>
+                            <input type="radio" id="star2" name="reviewScore" value="2"
+                                   th:field="*{review.reviewScore}">
+                            <label for="star2">★</label>
+                            <input type="radio" id="star1" name="reviewScore" value="1"
+                                   th:field="*{review.reviewScore}">
+                            <label for="star1">★</label>
+                        </div>
+                    </div>
+
+                    <!-- 리뷰 내용 및 이미지 -->
+                    <div class="review-content">
+                        <div class="review-image" th:if="${review.reviewImageUrl != null}">
+                            <img th:src="${review.reviewImageUrl}" alt="리뷰 이미지"
+                                 style="max-width: 100%; height: auto;">
+                        </div>
+                    </div>
+                    <div class="editor-toolbar">
+                        <div class="word-count">
+                            <span>0</span>/400
+                        </div>
+                    </div>
+                    <div class="editor">
+                        <label>
+                                <textarea id="reviewComment" name="reviewComment" placeholder="내용을 입력해주세요."
+                                          th:field="*{review.reviewComment}"></textarea>
+                        </label>
+                    </div>
+
+                    <!-- 제출 및 취소 버튼 -->
+                    <div class="form-actions d-flex justify-content-end">
+                        <button type="submit" id="submitBtn" class="submit-btn">수정</button>
+                        <a class="btn btn-secondary" onclick="history.back()">뒤로가기</a>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </section>
+</section>
+
+<div id="to-admin-container" class="top-container">
+    <a th:href="@{/api/users/admin}">관리자이신가요?</a>
+</div>
+
+<footer th:insert="~{global/footer}"></footer>
+
+<script th:src="@{/js/my-page.js}"></script>
+<script th:src="@{/js/create-review.js}"></script>
+</body>
+</html>

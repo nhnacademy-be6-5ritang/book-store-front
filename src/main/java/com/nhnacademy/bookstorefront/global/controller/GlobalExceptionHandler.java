@@ -67,16 +67,13 @@ public class GlobalExceptionHandler {
 
 	}
 
-
-
-
 	/**
 	 * GlobalException 예외를 처리하고 에러 페이지로 리다이렉트합니다.
 	 *
 	 * @param exception 발생한 예외 객체
 	 * @return 에러 페이지 뷰 이름
 	 */
-	 @ExceptionHandler(value = GlobalException.class)
+	@ExceptionHandler(value = GlobalException.class)
 	public ModelAndView globalHandleException(GlobalException exception) {
 		ModelAndView modelAndView = new ModelAndView("global/error");
 
@@ -141,8 +138,6 @@ public class GlobalExceptionHandler {
 		return modelAndView;
 	}
 
-
-
 	/**
 	 * Exception 예외를 처리하고 에러 페이지로 리다이렉트합니다.
 	 *
@@ -157,7 +152,5 @@ public class GlobalExceptionHandler {
 		modelAndView.addObject("timestamp", LocalDateTime.now());
 		return modelAndView;
 	}
-
-
 
 }

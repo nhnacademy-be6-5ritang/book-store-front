@@ -7,10 +7,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.nhnacademy.bookstorefront.book.dto.response.GetBookTitleResponse;
 import com.nhnacademy.bookstorefront.point.feignclient.PointServiceClient;
 import com.nhnacademy.bookstorefront.review.dto.request.CreateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.request.UpdateReviewRequest;
+import com.nhnacademy.bookstorefront.review.dto.response.GetBookOrderWithoutReviewResponse;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
 import com.nhnacademy.bookstorefront.review.feignclient.ReviewServiceClient;
 import com.nhnacademy.bookstorefront.review.service.ReviewService;
@@ -28,6 +28,16 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public Page<GetReviewResponse> getReviews(Pageable pageable) {
 		return reviewServiceClient.getReviews(pageable).getBody();
+	}
+
+	@Override
+	public Page<GetReviewResponse> getPhotoReviews(Pageable pageable) {
+		return reviewServiceClient.getPhotoReviews(pageable).getBody();
+	}
+
+	@Override
+	public Page<GetReviewResponse> getGeneralReviews(Pageable pageable) {
+		return reviewServiceClient.getGeneralReviews(pageable).getBody();
 	}
 
 	@Override
@@ -63,13 +73,13 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public void createReview(CreateReviewRequest request, MultipartFile file) {
 		String fileName = null;
-		// String reviewType = "REVIEW";
-		// if (!file.isEmpty()) {
-		// 	fileName = uploadServiceClient.upload(file).getBody();
-		// 	reviewType = "PHOTO_REVIEW";
-		// }
+		String reviewType = "REVIEW";
+		if (!file.isEmpty()) {
+			fileName = uploadServiceClient.upload(file).getBody();
+			reviewType = "PHOTO_REVIEW";
+		}
 		reviewServiceClient.createReview(CreateReviewRequest.from(request, fileName));
-		// pointServiceClient.reviewPointTransaction(reviewType);
+		pointServiceClient.reviewPointTransaction(reviewType);
 	}
 
 	@Override
@@ -78,8 +88,16 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public void updateReview(UpdateReviewRequest request, Long reviewId) {
-		reviewServiceClient.updateReview(request, reviewId);
+	public void updateReview(UpdateReviewRequest request, Long reviewId, MultipartFile file) {
+		String fileName = null;
+		String reviewType = "REVIEW";
+		if (!file.isEmpty()) {
+			fileName = uploadServiceClient.upload(file).getBody();
+			reviewType = "PHOTO_REVIEW";
+		}
+		reviewServiceClient.updateReview(UpdateReviewRequest.from(request, fileName), reviewId);
+		pointServiceClient.reviewPointTransaction(reviewType);
+
 	}
 
 	@Override
@@ -93,8 +111,8 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public List<GetBookTitleResponse> getBooksByOrderStatusCompletionAndUserId() {
-		return reviewServiceClient.getBooksByOrderStatusCompletionAndUserId().getBody();
+	public List<GetBookOrderWithoutReviewResponse> getBooksWithoutReviews() {
+		return reviewServiceClient.getBooksWithoutReviews().getBody();
 	}
 
 }

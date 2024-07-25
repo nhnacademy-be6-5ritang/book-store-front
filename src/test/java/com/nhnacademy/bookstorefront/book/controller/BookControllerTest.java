@@ -185,9 +185,9 @@ class BookControllerTest {
 		);
 
 		Page<GetReviewResponse> reviews = new PageImpl<>(List.of(
-			new GetReviewResponse(bookId, "User1", 5, "Great book!", LocalDateTime.now(),
+			new GetReviewResponse(1L, bookId, "User1", 5, "Great book!", LocalDateTime.now(),
 				"http://example.com/image1.jpg"),
-			new GetReviewResponse(bookId, "User2", 4, "Good read.", LocalDateTime.now(),
+			new GetReviewResponse(2L, bookId, "User2", 4, "Good read.", LocalDateTime.now(),
 				"http://example.com/image2.jpg")
 		));
 
@@ -220,10 +220,10 @@ class BookControllerTest {
 		);
 
 		Page<GetReviewResponse> reviews = new PageImpl<>(List.of(
-			new GetReviewResponse(bookId, "User1", 5, "Photo review 1", LocalDateTime.now(),
-				"http://example.com/photo1.jpg"),
-			new GetReviewResponse(bookId, "User2", 4, "Photo review 2", LocalDateTime.now(),
-				"http://example.com/photo2.jpg")
+			new GetReviewResponse(1L, bookId, "User1", 5, "Great book!", LocalDateTime.now(),
+				"http://example.com/image1.jpg"),
+			new GetReviewResponse(2L, bookId, "User2", 4, "Good read.", LocalDateTime.now(),
+				"http://example.com/image2.jpg")
 		));
 
 		when(bookService.getBook(bookId)).thenReturn(bookDetail);
