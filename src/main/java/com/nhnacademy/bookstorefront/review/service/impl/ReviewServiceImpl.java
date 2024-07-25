@@ -63,13 +63,13 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public void createReview(CreateReviewRequest request, MultipartFile file) {
 		String fileName = null;
-		String reviewType = "REVIEW";
-		if (!file.isEmpty()) {
-			fileName = uploadServiceClient.upload(file).getBody();
-			reviewType = "PHOTO_REVIEW";
-		}
+		// String reviewType = "REVIEW";
+		// if (!file.isEmpty()) {
+		// 	fileName = uploadServiceClient.upload(file).getBody();
+		// 	reviewType = "PHOTO_REVIEW";
+		// }
 		reviewServiceClient.createReview(CreateReviewRequest.from(request, fileName));
-		pointServiceClient.reviewPointTransaction(reviewType);
+		// pointServiceClient.reviewPointTransaction(reviewType);
 	}
 
 	@Override
