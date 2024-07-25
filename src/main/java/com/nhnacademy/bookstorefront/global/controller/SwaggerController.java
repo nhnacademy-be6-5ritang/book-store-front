@@ -28,7 +28,7 @@ public class SwaggerController {
 		return "api/coupon-api";
 	}
 
-	@GetMapping("/back/api")
+	@GetMapping("/api")
 	public String getBackApi(Model model) {
 		try {
 			ResponseEntity<String> response = swaggerApiClient.getBackSwaggerJson();

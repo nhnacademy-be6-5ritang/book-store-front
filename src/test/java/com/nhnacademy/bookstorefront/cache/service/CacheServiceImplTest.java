@@ -43,15 +43,12 @@ class CacheServiceImplTest {
 
 	@Test
 	void testRefreshMainPageCache() {
-		// Given
 		cacheService.getOrderedBooks();
 		cacheService.getLikesBooks();
 		cacheService.getNewestBooks();
 
-		// Call the method to refresh caches
 		cacheService.refreshMainPageCache();
 
-		// Verify that caches are evicted
 		Cache orderedBooksCache = cacheManager.getCache("orderedBooksCache");
 		Cache likesBooksCache = cacheManager.getCache("likesBooksCache");
 		Cache newestBooksCache = cacheManager.getCache("newestBooksCache");
@@ -60,7 +57,6 @@ class CacheServiceImplTest {
 		assertThat(likesBooksCache).isNotNull();
 		assertThat(newestBooksCache).isNotNull();
 
-		// Check if the caches are empty after eviction
 		assertThat(orderedBooksCache.get("orderedBooks")).isNull();
 		assertThat(likesBooksCache.get("likesBooks")).isNull();
 		assertThat(newestBooksCache.get("newestBooks")).isNull();
