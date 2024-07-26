@@ -3,7 +3,7 @@
         <!-- 첫번째 페이지로 이동 -->
         <li class="page-item" th:classappend="${objects.first} ? 'disabled'">
             <a class="page-link" th:href="@{${baseUrl} (page=1, size=${objects.size})}" aria-label="First">
-                <span aria-hidden="true">&laquo; 처음</span>
+                <span aria-hidden="true"><i class="fa-solid fa-angles-left"></i></span>
             </a>
         </li>
         <!-- 이전 페이지로 이동 -->
@@ -11,7 +11,7 @@
             <a class="page-link"
                th:href="${objects.first} ? '#' : ${baseUrl} + '?page=' + ${objects.number} + '&size=' + ${objects.size}"
                aria-label="Previous">
-                <span aria-hidden="true">&lsaquo; 이전</span>
+                <span aria-hidden="true"><i class="fa-solid fa-angle-left"></i></span>
             </a>
         </li>
         <!-- 페이지 번호 링크 -->
@@ -24,14 +24,14 @@
             <a class="page-link"
                th:href="${objects.last} ? '#' : ${baseUrl} + '?page=' + (${objects.number} + 2)+'&size='+${objects.size}"
                aria-label="Next">
-                <span aria-hidden="true">다음 &rsaquo;</span>
+                <span aria-hidden="true"><i class="fa-solid fa-angle-right"></i></span>
             </a>
         </li>
         <!-- 마지막 페이지로 이동 -->
         <li class="page-item" th:classappend="${objects.last} ? 'disabled'">
             <a class="page-link" th:href="@{${baseUrl} (page=${objects.totalPages}, size=${objects.size})}"
                aria-label="Last">
-                <span aria-hidden="true">끝 &raquo;</span>
+                <span aria-hidden="true"><i class="fa-solid fa-angles-right"></i></span>
             </a>
         </li>
     </ul>

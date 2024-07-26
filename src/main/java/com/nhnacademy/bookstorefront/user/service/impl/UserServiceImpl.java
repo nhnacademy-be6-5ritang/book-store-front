@@ -23,6 +23,11 @@ public class UserServiceImpl implements UserService {
 	private final UserClient userClient;
 
 	@Override
+	public ResponseEntity<Void> getAdminPage() {
+		return userClient.getAdminPage();
+	}
+
+	@Override
 	public ResponseEntity<Page<GetUserInfoResponse>> getUsers(Pageable pageable) {
 		return userClient.getUsers(pageable);
 	}

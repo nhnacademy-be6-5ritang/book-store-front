@@ -41,5 +41,8 @@ public interface UserClient {
 	@GetMapping("/api/users")
 	ResponseEntity<Page<GetUserInfoResponse>> getUsers(Pageable pageable);
 
+	@GetMapping("/api/users/admin-page")
+	ResponseEntity<Void> getAdminPage();
+
 	// TODO: 회원 정보 수정
 }
