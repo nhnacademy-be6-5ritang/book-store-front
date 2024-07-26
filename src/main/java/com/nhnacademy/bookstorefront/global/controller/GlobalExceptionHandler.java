@@ -17,6 +17,7 @@ import com.nhnacademy.bookstorefront.global.controller.payload.ErrorStatus;
 import com.nhnacademy.bookstorefront.global.exception.GlobalException;
 
 import feign.FeignException;
+import feign.RetryableException;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
@@ -26,6 +27,12 @@ import jakarta.servlet.http.HttpServletResponse;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+	/**
+	 * 검증 오류(MethodArgumentNotValidException)를 처리합니다.
+	 *
+	 * @param exception 검증 오류 예외 객체
+	 * @param response HTTP 응답 객체
+	 */
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public void processValidationError(MethodArgumentNotValidException exception, HttpServletResponse response) {
 		BindingResult bindingResult = exception.getBindingResult();
@@ -67,16 +74,13 @@ public class GlobalExceptionHandler {
 
 	}
 
-
-
-
 	/**
-	 * GlobalException 예외를 처리하고 에러 페이지로 리다이렉트합니다.
+	 * GlobalException 예외를 처리하고 에러 페이지를 반환합니다.
 	 *
-	 * @param exception 발생한 예외 객체
-	 * @return 에러 페이지 뷰 이름
+	 * @param exception 발생한 GlobalException 예외 객체
+	 * @return 에러 페이지를 표시하는 ModelAndView 객체
 	 */
-	 @ExceptionHandler(value = GlobalException.class)
+	@ExceptionHandler(value = GlobalException.class)
 	public ModelAndView globalHandleException(GlobalException exception) {
 		ModelAndView modelAndView = new ModelAndView("global/error");
 
@@ -122,8 +126,8 @@ public class GlobalExceptionHandler {
 	/**
 	 * FeignException 을 처리하고 상태 코드에 따라 응답을 반환합니다.
 	 *
-	 * @param exception 발생한 Feign 예외 객체
-	 * @return 상태 코드에 따른 ResponseEntity 객체
+	 * @param exception 발생한 FeignException 예외 객체
+	 * @return 상태 코드에 따른 ModelAndView 객체
 	 */
 	@ExceptionHandler(FeignException.class)
 	public ModelAndView handleFeignStatusException(FeignException exception) {
@@ -141,13 +145,28 @@ public class GlobalExceptionHandler {
 		return modelAndView;
 	}
 
+	/**
+	 * RetryableException 을 처리하고 서비스 불가 상태 코드를 반환합니다.
+	 *
+	 * @return 서비스 불가 상태를 표시하는 ModelAndView 객체
+	 */
+	@ExceptionHandler(RetryableException.class)
+	public ModelAndView handleRetryableException() {
+		ModelAndView modelAndView = new ModelAndView("global/error");
+		modelAndView.addObject("message", "게이트웨이 요청 처리 중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+		modelAndView.addObject("status", HttpStatus.SERVICE_UNAVAILABLE);
+		modelAndView.addObject("timestamp", LocalDateTime.now());
 
+		modelAndView.setStatus(HttpStatus.SERVICE_UNAVAILABLE);
+
+		return modelAndView;
+	}
 
 	/**
-	 * Exception 예외를 처리하고 에러 페이지로 리다이렉트합니다.
+	 * 일반적인 Exception 을 처리하고 에러 페이지를 반환합니다.
 	 *
-	 * @param exception 발생한 예외 객체
-	 * @return 에러 페이지 뷰 이름
+	 * @param exception 발생한 Exception 예외 객체
+	 * @return 에러 페이지를 표시하는 ModelAndView 객체
 	 */
 	@ExceptionHandler(value = Exception.class)
 	public ModelAndView handleException(Exception exception) {
@@ -157,7 +176,5 @@ public class GlobalExceptionHandler {
 		modelAndView.addObject("timestamp", LocalDateTime.now());
 		return modelAndView;
 	}
-
-
 
 }

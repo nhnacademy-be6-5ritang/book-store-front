@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>리뷰 상세보기</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main/main.css}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+</head>
+
+<body>
+<header th:insert="~{global/header}"></header>
+
+<div class="top-container">
+    <h5 style="margin: 0 1rem">리뷰 상세보기</h5>
+    <hr style="width: 100%"/>
+</div>
+
+<section class="top-container">
+    <!-- 리뷰 정보 표시 -->
+    <div class="review-details">
+        <!-- 리뷰 작성자 및 날짜 -->
+        <div class="review-header">
+            <h3 th:text="${review.userName} + ' 님의 리뷰'"></h3>
+            <span style="color: #a8a8a8">작성 날짜 &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+            <span th:text="${#temporals.format(review.reviewCreatedAt, 'yyyy-MM-dd')}"></span>
+        </div>
+
+        <!-- 별점 -->
+        <div class="review-rating">
+            <span>별점 &nbsp;&nbsp;|&nbsp;&nbsp;</span>
+            <span style="font-size: 1.5rem;" th:each="reviewStar : ${#numbers.sequence(1, 5)}">
+                        <i style="color: #797979" th:if="${reviewStar <= review.reviewScore}"
+                           class="fa-solid fa-star"></i>
+                        <i style="color:#a8a8a8" th:if="${reviewStar > review.reviewScore}"
+                           class="fa-regular fa-star"></i>
+                    </span>
+        </div>
+
+        <!-- 리뷰 내용 및 이미지 -->
+        <div class="review-content">
+            <div class="review-image" th:if="${review.reviewImageUrl != null}">
+                <img th:src="${review.reviewImageUrl}" alt="리뷰 이미지" style="max-width: 100%; height: auto;">
+            </div>
+            <label>
+                <textarea th:text="${review.reviewComment}" readonly></textarea>
+            </label>
+        </div>
+        <div class="d-flex justify-content-end">
+            <a class="btn btn-secondary" onclick="history.back()">뒤로가기</a>
+        </div>
+    </div>
+</section>
+
+
+<footer th:insert="~{global/footer}"></footer>
+
+<script th:src="@{/js/my-page.js}"></script>
+</body>
+</html>

@@ -13,16 +13,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.nhnacademy.bookstorefront.book.dto.response.GetBookTitleResponse;
 import com.nhnacademy.bookstorefront.review.dto.request.CreateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.request.UpdateReviewRequest;
+import com.nhnacademy.bookstorefront.review.dto.response.GetBookOrderWithoutReviewResponse;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
 
 @FeignClient(name = "review-feign-client", url = "http://localhost:8090/api")
 public interface ReviewServiceClient {
 
-	@GetMapping("/reviews/page")
+	@GetMapping("/reviews/all/page")
 	ResponseEntity<Page<GetReviewResponse>> getReviews(Pageable pageable);
+
+	@GetMapping("/reviews/photo/page")
+	ResponseEntity<Page<GetReviewResponse>> getPhotoReviews(Pageable pageable);
+
+	@GetMapping("/reviews/general/page")
+	ResponseEntity<Page<GetReviewResponse>> getGeneralReviews(Pageable pageable);
 
 	@GetMapping("/books/{bookId}/reviews/all/page")
 	ResponseEntity<Page<GetReviewResponse>> getReviewsByBookId(Pageable pageable,
@@ -62,5 +68,5 @@ public interface ReviewServiceClient {
 	ResponseEntity<Double> getReviewsAverageScoreByBookId(@PathVariable Long bookId);
 
 	@GetMapping("/reviews/create/possible")
-	ResponseEntity<List<GetBookTitleResponse>> getBooksByOrderStatusCompletionAndUserId();
+	ResponseEntity<List<GetBookOrderWithoutReviewResponse>> getBooksWithoutReviews();
 }

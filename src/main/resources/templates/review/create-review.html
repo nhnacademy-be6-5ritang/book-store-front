@@ -6,36 +6,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>책 파는 오리탕집</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Use Minified Plugins Version For Fast Page Load -->
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
     <link rel="stylesheet" th:href="@{/css/pages/create-review.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
 
 <body>
-<div class="site-wrapper" id="top">
-    <!--=================================
-    Header Area
-    ===================================== -->
-    <div th:insert="~{global/header}"></div>
+<header th:insert="~{global/header}"></header>
 
-    <section class="breadcrumb-section">
-        <h2 class="sr-only">Site Breadcrumb</h2>
-        <div class="container">
-            <div class="breadcrumb-contents">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a th:href="@{/books/main}">홈</a></li>
-                        <li class="breadcrumb-item active">리뷰 추가</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </section>
-    <!-- Create Review Page Start -->
-    <div class="cart_area inner-page-sec-padding-bottom">
-        <div class="container">
+<section id="page" class="top-container">
+    <section id="page-menu-container" th:insert="~{fragments/user-menu.html}"></section>
+    <section id="page-content">
+        <section id="page-header">
+            <h5 style="margin: 0 1rem">리뷰 작성</h5>
+        </section>
+        <hr style="width: 100%"/>
+        <section id="page-body">
             <form id="reviewForm" action="/api/reviews" method="post" enctype="multipart/form-data">
                 <div class="review-form">
                     <div class="header">
@@ -85,22 +74,17 @@
                     <button type="submit" id="submitBtn" class="submit-btn" disabled>등록</button>
                 </div>
             </form>
-        </div>
-    </div>
-    <!-- Creat Review Page End -->
+        </section>
+    </section>
+</section>
+
+<div id="to-admin-container" class="top-container">
+    <a th:href="@{/api/users/admin}">관리자이신가요?</a>
 </div>
 
-<!--=================================
-Footer Area
-===================================== -->
-<div th:insert="~{global/footer}"></div>
+<footer th:insert="~{global/footer}"></footer>
 
-<!-- Use Minified Plugins Version For Fast Page Load -->
-<script th:src="@{/js/plugins.js}"></script>
-<script th:src="@{/js/ajax-mail.js}"></script>
-<script th:src="@{/js/custom.js}"></script>
+<script th:src="@{/js/my-page.js}"></script>
 <script th:src="@{/js/create-review.js}"></script>
-
 </body>
-
 </html>
