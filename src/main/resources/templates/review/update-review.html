@@ -27,7 +27,7 @@
         <section id="page-body">
             <!-- 리뷰 수정 폼 -->
             <form id="editReviewForm" th:action="@{/api/reviews/{reviewId} (reviewId=${review.reviewId})}"
-                  th:method="put" enctype="multipart/form-data">
+                  method="post" enctype="multipart/form-data">
                 <div class="review-form">
 
                     <!-- 리뷰 작성자 및 날짜 -->

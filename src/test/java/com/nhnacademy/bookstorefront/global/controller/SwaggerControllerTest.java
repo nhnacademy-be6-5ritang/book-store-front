@@ -29,31 +29,49 @@ class SwaggerControllerTest {
 
 	@Test
 	void testGetCouponApi_Success() {
-		// Given
 		String mockSwaggerJson = "{\"swagger\": \"2.0\"}";
 		ResponseEntity<String> responseEntity = ResponseEntity.ok(mockSwaggerJson);
 		when(swaggerApiClient.getSwaggerJson()).thenReturn(responseEntity);
 
-		// When
 		String viewName = swaggerController.getCouponApi(model);
 
-		// Then
 		verify(swaggerApiClient, times(1)).getSwaggerJson();
 		verify(model, times(1)).addAttribute("swaggerJson", mockSwaggerJson);
 		assertEquals("api/coupon-api", viewName);
 	}
 
 	@Test
-	void testGetCouponApi_Exception() {
-		// Given
+	void testGetBackApi_Exception() {
 		when(swaggerApiClient.getSwaggerJson()).thenThrow(new RuntimeException("Service unavailable"));
 
-		// When
 		String viewName = swaggerController.getCouponApi(model);
 
-		// Then
 		verify(swaggerApiClient, times(1)).getSwaggerJson();
 		verify(model, times(1)).addAttribute("swaggerJson", "{}");
 		assertEquals("api/coupon-api", viewName);
+	}
+
+	@Test
+	void testGetBackApi_Success() {
+		String mockSwaggerJson = "{}";
+		ResponseEntity<String> responseEntity = ResponseEntity.ok(mockSwaggerJson);
+		when(swaggerApiClient.getSwaggerJson()).thenReturn(responseEntity);
+
+		String viewName = swaggerController.getBackApi(model);
+
+		verify(swaggerApiClient, times(1)).getBackSwaggerJson();
+		verify(model, times(1)).addAttribute("swaggerJson", mockSwaggerJson);
+		assertEquals("api/back-api", viewName);
+	}
+
+	@Test
+	void testGetCouponApi_Exception() {
+		when(swaggerApiClient.getSwaggerJson()).thenThrow(new RuntimeException("Service unavailable"));
+
+		String viewName = swaggerController.getBackApi(model);
+
+		verify(swaggerApiClient, times(1)).getBackSwaggerJson();
+		verify(model, times(1)).addAttribute("swaggerJson", "{}");
+		assertEquals("api/back-api", viewName);
 	}
 }

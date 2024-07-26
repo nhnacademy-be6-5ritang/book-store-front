@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.nhnacademy.bookstorefront.review.dto.request.CreateReviewRequest;
@@ -57,7 +56,7 @@ public interface ReviewServiceClient {
 	@GetMapping("/reviews/{reviewId}")
 	ResponseEntity<GetReviewResponse> getReview(@PathVariable Long reviewId);
 
-	@PutMapping("/reviews/{reviewId}")
+	@PostMapping("/reviews/{reviewId}")
 	ResponseEntity<Void> updateReview(@RequestBody UpdateReviewRequest request,
 		@PathVariable Long reviewId);
 
