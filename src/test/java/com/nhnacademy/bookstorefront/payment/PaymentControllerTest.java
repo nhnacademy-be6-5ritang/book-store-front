@@ -190,7 +190,7 @@ class PaymentControllerTest {
 		when(paymentServiceImpl.updatePayment(anyString(), anyLong())).thenReturn(null);
 		when(paymentServiceImpl.transactions(responseJson)).thenReturn(transactionsResponse);
 
-		mockMvc.perform(post("/api/payments/cancel/test/{order_info_id}", orderInfoId)
+		mockMvc.perform(post("/api/payments/cancel/{order_info_id}", orderInfoId)
 				.flashAttr("cancelTextRequest", cancelTextRequest))
 			.andExpect(status().isOk())
 			.andExpect(view().name("toss/transactions"))
