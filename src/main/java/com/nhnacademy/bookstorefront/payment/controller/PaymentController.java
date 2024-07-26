@@ -139,7 +139,7 @@ public class PaymentController {
 	 * @param cancelTextRequest 결제 취소 사유
 	 * @return 결제 조회 페이지로 이동
 	 */
-	@PostMapping("/cancel/test/{order_info_id}")
+	@PostMapping("/cancel/{order_info_id}")
 	public ModelAndView paymentCancel(@PathVariable("order_info_id") String orderInfoId, @Valid @ModelAttribute
 	CancelTextRequest cancelTextRequest) {
 		CancelResponse cancelResponse = paymentServiceImpl.paymentFindByOrderInfoId(orderInfoId);
