@@ -29,7 +29,7 @@ public class CacheServiceImpl implements CacheService {
 			return categoryService.getCategories();
 		} catch (Exception e) {
 			log.warn("카테고리 목록 캐싱 실패: {}", e.getMessage());
-			return List.of();
+			return null;
 		}
 	}
 
@@ -39,7 +39,7 @@ public class CacheServiceImpl implements CacheService {
 			return bookService.getOrderedBooks();
 		} catch (Exception e) {
 			log.warn("최다 주문 도서 목록 캐싱 실패: {}", e.getMessage());
-			return List.of();
+			return null;
 		}
 	}
 
@@ -49,8 +49,9 @@ public class CacheServiceImpl implements CacheService {
 			return bookService.getLikesBooks();
 		} catch (Exception e) {
 			log.warn("최다 좋아요 도서 목록 캐싱 실패: {}", e.getMessage());
-			return List.of();
+			return null;
 		}
+
 	}
 
 	@Cacheable(cacheNames = "newestBooksCache", key = "'newestBooks'")
@@ -59,7 +60,7 @@ public class CacheServiceImpl implements CacheService {
 			return bookService.getNewestBooks();
 		} catch (Exception e) {
 			log.warn("최신 도서 목록 캐싱 실패: {}", e.getMessage());
-			return List.of();
+			return null;
 		}
 	}
 
