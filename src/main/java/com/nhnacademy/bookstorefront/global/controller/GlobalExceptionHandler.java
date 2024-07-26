@@ -93,12 +93,10 @@ public class GlobalExceptionHandler {
 		modelAndView.addObject("status", status != null ? status.value() : HttpStatus.INTERNAL_SERVER_ERROR.value());
 		modelAndView.addObject("timestamp", timestamp != null ? timestamp.toString() : LocalDateTime.now().toString());
 
-		// Set default status for errors not explicitly handled
 		if (status == null) {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 
-		// Customize response based on specific status codes
 		switch (status) {
 			case BAD_REQUEST:
 				modelAndView.setStatus(HttpStatus.BAD_REQUEST);

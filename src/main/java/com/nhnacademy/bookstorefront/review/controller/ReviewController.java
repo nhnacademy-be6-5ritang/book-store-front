@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -166,7 +165,7 @@ public class ReviewController {
 	 * @param reviewId 리뷰 ID
 	 * @return 리뷰 목록 페이지로 리다이렉트하는 URL
 	 */
-	@PutMapping("/reviews/{reviewId}")
+	@PostMapping("/reviews/{reviewId}")
 	public String updateReview(@Valid @ModelAttribute UpdateReviewRequest request, @PathVariable Long reviewId,
 		@RequestParam("file") MultipartFile file) {
 		reviewService.updateReview(request, reviewId, file);
