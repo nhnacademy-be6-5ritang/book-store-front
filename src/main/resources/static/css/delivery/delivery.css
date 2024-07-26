@@ -1,0 +1,10 @@
+.delivery-check-button {
+    color: #a8a8a8;
+    padding: 0 1rem;
+}
+
+.delivery-check-button:hover {
+    color: #333333;
+    font-weight: bold;
+    cursor: pointer;
+}
