@@ -75,13 +75,13 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             echo "Checking if application is running by checking log file..."
-            for i in {1..10}; do
+            for i in {1..30}; do
               if grep -q "Started BookStoreFrontApplication" FRONT-A.log; then
                 echo "Application is running"
                 break
               else
                 echo "Waiting for application to start..."
-                sleep 10
+                sleep 5
               fi
             done
             if ! grep -q "Started BookStoreFrontApplication" FRONT-A.log; then
