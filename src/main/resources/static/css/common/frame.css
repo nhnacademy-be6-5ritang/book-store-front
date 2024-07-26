@@ -120,3 +120,14 @@ input:focus {
 #to-admin-container a:hover {
     color: #333333;
 }
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 1rem;
+    text-align: center;
+}
+
+table th {
+    color: #797979;
+}
