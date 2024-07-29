@@ -51,5 +51,9 @@ public interface UserClient {
 
 	@PutMapping("/api/users/role")
 	ResponseEntity<Void> updateRole(@ModelAttribute UpdateUserRoleRequest updateUserRoleRequest);
+
+	@GetMapping("/api/users/admin-page")
+	ResponseEntity<Void> getAdminPage();
+
 	// TODO: 회원 정보 수정
 }

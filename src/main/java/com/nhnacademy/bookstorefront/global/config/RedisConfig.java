@@ -50,15 +50,9 @@ public class RedisConfig {
 	@Bean
 	public RedisCacheManager redisCacheManager(RedisConnectionFactory connectionFactory) {
 		RedisCacheConfiguration configuration = RedisCacheConfiguration.defaultCacheConfig()
-			.disableCachingNullValues()
-			.serializeKeysWith(
-				RedisSerializationContext.SerializationPair.fromSerializer(
-					new StringRedisSerializer())
-			)
+			.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
 			.serializeValuesWith(
-				RedisSerializationContext.SerializationPair.fromSerializer(
-					new GenericJackson2JsonRedisSerializer())
-			);
+				RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
 
 		return RedisCacheManager
 			.RedisCacheManagerBuilder

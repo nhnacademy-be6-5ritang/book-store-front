@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css">
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
@@ -25,7 +26,7 @@
         <hr style="width: 100%"/>
         <section id="page-body">
             <h3>도서 추가 폼</h3>
-            <form th:action="@{/api/books}" method="post" id="form">
+            <form th:action="@{/api/books}" method="post" id="form" enctype="multipart/form-data">
 
                 <div class="form-group" id="categorySelectionGroup">
                     <!-- 초기 카테고리 선택란 -->
@@ -59,6 +60,14 @@
                 <button type="button" class="btn btn-primary mt-2"
                         onclick="addTagSelect()">태그 항목 추가
                 </button>
+
+                <!-- 이미지 파일 선택 필드 추가 -->
+                <div class="form-group">
+                    <label for="file">도서 이미지</label>
+                    <input type="file" class="form-control" id="file" name="file" accept="image/*">
+                    <img id="imagePreview" src="" alt="Image Preview"
+                         style="display: none; max-width: 100px; max-height: 100px; margin-top: 10px;">
+                </div>
 
                 <div class="form-group">
                     <label for="bookTitle">도서 제목</label>
@@ -122,8 +131,7 @@
                            name="bookSalePrice" step="0.01">
                 </div>
 
-                <button type="submit" class="btn btn-primary">
-                    추가
+                <button type="submit" class="btn btn-primary">추가
                 </button>
                 <a class="btn btn-secondary" onclick="history.back()">취소</a>
             </form>

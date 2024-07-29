@@ -45,7 +45,9 @@
         <section id="page-body">
             <span style="color: #797979" onmouseover="displayUserGrades()"
                   onmouseout="hideUserGrades()"
-                  th:text="${myUserInfo.userGradeName} + ' ' + ${role}"></span>
+                  th:text="${myUserInfo.userGradeName} + ' '"></span>
+            <span th:each="role : ${myUserInfo.roles()}"
+                  th:text="${role}"></span>
             <table class="my-info-table">
                 <tr>
                     <td><br/></td>

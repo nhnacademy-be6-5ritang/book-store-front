@@ -50,7 +50,7 @@ public interface BookServiceClient {
 	@PostMapping
 	ResponseEntity<Void> createBook(@RequestBody CreateBookRequest request);
 
-	@PutMapping("/{bookId}")
+	@PostMapping("/{bookId}")
 	ResponseEntity<Void> updateBookById(@PathVariable Long bookId,
 		@RequestBody UpdateBookRequest request);
 

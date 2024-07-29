@@ -27,6 +27,12 @@ public class AdminUserController {
 	private final UserService userService;
 	private final RoleService roleService;
 
+	@GetMapping("/admin")
+	public String adminPage() {
+		userService.getAdminPage();
+		return "admin/admin-page";
+	}
+
 	@GetMapping("/admin/users")
 	public String userListPage(@PageableDefault(page = 1, size = 10) Pageable pageable, Model model) {
 		Page<GetUserInfoResponse> users = userService.getUsers(pageable).getBody();

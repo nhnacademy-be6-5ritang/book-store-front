@@ -29,5 +29,7 @@ public interface UserService {
 
 	ResponseEntity<Page<GetUserInfoResponse>> getUsers(Pageable pageable);
 
+	ResponseEntity<Void> getAdminPage();
+
 	void updateUserRole(UpdateUserRoleRequest updateUserRoleRequest);
 }

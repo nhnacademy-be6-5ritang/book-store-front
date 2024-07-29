@@ -16,21 +16,21 @@ public class SearchServiceImpl implements SearchService {
 
 	@Override
 	public Page<BookSearchResponse> searchBooks(String query, Pageable pageable) {
-		return searchServiceClient.searchBooks(query, pageable);
+		return searchServiceClient.searchBooks(query, pageable).getBody();
 	}
 
 	@Override
 	public Page<BookSearchResponse> searchAuthors(String query, Pageable pageable) {
-		return searchServiceClient.searchAuthors(query, pageable);
+		return searchServiceClient.searchAuthors(query, pageable).getBody();
 	}
 
 	@Override
 	public Page<BookSearchResponse> searchPublishers(String query, Pageable pageable) {
-		return searchServiceClient.searchPublishers(query, pageable);
+		return searchServiceClient.searchPublishers(query, pageable).getBody();
 	}
 
 	@Override
 	public Page<BookSearchResponse> searchBooksByTag(String query, Pageable pageable) {
-		return searchServiceClient.searchBooksByTag(query, pageable);
+		return searchServiceClient.searchBooksByTag(query, pageable).getBody();
 	}
 }
