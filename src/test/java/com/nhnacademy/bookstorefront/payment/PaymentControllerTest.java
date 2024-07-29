@@ -22,16 +22,17 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.client.RestTemplate;
 
-import com.nhnacademy.bookstorefront.bookcart.service.impl.BookCartServiceImpl;
 import com.nhnacademy.bookstorefront.cache.service.impl.CacheServiceImpl;
 import com.nhnacademy.bookstorefront.order.dto.response.FindByInfoIdBookOrderGetBookResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.FindByInfoIdBookOrderGetOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
+import com.nhnacademy.bookstorefront.order.service.Impl.OrderServiceImpl;
 import com.nhnacademy.bookstorefront.payment.controller.PaymentController;
 import com.nhnacademy.bookstorefront.payment.dto.request.CancelTextRequest;
 import com.nhnacademy.bookstorefront.payment.dto.request.PaymentConfirmationRequest;
 import com.nhnacademy.bookstorefront.payment.dto.response.CancelResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.GetBookOrderByInfoIdResponse;
+import com.nhnacademy.bookstorefront.payment.dto.response.PaymentResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.TransactionsResponse;
 import com.nhnacademy.bookstorefront.payment.service.impl.PaymentServiceImpl;
 
@@ -44,7 +45,7 @@ class PaymentControllerTest {
 	private PaymentServiceImpl paymentServiceImpl;
 
 	@MockBean
-	private BookCartServiceImpl bookCartServiceImpl;
+	private OrderServiceImpl orderServiceImpl;
 
 	@MockBean
 	private CacheServiceImpl cacheService;
@@ -56,7 +57,7 @@ class PaymentControllerTest {
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
 		mockMvc = MockMvcBuilders.standaloneSetup(
-			new PaymentController(paymentServiceImpl, paymentRestTemplate, bookCartServiceImpl)).build();
+			new PaymentController(paymentServiceImpl, paymentRestTemplate, orderServiceImpl)).build();
 	}
 
 	@Test
@@ -142,6 +143,12 @@ class PaymentControllerTest {
 			.status("Completed")
 			.build();
 
+		GetOrderByInfoResponse orderResponse = GetOrderByInfoResponse.builder()
+			.price(BigDecimal.valueOf(100))
+			.build();
+
+		when(orderServiceImpl.findByOrderInfoId(orderInfoId)).thenReturn(orderResponse);
+
 		TransactionsResponse transactionsResponse = TransactionsResponse.from(
 			orderInfoId, BigDecimal.valueOf(200), "Completed", "Provider", "Order Name", LocalDateTime.now()
 		);
@@ -179,6 +186,12 @@ class PaymentControllerTest {
 		String responseJson = "{\"example\": \"data\"}";
 		CancelTextRequest cancelTextRequest = new CancelTextRequest("Reason");
 
+		GetOrderByInfoResponse orderResponse = GetOrderByInfoResponse.builder()
+			.price(BigDecimal.valueOf(100))
+			.build();
+
+		when(orderServiceImpl.findByOrderInfoId(orderInfoId)).thenReturn(orderResponse);
+
 		CancelResponse cancelResponse = CancelResponse.from("paymentKey123", 1L);
 		TransactionsResponse transactionsResponse = TransactionsResponse.from(
 			orderInfoId, BigDecimal.valueOf(200), "Completed", "Provider", "Order Name", LocalDateTime.now()
@@ -195,5 +208,58 @@ class PaymentControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(view().name("toss/transactions"))
 			.andExpect(model().attributeExists("paymentInfo"));
+	}
+
+	@Test
+	void testPaymentCancelPostZeroPrice() throws Exception {
+		String orderInfoId = "order123";
+		CancelTextRequest cancelTextRequest = new CancelTextRequest("Reason");
+
+		GetOrderByInfoResponse orderResponse = GetOrderByInfoResponse.builder()
+			.price(new BigDecimal("0.00"))
+			.build();
+		CancelResponse cancelResponse = CancelResponse.from("paymentKey123", 1L);
+
+		when(orderServiceImpl.findByOrderInfoId(orderInfoId)).thenReturn(orderResponse);
+		when(paymentServiceImpl.paymentFindByOrderInfoId(orderInfoId)).thenReturn(cancelResponse);
+		doNothing().when(paymentServiceImpl).cancelPointSalePayment(cancelResponse.paymentId());
+
+		mockMvc.perform(post("/api/payments/cancel/{order_info_id}", orderInfoId)
+				.flashAttr("cancelTextRequest", cancelTextRequest))
+			.andExpect(status().is3xxRedirection())
+			.andExpect(redirectedUrl("/api/payments/transactions/" + orderInfoId));
+	}
+
+	@Test
+	void testPaymentTransactions_ZeroPrice() throws Exception {
+		String orderInfoId = "order123";
+		GetOrderByInfoResponse orderResponse = GetOrderByInfoResponse.builder()
+			.orderId(1L)
+			.infoId(orderInfoId)
+			.payername("John Doe")
+			.payerEmail("john.doe@example.com")
+			.payerAddress("123 Main St")
+			.orderDate(LocalDateTime.now())
+			.status("COMPLETED")
+			.price(new BigDecimal("0.00"))
+			.couponSale(BigDecimal.ZERO)
+			.pointSale(BigDecimal.ZERO)
+			.build();
+
+		PaymentResponse paymentResponse = new PaymentResponse("paymentKey123", orderInfoId, BigDecimal.ZERO,
+			"COMPLETED", LocalDateTime.now());
+		String orderStatus = "COMPLETED";
+
+		when(orderServiceImpl.findByOrderInfoId(orderInfoId)).thenReturn(orderResponse);
+		when(paymentServiceImpl.getPayment(orderInfoId)).thenReturn(paymentResponse);
+		when(paymentServiceImpl.findByOrder(orderInfoId)).thenReturn(orderResponse);
+
+		mockMvc.perform(get("/api/payments/transactions/{order_info_id}", orderInfoId))
+			.andExpect(status().isOk())
+			.andExpect(view().name("toss/transactions-public"))
+			.andExpect(model().attributeExists("paymentInfo"))
+			.andExpect(model().attributeExists("orderStatus"))
+			.andExpect(model().attribute("paymentInfo", paymentResponse))
+			.andExpect(model().attribute("orderStatus", orderStatus));
 	}
 }

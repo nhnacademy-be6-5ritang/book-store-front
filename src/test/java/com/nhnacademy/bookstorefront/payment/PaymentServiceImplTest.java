@@ -19,6 +19,7 @@ import com.nhnacademy.bookstorefront.order.dto.response.FindByInfoIdBookOrderGet
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.CancelResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.GetBookOrderByInfoIdResponse;
+import com.nhnacademy.bookstorefront.payment.dto.response.PaymentResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.PaymentSaveResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.TransactionsResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.UpdatePaymentResponse;
@@ -136,4 +137,42 @@ class PaymentServiceImplTest {
 
 		assertEquals(response, result);
 	}
+
+	@Test
+	void testSavePointSalePayment() {
+		String orderInfoId = "order123";
+		ResponseEntity<Void> responseEntity = ResponseEntity.ok().build();
+
+		when(paymentServiceClient.pointSale(orderInfoId)).thenReturn(responseEntity);
+
+		paymentService.savePointSalePayment(orderInfoId);
+
+		verify(paymentServiceClient, times(1)).pointSale(orderInfoId);
+	}
+
+	@Test
+	void testCancelPointSalePayment() {
+		Long paymentId = 1L;
+		ResponseEntity<Void> responseEntity = ResponseEntity.ok().build();
+
+		when(paymentServiceClient.cancelPointSale(paymentId)).thenReturn(responseEntity);
+
+		paymentService.cancelPointSalePayment(paymentId);
+
+		verify(paymentServiceClient, times(1)).cancelPointSale(paymentId);
+	}
+
+	@Test
+	void testGetPayment() {
+		String orderInfoId = "order123";
+		PaymentResponse response = new PaymentResponse("paymentKey123", orderInfoId, BigDecimal.ZERO, "COMPLETED",
+			LocalDateTime.now());
+
+		when(paymentServiceClient.pointSaleInfo(orderInfoId)).thenReturn(ResponseEntity.ok(response));
+
+		PaymentResponse result = paymentService.getPayment(orderInfoId);
+
+		assertEquals(response, result);
+	}
+
 }

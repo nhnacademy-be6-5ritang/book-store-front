@@ -68,6 +68,7 @@ import com.nhnacademy.bookstorefront.order.service.Impl.OrderStatusServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.PaperTypeServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.RefundPolicyServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.WrappingPaperServiceImpl;
+import com.nhnacademy.bookstorefront.payment.service.impl.PaymentServiceImpl;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.NoCouponResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.OneCouponResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCouponOrderResponseDTO;
@@ -118,6 +119,9 @@ class OrderClientControllerTest {
 	private AddressService addressService;
 
 	@MockBean
+	private PaymentServiceImpl paymentServiceImpl;
+
+	@MockBean
 	private CacheServiceImpl cacheService;
 
 	@InjectMocks
@@ -132,7 +136,8 @@ class OrderClientControllerTest {
 				wrappingPaperServiceImpl,
 				deliveryServiceImpl,
 				bookServiceImpl, deliveryPolicyServiceImpl,
-				refundPolicyServiceImpl, userAndCouponService, bookCartService, orderStatusServiceImpl, addressService))
+				refundPolicyServiceImpl, userAndCouponService, bookCartService, orderStatusServiceImpl, addressService,
+				paymentServiceImpl))
 			.setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
 			.build();
 		objectMapper = new ObjectMapper();
@@ -1238,5 +1243,4 @@ class OrderClientControllerTest {
 			.andExpect(model().attribute("book", bookDetailResponse))
 			.andExpect(model().attribute("bookId", bookId));
 	}
-
 }
