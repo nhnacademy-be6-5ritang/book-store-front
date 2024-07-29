@@ -1,0 +1,91 @@
+/*.card {*/
+/*    border: 1px solid #ddd; !* Light grey border *!*/
+/*    border-radius: 5px; !* Rounded corners *!*/
+/*}*/
+/*.card-body {*/
+/*    padding: 1rem;*/
+/*}*/
+
+/* 전체 컨테이너 스타일 */
+.container {
+    margin-top: 30px;
+}
+
+/* 쿠폰 카드 스타일 */
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #fff;
+}
+
+/* 카드 본문 스타일 */
+.card-body {
+    font-size: 14px;
+    color: #333;
+}
+
+/* 제목 스타일 */
+h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #0056b3;
+}
+
+/* 할인 금액 스타일 */
+.discount-price {
+    color: #d9534f;
+    font-weight: bold;
+}
+
+/* 최대 할인금액 스타일 */
+.max-discount {
+    color: #f0ad4e;
+    font-weight: bold;
+}
+
+/* 최소 주문금액 스타일 */
+.min-order-price {
+    color: #5bc0de;
+    font-weight: bold;
+}
+
+/* 쿠폰 사용 여부 스타일 */
+.coupon-status {
+    font-weight: bold;
+    color: #5bc0de;
+}
+
+/* 쿠폰 만료일 스타일 */
+.expiry-date {
+    color: #d9534f;
+    font-weight: bold;
+}
+
+/* 사용자 메뉴 스타일 */
+.my-page-menu {
+    margin-bottom: 30px;
+}
+
+.my-page-menu a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.my-page-menu a:hover {
+    background-color: #0056b3;
+    color: #fff;
+}
+
+.my-page-menu-icon {
+    font-size: 24px;
+    margin-right: 10px;
+}

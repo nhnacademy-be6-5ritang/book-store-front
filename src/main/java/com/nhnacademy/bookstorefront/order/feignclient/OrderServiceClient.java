@@ -3,6 +3,8 @@ package com.nhnacademy.bookstorefront.order.feignclient;
 import java.util.List;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +29,7 @@ import com.nhnacademy.bookstorefront.order.dto.response.CreatePaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAdminAllPaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderByStatusResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllListOrderResponse;
+import com.nhnacademy.bookstorefront.order.dto.response.GetAllOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllPaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllRefundResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookByOrderCouponResponse;
@@ -49,30 +52,33 @@ public interface OrderServiceClient {
 
 	//도서 주문 생성
 	@PostMapping("/api/orders/books-orders")
-	 ResponseEntity<CreateBookOrderResponse> createBookOrder(
+	ResponseEntity<CreateBookOrderResponse> createBookOrder(
 		@RequestBody CreateBookOrderRequest createBookOrderRequest);
 
 	@GetMapping("/api/orders/wrappings")
-	 ResponseEntity<GetAllPaperResponse> getAllWrappingPapers();
+	ResponseEntity<GetAllPaperResponse> getAllWrappingPapers();
 
 	@PostMapping("/api/orders/wrappings/{paper_id}/{book_order_id}/{quantity}")
-	 ResponseEntity<GetWrappingResponse> createWrappingPapers(@PathVariable("paper_id") Long paperId, @PathVariable("book_order_id") long bookOrderId, @PathVariable("quantity") int quantity);
+	ResponseEntity<GetWrappingResponse> createWrappingPapers(@PathVariable("paper_id") Long paperId,
+		@PathVariable("book_order_id") long bookOrderId, @PathVariable("quantity") int quantity);
 
 	@GetMapping("/api/orders/books-orders/{order_list_id}/wrapping-papers")
-	 ResponseEntity<GetListWrappingResponse> getWrappingPaperByOrderListId(@PathVariable("order_list_id") Long orderListId);
+	ResponseEntity<GetListWrappingResponse> getWrappingPaperByOrderListId(
+		@PathVariable("order_list_id") Long orderListId);
 
 	//주문 만들기 (도서 주문)
 	@PostMapping("/api/orders/orders")
-	 ResponseEntity<CreateOrderResponse> createOrder(@ModelAttribute CreateOrderRequest createOrderRequest);
+	ResponseEntity<CreateOrderResponse> createOrder(@ModelAttribute CreateOrderRequest createOrderRequest);
 
 	@PutMapping("/api/orders/books-orders/{book_list_id}/{order_id}")
-	 ResponseEntity<UpdateBookOrderResponse> updateBookOrder(@PathVariable("book_list_id") Long bookListId, @PathVariable("order_id") Long orderId);
+	ResponseEntity<UpdateBookOrderResponse> updateBookOrder(@PathVariable("book_list_id") Long bookListId,
+		@PathVariable("order_id") Long orderId);
 
 	@GetMapping("/api/orders/users/all")
-	 ResponseEntity<GetAllListOrderResponse> findAllByUserId();
+	ResponseEntity<GetAllListOrderResponse> findAllByUserId();
 
 	@GetMapping("/api/orders/order-info/{order_info_id}")
-	 ResponseEntity<GetOrderByInfoResponse> findByOrderInfoId(@PathVariable("order_info_id") String orderInfoId);
+	ResponseEntity<GetOrderByInfoResponse> findByOrderInfoId(@PathVariable("order_info_id") String orderInfoId);
 
 	@GetMapping("/api/orders/order-status/wait")
 	ResponseEntity<GetAllListOrderByStatusResponse> getOrderStatusWait();
@@ -89,9 +95,9 @@ public interface OrderServiceClient {
 	@GetMapping("/api/orders/order-status/refunding")
 	ResponseEntity<GetAllListOrderByStatusResponse> getOrderStatusRefunding();
 
-
 	@PostMapping("/api/orders/order-info/Non")
-	ResponseEntity<GetNonOrderByInfoResponse> getOrderByInfoNon(@ModelAttribute OrderCheckNonRequest orderCheckNonRequest);
+	ResponseEntity<GetNonOrderByInfoResponse> getOrderByInfoNon(
+		@ModelAttribute OrderCheckNonRequest orderCheckNonRequest);
 
 	@GetMapping("/api/orders/orders-points")
 	ResponseEntity<GetUserPointOrderResponse> getUserPointOrders();
@@ -100,7 +106,8 @@ public interface OrderServiceClient {
 	ResponseEntity<GetAllRefundResponse> getRefundPolicy();
 
 	@PutMapping("/api/orders/refund-policy/{refundPolicyId}")
-	ResponseEntity<Void> updateRefundPolicy(@PathVariable("refundPolicyId") Long refundPolicyId, @ModelAttribute UpdateRefundPolicyRequest updateRefundPolicyRequest);
+	ResponseEntity<Void> updateRefundPolicy(@PathVariable("refundPolicyId") Long refundPolicyId,
+		@ModelAttribute UpdateRefundPolicyRequest updateRefundPolicyRequest);
 
 	@PostMapping("/api/orders/refund-policy")
 	ResponseEntity<Void> createRefundPolicy(@ModelAttribute CreateRefundPolicyRequest refundPolicyRequest);
@@ -120,7 +127,6 @@ public interface OrderServiceClient {
 	@GetMapping("/api/orders/book-orders/cart-order/{orderInfoId}")
 	ResponseEntity<List<GetBookOrderResponse>> getCartOrder(@PathVariable("orderInfoId") String orderInfoId);
 
-
 	/**
 	 * 단건주문 bookId, categoryId 가져오는 feignClient method
 	 * @author 이기훈
@@ -132,7 +138,8 @@ public interface OrderServiceClient {
 	ResponseEntity<GetBookByOrderCouponResponse> getBookByOneOrder(@PathVariable("orderListId") Long orderListId);
 
 	@PutMapping("/api/orders/cart-order/{orderId}")
-	ResponseEntity<CreateOrderResponse> updateCartOrder(@RequestBody CreateOrderRequest createOrderRequest, @PathVariable Long orderId);
+	ResponseEntity<CreateOrderResponse> updateCartOrder(@RequestBody CreateOrderRequest createOrderRequest,
+		@PathVariable Long orderId);
 
 	/**
 	 * 포장지 종류 생성
@@ -149,7 +156,8 @@ public interface OrderServiceClient {
 	 * @return 포장지 종류 정보
 	 */
 	@PutMapping("/api/orders/papers/{paper_type_id}")
-	ResponseEntity<GetPaperResponse> updatePaper(@RequestBody UpdateWrappingTypeRequest updateWrappingTypeRequest, @PathVariable("paper_type_id") Long paperTypeId);
+	ResponseEntity<GetPaperResponse> updatePaper(@RequestBody UpdateWrappingTypeRequest updateWrappingTypeRequest,
+		@PathVariable("paper_type_id") Long paperTypeId);
 
 	/**
 	 * 포장지 종류 삭제
@@ -167,7 +175,8 @@ public interface OrderServiceClient {
 	 * @return 주문 정보 리턴
 	 */
 	@PostMapping("/api/orders/orderStatus")
-	ResponseEntity<GetOrderStatusResponse> createOrderStatus(@RequestBody CreateOrderStatusRequest createOrderStatusRequest);
+	ResponseEntity<GetOrderStatusResponse> createOrderStatus(
+		@RequestBody CreateOrderStatusRequest createOrderStatusRequest);
 
 	/**
 	 * 주문 상태 업데이트
@@ -176,7 +185,8 @@ public interface OrderServiceClient {
 	 * @return 주문 상태 정보
 	 */
 	@PutMapping("/api/orders/orderStatus/{order_status_id}")
-	ResponseEntity<GetOrderStatusResponse> updateOrderStatus(@PathVariable("order_status_id") Long orderStatusId, @RequestBody CreateOrderStatusRequest createOrderStatusRequest);
+	ResponseEntity<GetOrderStatusResponse> updateOrderStatus(@PathVariable("order_status_id") Long orderStatusId,
+		@RequestBody CreateOrderStatusRequest createOrderStatusRequest);
 
 	/**
 	 * 주문 상태 삭제
@@ -194,5 +204,8 @@ public interface OrderServiceClient {
 
 	@GetMapping("/api/users/orders/self")
 	ResponseEntity<GetMyUserInfoResponse> getMyUserInfoByInfo();
+
+	@GetMapping("/api/orders/users/all/Page")
+	ResponseEntity<Page<GetAllOrderResponse>> findAllPageByUserId(Pageable pageable);
 
 }

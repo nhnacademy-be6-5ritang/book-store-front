@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.CancelResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.GetBookOrderByInfoIdResponse;
+import com.nhnacademy.bookstorefront.payment.dto.response.PaymentResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.PaymentSaveResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.TransactionsResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.UpdatePaymentResponse;
@@ -53,5 +54,17 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public UpdatePaymentResponse updatePayment(String paymentResponseJson, Long paymentId) {
 		return paymentServiceClient.cancel(paymentResponseJson, paymentId).getBody();
+	}
+
+	public void savePointSalePayment(String orderInfoId) {
+		paymentServiceClient.pointSale(orderInfoId).getBody();
+	}
+
+	public void cancelPointSalePayment(Long paymentId) {
+		paymentServiceClient.cancelPointSale(paymentId).getBody();
+	}
+
+	public PaymentResponse getPayment(String orderInfoId) {
+		return paymentServiceClient.pointSaleInfo(orderInfoId).getBody();
 	}
 }

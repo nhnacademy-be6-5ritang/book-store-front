@@ -1,6 +1,7 @@
 package com.nhnacademy.bookstorefront.user.controller;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class UserController {
 		ResponseEntity<GetMyUserInfoResponse> getMyUserInfoResponse = userService.getMyUserInfo();
 		model.addAttribute("myUserInfo", getMyUserInfoResponse.getBody());
 
-		model.addAttribute("role", getMyUserInfoResponse.getBody().roles().stream().findFirst().orElse(null));
+		model.addAttribute("roles", Objects.requireNonNull(getMyUserInfoResponse.getBody()).roles());
 
 		ResponseEntity<BigDecimal> getMyTotalOrderPriceResponse = userService.getMyTotalOrderPrice();
 		model.addAttribute("myTotalOrderPrice", getMyTotalOrderPriceResponse.getBody());

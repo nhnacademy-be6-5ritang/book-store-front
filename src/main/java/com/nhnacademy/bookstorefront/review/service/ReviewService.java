@@ -6,9 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.nhnacademy.bookstorefront.book.dto.response.GetBookTitleResponse;
 import com.nhnacademy.bookstorefront.review.dto.request.CreateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.request.UpdateReviewRequest;
+import com.nhnacademy.bookstorefront.review.dto.response.GetBookOrderWithoutReviewResponse;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
 
 /**
@@ -18,12 +18,28 @@ import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
  */
 public interface ReviewService {
 	/**
-	 * 페이징된 리뷰 목록을 반환합니다.
+	 * 페이징된 모든 리뷰 목록을 반환합니다.
 	 *
 	 * @param pageable 페이징 정보를 포함하는 객체
 	 * @return 페이징된 리뷰 응답 페이지
 	 */
 	Page<GetReviewResponse> getReviews(Pageable pageable);
+
+	/**
+	 * 페이징된 모든 사진 리뷰 목록을 반환합니다.
+	 *
+	 * @param pageable 페이징 정보를 포함하는 객체
+	 * @return 페이징된 리뷰 응답 페이지
+	 */
+	Page<GetReviewResponse> getPhotoReviews(Pageable pageable);
+
+	/**
+	 * 페이징된 모든 일반 리뷰 목록을 반환합니다.
+	 *
+	 * @param pageable 페이징 정보를 포함하는 객체
+	 * @return 페이징된 리뷰 응답 페이지
+	 */
+	Page<GetReviewResponse> getGeneralReviews(Pageable pageable);
 
 	/**
 	 * 주어진 책 ID에 해당하는 페이징된 리뷰 목록을 반환합니다.
@@ -98,7 +114,7 @@ public interface ReviewService {
 	 * @param request  리뷰 수정 요청 DTO
 	 * @param reviewId 수정할 리뷰의 ID
 	 */
-	void updateReview(UpdateReviewRequest request, Long reviewId);
+	void updateReview(UpdateReviewRequest request, Long reviewId, MultipartFile file);
 
 	/**
 	 * 주어진 리뷰 ID에 해당하는 리뷰를 삭제합니다.
@@ -120,5 +136,5 @@ public interface ReviewService {
 	 *
 	 * @return 주문 상태가 "배송 완료"인 책의 제목 목록
 	 */
-	List<GetBookTitleResponse> getBooksByOrderStatusCompletionAndUserId();
+	List<GetBookOrderWithoutReviewResponse> getBooksWithoutReviews();
 }

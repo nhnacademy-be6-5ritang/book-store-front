@@ -13,6 +13,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
@@ -27,6 +30,7 @@ import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetUserPointOrderResponse;
 import com.nhnacademy.bookstorefront.order.feignclient.OrderServiceClient;
 import com.nhnacademy.bookstorefront.order.service.Impl.OrderServiceImpl;
+import com.nhnacademy.bookstorefront.user.dto.response.GetMyUserInfoResponse;
 
 class OrderServiceImplTest {
 
@@ -233,6 +237,31 @@ class OrderServiceImplTest {
 			.thenReturn(ResponseEntity.ok(response));
 
 		CreateOrderResponse result = orderService.updateCartOrder(request, orderId);
+
+		assertEquals(response, result);
+	}
+
+	@Test
+	void testGetMyUserInfoByOrder() {
+		GetMyUserInfoResponse response = mock(GetMyUserInfoResponse.class);
+
+		when(orderServiceClient.getMyUserInfoByInfo())
+			.thenReturn(ResponseEntity.ok(response));
+
+		GetMyUserInfoResponse result = orderService.getMyUserInfoByOrder();
+
+		assertEquals(response, result);
+	}
+
+	@Test
+	void testFindAllPageByUserId() {
+		Page<GetAllOrderResponse> response = mock(Page.class);
+
+		when(orderServiceClient.findAllPageByUserId(any(Pageable.class)))
+			.thenReturn(ResponseEntity.ok(response));
+
+		Pageable pageable = PageRequest.of(0, 10);
+		Page<GetAllOrderResponse> result = orderService.findAllPageByUserId(pageable);
 
 		assertEquals(response, result);
 	}

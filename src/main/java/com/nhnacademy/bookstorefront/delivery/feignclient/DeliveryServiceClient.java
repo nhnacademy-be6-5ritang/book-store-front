@@ -45,7 +45,7 @@ public interface DeliveryServiceClient {
 	@GetMapping("/{orderId}/orders")
 	ResponseEntity<GetDeliveryResponse> getDeliveryByOrder(@PathVariable Long orderId);
 
-	@PutMapping("/sender/{deliveryId}")
-	ResponseEntity<Void> updateDeliveryByOrderId(@PathVariable Long deliveryId, @RequestBody
+	@PutMapping("/sender/{orderId}")
+	ResponseEntity<Void> updateDeliveryByOrderId(@PathVariable Long orderId, @RequestBody
 	UpdateDeliveryByOrderIdRequest request);
 }

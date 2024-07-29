@@ -3,11 +3,14 @@ package com.nhnacademy.bookstorefront.user.service.impl;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.address.dto.response.GetAddressResponse;
 import com.nhnacademy.bookstorefront.user.dto.response.GetMyUserInfoResponse;
+import com.nhnacademy.bookstorefront.user.dto.response.GetUserInfoResponse;
 import com.nhnacademy.bookstorefront.user.feignclient.UserClient;
 import com.nhnacademy.bookstorefront.user.service.UserService;
 
@@ -18,6 +21,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 	private final UserClient userClient;
+
+	@Override
+	public ResponseEntity<Void> getAdminPage() {
+		return userClient.getAdminPage();
+	}
+
+	@Override
+	public ResponseEntity<Page<GetUserInfoResponse>> getUsers(Pageable pageable) {
+		return userClient.getUsers(pageable);
+	}
 
 	@Override
 	public ResponseEntity<GetMyUserInfoResponse> getMyUserInfo() {

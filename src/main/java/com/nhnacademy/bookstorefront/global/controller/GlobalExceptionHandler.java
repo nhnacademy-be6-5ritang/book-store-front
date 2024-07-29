@@ -11,12 +11,12 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import com.nhnacademy.bookstorefront.global.controller.payload.ErrorStatus;
 import com.nhnacademy.bookstorefront.global.exception.GlobalException;
 
 import feign.FeignException;
+import feign.RetryableException;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
@@ -26,6 +26,12 @@ import jakarta.servlet.http.HttpServletResponse;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+	/**
+	 * 검증 오류(MethodArgumentNotValidException)를 처리합니다.
+	 *
+	 * @param exception 검증 오류 예외 객체
+	 * @param response HTTP 응답 객체
+	 */
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public void processValidationError(MethodArgumentNotValidException exception, HttpServletResponse response) {
 		BindingResult bindingResult = exception.getBindingResult();
@@ -67,16 +73,13 @@ public class GlobalExceptionHandler {
 
 	}
 
-
-
-
 	/**
-	 * GlobalException 예외를 처리하고 에러 페이지로 리다이렉트합니다.
+	 * GlobalException 예외를 처리하고 에러 페이지를 반환합니다.
 	 *
-	 * @param exception 발생한 예외 객체
-	 * @return 에러 페이지 뷰 이름
+	 * @param exception 발생한 GlobalException 예외 객체
+	 * @return 에러 페이지를 표시하는 ModelAndView 객체
 	 */
-	 @ExceptionHandler(value = GlobalException.class)
+	@ExceptionHandler(value = GlobalException.class)
 	public ModelAndView globalHandleException(GlobalException exception) {
 		ModelAndView modelAndView = new ModelAndView("global/error");
 
@@ -89,12 +92,10 @@ public class GlobalExceptionHandler {
 		modelAndView.addObject("status", status != null ? status.value() : HttpStatus.INTERNAL_SERVER_ERROR.value());
 		modelAndView.addObject("timestamp", timestamp != null ? timestamp.toString() : LocalDateTime.now().toString());
 
-		// Set default status for errors not explicitly handled
 		if (status == null) {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 
-		// Customize response based on specific status codes
 		switch (status) {
 			case BAD_REQUEST:
 				modelAndView.setStatus(HttpStatus.BAD_REQUEST);
@@ -122,15 +123,37 @@ public class GlobalExceptionHandler {
 	/**
 	 * FeignException 을 처리하고 상태 코드에 따라 응답을 반환합니다.
 	 *
-	 * @param exception 발생한 Feign 예외 객체
-	 * @return 상태 코드에 따른 ResponseEntity 객체
+	 * @param exception 발생한 FeignException 예외 객체
+	 * @return 상태 코드에 따른 ModelAndView 객체
 	 */
 	@ExceptionHandler(FeignException.class)
-	public ModelAndView handleFeignStatusException(FeignException exception) {
-		if (exception.status() == HttpStatus.FORBIDDEN.value()
-			|| exception.status() == HttpStatus.UNAUTHORIZED.value()) {
-			// 403 예외인 경우 로그인 페이지로 리다이렉트
-			return new ModelAndView(new RedirectView("/auth/login"));
+	public ModelAndView handleFeignStatusException(FeignException exception, HttpServletResponse response) {
+		PrintWriter script;
+		response.setContentType("text/html;charset=UTF-8");
+
+		try {
+			script = response.getWriter();
+			if (exception.status() == HttpStatus.UNAUTHORIZED.value()) {
+				script.println("<script>");
+				script.println("alert('로그인이 필요합니다');");
+				script.println("window.location.href = '/auth/login';");
+				script.println("</script>");
+				script.flush();
+				script.close();
+				return null;
+			}
+
+			if (exception.status() == HttpStatus.FORBIDDEN.value()) {
+				script.println("<script>");
+				script.println("alert('해당 리소스에 대한 접근 권한이 없습니다.')");
+				script.println("history.back()");
+				script.println("</script>");
+				script.flush();
+				script.close();
+				return null;
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		}
 
 		ModelAndView modelAndView = new ModelAndView("global/error");
@@ -141,13 +164,28 @@ public class GlobalExceptionHandler {
 		return modelAndView;
 	}
 
+	/**
+	 * RetryableException 을 처리하고 서비스 불가 상태 코드를 반환합니다.
+	 *
+	 * @return 서비스 불가 상태를 표시하는 ModelAndView 객체
+	 */
+	@ExceptionHandler(RetryableException.class)
+	public ModelAndView handleRetryableException() {
+		ModelAndView modelAndView = new ModelAndView("global/error");
+		modelAndView.addObject("message", "게이트웨이 요청 처리 중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+		modelAndView.addObject("status", HttpStatus.SERVICE_UNAVAILABLE);
+		modelAndView.addObject("timestamp", LocalDateTime.now());
 
+		modelAndView.setStatus(HttpStatus.SERVICE_UNAVAILABLE);
+
+		return modelAndView;
+	}
 
 	/**
-	 * Exception 예외를 처리하고 에러 페이지로 리다이렉트합니다.
+	 * 일반적인 Exception 을 처리하고 에러 페이지를 반환합니다.
 	 *
-	 * @param exception 발생한 예외 객체
-	 * @return 에러 페이지 뷰 이름
+	 * @param exception 발생한 Exception 예외 객체
+	 * @return 에러 페이지를 표시하는 ModelAndView 객체
 	 */
 	@ExceptionHandler(value = Exception.class)
 	public ModelAndView handleException(Exception exception) {
@@ -157,7 +195,5 @@ public class GlobalExceptionHandler {
 		modelAndView.addObject("timestamp", LocalDateTime.now());
 		return modelAndView;
 	}
-
-
 
 }

@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/delivery/delivery.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
@@ -20,29 +21,30 @@
     <section id="page-menu-container" th:insert="~{fragments/user-menu.html}"></section>
     <section id="page-content">
         <section id="page-header">
-            <h5 style="margin: 0 1rem">배송내역</h5>
+            <h5>배송 내역</h5>
         </section>
         <hr style="width: 100%"/>
         <section id="page-body">
             <div th:if="${deliveries.getTotalElements() > 0}">
-                <table class="table table-bordered">
+                <table class="delivery-check-table">
                     <thead>
                     <tr>
-                        <th>번호</th>
-                        <th>배송상태</th>
+                        <th style="width: 50px">번호</th>
                         <th>배송 수신 주소</th>
-                        <th></th>
+                        <th>배송상태</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="delivery, index : ${deliveries}">
+                    <tr th:each="delivery, index : ${deliveries}"
+                        th:onclick="|location.href='@{/api/deliveries/delivery/{deliveryId}(deliveryId=${delivery.deliveryId})}'|"
+                        class="delivery-check-button">
                         <td th:text="${index.index + 1}">1</td>
-                        <td th:text="${delivery.deliveryStatusName}">배송 상태</td>
                         <td th:text="${delivery.deliveryReceiverAddress}">배송 수신 주소</td>
-                        <td style="display: flex; align-items: center;">
-                            <a th:href="@{/api/deliveries/delivery/{deliveryId} (deliveryId=${delivery.deliveryId})}"
-                               class="btn btn-info inline-text">보기</a>
-                        </td>
+                        <td th:text="${delivery.deliveryStatusName}">배송 상태</td>
+                        <!--                        <td>-->
+                        <!--                            <a th:href="@{/api/deliveries/delivery/{deliveryId} (deliveryId=${delivery.deliveryId})}"-->
+                        <!--                               class="delivery-check-button">보기</a>-->
+                        <!--                        </td>-->
                     </tr>
                     </tbody>
                 </table>
@@ -58,7 +60,7 @@
 </section>
 
 <div id="to-admin-container" class="top-container">
-    <a th:href="@{/api/users/admin}">관리자이신가요?</a>
+    <a th:href="@{/admin}">관리자이신가요?</a>
 </div>
 
 <footer th:insert="~{global/footer}"></footer>

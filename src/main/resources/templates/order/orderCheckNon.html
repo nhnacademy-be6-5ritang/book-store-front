@@ -21,7 +21,7 @@
     <section id="page-menu-container" th:insert="~{fragments/user-menu.html}"></section>
     <section id="page-content">
         <section id="page-header">
-            <h5 style="margin: 0 1rem">비회원 주문 확인</h5>
+            <h5>비회원 주문 확인</h5>
         </section>
         <hr style="width: 100%"/>
         <section id="page-body">
@@ -62,7 +62,7 @@
 </section>
 
 <div id="to-admin-container" class="top-container">
-    <a th:href="@{/api/users/admin}">관리자이신가요?</a>
+    <a th:href="@{/admin}">관리자이신가요?</a>
 </div>
 
 <footer th:insert="~{global/footer}"></footer>

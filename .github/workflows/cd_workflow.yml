@@ -20,6 +20,8 @@ jobs:
           cache: maven
       - name: Build with Maven
         run: mvn -B package --file pom.xml
+        env:
+          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
 
       - name: Copy files via SCP
         uses: appleboy/scp-action@v0.1.7
@@ -60,12 +62,32 @@ jobs:
           script_stop: true
           script: |
             echo "Starting new application..."
-            nohup java -Xmx256m -jar ~/target/BOOK-STORE-FRONT.jar --spring.profiles.active=${{secrets.SPRING_PROFILE}} --server.port=${{ secrets.FRONT_PORT_A }} > FRONT-A.log 2>&1 &
+            nohup java -Xmx256m -jar ~/target/BOOK-STORE-FRONT.jar --spring.profiles.active=${{secrets.SPRING_PROFILE}} --server.port=${{ secrets.FRONT_PORT_A }} --spring.data.redis.password=${{ secrets.REDIS_PASSWORD }} > FRONT-A.log 2>&1 &
             echo "New application started. Check app.log for details."
 
-      # 딜레이 추가 (10초 예시)
-      - name: Delay before stopping application B
-        run: sleep 15
+      # JAR 파일 실행 확인
+      - name: Check if JAR is running by checking log file
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_IP }}
+          username: ${{ secrets.SSH_ID }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            echo "Checking if application is running by checking log file..."
+            for i in {1..30}; do
+              if grep -q "Started BookStoreFrontApplication" FRONT-A.log; then
+                echo "Application is running"
+                break
+              else
+                echo "Waiting for application to start..."
+                sleep 5
+              fi
+            done
+            if ! grep -q "Started BookStoreFrontApplication" FRONT-A.log; then
+              echo "Application did not start in expected time" >&2
+              exit 1
+            fi
 
       # 앱 포트로 실행된 jar 파일 종료
       - name: Stop existing Spring Boot application B
@@ -90,6 +112,6 @@ jobs:
           script_stop: true
           script: |
             echo "Starting new application..."
-            nohup java -Xmx256m -jar ~/target/BOOK-STORE-FRONT.jar --spring.profiles.active=prod --server.port=${{ secrets.FRONT_PORT_B }} > FRONT-B.log 2>&1 &
+            nohup java -Xmx256m -jar ~/target/BOOK-STORE-FRONT.jar --spring.profiles.active=prod --server.port=${{ secrets.FRONT_PORT_B }} --spring.data.redis.password=${{ secrets.REDIS_PASSWORD }} > FRONT-B.log 2>&1 &
             echo "New application started. Check app.log for details."
 

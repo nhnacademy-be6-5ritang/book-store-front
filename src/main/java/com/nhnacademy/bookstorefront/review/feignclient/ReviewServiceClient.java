@@ -10,19 +10,24 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.nhnacademy.bookstorefront.book.dto.response.GetBookTitleResponse;
 import com.nhnacademy.bookstorefront.review.dto.request.CreateReviewRequest;
 import com.nhnacademy.bookstorefront.review.dto.request.UpdateReviewRequest;
+import com.nhnacademy.bookstorefront.review.dto.response.GetBookOrderWithoutReviewResponse;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
 
 @FeignClient(name = "review-feign-client", url = "http://localhost:8090/api")
 public interface ReviewServiceClient {
 
-	@GetMapping("/reviews/page")
+	@GetMapping("/reviews/all/page")
 	ResponseEntity<Page<GetReviewResponse>> getReviews(Pageable pageable);
+
+	@GetMapping("/reviews/photo/page")
+	ResponseEntity<Page<GetReviewResponse>> getPhotoReviews(Pageable pageable);
+
+	@GetMapping("/reviews/general/page")
+	ResponseEntity<Page<GetReviewResponse>> getGeneralReviews(Pageable pageable);
 
 	@GetMapping("/books/{bookId}/reviews/all/page")
 	ResponseEntity<Page<GetReviewResponse>> getReviewsByBookId(Pageable pageable,
@@ -51,7 +56,7 @@ public interface ReviewServiceClient {
 	@GetMapping("/reviews/{reviewId}")
 	ResponseEntity<GetReviewResponse> getReview(@PathVariable Long reviewId);
 
-	@PutMapping("/reviews/{reviewId}")
+	@PostMapping("/reviews/{reviewId}")
 	ResponseEntity<Void> updateReview(@RequestBody UpdateReviewRequest request,
 		@PathVariable Long reviewId);
 
@@ -62,5 +67,5 @@ public interface ReviewServiceClient {
 	ResponseEntity<Double> getReviewsAverageScoreByBookId(@PathVariable Long bookId);
 
 	@GetMapping("/reviews/create/possible")
-	ResponseEntity<List<GetBookTitleResponse>> getBooksByOrderStatusCompletionAndUserId();
+	ResponseEntity<List<GetBookOrderWithoutReviewResponse>> getBooksWithoutReviews();
 }

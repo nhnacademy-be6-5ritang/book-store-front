@@ -23,7 +23,6 @@ import com.nhnacademy.bookstorefront.auth.dto.request.SignUpRequest;
 import com.nhnacademy.bookstorefront.auth.dto.response.LoginResponse;
 import com.nhnacademy.bookstorefront.auth.dto.response.SignUpResponse;
 import com.nhnacademy.bookstorefront.auth.service.AuthService;
-import com.nhnacademy.bookstorefront.global.config.CacheConfig;
 import com.nhnacademy.bookstorefront.global.controller.GlobalDataControllerAdvice;
 import com.nhnacademy.bookstorefront.userandcoupon.service.UserAndCouponService;
 
@@ -37,9 +36,6 @@ class AuthControllerTest {
 
 	@MockBean
 	private UserAndCouponService userAndCouponService;
-
-	@MockBean
-	private CacheConfig cacheConfig;
 
 	@MockBean
 	private GlobalDataControllerAdvice globalDataControllerAdvice;

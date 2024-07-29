@@ -92,10 +92,12 @@
         #couponTable td:nth-child(13) {
             width: 30%; /* 쿠폰 수량 */
         }
+
         /* 사용자 정의 CSS */
         .status-true {
             color: green;
         }
+
         .status-false {
             color: red;
         }
@@ -114,7 +116,7 @@
     <section id="page-menu-container" th:insert="~{fragments/admin-menu.html}"></section>
     <section id="page-content">
         <section id="page-header">
-            <h5 style="margin: 0 1rem">쿠폰템플릿 목록</h5>
+            <h5>쿠폰템플릿 목록</h5>
         </section>
         <hr style="width: 100%"/>
         <section id="page-body">
@@ -142,10 +144,12 @@
                     <!-- Loop through coupons and display each coupon -->
                     <tr th:each="coupon : ${coupons}">
                         <td class="narrow-col">
-                            <input type="text" class="form-control" th:value="${coupon.id != null ? coupon.id : '-'}" readonly>
+                            <input type="text" class="form-control" th:value="${coupon.id != null ? coupon.id : '-'}"
+                                   readonly>
                         </td>
                         <td class="narrow-col">
-                            <input type="text" class="form-control" th:value="${coupon.couponPolicyId != null ? coupon.couponPolicyId : '-'}" readonly>
+                            <input type="text" class="form-control"
+                                   th:value="${coupon.couponPolicyId != null ? coupon.couponPolicyId : '-'}" readonly>
                         </td>
 
                         <td class="wide-col">
@@ -169,27 +173,39 @@
                                    readonly>
                         </td>
                         <td class="wide-col">
-                            <input type="text" class="form-control" th:value="${coupon.type != null ? coupon.type : '-'}" readonly>
+                            <input type="text" class="form-control"
+                                   th:value="${coupon.type != null ? coupon.type : '-'}" readonly>
                         </td>
 
                         <td class="wide-col">
-                            <input type="text" class="form-control" th:value="${coupon.expiredDate != null ? #temporals.format(coupon.expiredDate, 'yyyy-MM-dd HH:mm') : '-'}" readonly>
+                            <input type="text" class="form-control"
+                                   th:value="${coupon.expiredDate != null ? #temporals.format(coupon.expiredDate, 'yyyy-MM-dd HH:mm') : '-'}"
+                                   readonly>
                         </td>
                         <td class="wide-col">
-                            <input type="text" class="form-control" th:value="${coupon.issueDate != null ? #temporals.format(coupon.issueDate, 'yyyy-MM-dd HH:mm') : '-'}" readonly>
+                            <input type="text" class="form-control"
+                                   th:value="${coupon.issueDate != null ? #temporals.format(coupon.issueDate, 'yyyy-MM-dd HH:mm') : '-'}"
+                                   readonly>
                         </td>
                         <td class="narrow-col">
-                            <input type="text" class="form-control status-true" th:if="${coupon.isUsed}" th:value="'사용'" readonly>
-                            <input type="text" class="form-control status-false" th:if="${!coupon.isUsed}" th:value="'폐기'" readonly>
+                            <input type="text" class="form-control status-true" th:if="${coupon.isUsed}" th:value="'사용'"
+                                   readonly>
+                            <input type="text" class="form-control status-false" th:if="${!coupon.isUsed}"
+                                   th:value="'폐기'" readonly>
                         </td>
                         <td class="wide-col">
-                            <input type="text" class="form-control" th:value="${coupon.categoryName != null ? coupon.categoryName : '-'}" th:if="${coupon.type == 'category'}">
+                            <input type="text" class="form-control"
+                                   th:value="${coupon.categoryName != null ? coupon.categoryName : '-'}"
+                                   th:if="${coupon.type == 'category'}">
                         </td>
                         <td class="wide-col">
-                            <input type="text" class="form-control" th:value="${coupon.bookTitle != null ? coupon.bookTitle : '-'}" th:if="${coupon.type == 'book'}">
+                            <input type="text" class="form-control"
+                                   th:value="${coupon.bookTitle != null ? coupon.bookTitle : '-'}"
+                                   th:if="${coupon.type == 'book'}">
                         </td>
                         <td class="narrow-col">
-                            <input type="text" class="form-control" th:value="${coupon.quantity != null ? coupon.quantity : '-'}" readonly>
+                            <input type="text" class="form-control"
+                                   th:value="${coupon.quantity != null ? coupon.quantity : '-'}" readonly>
                         </td>
                     </tr>
                     </tbody>

@@ -7,14 +7,14 @@ import lombok.Builder;
 
 @Builder
 public record CreateReviewRequest(
-	@NotNull Long bookId,
+	@NotNull Long orderListId,
 	@NotNull int reviewScore,
 	@NotBlank @Size(max = 400) String reviewComment,
 	String fileName) {
 
 	public static CreateReviewRequest from(CreateReviewRequest request, String fileName) {
 		return CreateReviewRequest.builder()
-			.bookId(request.bookId)
+			.orderListId(request.orderListId)
 			.reviewScore(request.reviewScore)
 			.reviewComment(request.reviewComment)
 			.fileName(fileName)

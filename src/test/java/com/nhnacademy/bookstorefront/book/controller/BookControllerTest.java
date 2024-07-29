@@ -30,8 +30,8 @@ import com.nhnacademy.bookstorefront.book.dto.response.BookSearchResult;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
 import com.nhnacademy.bookstorefront.bookstatus.service.impl.BookStatusServiceImpl;
+import com.nhnacademy.bookstorefront.cache.service.impl.CacheServiceImpl;
 import com.nhnacademy.bookstorefront.category.service.impl.CategoryServiceImpl;
-import com.nhnacademy.bookstorefront.global.config.CacheConfig;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
 import com.nhnacademy.bookstorefront.review.service.ReviewService;
 import com.nhnacademy.bookstorefront.tag.service.impl.TagServiceImpl;
@@ -56,13 +56,14 @@ class BookControllerTest {
 	private ReviewService reviewService;
 
 	@Mock
-	private CacheConfig cacheConfig;
+	private CacheServiceImpl cacheService;
 
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
 		mockMvc = MockMvcBuilders.standaloneSetup(
-				new BookController(bookService, categoryService, bookStatusService, tagService, reviewService, cacheConfig))
+				new BookController(bookService, categoryService, bookStatusService, tagService, reviewService,
+					cacheService))
 			.setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver()).build();
 	}
 
@@ -107,9 +108,9 @@ class BookControllerTest {
 
 	@Test
 	void testMainPage() throws Exception {
-		when(cacheConfig.getOrderedBooks()).thenReturn(List.of());
-		when(cacheConfig.getLikesBooks()).thenReturn(List.of());
-		when(cacheConfig.getNewestBooks()).thenReturn(List.of());
+		when(cacheService.getOrderedBooks()).thenReturn(List.of());
+		when(cacheService.getLikesBooks()).thenReturn(List.of());
+		when(cacheService.getNewestBooks()).thenReturn(List.of());
 
 		mockMvc.perform(get("/api/books/main"))
 			.andExpect(status().isOk())
@@ -185,9 +186,9 @@ class BookControllerTest {
 		);
 
 		Page<GetReviewResponse> reviews = new PageImpl<>(List.of(
-			new GetReviewResponse(bookId, "User1", 5, "Great book!", LocalDateTime.now(),
+			new GetReviewResponse(1L, bookId, "User1", 5, "Great book!", LocalDateTime.now(),
 				"http://example.com/image1.jpg"),
-			new GetReviewResponse(bookId, "User2", 4, "Good read.", LocalDateTime.now(),
+			new GetReviewResponse(2L, bookId, "User2", 4, "Good read.", LocalDateTime.now(),
 				"http://example.com/image2.jpg")
 		));
 
@@ -220,10 +221,10 @@ class BookControllerTest {
 		);
 
 		Page<GetReviewResponse> reviews = new PageImpl<>(List.of(
-			new GetReviewResponse(bookId, "User1", 5, "Photo review 1", LocalDateTime.now(),
-				"http://example.com/photo1.jpg"),
-			new GetReviewResponse(bookId, "User2", 4, "Photo review 2", LocalDateTime.now(),
-				"http://example.com/photo2.jpg")
+			new GetReviewResponse(1L, bookId, "User1", 5, "Great book!", LocalDateTime.now(),
+				"http://example.com/image1.jpg"),
+			new GetReviewResponse(2L, bookId, "User2", 4, "Good read.", LocalDateTime.now(),
+				"http://example.com/image2.jpg")
 		));
 
 		when(bookService.getBook(bookId)).thenReturn(bookDetail);

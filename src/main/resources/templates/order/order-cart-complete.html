@@ -71,7 +71,8 @@
                                         th:text="${list.quantity()}"></span> </strong>
                                 </td>
                                 <td><strong><span
-                                        th:text="${list.getBookResponse().bookPrice().setScale(0) * list.quantity()} + 원"></span></strong></td>
+                                        th:text="${list.getBookResponse().bookPrice().setScale(0) * list.quantity()} + 원"></span></strong>
+                                </td>
                             </tr>
                             </tbody>
                             <tfoot>
@@ -81,10 +82,16 @@
                                         th:text="${total.setScale(0)} + 원"></span></strong></td>
                             </tr>
 
-                            <tr>
-                                <th>할인 가격</th>
+                            <tr th:if="${order.couponSale() != null && order.couponSale() != 0}">
+                                <th>쿠폰 할인 가격</th>
                                 <td><strong><span
-                                        th:text="- ${order.couponSale().setScale(0) + order.pointSale().setScale(0)} + 원"></span></strong></td>
+                                        th:text="- ${order.couponSale().setScale(0)} + 원"></span></strong></td>
+                            </tr>
+
+                            <tr th:if="${order.pointSale() != null}">
+                                <th>포인트 할인 가격</th>
+                                <td><strong><span
+                                        th:text="- ${order.pointSale().setScale(0)} + 원"></span></strong></td>
                             </tr>
 
                             <tr>
