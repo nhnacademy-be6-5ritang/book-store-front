@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.UpdateBookRequest;
@@ -46,7 +47,7 @@ public interface BookService {
 	 *
 	 * @param request 생성할 책 정보 DTO
 	 */
-	void createBook(CreateBookRequest request);
+	void createBook(CreateBookRequest request, MultipartFile file);
 
 	/**
 	 * 주어진 책 ID에 해당하는 책을 업데이트합니다.
@@ -54,7 +55,7 @@ public interface BookService {
 	 * @param bookId  업데이트할 책 ID
 	 * @param request 업데이트할 책 정보 DTO
 	 */
-	void updateBookById(Long bookId, UpdateBookRequest request);
+	void updateBookById(Long bookId, UpdateBookRequest request, MultipartFile file);
 
 	/**
 	 * ISBN 을 통해 도서 정보를 가져와 저장하는 메서드입니다.

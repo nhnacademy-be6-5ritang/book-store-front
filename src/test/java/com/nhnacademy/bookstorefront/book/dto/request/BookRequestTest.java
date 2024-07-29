@@ -25,11 +25,11 @@ class BookRequestTest {
 		BigDecimal price = BigDecimal.valueOf(29.99);
 		BigDecimal salePrice = BigDecimal.valueOf(19.99);
 		BigDecimal salePercent = BigDecimal.valueOf(0.33);
+		String fileName = "test.png";
 
 		CreateBookRequest request = new CreateBookRequest(
 			isbn, categories, tags, title, author, publisher, publishDate, status, description, quantity, price,
-			salePrice, salePercent
-		);
+			salePrice, salePercent, fileName);
 
 		assertEquals(isbn, request.bookIsbn());
 		assertEquals(categories, request.categories());
@@ -61,11 +61,11 @@ class BookRequestTest {
 		BigDecimal price = BigDecimal.valueOf(39.99);
 		BigDecimal salePrice = BigDecimal.valueOf(29.99);
 		BigDecimal salePercent = BigDecimal.valueOf(0.25);
+		String fileName = "test.png";
 
 		UpdateBookRequest request = new UpdateBookRequest(
 			isbn, categories, tags, title, author, publisher, publishDate, status, description, quantity, price,
-			salePrice, salePercent
-		);
+			salePrice, salePercent, fileName);
 
 		assertEquals(isbn, request.bookIsbn());
 		assertEquals(categories, request.categories());
