@@ -24,6 +24,9 @@
         </section>
         <hr style="width: 100%"/>
         <section id="page-body">
+            <div th:if="${userAndCoupon.isEmpty()}">
+                <p>쿠폰이 없습니다</p>
+            </div>
             <section th:each="coupon : ${userAndCoupon}" class="col-md-6 mb-4">
                 <section class="card">
                     <section class="card-body">
