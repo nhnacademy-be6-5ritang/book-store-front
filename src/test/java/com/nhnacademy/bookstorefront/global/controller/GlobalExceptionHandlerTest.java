@@ -3,6 +3,7 @@ package com.nhnacademy.bookstorefront.global.controller;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -19,7 +20,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import com.nhnacademy.bookstorefront.global.controller.payload.ErrorStatus;
 import com.nhnacademy.bookstorefront.global.exception.GlobalException;
@@ -146,29 +146,61 @@ class GlobalExceptionHandlerTest {
 	}
 
 	@Test
-	void testHandleFeignStatusExceptionForbidden() {
+	void testHandleFeignStatusExceptionForbidden() throws IOException {
 		FeignException exception = FeignException.errorStatus(
 			"methodKey",
 			createResponse(HttpStatus.FORBIDDEN)
 		);
 
-		ModelAndView modelAndView = globalExceptionHandler.handleFeignStatusException(exception);
+		PrintWriter writer = mock(PrintWriter.class);
+		when(response.getWriter()).thenReturn(writer);
 
-		assertTrue(modelAndView.getView() instanceof RedirectView);
-		assertEquals("/auth/login", ((RedirectView)modelAndView.getView()).getUrl());
+		ModelAndView modelAndView = globalExceptionHandler.handleFeignStatusException(exception, response);
+
+		assertNull(modelAndView);
+		verify(writer, times(1)).println("<script>");
+		verify(writer, times(1)).println("alert('해당 리소스에 대한 접근 권한이 없습니다.')");
+		verify(writer, times(1)).println("history.back()");
+		verify(writer, times(1)).println("</script>");
+		verify(writer, times(1)).flush();
+		verify(writer, times(1)).close();
 	}
 
 	@Test
-	void testHandleFeignStatusExceptionUnauthorized() {
+	void testHandleFeignStatusExceptionUnauthorized() throws IOException {
 		FeignException exception = FeignException.errorStatus(
 			"methodKey",
 			createResponse(HttpStatus.UNAUTHORIZED)
 		);
 
-		ModelAndView modelAndView = globalExceptionHandler.handleFeignStatusException(exception);
+		PrintWriter writer = mock(PrintWriter.class);
+		when(response.getWriter()).thenReturn(writer);
 
-		assertTrue(modelAndView.getView() instanceof RedirectView);
-		assertEquals("/auth/login", ((RedirectView)modelAndView.getView()).getUrl());
+		ModelAndView modelAndView = globalExceptionHandler.handleFeignStatusException(exception, response);
+
+		assertNull(modelAndView);
+		verify(writer, times(1)).println("<script>");
+		verify(writer, times(1)).println("alert('로그인이 필요합니다');");
+		verify(writer, times(1)).println("window.location.href = '/auth/login';");
+		verify(writer, times(1)).println("</script>");
+		verify(writer, times(1)).flush();
+		verify(writer, times(1)).close();
+	}
+
+	@Test
+	void testHandleFeignStatusExceptionOther() {
+		FeignException exception = FeignException.errorStatus(
+			"methodKey",
+			createResponse(HttpStatus.INTERNAL_SERVER_ERROR)
+		);
+
+		ModelAndView modelAndView = globalExceptionHandler.handleFeignStatusException(exception, response);
+
+		assertNotNull(modelAndView);
+		assertEquals("global/error", modelAndView.getViewName());
+		assertEquals(exception.getMessage(), modelAndView.getModel().get("message"));
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, modelAndView.getModel().get("status"));
+		assertNotNull(modelAndView.getModel().get("timestamp"));
 	}
 
 	private feign.Response createResponse(HttpStatus status) {
