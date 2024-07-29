@@ -10,6 +10,27 @@
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
     <!-- Bootstrap CSS -->
+    <style>
+        .button-wrapper {
+            display: flex;             /* Align children horizontally */
+            justify-content: center;  /* Center buttons horizontally */
+            align-items: center;      /* Center buttons vertically */
+            gap: 10px;                /* Space between buttons */
+        }
+
+        .button-container {
+            margin: 0;                /* Remove default margin */
+        }
+
+        .btn {
+            margin: 0;                /* Remove margin to avoid misalignment */
+            padding: 0.5rem 1rem;     /* Adjust padding as needed */
+        }
+
+        .mb-3 {
+            margin-bottom: 0;         /* Remove bottom margin to ensure consistent vertical alignment */
+        }
+    </style>
 </head>
 
 <body>
@@ -78,9 +99,13 @@
                                 </table>
                                 <input type="hidden" id="noCouponInput" name="couponId" value="0" style="display: none;">
                             </div>
-                            <div class="text-right">
-                                <button type="submit" class="btn btn-primary">주문 하기</button>
-                                <button type="button" id="noCouponBtn" class="btn btn-secondary mb-3">쿠폰 선택 해제</button>
+                            <div class="button-wrapper">
+                                <div class="button-container">
+                                    <button type="submit" class="btn btn-primary">주문 하기</button>
+                                </div>
+                                <div th:if="${!#lists.isEmpty(couponList)}" class="button-container">
+                                    <button type="button" id="noCouponBtn" class="btn btn-secondary mb-3">쿠폰 선택 해제</button>
+                                </div>
                             </div>
                         </form>
                     </div>
