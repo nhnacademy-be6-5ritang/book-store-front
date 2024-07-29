@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.CancelResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.GetBookOrderByInfoIdResponse;
+import com.nhnacademy.bookstorefront.payment.dto.response.PaymentResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.PaymentSaveResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.TransactionsResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.UpdatePaymentResponse;
@@ -31,6 +32,16 @@ public interface PaymentServiceClient {
 	@GetMapping("/api/payments/cancel/{order_info_id}")
 	ResponseEntity<CancelResponse> cancel(@PathVariable("order_info_id") String orderInfoId);
 
-	@PostMapping("/api/payments/cancel/test/{payment_id}")
-	ResponseEntity<UpdatePaymentResponse> cancel(@RequestBody String paymentResponseJson, @PathVariable("payment_id") Long paymentId);
+	@PostMapping("/api/payments/cancel/{payment_id}")
+	ResponseEntity<UpdatePaymentResponse> cancel(@RequestBody String paymentResponseJson,
+		@PathVariable("payment_id") Long paymentId);
+
+	@GetMapping("/api/payments/cancel/pointSale/{payment_id}")
+	ResponseEntity<Void> cancelPointSale(@PathVariable("payment_id") Long paymentId);
+
+	@GetMapping("/api/payments/pointSale/{orderInfoId}")
+	ResponseEntity<Void> pointSale(@PathVariable String orderInfoId);
+
+	@GetMapping("/api/payments/pointSale/info/{orderInfoId}")
+	ResponseEntity<PaymentResponse> pointSaleInfo(@PathVariable String orderInfoId);
 }

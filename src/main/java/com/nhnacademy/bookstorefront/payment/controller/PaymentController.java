@@ -1,11 +1,12 @@
 package com.nhnacademy.bookstorefront.payment.controller;
 
+import java.math.BigDecimal;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.nhnacademy.bookstorefront.bookcart.service.impl.BookCartServiceImpl;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
+import com.nhnacademy.bookstorefront.order.service.Impl.OrderServiceImpl;
 import com.nhnacademy.bookstorefront.payment.dto.request.CancelTextRequest;
 import com.nhnacademy.bookstorefront.payment.dto.request.PaymentConfirmationRequest;
 import com.nhnacademy.bookstorefront.payment.dto.response.CancelResponse;
@@ -36,7 +37,7 @@ public class PaymentController {
 
 	private final PaymentServiceImpl paymentServiceImpl;
 	private final RestTemplate paymentRestTemplate;
-	private final BookCartServiceImpl bookCartServiceImpl;
+	private final OrderServiceImpl orderServiceImpl;
 
 	/**
 	 * 주문 결제 전 주문 보안 아이디로 주문을 html에 설정
@@ -65,7 +66,7 @@ public class PaymentController {
 	 */
 	@GetMapping("/success")
 	public ModelAndView paymentSuccess(@RequestParam String orderId, @RequestParam String paymentKey,
-		@RequestParam String amount, @CookieValue(name = "cartId", required = false) String cartId) {
+		@RequestParam String amount) {
 
 		String apiUrl = "https://api.tosspayments.com/v1/payments/confirm";
 		String authToken = "Basic dGVzdF9za19BUTkyeW14TjM0MjllTUtFSmVManJhalJLWHZkOg==";
@@ -79,7 +80,6 @@ public class PaymentController {
 		String response = paymentRestTemplate.postForObject(apiUrl, entity, String.class);
 
 		paymentServiceImpl.savePaymentResponse(response);
-		bookCartServiceImpl.deleteAllBookCart(cartId);
 		ModelAndView view = new ModelAndView();
 		view.setViewName("redirect:/api/orders/complete/" + orderId);
 		return view;
@@ -104,6 +104,14 @@ public class PaymentController {
 	 */
 	@GetMapping("/transactions/{order_info_id}")
 	public ModelAndView paymentTransactions(@PathVariable("order_info_id") String orderInfoId) {
+		GetOrderByInfoResponse order = orderServiceImpl.findByOrderInfoId(orderInfoId);
+		if (order.price().equals(new BigDecimal("0.00"))) {
+			ModelAndView modelAndView = new ModelAndView();
+			modelAndView.addObject("paymentInfo", paymentServiceImpl.getPayment(orderInfoId));
+			modelAndView.addObject("orderStatus", paymentServiceImpl.findByOrder(orderInfoId).status());
+			modelAndView.setViewName("toss/transactions-public");
+			return modelAndView;
+		}
 		String url = "https://api.tosspayments.com/v1/payments/orders/" + orderInfoId;
 
 		HttpHeaders headers = new HttpHeaders();
@@ -142,6 +150,14 @@ public class PaymentController {
 	@PostMapping("/cancel/{order_info_id}")
 	public ModelAndView paymentCancel(@PathVariable("order_info_id") String orderInfoId, @Valid @ModelAttribute
 	CancelTextRequest cancelTextRequest) {
+		GetOrderByInfoResponse order = orderServiceImpl.findByOrderInfoId(orderInfoId);
+		if (order.price().equals(new BigDecimal("0.00"))) {
+			CancelResponse cancelResponse = paymentServiceImpl.paymentFindByOrderInfoId(orderInfoId);
+			paymentServiceImpl.cancelPointSalePayment(cancelResponse.paymentId());
+			ModelAndView modelAndView = new ModelAndView();
+			modelAndView.setViewName("redirect:/api/payments/transactions/" + orderInfoId);
+			return modelAndView;
+		}
 		CancelResponse cancelResponse = paymentServiceImpl.paymentFindByOrderInfoId(orderInfoId);
 
 		String url = "https://api.tosspayments.com/v1/payments/" + cancelResponse.paymentKey() + "/cancel";

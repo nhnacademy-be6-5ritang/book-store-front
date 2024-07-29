@@ -58,6 +58,7 @@ import com.nhnacademy.bookstorefront.order.service.Impl.OrderStatusServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.PaperTypeServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.RefundPolicyServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.WrappingPaperServiceImpl;
+import com.nhnacademy.bookstorefront.payment.service.impl.PaymentServiceImpl;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.NoCouponResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.OneCouponResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCouponOrderResponseDTO;
@@ -84,6 +85,7 @@ public class OrderClientController {
 	private final BookCartService bookCartService;
 	private final OrderStatusServiceImpl orderStatusServiceImpl;
 	private final AddressService addressService;
+	private final PaymentServiceImpl paymentServiceImpl;
 
 	@GetMapping("/createBookOrderTest/{book_id}")
 	public ModelAndView createBookOrder(@PathVariable("book_id") Long bookId) {
@@ -233,7 +235,7 @@ public class OrderClientController {
 	@PostMapping("/complete/{order_list_id}/{delivery_id}")
 	public String createOrder(@Valid @ModelAttribute CreateOrderRequest createOrderRequest,
 		@PathVariable("order_list_id") Long orderListId, @PathVariable("delivery_id") Long deliveryId
-	) {
+		, @CookieValue(name = "cartId", required = false) String cartId) {
 		CreateOrderResponse createOrderResponse = orderServiceImpl.createOrder(createOrderRequest);
 
 		if (createOrderRequest.couponId() != null) {
@@ -241,6 +243,13 @@ public class OrderClientController {
 		}
 		deliveryServiceImpl.updateDeliveryAddOrder(deliveryId, createOrderResponse.orderId());
 		bookOrderServiceImpl.updateOrder(orderListId, createOrderResponse.orderId());
+
+		if (createOrderRequest.orderPrice().equals(new BigDecimal("0.00"))) {
+			paymentServiceImpl.savePointSalePayment(createOrderResponse.infoId());
+			bookCartService.deleteAllBookCart(cartId);
+			return "redirect:/api/orders/complete/" + createOrderResponse.infoId();
+		}
+
 		return "redirect:/api/payments/" + createOrderResponse.infoId();
 	}
 
@@ -608,7 +617,7 @@ public class OrderClientController {
 	@PostMapping("/complete/cart-order/{orderInfoId}/{delivery_id}")
 	public String createCartOrder(@Valid @ModelAttribute CreateOrderRequest createOrderRequest,
 		@PathVariable("orderInfoId") String orderInfoId, @PathVariable("delivery_id") Long deliveryId
-	) {
+		, @CookieValue(name = "cartId", required = false) String cartId) {
 		List<GetBookOrderResponse> getBookOrderResponses = bookOrderServiceImpl.getBookOrderByOrderId(orderInfoId);
 		CreateOrderResponse createOrderResponse = orderServiceImpl.updateCartOrder(createOrderRequest,
 			getBookOrderResponses.getFirst()
@@ -618,6 +627,11 @@ public class OrderClientController {
 			userAndCouponService.updateCouponAfterPayment(createOrderRequest.couponId());
 		}
 		deliveryServiceImpl.updateDeliveryAddOrder(deliveryId, getBookOrderResponses.getFirst().orderId());
+		if (createOrderRequest.orderPrice().equals(new BigDecimal("0.00"))) {
+			paymentServiceImpl.savePointSalePayment(createOrderResponse.infoId());
+			bookCartService.deleteAllBookCart(cartId);
+			return "redirect:/api/orders/complete/" + createOrderResponse.infoId();
+		}
 		return "redirect:/api/payments/" + createOrderResponse.infoId();
 	}
 

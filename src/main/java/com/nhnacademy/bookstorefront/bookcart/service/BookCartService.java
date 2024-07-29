@@ -50,4 +50,6 @@ public interface BookCartService {
 	 * @param cartId 도서가 포함된 장바구니의 ID
 	 */
 	ResponseEntity<Void> deleteBookCart(Long bookId, String cartId);
+
+	ResponseEntity<Void> deleteAllBookCart(String cartId);
 }
