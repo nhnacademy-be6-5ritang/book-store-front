@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 import com.nhnacademy.bookstorefront.address.dto.response.GetAddressResponse;
+import com.nhnacademy.bookstorefront.user.dto.request.UpdateUserRoleRequest;
 import com.nhnacademy.bookstorefront.user.dto.response.GetMyUserInfoResponse;
 import com.nhnacademy.bookstorefront.user.dto.response.GetUserInfoResponse;
 
@@ -27,4 +28,6 @@ public interface UserService {
 	ResponseEntity<Optional<GetAddressResponse>> getDefaultAddress();
 
 	ResponseEntity<Page<GetUserInfoResponse>> getUsers(Pageable pageable);
+
+	void updateUserRole(UpdateUserRoleRequest updateUserRoleRequest);
 }

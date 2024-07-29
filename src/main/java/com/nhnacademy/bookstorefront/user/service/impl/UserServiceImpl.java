@@ -9,8 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.address.dto.response.GetAddressResponse;
+import com.nhnacademy.bookstorefront.user.dto.request.UpdateUserInfoRequest;
+import com.nhnacademy.bookstorefront.user.dto.request.UpdateUserRoleRequest;
 import com.nhnacademy.bookstorefront.user.dto.response.GetMyUserInfoResponse;
 import com.nhnacademy.bookstorefront.user.dto.response.GetUserInfoResponse;
+import com.nhnacademy.bookstorefront.user.dto.response.UpdateUserInfoResponse;
 import com.nhnacademy.bookstorefront.user.feignclient.UserClient;
 import com.nhnacademy.bookstorefront.user.service.UserService;
 
@@ -55,5 +58,14 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public ResponseEntity<Void> checkEmailDormantToActive(String email, String certifyCode) {
 		return userClient.checkEmailDormantToActive(email, certifyCode);
+	}
+
+	public UpdateUserInfoResponse updateUserInfo(UpdateUserInfoRequest updateUserInfoRequest) {
+		return userClient.updateUser(updateUserInfoRequest).getBody();
+	}
+
+	@Override
+	public void updateUserRole(UpdateUserRoleRequest updateUserRoleRequest) {
+		userClient.updateRole(updateUserRoleRequest);
 	}
 }

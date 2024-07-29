@@ -7,15 +7,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.nhnacademy.bookstorefront.address.dto.response.GetAddressResponse;
+import com.nhnacademy.bookstorefront.user.dto.request.UpdateUserInfoRequest;
 import com.nhnacademy.bookstorefront.user.dto.response.GetMyUserInfoResponse;
 import com.nhnacademy.bookstorefront.user.service.UserService;
+import com.nhnacademy.bookstorefront.user.service.impl.UserServiceImpl;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/users")
 public class UserController {
 	private final UserService userService;
+	private final UserServiceImpl userServiceImpl;
 
 	@GetMapping("/my-page")
 	public String MyUserInfoPage(Model model) {
@@ -68,5 +73,21 @@ public class UserController {
 		revokedTokenCookie.setMaxAge(0);
 		revokedTokenCookie.setPath("/");
 		response.addCookie(revokedTokenCookie);
+	}
+
+	@GetMapping("/update-info")
+	public ModelAndView updateInfo() {
+		ResponseEntity<GetMyUserInfoResponse> getMyUserInfoResponse = userService.getMyUserInfo();
+		ModelAndView modelAndView = new ModelAndView("user/update-info");
+		modelAndView.addObject("myUserInfo", getMyUserInfoResponse.getBody());
+		return modelAndView;
+	}
+
+	@PostMapping("/update-info")
+	public ModelAndView updateInfoPost(@ModelAttribute UpdateUserInfoRequest updateUserInfoRequest) {
+		userServiceImpl.updateUserInfo(
+			new UpdateUserInfoRequest(updateUserInfoRequest.name(), null, updateUserInfoRequest.birth(),
+				updateUserInfoRequest.contact()));
+		return new ModelAndView("redirect:/users/my-page");
 	}
 }
