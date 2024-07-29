@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +26,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.bookstorefront.address.service.AddressService;
+import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
 import com.nhnacademy.bookstorefront.bookcart.dto.response.GetBookCartResponse;
 import com.nhnacademy.bookstorefront.bookcart.service.BookCartService;
@@ -34,7 +36,6 @@ import com.nhnacademy.bookstorefront.delivery.service.impl.DeliveryServiceImpl;
 import com.nhnacademy.bookstorefront.deliverypolicy.dto.response.GetDeliveryPolicyResponse;
 import com.nhnacademy.bookstorefront.deliverypolicy.service.impl.DeliveryPolicyServiceImpl;
 import com.nhnacademy.bookstorefront.order.controller.OrderClientController;
-import com.nhnacademy.bookstorefront.order.dto.request.CreateBookOrderRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateCartOrderPost;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderListPost;
 import com.nhnacademy.bookstorefront.order.dto.request.CreateOrderRequest;
@@ -44,9 +45,6 @@ import com.nhnacademy.bookstorefront.order.dto.request.CreateWrappingTypeRequest
 import com.nhnacademy.bookstorefront.order.dto.request.OrderCheckNonRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.UpdateRefundPolicyRequest;
 import com.nhnacademy.bookstorefront.order.dto.request.UpdateWrappingTypeRequest;
-import com.nhnacademy.bookstorefront.order.dto.response.CreateBookOrderGetBookResponse;
-import com.nhnacademy.bookstorefront.order.dto.response.CreateBookOrderGetOrderResponse;
-import com.nhnacademy.bookstorefront.order.dto.response.CreateBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateCartOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.CreateOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAdminAllPaperResponse;
@@ -71,6 +69,7 @@ import com.nhnacademy.bookstorefront.order.service.Impl.PaperTypeServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.RefundPolicyServiceImpl;
 import com.nhnacademy.bookstorefront.order.service.Impl.WrappingPaperServiceImpl;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.NoCouponResponseDTO;
+import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.OneCouponResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCouponOrderResponseDTO;
 import com.nhnacademy.bookstorefront.userandcoupon.service.UserAndCouponService;
 
@@ -137,43 +136,6 @@ class OrderClientControllerTest {
 			.setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
 			.build();
 		objectMapper = new ObjectMapper();
-	}
-
-	@Test
-	void testCreateBookOrder() throws Exception {
-		// Create dummy data for CreateBookOrderGetBookResponse
-		CreateBookOrderGetBookResponse bookResponse = new CreateBookOrderGetBookResponse(
-			"Dummy Book Title",
-			BigDecimal.valueOf(19.99),
-			"This is a dummy book description."
-		);
-
-		// Create dummy data for CreateBookOrderGetOrderResponse
-		CreateBookOrderGetOrderResponse orderResponse = new CreateBookOrderGetOrderResponse(
-			"Dummy Info ID",
-			BigDecimal.valueOf(19.99),
-			LocalDateTime.now(),
-			BigDecimal.valueOf(2.00),
-			BigDecimal.valueOf(1.00)
-		);
-
-		// Create dummy data for CreateBookOrderResponse
-		CreateBookOrderResponse response = new CreateBookOrderResponse(
-			bookResponse,
-			orderResponse,
-			1, // dummy quantity
-			123L // dummy orderListId
-		);
-
-		// Mock the service method
-		when(bookOrderServiceImpl.createBookOrder(any(CreateBookOrderRequest.class))).thenReturn(response);
-
-		// Perform the request and validate the results
-		mockMvc.perform(post("/api/orders/createBookOrderTest")
-				.param("bookId", "1")
-				.param("quantity", "1"))
-			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/orders/createOrderTestPaper/123")); // Note the change here
 	}
 
 	@Test
@@ -896,35 +858,6 @@ class OrderClientControllerTest {
 	}
 
 	@Test
-	void testCompleteCartOrder() throws Exception {
-		List<GetBookOrderResponse> bookOrders = List.of(
-			new GetBookOrderResponse(
-				new GetBookOrderGetBookResponse("Test Book", "Test Book", BigDecimal.valueOf(10.00), "Description", 1L),
-				1, 1L, 1L
-			)
-		);
-
-		CreateOrderRequest createOrderRequest = new CreateOrderRequest(
-			"John Doe", "john.doe@example.com", "01012345678", "123 Main St", BigDecimal.valueOf(100.00),
-			BigDecimal.valueOf(10.00), BigDecimal.valueOf(5.00), 1L
-		);
-
-		CreateOrderResponse createOrderResponse = new CreateOrderResponse(
-			1L, "order123", BigDecimal.valueOf(85.00), LocalDateTime.now(), BigDecimal.valueOf(10.00),
-			BigDecimal.valueOf(5.00)
-		);
-
-		when(bookOrderServiceImpl.getBookOrderByOrderId(anyString())).thenReturn(bookOrders);
-		when(orderServiceImpl.updateCartOrder(any(CreateOrderRequest.class), anyLong())).thenReturn(
-			createOrderResponse);
-
-		mockMvc.perform(post("/api/orders/complete/cart-order/{orderInfoId}/{delivery_id}", "orderInfoId123", 1L)
-				.flashAttr("createOrderRequest", createOrderRequest))
-			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/payments/order123"));
-	}
-
-	@Test
 	void testCreateOrderStatusAdminPost() throws Exception {
 		CreateOrderStatusRequest createOrderStatusRequest = new CreateOrderStatusRequest("New Status");
 
@@ -1084,6 +1017,226 @@ class OrderClientControllerTest {
 			.andExpect(view().name("order/refunding"))
 			.andExpect(model().attributeExists("orderList"))
 			.andExpect(model().attribute("orderList", ordersResponse));
+	}
+
+	@Test
+	void testCreateOrderForNonMemberWithoutCoupon() throws Exception {
+		String orderInfoId = "orderInfoId123";
+		Long deliveryId = 1L;
+
+		List<GetBookOrderResponse> bookOrders = List.of(
+			new GetBookOrderResponse(
+				new GetBookOrderGetBookResponse("Test Book", "Test Book", BigDecimal.valueOf(10.00), "Description", 1L),
+				1, 1L, 1L
+			)
+		);
+
+		GetListWrappingResponse wrappingListResponse = new GetListWrappingResponse(List.of(
+			new GetWrappingResponse(1L, "Standard Wrap", BigDecimal.valueOf(2), 1)
+		));
+
+		GetDeliveryPolicyResponse deliveryResponse = new GetDeliveryPolicyResponse(1L, "Standard Delivery",
+			BigDecimal.valueOf(5.00), "Delivery within 5 days", BigDecimal.valueOf(50.00));
+
+		GetUserPointOrderResponse pointResponse = new GetUserPointOrderResponse(BigDecimal.valueOf(100.00));
+
+		NoCouponResponseDTO noCouponResponse = new NoCouponResponseDTO(
+			BigDecimal.valueOf(10.00), BigDecimal.valueOf(5.00), BigDecimal.valueOf(12.00)
+		);
+
+		when(bookOrderServiceImpl.getBookOrderByOrderId(anyString())).thenReturn(bookOrders);
+		when(wrappingPaperServiceImpl.getWrappingPaperByOrderListId(anyLong())).thenReturn(wrappingListResponse);
+		when(
+			deliveryPolicyServiceImpl.findByDeliveryPolicyStandardPriceLessThanEqualOrderByDeliveryPolicyStandardPriceDesc(
+				anyLong(), any()))
+			.thenReturn(deliveryResponse);
+		when(orderServiceImpl.getUserPoint()).thenReturn(pointResponse);
+		when(userAndCouponService.noCouponReturnModelCart(any(), any(), any())).thenReturn(noCouponResponse);
+
+		mockMvc.perform(get("/api/orders/createOrderTest/{delivery_id}/cart/{orderInfoId}", deliveryId, orderInfoId))
+			.andExpect(status().isOk())
+			.andExpect(view().name("order/checkout-cart-order"))
+			.andExpect(model().attributeExists("orderList"))
+			.andExpect(model().attributeExists("deliveryId"))
+			.andExpect(model().attributeExists("wrappingList"))
+			.andExpect(model().attributeExists("delivery"))
+			.andExpect(model().attributeExists("point"))
+			.andExpect(model().attributeExists("noResultByNone"))
+			.andExpect(model().attributeDoesNotExist("selectCoupon"))
+			.andExpect(model().attributeDoesNotExist("oneResult"));
+	}
+
+	@Test
+	void testCreateOrderForMemberWithCoupon() throws Exception {
+		String orderInfoId = "orderInfoId123";
+		Long deliveryId = 1L;
+		Long couponId = 2L;
+
+		List<GetBookOrderResponse> bookOrders = List.of(
+			new GetBookOrderResponse(
+				new GetBookOrderGetBookResponse("Test Book", "Test Book", BigDecimal.valueOf(10.00), "Description", 1L),
+				1, 1L, 1L
+			)
+		);
+
+		GetListWrappingResponse wrappingListResponse = new GetListWrappingResponse(List.of(
+			new GetWrappingResponse(1L, "Standard Wrap", BigDecimal.valueOf(2), 1)
+		));
+
+		GetDeliveryPolicyResponse deliveryResponse = new GetDeliveryPolicyResponse(1L, "Standard Delivery",
+			BigDecimal.valueOf(5.00), "Delivery within 5 days", BigDecimal.valueOf(50.00));
+
+		GetUserPointOrderResponse pointResponse = new GetUserPointOrderResponse(BigDecimal.valueOf(100.00));
+
+		UserAndCouponOrderResponseDTO selectCoupon = new UserAndCouponOrderResponseDTO(
+			1L, BigDecimal.valueOf(50), BigDecimal.valueOf(10), BigDecimal.valueOf(10), BigDecimal.valueOf(20),
+			"Percentage"
+		);
+
+		OneCouponResponseDTO oneCouponResponse = new OneCouponResponseDTO(
+			BigDecimal.valueOf(10.00), BigDecimal.valueOf(5.00), BigDecimal.valueOf(7.00), BigDecimal.valueOf(12.00)
+		);
+
+		when(bookOrderServiceImpl.getBookOrderByOrderId(anyString())).thenReturn(bookOrders);
+		when(wrappingPaperServiceImpl.getWrappingPaperByOrderListId(anyLong())).thenReturn(wrappingListResponse);
+		when(
+			deliveryPolicyServiceImpl.findByDeliveryPolicyStandardPriceLessThanEqualOrderByDeliveryPolicyStandardPriceDesc(
+				anyLong(), any()))
+			.thenReturn(deliveryResponse);
+		when(orderServiceImpl.getUserPoint()).thenReturn(pointResponse);
+		when(userAndCouponService.getSelectedCouponByOrder(anyLong())).thenReturn(selectCoupon);
+		when(userAndCouponService.oneCouponReturnModelCart(any(), any(), any(), any())).thenReturn(oneCouponResponse);
+
+		mockMvc.perform(
+				get("/api/orders/createOrderTest/{delivery_id}/cart/{orderInfoId}?couponId={couponId}", deliveryId,
+					orderInfoId, couponId))
+			.andExpect(status().isOk())
+			.andExpect(view().name("order/checkout-cart-order"))
+			.andExpect(model().attributeExists("orderList"))
+			.andExpect(model().attributeExists("deliveryId"))
+			.andExpect(model().attributeExists("wrappingList"))
+			.andExpect(model().attributeExists("delivery"))
+			.andExpect(model().attributeExists("point"))
+			.andExpect(model().attributeExists("selectCoupon"))
+			.andExpect(model().attributeExists("oneResult"))
+			.andExpect(model().attributeDoesNotExist("noResultByNone"));
+	}
+
+	@Test
+	void testCreateOrderForMemberWithoutCoupon() throws Exception {
+		String orderInfoId = "orderInfoId123";
+		Long deliveryId = 1L;
+		Long couponId = 0L;
+
+		List<GetBookOrderResponse> bookOrders = List.of(
+			new GetBookOrderResponse(
+				new GetBookOrderGetBookResponse("Test Book", "Test Book", BigDecimal.valueOf(10.00), "Description", 1L),
+				1, 1L, 1L
+			)
+		);
+
+		GetListWrappingResponse wrappingListResponse = new GetListWrappingResponse(List.of(
+			new GetWrappingResponse(1L, "Standard Wrap", BigDecimal.valueOf(2), 1)
+		));
+
+		GetDeliveryPolicyResponse deliveryResponse = new GetDeliveryPolicyResponse(1L, "Standard Delivery",
+			BigDecimal.valueOf(5.00), "Delivery within 5 days", BigDecimal.valueOf(50.00));
+
+		GetUserPointOrderResponse pointResponse = new GetUserPointOrderResponse(BigDecimal.valueOf(100.00));
+
+		NoCouponResponseDTO noCouponResponse = new NoCouponResponseDTO(
+			BigDecimal.valueOf(10.00), BigDecimal.valueOf(5.00), BigDecimal.valueOf(12.00)
+		);
+
+		when(bookOrderServiceImpl.getBookOrderByOrderId(anyString())).thenReturn(bookOrders);
+		when(wrappingPaperServiceImpl.getWrappingPaperByOrderListId(anyLong())).thenReturn(wrappingListResponse);
+		when(
+			deliveryPolicyServiceImpl.findByDeliveryPolicyStandardPriceLessThanEqualOrderByDeliveryPolicyStandardPriceDesc(
+				anyLong(), any()))
+			.thenReturn(deliveryResponse);
+		when(orderServiceImpl.getUserPoint()).thenReturn(pointResponse);
+		when(userAndCouponService.noCouponReturnModelCart(any(), any(), any())).thenReturn(noCouponResponse);
+
+		mockMvc.perform(
+				get("/api/orders/createOrderTest/{delivery_id}/cart/{orderInfoId}?couponId={couponId}", deliveryId,
+					orderInfoId, couponId))
+			.andExpect(status().isOk())
+			.andExpect(view().name("order/checkout-cart-order"))
+			.andExpect(model().attributeExists("orderList"))
+			.andExpect(model().attributeExists("deliveryId"))
+			.andExpect(model().attributeExists("wrappingList"))
+			.andExpect(model().attributeExists("delivery"))
+			.andExpect(model().attributeExists("point"))
+			.andExpect(model().attributeExists("noResult"))
+			.andExpect(model().attributeDoesNotExist("selectCoupon"))
+			.andExpect(model().attributeDoesNotExist("oneResult"));
+	}
+
+	@Test
+	void testCompleteCartOrder() throws Exception {
+		String orderInfoId = "orderInfoId123";
+
+		List<GetBookOrderResponse> bookOrders = List.of(
+			new GetBookOrderResponse(
+				new GetBookOrderGetBookResponse("Test Book", "Test Book", BigDecimal.valueOf(10.00), "Description", 1L),
+				1, 1L, 1L
+			)
+		);
+
+		GetOrderByInfoResponse orderInfoResponse = new GetOrderByInfoResponse(
+			1L, "order123", "John Doe", "johndoe@example.com", "123 Main St", LocalDateTime.now(), "Processed",
+			BigDecimal.valueOf(120.00), BigDecimal.valueOf(10.00), BigDecimal.valueOf(5.00)
+		);
+
+		GetListWrappingResponse wrappingResponse = new GetListWrappingResponse(List.of(
+			new GetWrappingResponse(1L, "Standard Wrap", BigDecimal.valueOf(2), 1)
+		));
+
+		when(bookOrderServiceImpl.getBookOrderByOrderId(anyString())).thenReturn(bookOrders);
+		doNothing().when(bookServiceImpl).updateQuantity(anyLong(), anyInt());
+		when(wrappingPaperServiceImpl.getWrappingPaperByOrderListId(anyLong())).thenReturn(wrappingResponse);
+		when(orderServiceImpl.findByOrderInfoId(anyString())).thenReturn(orderInfoResponse);
+
+		mockMvc.perform(get("/api/orders/complete/{orderInfoId}", orderInfoId))
+			.andExpect(status().isOk())
+			.andExpect(view().name("order/order-cart-complete"))
+			.andExpect(model().attributeExists("order"))
+			.andExpect(model().attributeExists("bookOrder"))
+			.andExpect(model().attributeExists("total"))
+			.andExpect(model().attribute("order", orderInfoResponse))
+			.andExpect(model().attribute("bookOrder", bookOrders))
+			.andExpect(model().attribute("total", BigDecimal.valueOf(2)));
+	}
+
+	@Test
+	void testCreateBookOrder() throws Exception {
+		Long bookId = 1L;
+
+		GetBookDetailResponse bookDetailResponse = new GetBookDetailResponse(
+			bookId,
+			"Test Author",
+			"Test Publisher",
+			"Available",
+			"Test Book Title",
+			"Test Description",
+			10,
+			new Date(),
+			"1234567890",
+			BigDecimal.valueOf(19.99),
+			BigDecimal.valueOf(15.99),
+			BigDecimal.valueOf(20),
+			"http://example.com/image.jpg"
+		);
+
+		when(bookServiceImpl.getBook(anyLong())).thenReturn(bookDetailResponse);
+
+		mockMvc.perform(get("/api/orders/createBookOrderTest/{book_id}", bookId))
+			.andExpect(status().isOk())
+			.andExpect(view().name("order/orderList"))
+			.andExpect(model().attributeExists("book"))
+			.andExpect(model().attributeExists("bookId"))
+			.andExpect(model().attribute("book", bookDetailResponse))
+			.andExpect(model().attribute("bookId", bookId));
 	}
 
 }
