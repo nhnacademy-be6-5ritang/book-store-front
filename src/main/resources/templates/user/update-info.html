@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>책 파는 오리탕집</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+</head>
+
+<body>
+<header th:insert="~{global/header}"></header>
+
+<section id="page" class="top-container">
+    <section id="page-menu-container" th:insert="~{fragments/admin-menu.html}"></section>
+    <section id="page-content">
+        <section id="page-header">
+            <h5>회원 정보 수정</h5>
+        </section>
+        <hr style="width: 100%"/>
+        <section id="page-body">
+            <form th:action="@{/users/update-info}"
+                  method="post">
+                <div class="form-group">
+                    <label for="name">이름</label>
+                    <input type="text" class="form-control" id="name"
+                           name="name" th:value="${myUserInfo.name()}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">비밀번호</label>
+                    <input type="text" class="form-control"
+                           id="password" name="password"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="birth">생일</label>
+                    <input type="date" class="form-control"
+                           id="birth" name="birth" th:value="${myUserInfo.birth()}"
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="contact">전화번호</label>
+                    <input type="text" class="form-control"
+                           id="contact" name="contact" th:value="${myUserInfo.contact()}"
+                           required>
+                </div>
+                <button type="submit" class="btn btn-primary">회원 정보 저장</button>
+            </form>
+            <div class="button-container">
+                <button onclick="location.href='/users/my-page'">뒤로가기</button>
+            </div>
+        </section>
+    </section>
+</section>
+
+<div th:insert="~{fragments/to-admin-button}"></div>
+
+<footer th:insert="~{global/footer}"></footer>
+
+<script th:src="@{/js/my-page.js}"></script>
+</body>
+</html>
