@@ -11,7 +11,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import com.nhnacademy.bookstorefront.global.controller.payload.ErrorStatus;
 import com.nhnacademy.bookstorefront.global.exception.GlobalException;
@@ -128,11 +127,33 @@ public class GlobalExceptionHandler {
 	 * @return 상태 코드에 따른 ModelAndView 객체
 	 */
 	@ExceptionHandler(FeignException.class)
-	public ModelAndView handleFeignStatusException(FeignException exception) {
-		if (exception.status() == HttpStatus.FORBIDDEN.value()
-			|| exception.status() == HttpStatus.UNAUTHORIZED.value()) {
-			// 403 예외인 경우 로그인 페이지로 리다이렉트
-			return new ModelAndView(new RedirectView("/auth/login"));
+	public ModelAndView handleFeignStatusException(FeignException exception, HttpServletResponse response) {
+		PrintWriter script;
+		response.setContentType("text/html;charset=UTF-8");
+
+		try {
+			script = response.getWriter();
+			if (exception.status() == HttpStatus.UNAUTHORIZED.value()) {
+				script.println("<script>");
+				script.println("alert('로그인이 필요합니다');");
+				script.println("window.location.href = '/auth/login';");
+				script.println("</script>");
+				script.flush();
+				script.close();
+				return null;
+			}
+
+			if (exception.status() == HttpStatus.FORBIDDEN.value()) {
+				script.println("<script>");
+				script.println("alert('해당 리소스에 대한 접근 권한이 없습니다.')");
+				script.println("history.back()");
+				script.println("</script>");
+				script.flush();
+				script.close();
+				return null;
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		}
 
 		ModelAndView modelAndView = new ModelAndView("global/error");
