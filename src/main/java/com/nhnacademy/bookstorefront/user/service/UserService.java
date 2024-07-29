@@ -27,4 +27,6 @@ public interface UserService {
 	ResponseEntity<Optional<GetAddressResponse>> getDefaultAddress();
 
 	ResponseEntity<Page<GetUserInfoResponse>> getUsers(Pageable pageable);
+
+	ResponseEntity<Void> getAdminPage();
 }
