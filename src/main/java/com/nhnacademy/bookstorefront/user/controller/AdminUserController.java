@@ -56,4 +56,5 @@ public class AdminUserController {
 		userService.updateUserRole(updateUserRoleRequest);
 		return new ModelAndView("redirect:/admin/users");
 	}
+
 }
