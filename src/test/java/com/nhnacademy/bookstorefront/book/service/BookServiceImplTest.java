@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.UpdateBookRequest;
@@ -23,6 +24,7 @@ import com.nhnacademy.bookstorefront.book.dto.response.BookSearchResult;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.feignclient.BookServiceClient;
 import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
+import com.nhnacademy.bookstorefront.upload.feignclient.UploadServiceClient;
 
 class BookServiceImplTest {
 
@@ -31,6 +33,9 @@ class BookServiceImplTest {
 
 	@InjectMocks
 	private BookServiceImpl bookService;
+
+	@Mock
+	private UploadServiceClient uploadServiceClient;
 
 	@BeforeEach
 	void setUp() {
@@ -133,28 +138,68 @@ class BookServiceImplTest {
 	}
 
 	@Test
-	void testCreateBook() {
+	void testCreateBook_withFile() {
+		// Given
 		CreateBookRequest request = new CreateBookRequest(
 			"1234567890", List.of(1L), List.of(2L), "Title", "Author", "Publisher",
-			new Date(), "Status", "Description", 10, BigDecimal.TEN, BigDecimal.ONE, BigDecimal.ZERO
-		);
+			new Date(), "Status", "Description", 10, BigDecimal.TEN, BigDecimal.ONE, BigDecimal.ZERO, null);
+		MultipartFile file = mock(MultipartFile.class);
+		when(file.isEmpty()).thenReturn(false);
+		when(uploadServiceClient.upload(file)).thenReturn(ResponseEntity.ok("file-name"));
 
-		bookService.createBook(request);
+		// When
+		bookService.createBook(request, file);
 
-		verify(bookServiceClient).createBook(request);
+		// Then
+		verify(uploadServiceClient).upload(file);
+		verify(bookServiceClient).createBook(CreateBookRequest.from(request, "file-name"));
 	}
 
 	@Test
-	void testUpdateBookById() {
+	void testCreateBook_withoutFile() {
+		CreateBookRequest request = new CreateBookRequest(
+			"1234567890", List.of(1L), List.of(2L), "Title", "Author", "Publisher",
+			new Date(), "Status", "Description", 10, BigDecimal.TEN, BigDecimal.ONE, BigDecimal.ZERO, null);
+		MultipartFile file = mock(MultipartFile.class);
+		when(file.isEmpty()).thenReturn(true);
+
+		bookService.createBook(request, file);
+
+		verify(uploadServiceClient, never()).upload(file);
+		verify(bookServiceClient).createBook(CreateBookRequest.from(request, null));
+	}
+
+	@Test
+	void testUpdateBookById_withFile() {
 		Long bookId = 1L;
 		UpdateBookRequest request = new UpdateBookRequest(
 			"1234567890", List.of(1L), List.of(2L), "Title", "Author", "Publisher",
-			new Date(), "Status", "Description", 10, BigDecimal.TEN, BigDecimal.ONE, BigDecimal.ZERO
+			new Date(), "Status", "Description", 10, BigDecimal.TEN, BigDecimal.ONE, BigDecimal.ZERO, null
 		);
+		MultipartFile file = mock(MultipartFile.class);
+		when(file.isEmpty()).thenReturn(false);
+		when(uploadServiceClient.upload(file)).thenReturn(ResponseEntity.ok("file-name"));
 
-		bookService.updateBookById(bookId, request);
+		bookService.updateBookById(bookId, request, file);
 
-		verify(bookServiceClient).updateBookById(bookId, request);
+		verify(uploadServiceClient).upload(file);
+		verify(bookServiceClient).updateBookById(bookId, UpdateBookRequest.from(request, "file-name"));
+	}
+
+	@Test
+	void testUpdateBookById_withoutFile() {
+		Long bookId = 1L;
+		UpdateBookRequest request = new UpdateBookRequest(
+			"1234567890", List.of(1L), List.of(2L), "Title", "Author", "Publisher",
+			new Date(), "Status", "Description", 10, BigDecimal.TEN, BigDecimal.ONE, BigDecimal.ZERO, null
+		);
+		MultipartFile file = mock(MultipartFile.class);
+		when(file.isEmpty()).thenReturn(true);
+
+		bookService.updateBookById(bookId, request, file);
+
+		verify(uploadServiceClient, never()).upload(file);
+		verify(bookServiceClient).updateBookById(bookId, UpdateBookRequest.from(request, null));
 	}
 
 	@Test
@@ -162,7 +207,7 @@ class BookServiceImplTest {
 		String isbn = "1234567890";
 
 		bookService.saveBookByIsbn(isbn);
-		
+
 		verify(bookServiceClient).saveBookByIsbn(isbn);
 	}
 

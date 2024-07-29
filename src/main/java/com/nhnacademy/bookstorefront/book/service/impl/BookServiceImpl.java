@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.UpdateBookRequest;
@@ -12,6 +13,7 @@ import com.nhnacademy.bookstorefront.book.dto.response.BookSearchResult;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.feignclient.BookServiceClient;
 import com.nhnacademy.bookstorefront.book.service.BookService;
+import com.nhnacademy.bookstorefront.upload.feignclient.UploadServiceClient;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
 	private final BookServiceClient bookServiceClient;
+	private final UploadServiceClient uploadServiceClient;
 
 	@Override
 	public GetBookDetailResponse getBook(Long bookId) {
@@ -50,13 +53,23 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public void createBook(CreateBookRequest request) {
-		bookServiceClient.createBook(request);
+	public void createBook(CreateBookRequest request, MultipartFile file) {
+		String fileName = null;
+		if (!file.isEmpty()) {
+			fileName = uploadServiceClient.upload(file).getBody();
+		}
+
+		bookServiceClient.createBook(CreateBookRequest.from(request, fileName));
 	}
 
 	@Override
-	public void updateBookById(Long bookId, UpdateBookRequest request) {
-		bookServiceClient.updateBookById(bookId, request);
+	public void updateBookById(Long bookId, UpdateBookRequest request, MultipartFile file) {
+		String fileName = null;
+		if (!file.isEmpty()) {
+			fileName = uploadServiceClient.upload(file).getBody();
+		}
+
+		bookServiceClient.updateBookById(bookId, UpdateBookRequest.from(request, fileName));
 	}
 
 	@Override

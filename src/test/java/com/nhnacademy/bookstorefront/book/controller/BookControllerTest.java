@@ -18,9 +18,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
-import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
@@ -278,49 +279,36 @@ class BookControllerTest {
 
 	@Test
 	void testCreateBook() throws Exception {
-		mockMvc.perform(post("/api/books")
-				.param("bookIsbn", "1234567890")
-				.param("categories", "1")
-				.param("tags", "1")
-				.param("bookTitle", "Title")
-				.param("authorName", "Author")
-				.param("publisherName", "Publisher")
-				.param("bookPublishDate", "2023-07-21")
-				.param("bookStatusName", "Status")
-				.param("bookDescription", "Description")
-				.param("bookQuantity", "10")
-				.param("bookPrice", "10.00")
-				.param("bookSalePrice", "1.00")
-				.param("bookSalePercent", "0.00"))
+		CreateBookRequest request = new CreateBookRequest(
+			"1234567890", List.of(1L), List.of(2L), "Title", "Author", "Publisher",
+			new Date(), "Status", "Description", 10, BigDecimal.TEN, BigDecimal.ONE, BigDecimal.ZERO, null);
+
+		MockMultipartFile file = new MockMultipartFile("file", "image.jpg", "image/jpeg", new byte[0]);
+
+		doNothing().when(bookService).createBook(any(CreateBookRequest.class), any(MultipartFile.class));
+
+		mockMvc.perform(multipart("/api/books")
+				.file(file)
+				.flashAttr("createBookRequest", request))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(redirectedUrl("/api/books/page"));
-
-		verify(bookService).createBook(any(CreateBookRequest.class));
 	}
 
 	@Test
 	void testUpdateBook() throws Exception {
-		Long bookId = 1L;
+		UpdateBookRequest request = new UpdateBookRequest(
+			"1234567890", List.of(1L), List.of(2L), "Title", "Author", "Publisher",
+			new Date(), "Status", "Description", 10, BigDecimal.TEN, BigDecimal.ONE, BigDecimal.ZERO, null);
 
-		mockMvc.perform(put("/api/books/{bookId}", bookId)
-				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
-				.param("bookIsbn", "1234567890")
-				.param("categories", "1")
-				.param("tags", "1")
-				.param("bookTitle", "Title")
-				.param("authorName", "Author")
-				.param("publisherName", "Publisher")
-				.param("bookPublishDate", "2023-07-21")
-				.param("bookStatusName", "Status")
-				.param("bookDescription", "Description")
-				.param("bookQuantity", "10")
-				.param("bookPrice", "10.00")
-				.param("bookSalePrice", "1.00")
-				.param("bookSalePercent", "0.00"))
+		MockMultipartFile file = new MockMultipartFile("file", "image.jpg", "image/jpeg", new byte[0]);
+
+		doNothing().when(bookService).updateBookById(anyLong(), any(UpdateBookRequest.class), any(MultipartFile.class));
+
+		mockMvc.perform(multipart("/api/books/1")
+				.file(file)
+				.flashAttr("updateBookRequest", request))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/books/detail/" + bookId));
-
-		verify(bookService).updateBookById(eq(bookId), any(UpdateBookRequest.class));
+			.andExpect(redirectedUrl("/api/books/detail/1"));
 	}
 
 	@Test
