@@ -71,6 +71,11 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
+	public GetReviewResponse getReview(Long reviewId) {
+		return reviewServiceClient.getReview(reviewId).getBody();
+	}
+
+	@Override
 	public void createReview(CreateReviewRequest request, MultipartFile file) {
 		String fileName = null;
 		String reviewType = "REVIEW";
@@ -80,11 +85,6 @@ public class ReviewServiceImpl implements ReviewService {
 		}
 		reviewServiceClient.createReview(CreateReviewRequest.from(request, fileName));
 		pointServiceClient.reviewPointTransaction(reviewType);
-	}
-
-	@Override
-	public GetReviewResponse getReview(Long reviewId) {
-		return reviewServiceClient.getReview(reviewId).getBody();
 	}
 
 	@Override
