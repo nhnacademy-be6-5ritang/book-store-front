@@ -144,6 +144,13 @@ public class ReviewController {
 		return "review/get-review-by-user";
 	}
 
+	@GetMapping("/reviews/admin/{reviewId}")
+	public String getReviewByAdmin(@PathVariable Long reviewId, Model model) {
+		GetReviewResponse review = reviewService.getReview(reviewId);
+		model.addAttribute("review", review);
+		return "review/get-review-by-admin";
+	}
+
 	/**
 	 * 리뷰를 생성합니다.
 	 *
@@ -181,6 +188,6 @@ public class ReviewController {
 	@DeleteMapping("/reviews/{reviewsId}")
 	public String deleteReview(@PathVariable Long reviewsId) {
 		reviewService.deleteReview(reviewsId);
-		return REDIRECT_URL;
+		return "redirect:/api/users/admin/reviews/page";
 	}
 }
