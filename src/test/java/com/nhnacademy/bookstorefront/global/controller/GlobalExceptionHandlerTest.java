@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -19,10 +20,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.bookstorefront.global.controller.payload.ErrorStatus;
 import com.nhnacademy.bookstorefront.global.exception.GlobalException;
+import com.nhnacademy.bookstorefront.user.service.UserService;
 
 import feign.Request;
 import jakarta.servlet.http.HttpServletResponse;
@@ -31,21 +33,24 @@ class GlobalExceptionHandlerTest {
 
 	private MockMvc mockMvc;
 
+	@MockBean
+	private UserService userService;
+
 	@InjectMocks
 	private GlobalExceptionHandler globalExceptionHandler;
 
 	@Mock
 	private HttpServletResponse response;
 
-	@Mock
-	private View error;
+	private ObjectMapper objectMapper;
 
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
-		mockMvc = MockMvcBuilders.standaloneSetup(new GlobalExceptionHandler(error))
+		mockMvc = MockMvcBuilders.standaloneSetup(new GlobalExceptionHandler())
 			.setControllerAdvice(globalExceptionHandler)
 			.build();
+		objectMapper = new ObjectMapper();
 	}
 
 	@Test
@@ -147,62 +152,66 @@ class GlobalExceptionHandlerTest {
 		assert modelAndView.getModel().get("status").equals(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
+	// TODO: FeignException 테스팅 필요
 	// @Test
-	// void testHandleFeignStatusException_Unauthorized() throws Exception {
-	// 	FeignException feignException = mock(FeignException.class);
-	// 	when(feignException.status()).thenReturn(HttpStatus.UNAUTHORIZED.value());
-	// 	when(feignException.contentUTF8()).thenReturn("{\"message\":\"로그인이 필요합니다.\"}");
+	// void handleFeignStatusException_Unauthorized() throws Exception {
+	// 	FeignException feignException = FeignException.errorStatus(
+	// 		"Unauthorized",
+	// 		feign.Response.builder()
+	// 			.status(HttpStatus.UNAUTHORIZED.value())
+	// 			.request(Mockito.mock(feign.Request.class))
+	// 			.body("{\"message\":\"Unauthorized access\"}", StandardCharsets.UTF_8)
+	// 			.build()
+	// 	);
 	//
-	// 	mockMvc.perform(get("/users/my-page")
-	// 			.requestAttr("exception", feignException))
+	// 	// Mocking the exception handler to throw the exception
+	// 	mockMvc.perform(MockMvcRequestBuilders.get("/users/my-page")
+	// 			.requestAttr("feignException", feignException)) // Pass the exception as an attribute
 	// 		.andExpect(status().isUnauthorized())
 	// 		.andExpect(content().contentType("text/html;charset=UTF-8"))
-	// 		.andExpect(content().string(org.hamcrest.Matchers.containsString("alert('Unauthorized access')")))
-	// 		.andExpect(content().string(org.hamcrest.Matchers.containsString("window.location.href = '/auth/login';")));
+	// 		.andExpect(content().string(org.hamcrest.Matchers.containsString("alert('Unauthorized access')")));
 	// }
 	//
 	// @Test
-	// void testHandleFeignStatusException_Forbidden() throws Exception {
-	// 	FeignException feignException = mock(FeignException.class);
-	// 	when(feignException.status()).thenReturn(HttpStatus.FORBIDDEN.value());
-	// 	when(feignException.contentUTF8()).thenReturn("{\"message\":\"Forbidden access\"}");
+	// void handleFeignStatusException_Forbidden() throws Exception {
+	// 	FeignException feignException = FeignException.errorStatus(
+	// 		"Forbidden",
+	// 		feign.Response.builder()
+	// 			.status(HttpStatus.FORBIDDEN.value())
+	// 			.reason("Forbidden")
+	// 			.request(Mockito.mock(feign.Request.class))
+	// 			.body("{\"message\":\"Forbidden access\"}", StandardCharsets.UTF_8)
+	// 			.build()
+	// 	);
 	//
-	// 	mockMvc.perform(get("/users/my-page")
-	// 			.requestAttr("exception", feignException))
+	// 	doThrow(feignException).when(response).setContentType("text/html;charset=UTF-8");
+	//
+	// 	mockMvc.perform(MockMvcRequestBuilders.get("/some-url")) // You may need to change this URL to a valid endpoint
 	// 		.andExpect(status().isForbidden())
 	// 		.andExpect(content().contentType("text/html;charset=UTF-8"))
-	// 		.andExpect(content().string(org.hamcrest.Matchers.containsString("alert('Forbidden access')")))
-	// 		.andExpect(content().string(org.hamcrest.Matchers.containsString("history.back()")));
+	// 		.andExpect(content().string(org.hamcrest.Matchers.containsString("alert('Forbidden access')")));
 	// }
 	//
 	// @Test
-	// void testHandleFeignStatusException_Forbidden_Dormant() throws Exception {
-	// 	FeignException feignException = mock(FeignException.class);
-	// 	when(feignException.status()).thenReturn(HttpStatus.FORBIDDEN.value());
-	// 	when(feignException.contentUTF8()).thenReturn("{\"message\":\"휴면 계정\"}");
+	// void handleFeignStatusException_Other() throws Exception {
+	// 	FeignException feignException = FeignException.errorStatus(
+	// 		"Internal Server Error",
+	// 		feign.Response.builder()
+	// 			.status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+	// 			.reason("Internal Server Error")
+	// 			.request(Mockito.mock(feign.Request.class))
+	// 			.body("{\"message\":\"Internal error occurred\"}", StandardCharsets.UTF_8)
+	// 			.build()
+	// 	);
 	//
-	// 	mockMvc.perform(get("/users/my-page")
-	// 			.requestAttr("exception", feignException))
-	// 		.andExpect(status().isForbidden())
-	// 		.andExpect(content().contentType("text/html;charset=UTF-8"))
-	// 		.andExpect(content().string(org.hamcrest.Matchers.containsString("alert('휴면 계정')")))
-	// 		.andExpect(content().string(
-	// 			org.hamcrest.Matchers.containsString("window.location.href = '/users/dormant-certify';")));
-	// }
+	// 	doThrow(feignException).when(response).setContentType("text/html;charset=UTF-8");
 	//
-	// @Test
-	// void testHandleFeignStatusException_Default() throws Exception {
-	// 	FeignException feignException = mock(FeignException.class);
-	// 	when(feignException.status()).thenReturn(HttpStatus.BAD_REQUEST.value());
-	// 	when(feignException.contentUTF8()).thenReturn("{\"message\":\"Bad request\"}");
-	//
-	// 	mockMvc.perform(get("/admin")
-	// 			.requestAttr("exception", feignException))
-	// 		.andExpect(status().isOk())
+	// 	mockMvc.perform(MockMvcRequestBuilders.get("/some-url")) // You may need to change this URL to a valid endpoint
+	// 		.andExpect(status().isInternalServerError())
 	// 		.andExpect(view().name("global/error"))
-	// 		.andExpect(model().attribute("message", "Bad request"))
-	// 		.andExpect(model().attribute("status", HttpStatus.BAD_REQUEST))
-	// 		.andExpect(model().attributeExists("timestamp"));
+	// 		.andExpect(model().attribute("message", "Internal error occurred"))
+	// 		.andExpect(model().attribute("status", HttpStatus.INTERNAL_SERVER_ERROR))
+	// 		.andExpect(model().attribute("timestamp", org.hamcrest.Matchers.notNullValue()));
 	// }
 
 	private feign.Response createResponse(HttpStatus status) {

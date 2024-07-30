@@ -11,7 +11,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,12 +27,6 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
-	private final View error;
-
-	public GlobalExceptionHandler(View error) {
-		this.error = error;
-	}
 
 	/**
 	 * 검증 오류(MethodArgumentNotValidException)를 처리합니다.
@@ -217,7 +210,7 @@ public class GlobalExceptionHandler {
 			JsonNode jsonNode = objectMapper.readTree(content);
 			return jsonNode.get("message").asText();
 		} catch (IOException e) {
-			return "로그인이 필요합니다.";
+			return "확인 중에 에러가 발생했습니다.\n로그아웃하고 다시 로그인해보세요.";
 		}
 	}
 }
