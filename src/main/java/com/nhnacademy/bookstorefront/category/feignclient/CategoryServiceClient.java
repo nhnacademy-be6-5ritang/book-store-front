@@ -45,6 +45,6 @@ public interface CategoryServiceClient {
 	@DeleteMapping("/{categoryId}")
 	ResponseEntity<Void> deleteCategory(@PathVariable Long categoryId);
 
-	@GetMapping("/search/test")
+	@GetMapping("/search")
 	ResponseEntity<List<CategorySearchResult>> searchCategories(@RequestParam("key") String search);
 }
