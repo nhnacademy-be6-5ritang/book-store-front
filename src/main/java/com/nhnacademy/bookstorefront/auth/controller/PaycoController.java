@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
-import com.nhnacademy.bookstorefront.auth.feignclient.AuthClient;
 import com.nhnacademy.bookstorefront.auth.service.AuthService;
+import com.nhnacademy.bookstorefront.user.service.UserService;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +39,41 @@ public class PaycoController {
 
 	private final RestTemplate restTemplate;
 	private final AuthService authService;
-	private final AuthClient authClient;
+	private final UserService userService;
+
+	@GetMapping("/connect")
+	public String paycoConnect(@RequestParam("code") String code) {
+		String tokenUrl = "https://id.payco.com/oauth2.0/token";
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+		body.add("grant_type", "authorization_code");
+		body.add("client_id", clientId);
+		body.add("client_secret", clientSecret);
+		body.add("code", code);
+		body.add("redirect_uri", redirectUri);
+
+		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
+
+		ResponseEntity<String> response = restTemplate.postForEntity(tokenUrl, request, String.class);
+
+		if (response.getStatusCode() == HttpStatus.OK) {
+			String responseBody = response.getBody();
+			String accessToken = extractAccessToken(responseBody);
+
+			// 회원 번호 가져오기
+			ResponseEntity<String> userInfoResponse = getPaycoUserInfo(accessToken);
+			if (userInfoResponse.getStatusCode() == HttpStatus.OK) {
+				// userInfoResponse에서 회원 번호 추출
+				String memberNumber = extractIdNo(userInfoResponse.getBody());
+				userService.paycoConnect(memberNumber);
+				return "redirect:/";
+			}
+		}
+		return "redirect:/";
+	}
 
 	@GetMapping("/callback")
 	public String paycoCallback(@RequestParam("code") String code,
@@ -69,8 +103,8 @@ public class PaycoController {
 			ResponseEntity<String> userInfoResponse = getPaycoUserInfo(accessToken);
 			if (userInfoResponse.getStatusCode() == HttpStatus.OK) {
 				// userInfoResponse에서 회원 번호 추출
-				String memberNumber = extractIdNo(userInfoResponse.getBody());
-				authService.getTokensForPaycoUser(memberNumber, httpServletResponse);
+				String memberId = extractIdNo(userInfoResponse.getBody());
+				authService.getTokensForPaycoUser(memberId, httpServletResponse);
 				return "redirect:/";
 			} else {
 				return "redirect:/auth/login?error=" + URLEncoder.encode("로그인 실패", StandardCharsets.UTF_8);

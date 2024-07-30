@@ -128,10 +128,13 @@
                 </tr>
             </table>
             <div class="button-container">
-                <button id="withdraw-button">회원탈퇴</button>
-            </div>
-            <div class="button-container">
+                <button type="button" class="payco-connect-button" onclick="paycoConnectRequest()">
+                    <div class="payco-image-container">
+                        <img id="payco-image" th:src="@{/image/PAYCO_BUTTON.png}" alt="PAYCO 연동">
+                    </div>
+                </button>
                 <button onclick="location.href='/users/update-info'">회원 정보 수정</button>
+                <button id="withdraw-button">회원탈퇴</button>
             </div>
         </section>
     </section>
@@ -142,5 +145,6 @@
 <footer th:insert="~{global/footer}"></footer>
 
 <script th:src="@{/js/my-page.js}"></script>
+<script th:src="@{/js/payco.js}"></script>
 </body>
 </html>
