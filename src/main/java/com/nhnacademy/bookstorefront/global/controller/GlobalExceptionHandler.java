@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.bookstorefront.global.controller.payload.ErrorStatus;
 import com.nhnacademy.bookstorefront.global.exception.GlobalException;
 
@@ -133,9 +135,11 @@ public class GlobalExceptionHandler {
 
 		try {
 			script = response.getWriter();
+			String errorMessage = extractErrorMessage(exception.contentUTF8());
+
 			if (exception.status() == HttpStatus.UNAUTHORIZED.value()) {
 				script.println("<script>");
-				script.println("alert('로그인이 필요합니다');");
+				script.println("alert('" + errorMessage + "')");
 				script.println("window.location.href = '/auth/login';");
 				script.println("</script>");
 				script.flush();
@@ -145,8 +149,12 @@ public class GlobalExceptionHandler {
 
 			if (exception.status() == HttpStatus.FORBIDDEN.value()) {
 				script.println("<script>");
-				script.println("alert('해당 리소스에 대한 접근 권한이 없습니다.')");
-				script.println("history.back()");
+				script.println("alert('" + errorMessage + "')");
+				if (errorMessage.contains("휴면")) {
+					script.println("window.location.href = '/users/dormant-certify';");
+				} else {
+					script.println("history.back()");
+				}
 				script.println("</script>");
 				script.flush();
 				script.close();
@@ -196,4 +204,13 @@ public class GlobalExceptionHandler {
 		return modelAndView;
 	}
 
+	private String extractErrorMessage(String content) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			JsonNode jsonNode = objectMapper.readTree(content);
+			return jsonNode.get("message").asText();
+		} catch (IOException e) {
+			return "확인 중에 에러가 발생했습니다.\n로그아웃하고 다시 로그인해보세요.";
+		}
+	}
 }
