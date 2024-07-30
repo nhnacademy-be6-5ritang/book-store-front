@@ -47,3 +47,12 @@
 .table-left-data {
     width: 50%;
 }
+
+.payco-connect-button {
+    height: 40px;
+    width: 30%;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

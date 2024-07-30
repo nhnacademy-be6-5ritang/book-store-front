@@ -32,4 +32,6 @@ public interface UserService {
 	ResponseEntity<Void> getAdminPage();
 
 	void updateUserRole(UpdateUserRoleRequest updateUserRoleRequest);
+
+	void paycoConnect(String memberId);
 }
