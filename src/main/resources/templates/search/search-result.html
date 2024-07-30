@@ -34,9 +34,7 @@
 
                 <label for="sortBy">기준 선택:</label>
                 <select id="sortBy" name="sortBy" onchange="sortResults()">
-                    <option value="bookPublishDate" th:selected="${sortBy == 'bookPublishDate'}">책 출판일</option>
                     <option value="authorName" th:selected="${sortBy == 'authorName'}">저자</option>
-                    <option value="publisherName" th:selected="${sortBy == 'publisherName'}">출판사</option>
                     <option value="bookTitle" th:selected="${sortBy == 'bookTitle'}">책 제목</option>
                     <option value="bookSalePrice" th:selected="${sortBy == 'bookSalePrice'}">책 가격</option>
                 </select>
@@ -96,17 +94,9 @@
             var aValue, bValue;
 
             switch (sortBy) {
-                case 'bookPublishDate':
-                    aValue = new Date(a.querySelector('.book-publish-date').textContent);
-                    bValue = new Date(b.querySelector('.book-publish-date').textContent);
-                    break;
                 case 'authorName':
                     aValue = a.querySelector('.book-author').textContent.toLowerCase();
                     bValue = b.querySelector('.book-author').textContent.toLowerCase();
-                    break;
-                case 'publisherName':
-                    aValue = a.querySelector('.book-publisher').textContent.toLowerCase();
-                    bValue = b.querySelector('.book-publisher').textContent.toLowerCase();
                     break;
                 case 'bookTitle':
                     aValue = a.querySelector('.book-title-link').textContent.toLowerCase();
