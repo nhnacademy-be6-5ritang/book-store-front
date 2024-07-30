@@ -12,10 +12,8 @@ import com.nhnacademy.bookstorefront.book.dto.response.BookSearchResult;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 
 /**
+ * @author 김기욱, 이경헌
  * 외부 Book 서비스와 통신하여 책 정보를 관리하는 인터페이스입니다.
- *
- *
- * @version 1.0
  */
 public interface BookService {
 
@@ -71,9 +69,25 @@ public interface BookService {
 	 */
 	void deleteBook(Long bookId);
 
+	/**
+	 * 주어진 쿼리 문자열을 기반으로 책을 검색합니다.
+	 *
+	 * @param query 검색할 문자열
+	 * @return 검색된 책 목록이 포함된 {@link List<BookSearchResult>} 객체
+	 */
 	List<BookSearchResult> searchBooks(String query);
 
+	/**
+	 * 베스트셀러 책의 목록을 조회합니다.
+	 *
+	 * @return 주문된 책 목록이 포함된 {@link List<GetBookDetailResponse>} 객체
+	 */
 	List<GetBookDetailResponse> getOrderedBooks();
 
+	/**
+	 * 사용자가 좋아요를 누른 책의 목록을 조회합니다.
+	 *
+	 * @return 좋아요를 누른 책 목록이 포함된 {@link List<GetBookDetailResponse>} 객체
+	 */
 	List<GetBookDetailResponse> getLikesBooks();
 }
