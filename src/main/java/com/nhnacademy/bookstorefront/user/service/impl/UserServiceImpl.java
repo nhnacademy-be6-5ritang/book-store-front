@@ -73,4 +73,9 @@ public class UserServiceImpl implements UserService {
 	public void updateUserRole(UpdateUserRoleRequest updateUserRoleRequest) {
 		userClient.updateRole(updateUserRoleRequest);
 	}
+
+	@Override
+	public void paycoConnect(String memberId) {
+		userClient.paycoConnect(memberId);
+	}
 }
