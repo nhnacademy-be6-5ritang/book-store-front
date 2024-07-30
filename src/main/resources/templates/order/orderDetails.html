@@ -57,61 +57,61 @@
                     </tr>
                     </tbody>
                 </table>
-                <!--                <table class="table">-->
-                <!--                    &lt;!&ndash; Head Row &ndash;&gt;-->
-                <!--                    <thead>-->
-                <!--                    <tr class="inline-text">-->
-                <!--                        <th>수령인</th>-->
-                <!--                        <th>주소</th>-->
-                <!--                        <th>전화번호</th>-->
-                <!--                        <th>배달 희망일</th>-->
-                <!--                        <th>배달 상태</th>-->
-                <!--                    </tr>-->
-                <!--                    </thead>-->
-                <!--                    <tbody>-->
-                <!--                    &lt;!&ndash; Product Row &ndash;&gt;-->
-                <!--                    <tr>-->
-                <!--                        <td> <span-->
-                <!--                                th:text="${delivery.deliveryReceiver()}"></span></td>-->
-                <!--                        <td><span-->
-                <!--                                th:text="${delivery.deliveryReceiverAddress()}"></span></td>-->
-                <!--                        <td><span-->
-                <!--                                th:text="${delivery.deliveryReceiverPhone()}"></span></td>-->
-                <!--                        <td><span-->
-                <!--                                th:text="${delivery.deliveryReceiverDate()}"></span></td>-->
-                <!--                        <td><span-->
-                <!--                                th:text="${delivery.deliveryStatusName()}"></span></td>-->
-                <!--                    </tr>-->
-                <!--                    </tbody>-->
-                <!--                </table>-->
-                <!--            </div>-->
-                <!--            <div th:if="${refundList} != null">-->
-                <!--                <div th:each=" refund : ${refundList}" class="order-item">-->
-                <!--                    <table class="table">-->
-                <!--                        &lt;!&ndash; Head Row &ndash;&gt;-->
-                <!--                        <thead>-->
-                <!--                        <tr>-->
-                <!--                            <th class="pro-name">환불 기준</th>-->
-                <!--                            <th class="pro-address">환불 기간</th>-->
+                <table class="table">
+                    <!-- Head Row -->
+                    <thead>
+                    <tr class="inline-text">
+                        <th>수령인</th>
+                        <th>주소</th>
+                        <th>전화번호</th>
+                        <th>배달 희망일</th>
+                        <th>배달 상태</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Product Row -->
+                    <tr>
+                        <td> <span
+                                th:text="${delivery.deliveryReceiver()}"></span></td>
+                        <td><span
+                                th:text="${delivery.deliveryReceiverAddress()}"></span></td>
+                        <td><span
+                                th:text="${delivery.deliveryReceiverPhone()}"></span></td>
+                        <td><span
+                                th:text="${delivery.deliveryReceiverDate()}"></span></td>
+                        <td><span
+                                th:text="${delivery.deliveryStatusName()}"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:if="${refundList} != null">
+                <div th:each=" refund : ${refundList}" class="order-item">
+                    <table class="table">
+                        <!-- Head Row -->
+                        <thead>
+                        <tr>
+                            <th class="pro-name">환불 기준</th>
+                            <th class="pro-address">환불 기간</th>
 
-                <!--                        </tr>-->
-                <!--                        </thead>-->
-                <!--                        <tbody>-->
-                <!--                        &lt;!&ndash; Product Row &ndash;&gt;-->
-                <!--                        <tr>-->
-                <!--                            <td class="pro-name"> <span-->
-                <!--                                    th:text="${refund.refundPolicyContent()}"></span></td>-->
-                <!--                            <td class="pro-address"><span>송신일 기준 [</span><span-->
-                <!--                                    th:text=" ${refund.refundPolicyDate()}"></span><span> ] 일 이내에 환불이 가능합니다.</span>-->
-                <!--                            </td>-->
-                <!--                        </tr>-->
-                <!--                        </tbody>-->
-                <!--                    </table>-->
-                <!--                </div>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Product Row -->
+                        <tr>
+                            <td class="pro-name"> <span
+                                    th:text="${refund.refundPolicyContent()}"></span></td>
+                            <td class="pro-address"><span>송신일 기준 [</span><span
+                                    th:text=" ${refund.refundPolicyDate()}"></span><span> ] 일 이내에 환불이 가능합니다.</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-                <!--                <a th:href="@{/api/orders/refunding/{order_info_id}(order_info_id=${order.infoId()})}">-->
-                <!--                    <button class="btn btn-primary">환불 요청</button>-->
-                <!--                </a>-->
+                <a th:href="@{/api/orders/refunding/{order_info_id}(order_info_id=${order.infoId()})}">
+                    <button class="btn btn-primary">환불 요청</button>
+                </a>
             </div>
             <div th:if="${order == null}">
                 <p>주문 목록이 없습니다.</p>
