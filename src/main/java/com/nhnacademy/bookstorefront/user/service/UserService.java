@@ -8,9 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 import com.nhnacademy.bookstorefront.address.dto.response.GetAddressResponse;
+import com.nhnacademy.bookstorefront.user.dto.request.UpdateUserInfoRequest;
 import com.nhnacademy.bookstorefront.user.dto.request.UpdateUserRoleRequest;
 import com.nhnacademy.bookstorefront.user.dto.response.GetMyUserInfoResponse;
 import com.nhnacademy.bookstorefront.user.dto.response.GetUserInfoResponse;
+import com.nhnacademy.bookstorefront.user.dto.response.UpdateUserInfoResponse;
 
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -94,4 +96,12 @@ public interface UserService {
 	 * @param memberId Payco와 연결할 사용자의 회원 ID
 	 */
 	void paycoConnect(String memberId);
+
+	/**
+	 * 제공된 요청 세부 정보를 기반으로 사용자 정보를 업데이트합니다.
+	 *
+	 * @param updateUserInfoRequest 업데이트할 사용자 정보를 포함하는 요청 객체입니다.
+	 * @return {@link UpdateUserInfoResponse} 업데이트 작업의 결과를 포함하는 응답 객체입니다.
+	 */
+	UpdateUserInfoResponse updateUserInfo(UpdateUserInfoRequest updateUserInfoRequest);
 }

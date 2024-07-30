@@ -65,6 +65,7 @@ public class UserServiceImpl implements UserService {
 		return userClient.checkEmailDormantToActive(email, certifyCode);
 	}
 
+	@Override
 	public UpdateUserInfoResponse updateUserInfo(UpdateUserInfoRequest updateUserInfoRequest) {
 		return userClient.updateUser(updateUserInfoRequest).getBody();
 	}

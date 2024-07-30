@@ -19,7 +19,6 @@ import com.nhnacademy.bookstorefront.address.dto.response.GetAddressResponse;
 import com.nhnacademy.bookstorefront.user.dto.request.UpdateUserInfoRequest;
 import com.nhnacademy.bookstorefront.user.dto.response.GetMyUserInfoResponse;
 import com.nhnacademy.bookstorefront.user.service.UserService;
-import com.nhnacademy.bookstorefront.user.service.impl.UserServiceImpl;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -34,7 +33,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/users")
 public class UserController {
 	private final UserService userService;
-	private final UserServiceImpl userServiceImpl;
 
 	/**
 	 * 현재 사용자의 정보 페이지를 조회합니다.
@@ -140,7 +138,7 @@ public class UserController {
 	 */
 	@PostMapping("/update-info")
 	public ModelAndView updateInfoPost(@ModelAttribute UpdateUserInfoRequest updateUserInfoRequest) {
-		userServiceImpl.updateUserInfo(
+		userService.updateUserInfo(
 			new UpdateUserInfoRequest(updateUserInfoRequest.name(), null, updateUserInfoRequest.birth(),
 				updateUserInfoRequest.contact()));
 		return new ModelAndView("redirect:/users/my-page");
