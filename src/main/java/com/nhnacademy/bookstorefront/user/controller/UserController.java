@@ -59,6 +59,11 @@ public class UserController {
 		return userService.checkEmailDormantToActive(email, certifyCode);
 	}
 
+	@GetMapping("/dormant-certify")
+	public String dormantCertifyPage() {
+		return "user/dormant-certify";
+	}
+
 	@ResponseBody
 	@PatchMapping("/withdraw")
 	public ResponseEntity<Void> withdrawUser(HttpServletResponse response) {
