@@ -8,172 +8,122 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
 
-
 <body>
-<div class="site-wrapper" id="top">
-    <!--=================================
-    Header Area
-    ===================================== -->
-    <div th:insert="~{global/header}"></div>
+<header th:insert="~{global/header}"></header>
 
-    <section class="breadcrumb-section">
-        <h2 class="sr-only">Site Breadcrumb</h2>
-        <div class="container">
-            <div class="breadcrumb-contents">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a th:href="@{/api/categories/main}">홈</a></li>
-                        <li class="breadcrumb-item active">주문 상세</li>
-                    </ol>
-                </nav>
+<section id="page" class="top-container">
+    <section id="page-menu-container" th:insert="~{fragments/user-menu.html}"></section>
+    <section id="page-content">
+        <section id="page-header">
+            <h5>주문 상세</h5>
+        </section>
+        <hr style="width: 100%"/>
+        <section id="page-body">
+            <div th:if="${order != null}" style="overflow-x: auto">
+                <table class="table">
+                    <thead>
+                    <tr class="inline-text">
+                        <th>주문 번호</th>
+                        <th>결제자 이름</th>
+                        <th>결제자 이메일</th>
+                        <th>결제자 주소</th>
+                        <th>주문 날짜</th>
+                        <th>주문 상태</th>
+                        <th>총 가격</th>
+                        <th>결제 확인</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Product Row -->
+                    <tr>
+                        <td th:text="${order.infoId()}">
+                        </td>
+                        <td th:text="${order.payername()}"></td>
+                        <td th:text="${order.payerEmail()}"></td>
+                        <td th:text="${order.payerAddress()}"></td>
+                        <td th:text="${order.orderDate()}"></td>
+                        <td th:text="${order.status()}"></td>
+                        <td th:text="${order.price().setScale(0)} + 원"></td>
+                        <td>
+                            <a th:href="@{/api/payments/transactions/{order_info_id}(order_info_id=${order.infoId()})}">
+                                <button type="button">결제 정보 보기</button>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table">
+                    <!-- Head Row -->
+                    <thead>
+                    <tr class="inline-text">
+                        <th>수령인</th>
+                        <th>주소</th>
+                        <th>전화번호</th>
+                        <th>배달 희망일</th>
+                        <th>배달 상태</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Product Row -->
+                    <tr>
+                        <td> <span
+                                th:text="${delivery.deliveryReceiver()}"></span></td>
+                        <td><span
+                                th:text="${delivery.deliveryReceiverAddress()}"></span></td>
+                        <td><span
+                                th:text="${delivery.deliveryReceiverPhone()}"></span></td>
+                        <td><span
+                                th:text="${delivery.deliveryReceiverDate()}"></span></td>
+                        <td><span
+                                th:text="${delivery.deliveryStatusName()}"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
-        </div>
-    </section>
+            <div th:if="${refundList} != null">
+                <div th:each=" refund : ${refundList}" class="order-item">
+                    <table class="table">
+                        <!-- Head Row -->
+                        <thead>
+                        <tr>
+                            <th class="pro-name">환불 기준</th>
+                            <th class="pro-address">환불 기간</th>
 
-    <div class="page-section inner-page-sec-padding">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="row">
-                        <!-- My Account Tab Menu Start -->
-                        <div class="col-lg-3 col-12">
-                            <!-- 관리자 계정 메뉴 -->
-                            <div th:insert="~{fragments/user-account-menu.html}"></div>
-                        </div>
-                        <!-- My Account Tab Menu End -->
-                        <!-- My Account Tab Content Start -->
-                        <div class="col-lg-9 col-12 mt--30 mt-lg--0">
-                            <div class="tab-content" id="myaccountContent">
-                                <div class="cart_area inner-page-sec-padding-bottom">
-                                    <div class="container">
-                                        <div class="page-section-title">
-                                            <h1>주문 상세 확인</h1>
-                                        </div>
-                                        <div th:if="${order != null}">
-                                            <table class="table">
-                                                <!-- Head Row -->
-                                                <thead>
-                                                <tr style="width: 100%">
-                                                    <th class="pro-title">주문 번호</th>
-                                                    <th class="pro-name" style="width:10%">결제자 이름</th>
-                                                    <th class="pro-email">결제자 이메일</th>
-                                                    <th class="pro-address">결제자 주소</th>
-                                                    <th class="pro-date">주문 날짜</th>
-                                                    <th class="pro-status" style="width:10%">주문 상태</th>
-                                                    <th class="pro-price">총 가격</th>
-                                                    <th class="pro-payment"></th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <!-- Product Row -->
-                                                <tr>
-                                                    <td class="pro-title"><span
-                                                            th:text="${order.infoId()}"></span></td>
-                                                    <td class="pro-name"> <span
-                                                            th:text="${order.payername()}"></span></td>
-                                                    <td class="pro-email"><span
-                                                            th:text="${order.payerEmail()}"></span></td>
-                                                    <td class="pro-address"><span
-                                                            th:text="${order.payerAddress()}"></span></td>
-                                                    <td class="pro-date"><span
-                                                            th:text="${order.orderDate()}"></span></td>
-                                                    <td class="pro-status"><span
-                                                            th:text="${order.status()}"></span></td>
-                                                    <td class="pro-price"><span
-                                                            th:text="${order.price().setScale(0)} + 원"></span></td>
-                                                    <td class="pro-payment">
-                                                        <a th:href="@{/api/payments/transactions/{order_info_id}(order_info_id=${order.infoId()})}">
-                                                            <button type="button">결제 정보 보기</button>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div th:if="${order != null}">
-                                            <table class="table">
-                                                <!-- Head Row -->
-                                                <thead>
-                                                <tr>
-                                                    <th class="pro-name">수령인</th>
-                                                    <th class="pro-address">주소</th>
-                                                    <th class="pro-phone">전화번호</th>
-                                                    <th class="pro-date">배달 희망일</th>
-                                                    <th class="pro-status">배달 상태</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <!-- Product Row -->
-                                                <tr>
-                                                    <td class="pro-name"> <span
-                                                            th:text="${delivery.deliveryReceiver()}"></span></td>
-                                                    <td class="pro-address"><span
-                                                            th:text="${delivery.deliveryReceiverAddress()}"></span></td>
-                                                    <td class="pro-phone"><span
-                                                            th:text="${delivery.deliveryReceiverPhone()}"></span></td>
-                                                    <td class="pro-date"><span
-                                                            th:text="${delivery.deliveryReceiverDate()}"></span></td>
-                                                    <td class="pro-status"><span
-                                                            th:text="${delivery.deliveryStatusName()}"></span></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div th:if="${refundList} != null">
-                                            <div th:each=" refund : ${refundList}" class="order-item">
-                                                <table class="table">
-                                                    <!-- Head Row -->
-                                                    <thead>
-                                                    <tr>
-                                                        <th class="pro-name">환불 기준</th>
-                                                        <th class="pro-address">환불 기간</th>
-
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <!-- Product Row -->
-                                                    <tr>
-                                                        <td class="pro-name"> <span
-                                                                th:text="${refund.refundPolicyContent()}"></span></td>
-                                                        <td class="pro-address"><span>송신일 기준 [</span><span
-                                                                th:text=" ${refund.refundPolicyDate()}"></span><span> ] 일 이내에 환불이 가능합니다.</span>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                            <a th:href="@{/api/orders/refunding/{order_info_id}(order_info_id=${order.infoId()})}">
-                                                <button class="btn btn-primary">환불 요청</button>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div th:if="${order == null}">
-                                        <p>주문 목록이 없습니다.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Wishlist Page End -->
-                        </div>
-                    </div>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Product Row -->
+                        <tr>
+                            <td class="pro-name"> <span
+                                    th:text="${refund.refundPolicyContent()}"></span></td>
+                            <td class="pro-address"><span>송신일 기준 [</span><span
+                                    th:text=" ${refund.refundPolicyDate()}"></span><span> ] 일 이내에 환불이 가능합니다.</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
+
+                <a th:href="@{/api/orders/refunding/{order_info_id}(order_info_id=${order.infoId()})}">
+                    <button class="btn btn-primary">환불 요청</button>
+                </a>
             </div>
-        </div>
-    </div>
-</div>
-<!--=================================
-Footer Area
-===================================== -->
-<div th:insert="~{global/footer}"></div>
+            <div th:if="${order == null}">
+                <p>주문 목록이 없습니다.</p>
+            </div>
+        </section>
+    </section>
+</section>
 
-<!-- Use Minified Plugins Version For Fast Page Load -->
-<script th:src="@{/js/plugins.js}"></script>
-<script th:src="@{/js/ajax-mail.js}"></script>
-<script th:src="@{/js/custom.js}"></script>
+<div th:insert="~{fragments/to-admin-button}"></div>
+
+<footer th:insert="~{global/footer}"></footer>
+
+<script th:src="@{/js/my-page.js}"></script>
 </body>
-
 </html>
