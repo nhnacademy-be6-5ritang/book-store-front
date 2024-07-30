@@ -51,5 +51,11 @@ public interface BookCartService {
 	 */
 	ResponseEntity<Void> deleteBookCart(Long bookId, String cartId);
 
+	/**
+	 * 주어진 장바구니 ID에 해당하는 모든 책을 삭제합니다.
+	 *
+	 * @param cartId 삭제할 책이 포함된 장바구니의 고유 식별자
+	 * @return 상태 코드가 포함된 ResponseEntity 객체
+	 */
 	ResponseEntity<Void> deleteAllBookCart(String cartId);
 }

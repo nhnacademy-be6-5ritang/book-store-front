@@ -242,6 +242,19 @@ class ReviewControllerTest {
 	}
 
 	@Test
+	void testGetReviewByAdmin() throws Exception {
+		GetReviewResponse reviewResponse = new GetReviewResponse(
+			1L, 1L, "User Name", 5, "Great book!", LocalDateTime.now(), "image-url");
+
+		when(reviewService.getReview(anyLong())).thenReturn(reviewResponse);
+
+		mockMvc.perform(get("/api/reviews/admin/1"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("review/get-review-by-admin"))
+			.andExpect(model().attribute("review", reviewResponse));
+	}
+
+	@Test
 	void testCreateReview() throws Exception {
 		CreateReviewRequest request = new CreateReviewRequest(
 			1L, 3, "User Name", "image-url");
@@ -280,6 +293,6 @@ class ReviewControllerTest {
 
 		mockMvc.perform(delete("/api/reviews/1"))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/users/me/reviews/page"));
+			.andExpect(redirectedUrl("/api/users/admin/reviews/page"));
 	}
 }

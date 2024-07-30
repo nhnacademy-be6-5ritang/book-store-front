@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record UpdateUserInfoRequest(
-
 	@NotBlank
 	@Size(max = 10)
 	String name,
@@ -19,5 +18,4 @@ public record UpdateUserInfoRequest(
 	@Size(min = 11, max = 11)
 	String contact
 ) {
-
 }

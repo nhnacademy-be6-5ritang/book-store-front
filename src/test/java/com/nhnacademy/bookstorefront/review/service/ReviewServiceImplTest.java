@@ -42,6 +42,8 @@ class ReviewServiceImplTest {
 	@InjectMocks
 	private ReviewServiceImpl reviewService;
 
+	private String folderName = "reviews";
+
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
@@ -187,13 +189,13 @@ class ReviewServiceImplTest {
 		CreateReviewRequest request = new CreateReviewRequest(1L, 5, "Great book!", null);
 		MultipartFile file = mock(MultipartFile.class);
 		when(file.isEmpty()).thenReturn(false);
-		when(uploadServiceClient.upload(file)).thenReturn(ResponseEntity.ok("file-name"));
+		when(uploadServiceClient.upload(file, folderName)).thenReturn(ResponseEntity.ok("file-name"));
 		doAnswer(invocation -> null).when(reviewServiceClient).createReview(any(CreateReviewRequest.class));
 		doAnswer(invocation -> null).when(pointServiceClient).reviewPointTransaction("PHOTO_REVIEW");
 
 		reviewService.createReview(request, file);
 
-		verify(uploadServiceClient).upload(file);
+		verify(uploadServiceClient).upload(file, folderName);
 		verify(reviewServiceClient).createReview(any(CreateReviewRequest.class));
 		verify(pointServiceClient).reviewPointTransaction("PHOTO_REVIEW");
 	}
@@ -208,7 +210,7 @@ class ReviewServiceImplTest {
 
 		reviewService.createReview(request, file);
 
-		verify(uploadServiceClient, never()).upload(file);
+		verify(uploadServiceClient, never()).upload(file, folderName);
 		verify(reviewServiceClient).createReview(any(CreateReviewRequest.class));
 		verify(pointServiceClient).reviewPointTransaction("REVIEW");
 	}
@@ -232,12 +234,12 @@ class ReviewServiceImplTest {
 		UpdateReviewRequest request = new UpdateReviewRequest(5, "Great book!", null);
 		MultipartFile file = mock(MultipartFile.class);
 		when(file.isEmpty()).thenReturn(false);
-		when(uploadServiceClient.upload(file)).thenReturn(ResponseEntity.ok("file-name"));
+		when(uploadServiceClient.upload(file, folderName)).thenReturn(ResponseEntity.ok("file-name"));
 		doAnswer(invocation -> null).when(reviewServiceClient).updateReview(any(UpdateReviewRequest.class), anyLong());
 
 		reviewService.updateReview(request, 1L, file);
 
-		verify(uploadServiceClient).upload(file);
+		verify(uploadServiceClient).upload(file, folderName);
 		verify(reviewServiceClient).updateReview(any(UpdateReviewRequest.class), anyLong());
 	}
 
@@ -250,7 +252,7 @@ class ReviewServiceImplTest {
 
 		reviewService.updateReview(request, 1L, file);
 
-		verify(uploadServiceClient, never()).upload(file);
+		verify(uploadServiceClient, never()).upload(file, folderName);
 		verify(reviewServiceClient).updateReview(any(UpdateReviewRequest.class), anyLong());
 	}
 

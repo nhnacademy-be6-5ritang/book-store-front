@@ -8,12 +8,10 @@ import org.springframework.data.domain.Pageable;
 import com.nhnacademy.bookstorefront.tag.dto.response.TagDto;
 
 /**
- * 외부 Tag 서비스와 통신하여 카테고리 정보를 관리하는 인터페이스입니다.
- *
- * @version 1.0
+ * @author 김기욱, 이경헌
+ * 카테고리 정보를 관리하는 인터페이스입니다.
  */
 public interface TagService {
-
 	/**
 	 * 모든 태그 목록을 조회합니다.
 	 *

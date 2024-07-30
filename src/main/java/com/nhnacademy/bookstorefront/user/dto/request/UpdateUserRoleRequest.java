@@ -9,5 +9,4 @@ public record UpdateUserRoleRequest(
 	Long userId,
 	List<String> roleName
 ) {
-
 }

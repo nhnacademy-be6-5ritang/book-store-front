@@ -5,9 +5,8 @@ import java.util.List;
 import com.nhnacademy.bookstorefront.bookstatus.dto.response.BookStatusDto;
 
 /**
+ * @author 김기욱, 이경헌
  * 외부 Book Status 서비스와 통신하여 책 상태 정보를 관리하는 인터페이스입니다.
- *
- * @version 1.0
  */
 public interface BookStatusService {
 

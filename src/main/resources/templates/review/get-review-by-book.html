@@ -48,9 +48,9 @@
             <div class="review-image" th:if="${review.reviewImageUrl != null}">
                 <img th:src="${review.reviewImageUrl}" alt="리뷰 이미지" style="max-width: 100%; height: auto;">
             </div>
-            <label>
-                <textarea th:text="${review.reviewComment}" readonly></textarea>
-            </label>
+            <label for="review-comment"> 리뷰내용 </label>
+            <textarea id="review-comment" style="width: 100%" th:text="${review.reviewComment}" readonly></textarea>
+
         </div>
         <div class="d-flex justify-content-end">
             <a class="btn btn-secondary" onclick="history.back()">뒤로가기</a>

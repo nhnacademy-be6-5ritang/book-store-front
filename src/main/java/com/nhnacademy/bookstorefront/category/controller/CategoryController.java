@@ -28,14 +28,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 /**
+ * @author 김기욱, 이경헌
  * 카테고리 관리 웹 페이지 컨트롤러입니다.
- * 이 컨트롤러는 카테고리 정보를 생성, 조회, 수정, 삭제하는 기능을 제공합니다.
- * 또한 웹 페이지에서 사용할 뷰를 반환합니다.
- *
- * <p>카테고리 목록 조회 시 페이징 처리를 지원합니다.
- *
- * @author [작성자]
- * @version 1.0
  */
 @Controller
 @RequiredArgsConstructor
@@ -135,6 +129,12 @@ public class CategoryController {
 		return REDIRECT_URL;
 	}
 
+	/**
+	 * 주어진 검색 키워드를 기반으로 카테고리 정보를 검색합니다.
+	 *
+	 * @param search 검색할 키워드
+	 * @return 검색 결과를 포함하는 List<CategorySearchResult> 객체를 반환합니다.
+	 */
 	@GetMapping("/search/test")
 	public ResponseEntity<List<CategorySearchResult>> searchCategories(@RequestParam("key") String search) {
 		List<CategorySearchResult> results = categoryService.searchCategories(search);
