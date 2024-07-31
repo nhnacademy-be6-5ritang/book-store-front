@@ -43,6 +43,7 @@ public class PaycoController {
 
 	@GetMapping("/connect")
 	public String paycoConnect(@RequestParam("code") String code) {
+		// TODO: user id도 입력받을 것
 		String tokenUrl = "https://id.payco.com/oauth2.0/token";
 
 		HttpHeaders headers = new HttpHeaders();
@@ -90,6 +91,7 @@ public class PaycoController {
 		body.add("client_secret", clientSecret);
 		body.add("code", code);
 		body.add("redirect_uri", redirectUri);
+		// state 검증 로직 추가
 
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
 
