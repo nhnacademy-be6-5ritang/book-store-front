@@ -40,7 +40,7 @@ public class SwaggerController {
 		return "api/back-api";
 	}
 
-	@GetMapping("/api")
+	@GetMapping("/auth")
 	public String getAuthApi(Model model) {
 		try {
 			ResponseEntity<String> response = swaggerApiClient.getAuthSwaggerJson();
