@@ -97,6 +97,14 @@
 <script>
     document.querySelectorAll(".roleForm").forEach(form => {
         form.addEventListener("submit", function (event) {
+            const checkedRoles = form.querySelectorAll("input[type='checkbox']:checked");
+
+            if (checkedRoles.length === 0) {
+                event.preventDefault();
+                alert("적어도 하나의 역할을 선택해야 합니다.");
+                return;
+            }
+
             const hiddenRoleInputs = form.querySelector(".hiddenRoleInputs");
             hiddenRoleInputs.innerHTML = "";
 
