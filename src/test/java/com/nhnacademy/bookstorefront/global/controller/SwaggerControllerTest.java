@@ -41,14 +41,14 @@ class SwaggerControllerTest {
 	}
 
 	@Test
-	void testGetBackApi_Exception() {
+	void testGetCouponApi_Exception() {
 		when(swaggerApiClient.getSwaggerJson()).thenThrow(new RuntimeException("Service unavailable"));
 
-		String viewName = swaggerController.getCouponApi(model);
+		String viewName = swaggerController.getBackApi(model);
 
-		verify(swaggerApiClient, times(1)).getSwaggerJson();
+		verify(swaggerApiClient, times(1)).getBackSwaggerJson();
 		verify(model, times(1)).addAttribute("swaggerJson", "{}");
-		assertEquals("api/coupon-api", viewName);
+		assertEquals("api/back-api", viewName);
 	}
 
 	@Test
@@ -65,13 +65,38 @@ class SwaggerControllerTest {
 	}
 
 	@Test
-	void testGetCouponApi_Exception() {
+	void testGetBackApi_Exception() {
 		when(swaggerApiClient.getSwaggerJson()).thenThrow(new RuntimeException("Service unavailable"));
 
-		String viewName = swaggerController.getBackApi(model);
+		String viewName = swaggerController.getCouponApi(model);
 
 		verify(swaggerApiClient, times(1)).getBackSwaggerJson();
 		verify(model, times(1)).addAttribute("swaggerJson", "{}");
-		assertEquals("api/back-api", viewName);
+		assertEquals("api/coupon-api", viewName);
 	}
+
+	@Test
+	void testGetAuthApi_Success() {
+		String mockSwaggerJson = "{}";
+		ResponseEntity<String> responseEntity = ResponseEntity.ok(mockSwaggerJson);
+		when(swaggerApiClient.getSwaggerJson()).thenReturn(responseEntity);
+
+		String viewName = swaggerController.getAuthApi(model);
+
+		verify(swaggerApiClient, times(1)).getAuthSwaggerJson();
+		verify(model, times(1)).addAttribute("swaggerJson", mockSwaggerJson);
+		assertEquals("api/auth-api", viewName);
+	}
+
+	@Test
+	void testGetAuthApi_Exception() {
+		when(swaggerApiClient.getSwaggerJson()).thenThrow(new RuntimeException("Service unavailable"));
+
+		String viewName = swaggerController.getAuthApi(model);
+
+		verify(swaggerApiClient, times(1)).getAuthSwaggerJson();
+		verify(model, times(1)).addAttribute("swaggerJson", "{}");
+		assertEquals("api/auth-api", viewName);
+	}
+
 }
