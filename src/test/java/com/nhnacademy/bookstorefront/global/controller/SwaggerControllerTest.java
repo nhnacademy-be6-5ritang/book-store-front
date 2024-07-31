@@ -44,18 +44,18 @@ class SwaggerControllerTest {
 	void testGetCouponApi_Exception() {
 		when(swaggerApiClient.getSwaggerJson()).thenThrow(new RuntimeException("Service unavailable"));
 
-		String viewName = swaggerController.getBackApi(model);
+		String viewName = swaggerController.getCouponApi(model);
 
-		verify(swaggerApiClient, times(1)).getBackSwaggerJson();
+		verify(swaggerApiClient, times(1)).getSwaggerJson();
 		verify(model, times(1)).addAttribute("swaggerJson", "{}");
-		assertEquals("api/back-api", viewName);
+		assertEquals("api/coupon-api", viewName);
 	}
 
 	@Test
 	void testGetBackApi_Success() {
 		String mockSwaggerJson = "{}";
 		ResponseEntity<String> responseEntity = ResponseEntity.ok(mockSwaggerJson);
-		when(swaggerApiClient.getSwaggerJson()).thenReturn(responseEntity);
+		when(swaggerApiClient.getBackSwaggerJson()).thenReturn(responseEntity);
 
 		String viewName = swaggerController.getBackApi(model);
 
@@ -66,20 +66,20 @@ class SwaggerControllerTest {
 
 	@Test
 	void testGetBackApi_Exception() {
-		when(swaggerApiClient.getSwaggerJson()).thenThrow(new RuntimeException("Service unavailable"));
+		when(swaggerApiClient.getBackSwaggerJson()).thenThrow(new RuntimeException("Service unavailable"));
 
-		String viewName = swaggerController.getCouponApi(model);
+		String viewName = swaggerController.getBackApi(model);
 
 		verify(swaggerApiClient, times(1)).getBackSwaggerJson();
 		verify(model, times(1)).addAttribute("swaggerJson", "{}");
-		assertEquals("api/coupon-api", viewName);
+		assertEquals("api/back-api", viewName);
 	}
 
 	@Test
 	void testGetAuthApi_Success() {
 		String mockSwaggerJson = "{}";
 		ResponseEntity<String> responseEntity = ResponseEntity.ok(mockSwaggerJson);
-		when(swaggerApiClient.getSwaggerJson()).thenReturn(responseEntity);
+		when(swaggerApiClient.getAuthSwaggerJson()).thenReturn(responseEntity);
 
 		String viewName = swaggerController.getAuthApi(model);
 
@@ -90,7 +90,7 @@ class SwaggerControllerTest {
 
 	@Test
 	void testGetAuthApi_Exception() {
-		when(swaggerApiClient.getSwaggerJson()).thenThrow(new RuntimeException("Service unavailable"));
+		when(swaggerApiClient.getAuthSwaggerJson()).thenThrow(new RuntimeException("Service unavailable"));
 
 		String viewName = swaggerController.getAuthApi(model);
 
@@ -98,5 +98,4 @@ class SwaggerControllerTest {
 		verify(model, times(1)).addAttribute("swaggerJson", "{}");
 		assertEquals("api/auth-api", viewName);
 	}
-
 }
