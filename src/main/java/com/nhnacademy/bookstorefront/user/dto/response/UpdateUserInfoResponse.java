@@ -8,5 +8,4 @@ public record UpdateUserInfoResponse(
 	LocalDate birth,
 	String contact
 ) {
-
 }

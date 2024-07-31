@@ -11,4 +11,7 @@ public interface SwaggerApiClient {
 
 	@GetMapping("/api")
 	ResponseEntity<String> getBackSwaggerJson();
+
+	@GetMapping("/auth")
+	ResponseEntity<String> getAuthSwaggerJson();
 }

@@ -36,6 +36,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 /**
+ * @author 김기욱, 이경헌
  * 책 관리 웹 페이지 컨트롤러입니다.
  */
 @Controller

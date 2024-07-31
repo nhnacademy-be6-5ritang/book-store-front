@@ -60,6 +60,6 @@ public interface BookServiceClient {
 	@PutMapping("/{bookId}/{quantity}")
 	ResponseEntity<Void> updateQuantity(@PathVariable Long bookId, @PathVariable int quantity);
 
-	@GetMapping("/search/test")
+	@GetMapping("/search")
 	ResponseEntity<List<BookSearchResult>> searchBooks(@RequestParam("key") String search);
 }

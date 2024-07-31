@@ -37,6 +37,8 @@ class BookServiceImplTest {
 	@Mock
 	private UploadServiceClient uploadServiceClient;
 
+	private String folderName = "books";
+
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
@@ -139,19 +141,17 @@ class BookServiceImplTest {
 
 	@Test
 	void testCreateBook_withFile() {
-		// Given
 		CreateBookRequest request = new CreateBookRequest(
 			"1234567890", List.of(1L), List.of(2L), "Title", "Author", "Publisher",
 			new Date(), "Status", "Description", 10, BigDecimal.TEN, BigDecimal.ONE, BigDecimal.ZERO, null);
 		MultipartFile file = mock(MultipartFile.class);
-		when(file.isEmpty()).thenReturn(false);
-		when(uploadServiceClient.upload(file)).thenReturn(ResponseEntity.ok("file-name"));
 
-		// When
+		when(file.isEmpty()).thenReturn(false);
+		when(uploadServiceClient.upload(file, folderName)).thenReturn(ResponseEntity.ok("file-name"));
+
 		bookService.createBook(request, file);
 
-		// Then
-		verify(uploadServiceClient).upload(file);
+		verify(uploadServiceClient).upload(file, folderName);
 		verify(bookServiceClient).createBook(CreateBookRequest.from(request, "file-name"));
 	}
 
@@ -165,7 +165,7 @@ class BookServiceImplTest {
 
 		bookService.createBook(request, file);
 
-		verify(uploadServiceClient, never()).upload(file);
+		verify(uploadServiceClient, never()).upload(file, folderName);
 		verify(bookServiceClient).createBook(CreateBookRequest.from(request, null));
 	}
 
@@ -178,11 +178,11 @@ class BookServiceImplTest {
 		);
 		MultipartFile file = mock(MultipartFile.class);
 		when(file.isEmpty()).thenReturn(false);
-		when(uploadServiceClient.upload(file)).thenReturn(ResponseEntity.ok("file-name"));
+		when(uploadServiceClient.upload(file, folderName)).thenReturn(ResponseEntity.ok("file-name"));
 
 		bookService.updateBookById(bookId, request, file);
 
-		verify(uploadServiceClient).upload(file);
+		verify(uploadServiceClient).upload(file, folderName);
 		verify(bookServiceClient).updateBookById(bookId, UpdateBookRequest.from(request, "file-name"));
 	}
 
@@ -198,7 +198,7 @@ class BookServiceImplTest {
 
 		bookService.updateBookById(bookId, request, file);
 
-		verify(uploadServiceClient, never()).upload(file);
+		verify(uploadServiceClient, never()).upload(file, folderName);
 		verify(bookServiceClient).updateBookById(bookId, UpdateBookRequest.from(request, null));
 	}
 

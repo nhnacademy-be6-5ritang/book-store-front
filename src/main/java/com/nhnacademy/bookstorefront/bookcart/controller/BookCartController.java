@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * @author 이경헌
- * 현재 사용자의 도서 장바구니를 관리하는 컨트롤러입니다.
+ * 현재 사용자의 장바구니를 관리하는 컨트롤러입니다.
  */
 @Controller
 @RequiredArgsConstructor

@@ -18,13 +18,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
-import com.nhnacademy.bookstorefront.auth.feignclient.AuthClient;
 import com.nhnacademy.bookstorefront.auth.service.AuthService;
+import com.nhnacademy.bookstorefront.user.service.UserService;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * @author 김태환
+ * PAYCO 인증과 관련된 요청을 처리하는 컨트롤러입니다.
+ */
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -39,8 +43,56 @@ public class PaycoController {
 
 	private final RestTemplate restTemplate;
 	private final AuthService authService;
-	private final AuthClient authClient;
+	private final UserService userService;
 
+	/**
+	 * PAYCO 인증 코드를 받아 액세스 토큰을 요청하고, 사용자 정보를 처리합니다.
+	 *
+	 * @param code PAYCO에서 반환한 인증 코드
+	 * @return 홈 페이지로 리다이렉트
+	 */
+	@GetMapping("/connect")
+	public String paycoConnect(@RequestParam("code") String code) {
+		String tokenUrl = "https://id.payco.com/oauth2.0/token";
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+		body.add("grant_type", "authorization_code");
+		body.add("client_id", clientId);
+		body.add("client_secret", clientSecret);
+		body.add("code", code);
+		body.add("redirect_uri", redirectUri);
+
+		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
+
+		ResponseEntity<String> response = restTemplate.postForEntity(tokenUrl, request, String.class);
+
+		if (response.getStatusCode() == HttpStatus.OK) {
+			String responseBody = response.getBody();
+			String accessToken = extractAccessToken(responseBody);
+
+			// 회원 번호 가져오기
+			ResponseEntity<String> userInfoResponse = getPaycoUserInfo(accessToken);
+			if (userInfoResponse.getStatusCode() == HttpStatus.OK) {
+				// userInfoResponse에서 회원 번호 추출
+				String memberNumber = extractIdNo(userInfoResponse.getBody());
+				userService.paycoConnect(memberNumber);
+				return "redirect:/";
+			}
+		}
+		return "redirect:/";
+	}
+
+	/**
+	 * PAYCO 인증 콜백을 처리하고 액세스 토큰을 요청합니다.
+	 *
+	 * @param code PAYCO에서 반환한 인증 코드
+	 * @param state 상태 값
+	 * @param httpServletResponse HTTP 응답 객체
+	 * @return 성공 시 홈 페이지로 리다이렉트, 실패 시 로그인 페이지로 리다이렉트
+	 */
 	@GetMapping("/callback")
 	public String paycoCallback(@RequestParam("code") String code,
 		@RequestParam("state") String state,
@@ -69,8 +121,8 @@ public class PaycoController {
 			ResponseEntity<String> userInfoResponse = getPaycoUserInfo(accessToken);
 			if (userInfoResponse.getStatusCode() == HttpStatus.OK) {
 				// userInfoResponse에서 회원 번호 추출
-				String memberNumber = extractIdNo(userInfoResponse.getBody());
-				authService.getTokensForPaycoUser(memberNumber, httpServletResponse);
+				String memberId = extractIdNo(userInfoResponse.getBody());
+				authService.getTokensForPaycoUser(memberId, httpServletResponse);
 				return "redirect:/";
 			} else {
 				return "redirect:/auth/login?error=" + URLEncoder.encode("로그인 실패", StandardCharsets.UTF_8);
@@ -80,11 +132,23 @@ public class PaycoController {
 		}
 	}
 
+	/**
+	 * PAYCO 응답에서 액세스 토큰을 추출합니다.
+	 *
+	 * @param responseBody PAYCO 응답 본문
+	 * @return 추출된 액세스 토큰
+	 */
 	private String extractAccessToken(String responseBody) {
 		JSONObject jsonObject = new JSONObject(responseBody);
 		return jsonObject.getString("access_token");
 	}
 
+	/**
+	 * PAYCO 액세스 토큰을 사용하여 사용자 정보를 요청합니다.
+	 *
+	 * @param accessToken PAYCO 액세스 토큰
+	 * @return 사용자 정보가 담긴 {@link ResponseEntity}
+	 */
 	private ResponseEntity<String> getPaycoUserInfo(String accessToken) {
 		String userInfoUrl = "https://apis-payco.krp.toastoven.net/payco/friends/find_member_v2.json";
 
@@ -105,6 +169,12 @@ public class PaycoController {
 		}
 	}
 
+	/**
+	 * PAYCO 사용자 정보 응답에서 회원 번호를 추출합니다.
+	 *
+	 * @param responseBody PAYCO 사용자 정보 응답 본문
+	 * @return 추출된 회원 번호
+	 */
 	private String extractIdNo(String responseBody) {
 		JSONObject jsonObject = new JSONObject(responseBody);
 		JSONObject data = jsonObject.getJSONObject("data");

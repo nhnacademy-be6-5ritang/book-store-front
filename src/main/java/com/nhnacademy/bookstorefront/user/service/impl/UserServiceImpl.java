@@ -65,6 +65,7 @@ public class UserServiceImpl implements UserService {
 		return userClient.checkEmailDormantToActive(email, certifyCode);
 	}
 
+	@Override
 	public UpdateUserInfoResponse updateUserInfo(UpdateUserInfoRequest updateUserInfoRequest) {
 		return userClient.updateUser(updateUserInfoRequest).getBody();
 	}
@@ -72,5 +73,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updateUserRole(UpdateUserRoleRequest updateUserRoleRequest) {
 		userClient.updateRole(updateUserRoleRequest);
+	}
+
+	@Override
+	public void paycoConnect(String memberId) {
+		userClient.paycoConnect(memberId);
 	}
 }
