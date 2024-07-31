@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Pustok - Book Store HTML Template</title>
+    <title>책 파는 오리탕집</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Use Minified Plugins Version For Fast Page Load -->
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
@@ -71,14 +71,19 @@
                                         <td class="pro-quantity">
                                             <div class="pro-qty">
                                                 <div class="count-input-block">
-                                                    <input type="number" class="form-control text-center" id="quantity" name="quantity" value="1" min="1" readonly>
+                                                    <input type="number" class="form-control text-center" id="quantity"
+                                                           name="quantity" value="1" min="1" readonly>
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="pro-action">
                                             <div class="d-grid gap-2 mx-auto">
-                                                <button type="button" class="btn btn-primary btn-sm me-2" onclick="changeQuantity(-1)">수량 감소</button>
-                                                <button type="button" class="btn btn-primary btn-sm me-2" onclick="changeQuantity(1)">수량 증가</button>
+                                                <button type="button" class="btn btn-primary btn-sm me-2"
+                                                        onclick="changeQuantity(-1)">수량 감소
+                                                </button>
+                                                <button type="button" class="btn btn-primary btn-sm me-2"
+                                                        onclick="changeQuantity(1)">수량 증가
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
