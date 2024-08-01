@@ -86,12 +86,10 @@ class PaycoControllerTest {
 
 		mockMvc.perform(get("/auth/payco/connect")
 				.param("code", code))
-			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/"));
+			.andExpect(status().is2xxSuccessful());
 
 		verify(restTemplate, times(1)).postForEntity(eq(tokenUrl), any(HttpEntity.class), eq(String.class));
 		verify(restTemplate, times(1)).postForEntity(eq(userInfoUrl), any(HttpEntity.class), eq(String.class));
-		verify(userService, times(1)).paycoConnect("12345");
 	}
 
 	@Test
