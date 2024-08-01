@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.nhnacademy.bookstorefront.keymanager.service.KeyManagerService;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.order.service.Impl.OrderServiceImpl;
 import com.nhnacademy.bookstorefront.payment.dto.request.CancelTextRequest;
@@ -38,6 +39,7 @@ public class PaymentController {
 	private final PaymentServiceImpl paymentServiceImpl;
 	private final RestTemplate paymentRestTemplate;
 	private final OrderServiceImpl orderServiceImpl;
+	private final KeyManagerService keyManagerService;
 
 	/**
 	 * 주문 결제 전 주문 보안 아이디로 주문을 html에 설정
@@ -69,7 +71,7 @@ public class PaymentController {
 		@RequestParam String amount) {
 
 		String apiUrl = "https://api.tosspayments.com/v1/payments/confirm";
-		String authToken = "Basic dGVzdF9za19BUTkyeW14TjM0MjllTUtFSmVManJhalJLWHZkOg==";
+		String authToken = keyManagerService.getSecret("176afe7c8c07476cb319873dbb99af00");
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -115,7 +117,7 @@ public class PaymentController {
 		String url = "https://api.tosspayments.com/v1/payments/orders/" + orderInfoId;
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authorization", "Basic dGVzdF9za19BUTkyeW14TjM0MjllTUtFSmVManJhalJLWHZkOg==");
+		headers.set("Authorization", keyManagerService.getSecret("176afe7c8c07476cb319873dbb99af00"));
 
 		HttpEntity<String> entity = new HttpEntity<>(headers);
 		ResponseEntity<String> response = paymentRestTemplate.exchange(url, HttpMethod.GET, entity, String.class);
@@ -163,7 +165,7 @@ public class PaymentController {
 		String url = "https://api.tosspayments.com/v1/payments/" + cancelResponse.paymentKey() + "/cancel";
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authorization", "Basic dGVzdF9za19BUTkyeW14TjM0MjllTUtFSmVManJhalJLWHZkOg==");
+		headers.set("Authorization", keyManagerService.getSecret("176afe7c8c07476cb319873dbb99af00"));
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
 		// 요청 본문 데이터 생성

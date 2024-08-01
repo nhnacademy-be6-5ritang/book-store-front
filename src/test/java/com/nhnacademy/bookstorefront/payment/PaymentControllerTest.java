@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.client.RestTemplate;
 
 import com.nhnacademy.bookstorefront.cache.service.impl.CacheServiceImpl;
+import com.nhnacademy.bookstorefront.keymanager.service.KeyManagerService;
 import com.nhnacademy.bookstorefront.order.dto.response.FindByInfoIdBookOrderGetBookResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.FindByInfoIdBookOrderGetOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
@@ -53,11 +54,15 @@ class PaymentControllerTest {
 	@MockBean
 	private RestTemplate paymentRestTemplate;
 
+	@MockBean
+	private KeyManagerService keyManagerService;
+
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
 		mockMvc = MockMvcBuilders.standaloneSetup(
-			new PaymentController(paymentServiceImpl, paymentRestTemplate, orderServiceImpl)).build();
+				new PaymentController(paymentServiceImpl, paymentRestTemplate, orderServiceImpl, keyManagerService))
+			.build();
 	}
 
 	@Test
@@ -106,7 +111,7 @@ class PaymentControllerTest {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.set("Authorization", "Basic dGVzdF9za19BUTkyeW14TjM0MjllTUtFSmVManJhalJLWHZkOg==");
+		headers.set("Authorization", keyManagerService.getSecret("176afe7c8c07476cb319873dbb99af00"));
 
 		PaymentConfirmationRequest request = PaymentConfirmationRequest.form(paymentKey, Integer.parseInt(amount),
 			orderId);
@@ -154,7 +159,7 @@ class PaymentControllerTest {
 		);
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authorization", "Basic dGVzdF9za19BUTkyeW14TjM0MjllTUtFSmVManJhalJLWHZkOg==");
+		headers.set("Authorization", keyManagerService.getSecret("176afe7c8c07476cb319873dbb99af00"));
 		HttpEntity<String> entity = new HttpEntity<>(headers);
 
 		when(paymentRestTemplate.exchange(anyString(), any(HttpMethod.class), any(HttpEntity.class), any(Class.class)))
