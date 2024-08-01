@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void paycoConnect(String memberId) {
-		userClient.paycoConnect(memberId);
+	public void paycoConnect(String paycoId) {
+		userClient.paycoConnect(paycoId);
 	}
 }
