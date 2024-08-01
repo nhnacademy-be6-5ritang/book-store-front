@@ -1,5 +1,6 @@
 package com.nhnacademy.bookstorefront.global.config;
 
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@CacheConfig
 @Configuration
 @RequiredArgsConstructor
 public class RedisConfig {
@@ -44,6 +46,7 @@ public class RedisConfig {
 		sessionRedisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
 		sessionRedisTemplate.setHashKeySerializer(new StringRedisSerializer());
 		sessionRedisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+		sessionRedisTemplate.afterPropertiesSet();
 		return sessionRedisTemplate;
 	}
 
