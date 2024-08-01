@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payco 연동 중...</title>
+</head>
+<body>
+<script th:inline="javascript">
+    const paycoId = [[${paycoId}]];
+
+    window.location.href = `/auth/payco/connect-user-to-payco/${paycoId}`;
+</script>
+</body>
+</html>

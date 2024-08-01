@@ -11,9 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
@@ -52,7 +54,7 @@ public class PaycoController {
 	 * @return 홈 페이지로 리다이렉트
 	 */
 	@GetMapping("/connect")
-	public String paycoConnect(@RequestParam("code") String code) {
+	public String paycoConnect(@RequestParam("code") String code, Model model) {
 		String tokenUrl = "https://id.payco.com/oauth2.0/token";
 
 		HttpHeaders headers = new HttpHeaders();
@@ -78,11 +80,19 @@ public class PaycoController {
 			if (userInfoResponse.getStatusCode() == HttpStatus.OK) {
 				// userInfoResponse에서 회원 번호 추출
 				String memberNumber = extractIdNo(userInfoResponse.getBody());
-				userService.paycoConnect(memberNumber);
-				return "redirect:/";
+
+				// userService.paycoConnect(memberNumber);
+				model.addAttribute("paycoId", memberNumber);
+				return "/auth/connect-user-to-payco";
 			}
 		}
-		return "redirect:/";
+		return "redirect:/users/my-page";
+	}
+
+	@GetMapping("/connect-user-to-payco/{paycoId}")
+	public String connectUserToPayco(@PathVariable String paycoId) {
+		userService.paycoConnect(paycoId);
+		return "redirect:/users/my-page";
 	}
 
 	/**
@@ -108,6 +118,7 @@ public class PaycoController {
 		body.add("client_secret", clientSecret);
 		body.add("code", code);
 		body.add("redirect_uri", redirectUri);
+		// state 검증 로직 추가
 
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
 

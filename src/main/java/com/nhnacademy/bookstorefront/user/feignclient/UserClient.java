@@ -56,6 +56,6 @@ public interface UserClient {
 	@GetMapping("/api/users/admin-page")
 	ResponseEntity<Void> getAdminPage();
 
-	@GetMapping("/api/users/payco-connect/{memberId}")
-	void paycoConnect(@PathVariable String memberId);
+	@GetMapping("/api/users/payco-connect/{paycoId}")
+	void paycoConnect(@PathVariable String paycoId);
 }

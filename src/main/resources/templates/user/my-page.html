@@ -128,7 +128,8 @@
                 </tr>
             </table>
             <div class="button-container">
-                <button type="button" class="payco-connect-button" onclick="paycoConnectRequest()">
+                <button type="button" class="payco-connect-button"
+                        th:onclick="'paycoConnectRequest(\'[[${myUserInfo.email()}]]\')'">
                     <div class="payco-image-container">
                         <img id="payco-image" th:src="@{/image/PAYCO_BUTTON.png}" alt="PAYCO 연동">
                     </div>
