@@ -9,7 +9,6 @@
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
-    <link rel="stylesheet" th:href="@{/css/pages/review-details.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
@@ -50,17 +49,14 @@
                     <div class="review-image" th:if="${review.reviewImageUrl != null}">
                         <img th:src="${review.reviewImageUrl}" alt="리뷰 이미지" style="max-width: 100%; height: auto;">
                     </div>
-                    <label>
-                        <textarea th:text="${review.reviewComment}" readonly></textarea>
-                    </label>
+                    <label for="review-comment"> 리뷰내용 </label>
+                    <textarea id="review-comment" style="width: 100%" th:text="${review.reviewComment}"
+                              readonly></textarea>
+
                 </div>
                 <div class="d-flex justify-content-end">
                     <a th:href="@{/api/reviews/update/{reviewId} (reviewId=${review.reviewId})}"
                        class="btn btn-warning">편집</a>
-                    <form th:action="@{/api/reviews/{reviewId} (reviewId=${review.reviewId})}"
-                          th:method="delete">
-                        <button type="submit" class="btn btn-danger">삭제</button>
-                    </form>
                     <a class="btn btn-secondary" onclick="history.back()">뒤로가기</a>
                 </div>
             </div>

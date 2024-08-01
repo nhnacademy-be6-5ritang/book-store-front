@@ -39,4 +39,16 @@ public class SwaggerController {
 		}
 		return "api/back-api";
 	}
+
+	@GetMapping("/auth")
+	public String getAuthApi(Model model) {
+		try {
+			ResponseEntity<String> response = swaggerApiClient.getAuthSwaggerJson();
+			String swaggerJson = response.getBody() != null ? response.getBody() : "{}";
+			model.addAttribute("swaggerJson", swaggerJson);
+		} catch (Exception e) {
+			model.addAttribute("swaggerJson", "{}");
+		}
+		return "api/auth-api";
+	}
 }

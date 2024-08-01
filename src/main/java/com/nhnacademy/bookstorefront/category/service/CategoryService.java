@@ -11,9 +11,8 @@ import com.nhnacademy.bookstorefront.category.dto.response.CategorySearchResult;
 import com.nhnacademy.bookstorefront.category.dto.response.GetCategoryResponse;
 
 /**
+ * @author 김기욱, 이경헌
  * 외부 Category 서비스와 통신하여 카테고리 정보를 관리하는 인터페이스입니다.
- *
- * @version 1.0
  */
 public interface CategoryService {
 
@@ -70,5 +69,11 @@ public interface CategoryService {
 	 */
 	void deleteCategory(Long categoryId);
 
+	/**
+	 * 주어진 검색 쿼리를 기반으로 카테고리 정보를 검색합니다.
+	 *
+	 * @param query 검색할 키워드 또는 쿼리 문자열
+	 * @return 검색 결과를 포함하는 List<CategorySearchResult> 객체
+	 */
 	List<CategorySearchResult> searchCategories(String query);
 }

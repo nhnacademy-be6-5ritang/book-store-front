@@ -56,7 +56,7 @@ public class BookServiceImpl implements BookService {
 	public void createBook(CreateBookRequest request, MultipartFile file) {
 		String fileName = null;
 		if (!file.isEmpty()) {
-			fileName = uploadServiceClient.upload(file).getBody();
+			fileName = uploadServiceClient.upload(file, "books").getBody();
 		}
 
 		bookServiceClient.createBook(CreateBookRequest.from(request, fileName));
@@ -66,7 +66,7 @@ public class BookServiceImpl implements BookService {
 	public void updateBookById(Long bookId, UpdateBookRequest request, MultipartFile file) {
 		String fileName = null;
 		if (!file.isEmpty()) {
-			fileName = uploadServiceClient.upload(file).getBody();
+			fileName = uploadServiceClient.upload(file, "books").getBody();
 		}
 
 		bookServiceClient.updateBookById(bookId, UpdateBookRequest.from(request, fileName));

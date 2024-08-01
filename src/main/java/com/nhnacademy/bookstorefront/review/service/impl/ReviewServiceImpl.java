@@ -71,11 +71,16 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
+	public GetReviewResponse getReview(Long reviewId) {
+		return reviewServiceClient.getReview(reviewId).getBody();
+	}
+
+	@Override
 	public void createReview(CreateReviewRequest request, MultipartFile file) {
 		String fileName = null;
 		String reviewType = "REVIEW";
 		if (!file.isEmpty()) {
-			fileName = uploadServiceClient.upload(file).getBody();
+			fileName = uploadServiceClient.upload(file, "reviews").getBody();
 			reviewType = "PHOTO_REVIEW";
 		}
 		reviewServiceClient.createReview(CreateReviewRequest.from(request, fileName));
@@ -83,15 +88,10 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public GetReviewResponse getReview(Long reviewId) {
-		return reviewServiceClient.getReview(reviewId).getBody();
-	}
-
-	@Override
 	public void updateReview(UpdateReviewRequest request, Long reviewId, MultipartFile file) {
 		String fileName = null;
 		if (!file.isEmpty()) {
-			fileName = uploadServiceClient.upload(file).getBody();
+			fileName = uploadServiceClient.upload(file, "reviews").getBody();
 		}
 		reviewServiceClient.updateReview(UpdateReviewRequest.from(request, fileName), reviewId);
 

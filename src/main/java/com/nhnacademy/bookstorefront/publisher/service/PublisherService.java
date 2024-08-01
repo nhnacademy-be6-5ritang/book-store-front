@@ -8,9 +8,8 @@ import org.springframework.data.domain.Pageable;
 import com.nhnacademy.bookstorefront.publisher.dto.response.PublisherDto;
 
 /**
+ * @author 김기욱, 이경헌
  * 외부 Publisher 서비스와 통신하여 카테고리 정보를 관리하는 인터페이스입니다.
- *
- * @version 1.0
  */
 public interface PublisherService {
 

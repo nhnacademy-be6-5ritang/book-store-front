@@ -14,7 +14,6 @@ import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
 /**
  * @author 이경헌
  * ReviewService 인터페이스는 리뷰 관리와 관련된 비즈니스 로직을 정의합니다.
- * 이 인터페이스는 리뷰 생성, 조회, 수정, 삭제 등의 기능을 제공합니다.
  */
 public interface ReviewService {
 	/**

@@ -17,11 +17,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 /**
+ * @author 김기욱, 이경헌
  * 책 상태 관리 웹 페이지 컨트롤러입니다.
- * 이 컨트롤러는 책 상태 정보를 생성, 조회, 수정, 삭제하는 기능을 제공합니다.
- * 또한 웹 페이지에서 사용할 뷰를 반환합니다.
- *
- * @version 1.0
  */
 @Controller
 @RequiredArgsConstructor

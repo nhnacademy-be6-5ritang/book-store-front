@@ -243,13 +243,10 @@ public class OrderClientController {
 		}
 		deliveryServiceImpl.updateDeliveryAddOrder(deliveryId, createOrderResponse.orderId());
 		bookOrderServiceImpl.updateOrder(orderListId, createOrderResponse.orderId());
-
 		if (createOrderRequest.orderPrice().equals(new BigDecimal("0.00"))) {
 			paymentServiceImpl.savePointSalePayment(createOrderResponse.infoId());
-			bookCartService.deleteAllBookCart(cartId);
 			return "redirect:/api/orders/complete/" + createOrderResponse.infoId();
 		}
-
 		return "redirect:/api/payments/" + createOrderResponse.infoId();
 	}
 
@@ -627,9 +624,9 @@ public class OrderClientController {
 			userAndCouponService.updateCouponAfterPayment(createOrderRequest.couponId());
 		}
 		deliveryServiceImpl.updateDeliveryAddOrder(deliveryId, getBookOrderResponses.getFirst().orderId());
+		bookCartService.deleteAllBookCart(cartId);
 		if (createOrderRequest.orderPrice().equals(new BigDecimal("0.00"))) {
 			paymentServiceImpl.savePointSalePayment(createOrderResponse.infoId());
-			bookCartService.deleteAllBookCart(cartId);
 			return "redirect:/api/orders/complete/" + createOrderResponse.infoId();
 		}
 		return "redirect:/api/payments/" + createOrderResponse.infoId();
