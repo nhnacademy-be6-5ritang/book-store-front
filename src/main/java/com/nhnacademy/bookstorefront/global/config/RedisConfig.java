@@ -1,7 +1,5 @@
 package com.nhnacademy.bookstorefront.global.config;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -14,25 +12,27 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-@EnableCaching
+import com.nhnacademy.bookstorefront.keymanager.property.RedisProperty;
+import com.nhnacademy.bookstorefront.keymanager.service.KeyManagerService;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Configuration
+@RequiredArgsConstructor
 public class RedisConfig {
-	@Value("${spring.data.redis.host}")
-	private String host;
-	@Value("${spring.data.redis.port}")
-	private int port;
-	@Value("${spring.data.redis.password}")
-	private String password;
-	@Value("${spring.data.redis.database}")
-	private int database;
+	private final RedisProperty redisProperty;
+	private final KeyManagerService keyManagerService;
 
 	@Bean
 	public RedisConnectionFactory redisConnectionFactory() {
 		RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
-		redisStandaloneConfiguration.setHostName(host);
-		redisStandaloneConfiguration.setPort(port);
-		redisStandaloneConfiguration.setPassword(password);
-		redisStandaloneConfiguration.setDatabase(database);
+		redisStandaloneConfiguration.setHostName(keyManagerService.getSecret(redisProperty.getHost()));
+		redisStandaloneConfiguration.setPort(Integer.parseInt(keyManagerService.getSecret(redisProperty.getPort())));
+		redisStandaloneConfiguration.setPassword(keyManagerService.getSecret(redisProperty.getPassword()));
+		redisStandaloneConfiguration.setDatabase(
+			Integer.parseInt(keyManagerService.getSecret(redisProperty.getDatabase())));
 		return new LettuceConnectionFactory(redisStandaloneConfiguration);
 	}
 

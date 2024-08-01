@@ -11,13 +11,6 @@ spring:
       filter:
         enabled: true
 
-  data:
-    redis:
-      host: 133.186.241.167
-      port: 6379
-      password: ${REDIS_PASSWORD}
-      database: 20
-
 logging:
   file:
     path: ./logs
@@ -25,3 +18,10 @@ logging:
   level:
     com.netflix.discovery: ERROR
     com.netflix.eureka: ERROR
+
+oritang:
+  redis:
+    host: 4c4a07c6d57c41cba23cf12de6c87559
+    port: 0de6a31493de4282830c2dab83e7264c
+    password: d9b767e1131b4434b75d1fb52444ee1e
+    database: 3ba42db5dac041a391c6fa993222ec66
