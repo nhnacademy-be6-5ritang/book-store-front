@@ -33,5 +33,5 @@ public interface UserService {
 
 	void updateUserRole(UpdateUserRoleRequest updateUserRoleRequest);
 
-	void paycoConnect(String memberId);
+	void paycoConnect(String paycoId);
 }
