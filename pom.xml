@@ -93,7 +93,7 @@
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
         </dependency>
-        
+
         <!-- Uncomment below if you need Spring Security testing utilities -->
         <!--
         <dependency>
