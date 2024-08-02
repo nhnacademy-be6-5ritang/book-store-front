@@ -23,6 +23,10 @@ public class CacheServiceImpl implements CacheService {
 	private final CategoryService categoryService;
 	private final BookService bookService;
 
+	/**
+	 *{@inheritDoc}
+	 */
+	@Override
 	@Cacheable(cacheNames = "categoriesCache", key = "'categories'", unless = "#result == null or #result.isEmpty()")
 	public List<GetCategoryResponse> getCachedCategories() {
 		try {
@@ -33,6 +37,10 @@ public class CacheServiceImpl implements CacheService {
 		}
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
+	@Override
 	@Cacheable(cacheNames = "orderedBooksCache", key = "'orderedBooks'", unless = "#result.isEmpty()")
 	public List<GetBookDetailResponse> getOrderedBooks() {
 		try {
@@ -43,6 +51,10 @@ public class CacheServiceImpl implements CacheService {
 		}
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
+	@Override
 	@Cacheable(cacheNames = "likesBooksCache", key = "'likesBooks'", unless = "#result.isEmpty()")
 	public List<GetBookDetailResponse> getLikesBooks() {
 		try {
@@ -53,6 +65,10 @@ public class CacheServiceImpl implements CacheService {
 		}
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
+	@Override
 	@Cacheable(cacheNames = "newestBooksCache", key = "'newestBooks'", unless = "#result.isEmpty()")
 	public List<GetBookDetailResponse> getNewestBooks() {
 		try {
@@ -63,6 +79,10 @@ public class CacheServiceImpl implements CacheService {
 		}
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
+	@Override
 	@CacheEvict(cacheNames = {"orderedBooksCache", "likesBooksCache", "newestBooksCache"}, allEntries = true)
 	public void initMainPageCache() {
 		log.info("메인 페이지 도서 목록 캐시 초기화 완료");

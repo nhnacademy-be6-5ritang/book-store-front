@@ -23,26 +23,41 @@ public class BookServiceImpl implements BookService {
 	private final BookServiceClient bookServiceClient;
 	private final UploadServiceClient uploadServiceClient;
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public GetBookDetailResponse getBook(Long bookId) {
 		return bookServiceClient.getBook(bookId).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public List<GetBookDetailResponse> getNewestBooks() {
 		return bookServiceClient.getNewestBooks().getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public List<GetBookDetailResponse> getOrderedBooks() {
 		return bookServiceClient.getOrderedBooks().getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public List<GetBookDetailResponse> getLikesBooks() {
 		return bookServiceClient.getLikesBooks().getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public Page<GetBookDetailResponse> getNewestBooks(Pageable pageable) {
 		return bookServiceClient.getNewestBooks(pageable).getBody();
@@ -52,6 +67,9 @@ public class BookServiceImpl implements BookService {
 		return bookServiceClient.findAllBooksByCategoryName(pageable, categoryName).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void createBook(CreateBookRequest request, MultipartFile file) {
 		String fileName = null;
@@ -62,6 +80,9 @@ public class BookServiceImpl implements BookService {
 		bookServiceClient.createBook(CreateBookRequest.from(request, fileName));
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void updateBookById(Long bookId, UpdateBookRequest request, MultipartFile file) {
 		String fileName = null;
@@ -72,11 +93,17 @@ public class BookServiceImpl implements BookService {
 		bookServiceClient.updateBookById(bookId, UpdateBookRequest.from(request, fileName));
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void saveBookByIsbn(String isbn) {
 		bookServiceClient.saveBookByIsbn(isbn);
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void deleteBook(Long bookId) {
 		bookServiceClient.deleteBook(bookId);
@@ -86,6 +113,9 @@ public class BookServiceImpl implements BookService {
 		bookServiceClient.updateQuantity(bookId, quantity);
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public List<BookSearchResult> searchBooks(String query) {
 		return bookServiceClient.searchBooks(query).getBody();

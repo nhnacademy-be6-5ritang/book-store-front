@@ -8,11 +8,8 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
-
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.deliverypolicy.dto.response.GetDeliveryPolicyResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookByOrderCouponResponse;
@@ -27,43 +24,50 @@ import com.nhnacademy.bookstorefront.userandcoupon.domain.dto.response.UserAndCo
 import com.nhnacademy.bookstorefront.userandcoupon.feignclient.UserAndCouponFeignClient;
 import com.nhnacademy.bookstorefront.userandcoupon.service.UserAndCouponService;
 
-@Service
-public class UserAndCouponServiceImpl implements UserAndCouponService {
+import lombok.RequiredArgsConstructor;
 
+@Service
+@RequiredArgsConstructor
+public class UserAndCouponServiceImpl implements UserAndCouponService {
 	private final UserAndCouponFeignClient userAndCouponFeignClient;
 	private final OrderServiceClient orderServiceClient;
 
-	public UserAndCouponServiceImpl(UserAndCouponFeignClient userAndCouponFeignClient,
-		OrderServiceClient orderServiceClient) {
-		this.userAndCouponFeignClient = userAndCouponFeignClient;
-		this.orderServiceClient = orderServiceClient;
-	}
-
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void createUserAndCoupon(Long couponTemplateId) {
-
 		userAndCouponFeignClient.createUserAndCoupon(couponTemplateId);
-
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void createWelcomeCoupon(Long userId) {
-
 		userAndCouponFeignClient.createUserWelcomeCouponIssue(userId);
-
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public Page<UserAndCouponResponseDTO> getAllUserAndCouponPaging(Long userId, String type, Pageable pageable) {
 		return userAndCouponFeignClient.getAllUsersAndCouponsByManagerPaging(userId, type, pageable).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public Page<UserAndCouponResponseDTO> getUserAndCouponByIdPaging(Pageable pageable) {
 		return userAndCouponFeignClient.getAllUserAndCouponsByUserPaging(pageable).getBody();
 
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public List<UserAndCouponResponseDTO> getAllUserAndCouponByOrder(Long orderListId) {
 		GetBookByOrderCouponResponse response = orderServiceClient.getBookByOneOrder(orderListId).getBody();
@@ -73,7 +77,7 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 		List<Long> categoryId = Optional.of(response)
 			.map(GetBookByOrderCouponResponse::categoryId)
 			.orElseThrow(() -> new IllegalArgumentException("categoryId is null"));
-		BigDecimal bookPrice= Optional.of(response)
+		BigDecimal bookPrice = Optional.of(response)
 			.map(GetBookByOrderCouponResponse::bookPrice)
 			.orElseThrow(() -> new IllegalArgumentException("bookPrice is null"));
 		return userAndCouponFeignClient.findCouponByOrder(
@@ -83,12 +87,18 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 		).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
-	public List<UserAndCouponResponseDTO> getAllUserAndCouponByCartOrder(List<GetBookByOrderCouponResponse> bookDetails){
+	public List<UserAndCouponResponseDTO> getAllUserAndCouponByCartOrder(
+		List<GetBookByOrderCouponResponse> bookDetails) {
 		return userAndCouponFeignClient.findCouponByCartOrder(bookDetails).getBody();
 	}
 
-
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public GetBookByOrderCouponResponse getCartOrderCouponByBookDetails(Long orderListId) {
 		// orderServiceClient.getBookByOneOrder(orderListId) 호출 결과가 null일 수 있으므로 안전하게 처리
@@ -98,46 +108,41 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 			.orElseThrow(() -> new IllegalArgumentException("Response is null"));
 	}
 
-
-
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public UserAndCouponOrderResponseDTO getSelectedCouponByOrder(Long couponId) {
-
 		return userAndCouponFeignClient.getSelectedCoupon(couponId).getBody();
-
 	}
 
-
-
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
-	public OneCouponResponseDTO oneCouponReturnModel(UserAndCouponOrderResponseDTO userAndCouponOrderResponseDTO, GetBookOrderResponse orderResponse, GetDeliveryPolicyResponse deliveryPolicyResponse, GetListWrappingResponse wrappingResponse) {
+	public OneCouponResponseDTO oneCouponReturnModel(UserAndCouponOrderResponseDTO userAndCouponOrderResponseDTO,
+		GetBookOrderResponse orderResponse, GetDeliveryPolicyResponse deliveryPolicyResponse,
+		GetListWrappingResponse wrappingResponse) {
 		// 정액쿠폰인지 체크
 		BigDecimal salePrice = userAndCouponOrderResponseDTO.salePrice();
 		BigDecimal saleRate = userAndCouponOrderResponseDTO.saleRate();
 		BigDecimal maxSalePrice = userAndCouponOrderResponseDTO.maxSalePrice();
-		
-		BigDecimal orderPrice= orderResponse.getBookResponse().bookPrice().multiply(BigDecimal.valueOf(orderResponse.quantity()));
 
+		BigDecimal orderPrice = orderResponse.getBookResponse()
+			.bookPrice()
+			.multiply(BigDecimal.valueOf(orderResponse.quantity()));
 
-		BigDecimal wrappingTotalPrice= BigDecimal.ZERO;
+		BigDecimal wrappingTotalPrice = BigDecimal.ZERO;
 
 		for (GetWrappingResponse response : wrappingResponse.wrapping()) {
 			wrappingTotalPrice = wrappingTotalPrice.add(response.price());
 		}
-
-
-
-
-
 
 		BigDecimal deliveryPrice = deliveryPolicyResponse.deliveryPolicyPrice();
 
 		// 할인 금액 및 최종 가격 초기화
 		BigDecimal discount = BigDecimal.ZERO;
 		BigDecimal orderPriceAfterCoupon = orderPrice;
-
-
-
 
 		// 정액 쿠폰 적용
 		if (salePrice != null) {
@@ -163,7 +168,7 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 		}
 
 		// 최종가격
-		BigDecimal	orderPriceBeforePoint= orderPriceAfterCoupon.add(wrappingTotalPrice).add(deliveryPrice);
+		BigDecimal orderPriceBeforePoint = orderPriceAfterCoupon.add(wrappingTotalPrice).add(deliveryPrice);
 
 		// DTO 생성 및 반환
 		return new OneCouponResponseDTO(
@@ -173,23 +178,22 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 			orderPriceBeforePoint
 		);
 
-
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
-	public OneCouponResponseDTO oneCouponReturnModelCart(UserAndCouponOrderResponseDTO userAndCouponOrderResponseDTO,BigDecimal orderPrice,BigDecimal deliveryPrice, BigDecimal wrappingTotalPrice) {
+	public OneCouponResponseDTO oneCouponReturnModelCart(UserAndCouponOrderResponseDTO userAndCouponOrderResponseDTO,
+		BigDecimal orderPrice, BigDecimal deliveryPrice, BigDecimal wrappingTotalPrice) {
 		// 정액쿠폰인지 체크
 		BigDecimal salePrice = userAndCouponOrderResponseDTO.salePrice();
 		BigDecimal saleRate = userAndCouponOrderResponseDTO.saleRate();
 		BigDecimal maxSalePrice = userAndCouponOrderResponseDTO.maxSalePrice();
 
-
 		// 할인 금액 및 최종 가격 초기화
 		BigDecimal discount = BigDecimal.ZERO;
 		BigDecimal orderPriceAfterCoupon = orderPrice;
-
-
-
 
 		// 정액 쿠폰 적용
 		if (salePrice != null) {
@@ -215,7 +219,7 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 		}
 
 		// 최종가격
-		BigDecimal	orderPriceBeforePoint= orderPriceAfterCoupon.add(wrappingTotalPrice).add(deliveryPrice);
+		BigDecimal orderPriceBeforePoint = orderPriceAfterCoupon.add(wrappingTotalPrice).add(deliveryPrice);
 
 		// DTO 생성 및 반환
 		return new OneCouponResponseDTO(
@@ -225,36 +229,34 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 			orderPriceBeforePoint
 		);
 
-
 	}
 
-
-
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
-	public NoCouponResponseDTO noCouponReturnModel(GetBookOrderResponse orderResponse, GetDeliveryPolicyResponse deliveryPolicyResponse, GetListWrappingResponse wrappingResponse) {
+	public NoCouponResponseDTO noCouponReturnModel(GetBookOrderResponse orderResponse,
+		GetDeliveryPolicyResponse deliveryPolicyResponse, GetListWrappingResponse wrappingResponse) {
 		// 정액쿠폰인지 체크
 
-		BigDecimal orderPrice= orderResponse.getBookResponse().bookPrice().multiply(BigDecimal.valueOf(orderResponse.quantity())).setScale(0, RoundingMode.CEILING);
+		BigDecimal orderPrice = orderResponse.getBookResponse()
+			.bookPrice()
+			.multiply(BigDecimal.valueOf(orderResponse.quantity()))
+			.setScale(0, RoundingMode.CEILING);
 
-
-
-		BigDecimal wrappingTotalPrice= BigDecimal.ZERO;
+		BigDecimal wrappingTotalPrice = BigDecimal.ZERO;
 
 		for (GetWrappingResponse response : wrappingResponse.wrapping()) {
 			wrappingTotalPrice = wrappingTotalPrice.add(response.price());
 		}
-
-
 
 		BigDecimal deliveryPrice = deliveryPolicyResponse.deliveryPolicyPrice();
 
 		// 할인 금액 및 최종 가격 초기화
 		BigDecimal discount = BigDecimal.ZERO;
 
-
-
 		// 최종가격
-		BigDecimal	orderPriceBeforePoint= orderPrice.add(wrappingTotalPrice).add(deliveryPrice);
+		BigDecimal orderPriceBeforePoint = orderPrice.add(wrappingTotalPrice).add(deliveryPrice);
 
 		// DTO 생성 및 반환
 		return new NoCouponResponseDTO(
@@ -263,16 +265,19 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 			orderPriceBeforePoint
 		);
 
-
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
-	public NoCouponResponseDTO noCouponReturnModelCart(BigDecimal orderPrice,BigDecimal deliveryPrice, BigDecimal wrappingTotalPrice) {
+	public NoCouponResponseDTO noCouponReturnModelCart(BigDecimal orderPrice, BigDecimal deliveryPrice,
+		BigDecimal wrappingTotalPrice) {
 		// 할인 금액 및 최종 가격 초기화
 		BigDecimal discount = BigDecimal.ZERO;
 
 		// 최종가격
-		BigDecimal	orderPriceBeforePoint= orderPrice.add(wrappingTotalPrice).add(deliveryPrice);
+		BigDecimal orderPriceBeforePoint = orderPrice.add(wrappingTotalPrice).add(deliveryPrice);
 
 		// DTO 생성 및 반환
 		return new NoCouponResponseDTO(
@@ -281,27 +286,23 @@ public class UserAndCouponServiceImpl implements UserAndCouponService {
 			orderPriceBeforePoint
 		);
 
-
 	}
 
-
-
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public Boolean isRealUserCheck() {
-
 		return userAndCouponFeignClient.isRealUserCheck().getBody();
-
 	}
 
-
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
-	public void updateCouponAfterPayment(Long couponId){
-
+	public void updateCouponAfterPayment(Long couponId) {
 		userAndCouponFeignClient.updateCouponAfterPayment(couponId);
 	}
-
-
-
 
 }
 

@@ -17,27 +17,42 @@ import lombok.RequiredArgsConstructor;
 public class DeliveryStatusServiceImpl implements DeliveryStatusService {
 	private final DeliveryStatusServiceClient deliveryStatusServiceClient;
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public GetDeliveryStatusResponse getDeliveryStatus(Long deliveryStatusId) {
 		return deliveryStatusServiceClient.getDeliveryStatus(deliveryStatusId).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public List<GetDeliveryStatusResponse> getDeliveryStatuses() {
 		return deliveryStatusServiceClient.getDeliveryStatuses().getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void createDeliveryStatus(CreateDeliveryStatusRequest request) {
 		deliveryStatusServiceClient.createDeliveryStatus(request);
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void updateDeliveryStatus(Long deliveryStatusId,
 		UpdateDeliveryStatusRequest request) {
 		deliveryStatusServiceClient.updateDeliveryStatus(deliveryStatusId, request);
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void deleteDeliveryStatus(Long deliveryStatusId) {
 		deliveryStatusServiceClient.deleteDeliveryStatus(deliveryStatusId);

@@ -17,16 +17,25 @@ import lombok.RequiredArgsConstructor;
 public class WishListServiceImpl implements WishListService {
 	private final WishListServiceClient wishListServiceClient;
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public List<GetWishListResponse> getWishLists() {
 		return wishListServiceClient.getWishLists().getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public ResponseEntity<Void> createWishList(CreateWishListRequest request) {
 		return wishListServiceClient.createWishList(request);
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void deleteWishList(Long wishListId) {
 		wishListServiceClient.deleteWishList(wishListId);

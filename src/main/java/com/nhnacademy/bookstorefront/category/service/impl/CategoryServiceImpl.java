@@ -21,44 +21,68 @@ import lombok.RequiredArgsConstructor;
 public class CategoryServiceImpl implements CategoryService {
 	private final CategoryServiceClient categoryServiceClient;
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public List<GetCategoryResponse> getCategories() {
 		return categoryServiceClient.getCategories().getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public Page<GetCategoryResponse> getCategories(Pageable pageable) {
 		return categoryServiceClient.getCategories(pageable).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public List<GetCategoryResponse> getCategoriesByBookId(Long bookId) {
 		return categoryServiceClient.getCategoriesByBookId(bookId).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public GetCategoryResponse getCategory(Long categoryId) {
 		return categoryServiceClient.getCategory(categoryId).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	@CacheEvict(value = "categoriesCache", allEntries = true)
 	public void createCategory(CreateCategoryRequest request) {
 		categoryServiceClient.createCategory(request);
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	@CacheEvict(value = "categoriesCache", allEntries = true)
 	public void updateCategory(Long categoryId, UpdateCategoryRequest request) {
 		categoryServiceClient.updateCategory(categoryId, request);
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	@CacheEvict(value = "categoriesCache", allEntries = true)
 	public void deleteCategory(Long categoryId) {
 		categoryServiceClient.deleteCategory(categoryId);
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public List<CategorySearchResult> searchCategories(String query) {
 		return categoryServiceClient.searchCategories(query).getBody();

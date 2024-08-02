@@ -15,6 +15,10 @@ import lombok.extern.slf4j.Slf4j;
 public class CacheManageServiceImpl implements CacheManageService {
 	private final CacheService cacheService;
 
+	/**
+	 *{@inheritDoc}
+	 */
+	@Override
 	@Scheduled(cron = "0 0 * * * ?") // 1시간마다 캐시 갱신
 	public void refreshMainPageCache() {
 		cacheService.initMainPageCache();

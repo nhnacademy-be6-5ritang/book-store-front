@@ -17,36 +17,57 @@ import lombok.RequiredArgsConstructor;
 public class TagServiceImpl implements TagService {
 	private final TagServiceClient tagServiceClient;
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public List<TagDto> getTags() {
 		return tagServiceClient.getTags().getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public Page<TagDto> getTags(Pageable pageable) {
 		return tagServiceClient.getTags(pageable).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public List<TagDto> getTagsByBookId(Long bookId) {
 		return tagServiceClient.getTagsByBookId(bookId).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public TagDto getTag(Long tagId) {
 		return tagServiceClient.getTag(tagId).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public TagDto createTag(TagDto tagDto) {
 		return tagServiceClient.createTag(tagDto).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public TagDto updateTag(Long tagId, TagDto tagDto) {
 		return tagServiceClient.updateTag(tagId, tagDto).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void deleteTag(Long tagId) {
 		tagServiceClient.deleteTag(tagId);
