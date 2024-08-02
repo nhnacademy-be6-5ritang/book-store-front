@@ -3,6 +3,10 @@ package com.nhnacademy.bookstorefront.order.service;
 import com.nhnacademy.bookstorefront.order.dto.response.GetListWrappingResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetWrappingResponse;
 
+/**
+ * @author 김다운
+ * 포장지 관련 비즈니스 로직을 처리하는 서비스 인터페이스입니다.
+ */
 public interface WrappingPaperService {
 	/**
 	 * 주문 리스트 포장지 설정

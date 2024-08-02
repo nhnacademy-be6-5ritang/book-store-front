@@ -68,13 +68,16 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * @author 김다운
+ * 주문과 관련된 다양한 API 엔드포인트를 처리하는 컨트롤러입니다.
+ */
 @Controller
 @RequestMapping("/api/orders")
 @RequiredArgsConstructor
 public class OrderClientController {
 	private final BookOrderServiceImpl bookOrderServiceImpl;
 	private final OrderServiceImpl orderServiceImpl;
-
 	private final PaperTypeServiceImpl paperTypeServiceImpl;
 	private final WrappingPaperServiceImpl wrappingPaperServiceImpl;
 	private final DeliveryServiceImpl deliveryServiceImpl;
@@ -87,6 +90,12 @@ public class OrderClientController {
 	private final AddressService addressService;
 	private final PaymentServiceImpl paymentServiceImpl;
 
+	/**
+	 * 특정 도서 ID를 기반으로 책 주문을 생성하기 위한 페이지를 반환합니다.
+	 *
+	 * @param bookId 주문할 책의 ID
+	 * @return 책 상세 정보와 주문할 책 ID를 포함한 모델과 뷰
+	 */
 	@GetMapping("/createBookOrderTest/{book_id}")
 	public ModelAndView createBookOrder(@PathVariable("book_id") Long bookId) {
 		ModelAndView modelAndView = new ModelAndView("order/orderList");
@@ -96,12 +105,24 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 책 주문 요청을 처리하고, 포장지 선택 페이지로 리다이렉트합니다.
+	 *
+	 * @param request 책 주문 요청 정보
+	 * @return 포장지 선택 페이지로 리다이렉트하는 URL
+	 */
 	@PostMapping("/createBookOrderTest")
 	public String createBookOrderTest(@Valid @ModelAttribute CreateBookOrderRequest request) {
 		CreateBookOrderResponse createBookOrderResponse = bookOrderServiceImpl.createBookOrder(request);
 		return "redirect:/api/orders/createOrderTestPaper/" + createBookOrderResponse.orderListId();
 	}
 
+	/**
+	 * 주문 목록 ID를 기반으로 포장지 선택 페이지를 반환합니다.
+	 *
+	 * @param orderListId 주문 목록 ID
+	 * @return 포장지 선택 페이지와 포장지 목록을 포함한 모델과 뷰
+	 */
 	@GetMapping("/createOrderTestPaper/{order_list_id}")
 	public ModelAndView createOrderTestPaperGet(@PathVariable("order_list_id") Long orderListId) {
 		ModelAndView modelAndView = new ModelAndView("order/selectPaper");
@@ -113,6 +134,13 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 포장지 선택 후 주문을 처리하고 배송 페이지로 리다이렉트합니다.
+	 *
+	 * @param orderListId 주문 목록 ID
+	 * @param createOrderListPost 포장지 선택 정보
+	 * @return 배송 페이지로 리다이렉트하는 URL
+	 */
 	@PostMapping("/createOrderTestPaper/{order_list_id}")
 	public String createOrderTestPaperPost(@PathVariable("order_list_id") Long orderListId,
 		@Valid @ModelAttribute CreateOrderListPost createOrderListPost) {
@@ -131,6 +159,14 @@ public class OrderClientController {
 		return "redirect:/api/deliveries/" + orderListId;
 	}
 
+	/**
+	 * 주문 목록 ID와 배송 ID를 기반으로 주문 확인 페이지를 반환합니다.
+	 *
+	 * @param orderListId 주문 목록 ID
+	 * @param deliveryId 배송 ID
+	 * @param couponId 선택된 쿠폰 ID (선택적)
+	 * @return 주문 확인 페이지와 주문, 포장지, 배송 정보, 총액을 포함한 모델과 뷰
+	 */
 	@GetMapping("/createOrderTest/{order_list_id}/{delivery_id}")
 	public ModelAndView createOrder(@PathVariable("order_list_id") Long orderListId,
 		@PathVariable("delivery_id") Long deliveryId,
@@ -232,6 +268,15 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 주문을 생성하고 결제 페이지로 리다이렉트합니다.
+	 *
+	 * @param createOrderRequest 주문 생성 요청 정보
+	 * @param orderListId 주문 목록 ID
+	 * @param deliveryId 배송 ID
+	 * @param cartId 카트 ID
+	 * @return 결제 페이지로 리다이렉트하는 URL
+	 */
 	@PostMapping("/complete/{order_list_id}/{delivery_id}")
 	public String createOrder(@Valid @ModelAttribute CreateOrderRequest createOrderRequest,
 		@PathVariable("order_list_id") Long orderListId, @PathVariable("delivery_id") Long deliveryId
@@ -250,6 +295,12 @@ public class OrderClientController {
 		return "redirect:/api/payments/" + createOrderResponse.infoId();
 	}
 
+	/**
+	 * 주문 완료 페이지를 반환합니다.
+	 *
+	 * @param orderInfoId 주문 정보 ID
+	 * @return 주문 완료 페이지 모델과 뷰
+	 */
 	@GetMapping("/complete/{orderInfoId}")
 	public ModelAndView completeCartOrder(@PathVariable String orderInfoId) {
 		List<GetBookOrderResponse> list = bookOrderServiceImpl.getBookOrderByOrderId(orderInfoId);
@@ -272,6 +323,12 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 사용자의 주문 목록을 반환합니다.
+	 *
+	 * @param pageable 페이지 정보
+	 * @return 주문 목록 페이지 모델과 뷰
+	 */
 	@GetMapping("/orderCheck")
 	public ModelAndView orderCheck(@PageableDefault(page = 1) Pageable pageable) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -294,6 +351,11 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 비회원 주문 확인 페이지를 반환합니다.
+	 *
+	 * @return 비회원 주문 확인 페이지 모델과 뷰
+	 */
 	@GetMapping("/orderCheck/Non")
 	public ModelAndView orderCheckNon() {
 		ModelAndView modelAndView = new ModelAndView();
@@ -301,6 +363,12 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 비회원 주문 확인 요청을 처리합니다.
+	 *
+	 * @param orderCheckNonRequest 비회원 주문 확인 요청 정보
+	 * @return 비회원 주문 상세 페이지 모델과 뷰
+	 */
 	@PostMapping("/orderCheck/Non")
 	public ModelAndView orderCheckNon(@Valid @ModelAttribute OrderCheckNonRequest orderCheckNonRequest) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -310,6 +378,12 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 주문 세부 정보를 반환합니다.
+	 *
+	 * @param orderInfoId 주문 정보 ID
+	 * @return 주문 세부 정보 페이지 모델과 뷰
+	 */
 	@GetMapping("/orderDetails/{order_info_id}")
 	public ModelAndView orderDetails(@PathVariable("order_info_id") String orderInfoId) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -334,6 +408,11 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 관리자 페이지를 반환합니다.
+	 *
+	 * @return 관리자 페이지 모델과 뷰
+	 */
 	@GetMapping("/admin")
 	public ModelAndView admin() {
 		ModelAndView modelAndView = new ModelAndView();
@@ -341,6 +420,11 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 대기 중인 주문 목록을 반환합니다.
+	 *
+	 * @return 대기 중인 주문 목록 페이지 모델과 뷰
+	 */
 	@GetMapping("/admin/order-status/wait")
 	public ModelAndView orderStatusWait() {
 		ModelAndView modelAndView = new ModelAndView();
@@ -350,6 +434,11 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 진행 중인 주문 목록을 반환합니다.
+	 *
+	 * @return 진행 중인 주문 목록 페이지 모델과 뷰
+	 */
 	@GetMapping("/admin/order-status/going")
 	public ModelAndView orderStatusGoing() {
 		ModelAndView modelAndView = new ModelAndView();
@@ -359,6 +448,11 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 완료된 주문 목록을 반환합니다.
+	 *
+	 * @return 완료된 주문 목록 페이지 모델과 뷰
+	 */
 	@GetMapping("/admin/order-status/complete")
 	public ModelAndView orderStatusComplete() {
 		ModelAndView modelAndView = new ModelAndView();
@@ -368,6 +462,11 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 환불 완료된 주문 목록을 반환합니다.
+	 *
+	 * @return 환불 완료된 주문 목록 페이지 모델과 뷰
+	 */
 	@GetMapping("/admin/order-status/refunded")
 	public ModelAndView orderStatusRefunded() {
 		ModelAndView modelAndView = new ModelAndView();
@@ -377,6 +476,11 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 환불 진행 중인 주문 목록을 반환합니다.
+	 *
+	 * @return 환불 진행 중인 주문 목록 페이지 모델과 뷰
+	 */
 	@GetMapping("/admin/order-status/refunding")
 	public ModelAndView orderStatusRefunding() {
 		ModelAndView modelAndView = new ModelAndView();
@@ -386,6 +490,12 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 특정 주문에 대한 환불 처리를 시작하는 GET 요청을 처리합니다.
+	 *
+	 * @param orderInfoId 환불할 주문의 ID.
+	 * @return 지정된 주문의 주문 세부 정보 페이지로 리디렉션하는 {@link ModelAndView} 객체.
+	 */
 	@GetMapping("/refunding/{orderInfoId}")
 	public ModelAndView refundingGet(@PathVariable String orderInfoId) {
 		orderServiceImpl.refundingOrder(orderInfoId);
@@ -394,6 +504,11 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 환불 정책을 관리하는 관리자의 뷰를 표시합니다.
+	 *
+	 * @return 모든 환불 정책 목록을 포함하고 "order/adminRefund" 뷰 이름을 설정하는 {@link ModelAndView} 객체.
+	 */
 	@GetMapping("/admin/refundPolicy")
 	public ModelAndView refundAdmin() {
 		ModelAndView modelAndView = new ModelAndView();
@@ -402,6 +517,11 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 새로운 환불 정책을 생성하는 관리자 뷰를 표시합니다.
+	 *
+	 * @return "order/createRefund" 뷰 이름을 설정하는 {@link ModelAndView} 객체.
+	 */
 	@GetMapping("/admin/refundPolicy/create")
 	public ModelAndView refundAdminCreate() {
 		ModelAndView modelAndView = new ModelAndView();
@@ -409,6 +529,12 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 기존의 환불 정책을 업데이트하는 관리자 뷰를 표시합니다.
+	 *
+	 * @param refundPolicyId 업데이트할 환불 정책의 ID.
+	 * @return 업데이트할 환불 정책의 ID를 포함하고 "order/updateRefund" 뷰 이름을 설정하는 {@link ModelAndView} 객체.
+	 */
 	@GetMapping("/admin/refundPolicy/update/{refundPolicyId}")
 	public ModelAndView refundAdminUpdate(@PathVariable Long refundPolicyId) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -417,6 +543,12 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 제공된 요청 데이터에 기반하여 새로운 환불 정책을 생성합니다.
+	 *
+	 * @param refundPolicyRequest 새로운 환불 정책의 세부 정보를 담고 있는 {@link CreateRefundPolicyRequest} 객체.
+	 * @return 환불 정책 관리 페이지로 리디렉션하는 {@link ModelAndView} 객체.
+	 */
 	@PostMapping("/admin/refundPolicy")
 	public ModelAndView refundAdminCreate(@Valid @ModelAttribute CreateRefundPolicyRequest refundPolicyRequest) {
 		refundPolicyServiceImpl.createRefundPolicy(refundPolicyRequest);
@@ -425,6 +557,13 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 제공된 요청 데이터와 환불 정책 ID에 기반하여 환불 정책을 업데이트합니다.
+	 *
+	 * @param refundPolicyRequest 업데이트할 환불 정책의 세부 정보를 담고 있는 {@link UpdateRefundPolicyRequest} 객체.
+	 * @param refundPolicyId 업데이트할 환불 정책의 ID.
+	 * @return 환불 정책 관리 페이지로 리디렉션하는 {@link ModelAndView} 객체.
+	 */
 	@PostMapping("/admin/refundPolicy/{refundPolicyId}")
 	public ModelAndView refundAdminUpdate(@Valid @ModelAttribute UpdateRefundPolicyRequest refundPolicyRequest,
 		@PathVariable Long refundPolicyId) {
@@ -434,6 +573,12 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 특정 환불 정책을 삭제합니다.
+	 *
+	 * @param refundPolicyId 삭제할 환불 정책의 ID.
+	 * @return 환불 정책 관리 페이지로 리디렉션하는 {@link ModelAndView} 객체.
+	 */
 	@GetMapping("/admin/refundPolicy/{refundPolicyId}")
 	public ModelAndView refundAdminDelete(@PathVariable Long refundPolicyId) {
 		refundPolicyServiceImpl.deleteRefundPolicy(refundPolicyId);
@@ -442,6 +587,12 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 특정 주문을 환불 완료 상태로 변경합니다.
+	 *
+	 * @param orderInfoId 환불 완료로 설정할 주문의 ID.
+	 * @return 지정된 주문의 주문 세부 정보 페이지로 리디렉션하는 {@link ModelAndView} 객체.
+	 */
 	@GetMapping("/admin/refunded/{orderInfoId}")
 	public ModelAndView refundedGet(@PathVariable String orderInfoId) {
 		orderServiceImpl.refundedOrder(orderInfoId);
@@ -450,8 +601,13 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
-	//TODO 카트 주문
-
+	/**
+	 * 장바구니에 담긴 책들을 주문으로 생성합니다.
+	 *
+	 * @param cartId 장바구니 ID. (필요하지 않을 수 있음)
+	 * @param response HTTP 응답 객체.
+	 * @return 포장 선택 페이지로 리디렉션하는 URL.
+	 */
 	@GetMapping("/cart-order")
 	public String cartOrder(@CookieValue(name = "cartId", required = false) String cartId,
 		HttpServletResponse response) {
@@ -467,6 +623,12 @@ public class OrderClientController {
 		return "redirect:/api/orders/cart-order/wrapping/" + orderId.orderInfoId();
 	}
 
+	/**
+	 * 장바구니 주문의 포장지를 선택하는 페이지를 표시합니다.
+	 *
+	 * @param orderInfoId 주문의 ID.
+	 * @return 포장지 선택 뷰와 주문 정보, 포장지 유형 목록을 포함한 {@link ModelAndView} 객체.
+	 */
 	@GetMapping("/cart-order/wrapping/{orderInfoId}")
 	public ModelAndView cartOrderWrappingGet(@PathVariable String orderInfoId) {
 		ModelAndView modelAndView = new ModelAndView("cart-order/selectPaper");
@@ -478,6 +640,13 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 장바구니 주문의 포장지 선택 결과를 처리합니다.
+	 *
+	 * @param createOrderListPost 포장지 선택 요청 데이터를 담고 있는 {@link CreateCartOrderPost} 객체.
+	 * @param orderInfoId 주문의 ID.
+	 * @return 배송 페이지로 리디렉션하는 URL.
+	 */
 	@PostMapping("/cart-order/wrapping/{orderInfoId}")
 	public String cartOrderWrappingPost(@Valid @ModelAttribute CreateCartOrderPost createOrderListPost,
 		@PathVariable String orderInfoId) {
@@ -498,6 +667,14 @@ public class OrderClientController {
 		return "redirect:/api/deliveries/cart-order/" + orderInfoId;
 	}
 
+	/**
+	 * 장바구니 주문을 생성하는 테스트 페이지를 표시합니다.
+	 *
+	 * @param orderInfoId 주문의 ID.
+	 * @param deliveryId 배송 정책의 ID.
+	 * @param couponId 선택된 쿠폰의 ID (선택 사항).
+	 * @return 주문 결제 페이지를 포함한 {@link ModelAndView} 객체.
+	 */
 	@GetMapping("/createOrderTest/{delivery_id}/cart/{orderInfoId}")
 	public ModelAndView createOrder(@PathVariable("orderInfoId") String orderInfoId,
 		@PathVariable("delivery_id") Long deliveryId,
@@ -611,6 +788,15 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 장바구니 주문을 완료하고 최종 결제를 처리합니다.
+	 *
+	 * @param createOrderRequest 주문 생성 요청 데이터를 담고 있는 {@link CreateOrderRequest} 객체.
+	 * @param orderInfoId 주문의 ID.
+	 * @param deliveryId 배송 정책의 ID.
+	 * @param cartId 장바구니 ID. (필요하지 않을 수 있음)
+	 * @return 결제 완료 페이지 또는 결제 페이지로 리디렉션하는 URL.
+	 */
 	@PostMapping("/complete/cart-order/{orderInfoId}/{delivery_id}")
 	public String createCartOrder(@Valid @ModelAttribute CreateOrderRequest createOrderRequest,
 		@PathVariable("orderInfoId") String orderInfoId, @PathVariable("delivery_id") Long deliveryId
@@ -632,7 +818,11 @@ public class OrderClientController {
 		return "redirect:/api/payments/" + createOrderResponse.infoId();
 	}
 
-	//포장지
+	/**
+	 * 포장지 관리 페이지를 표시합니다.
+	 *
+	 * @return 모든 포장지 유형 목록을 포함하고 "order/adminPaper" 뷰 이름을 설정하는 {@link ModelAndView} 객체.
+	 */
 	@GetMapping("/admin/paper")
 	public ModelAndView paperAdmin() {
 		ModelAndView modelAndView = new ModelAndView();
@@ -641,6 +831,11 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 새로운 포장지를 생성하는 관리자 뷰를 표시합니다.
+	 *
+	 * @return "order/createPaper" 뷰 이름을 설정하는 {@link ModelAndView} 객체.
+	 */
 	@GetMapping("/admin/paper/create")
 	public ModelAndView paperAdminCreate() {
 		ModelAndView modelAndView = new ModelAndView();
@@ -648,6 +843,12 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 기존 포장지를 업데이트하는 관리자 뷰를 표시합니다.
+	 *
+	 * @param paperTypeId 업데이트할 포장지의 ID.
+	 * @return 업데이트할 포장지의 ID를 포함하고 "order/updatePaper" 뷰 이름을 설정하는 {@link ModelAndView} 객체.
+	 */
 	@GetMapping("/admin/paper/update/{paperTypeId}")
 	public ModelAndView paperAdminUpdate(@PathVariable Long paperTypeId) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -656,6 +857,12 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 제공된 요청 데이터에 기반하여 새로운 포장지를 생성합니다.
+	 *
+	 * @param wrappingTypeRequest 새로운 포장지의 세부 정보를 담고 있는 {@link CreateWrappingTypeRequest} 객체.
+	 * @return 포장지 관리 페이지로 리디렉션하는 {@link ModelAndView} 객체.
+	 */
 	@PostMapping("/admin/paper")
 	public ModelAndView paperAdminCreate(@Valid @ModelAttribute CreateWrappingTypeRequest wrappingTypeRequest) {
 		paperTypeServiceImpl.createPaper(wrappingTypeRequest);
@@ -664,6 +871,13 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 제공된 요청 데이터와 포장지 ID에 기반하여 포장지를 업데이트합니다.
+	 *
+	 * @param request 업데이트할 포장지의 세부 정보를 담고 있는 {@link UpdateWrappingTypeRequest} 객체.
+	 * @param paperTypeId 업데이트할 포장지의 ID.
+	 * @return 포장지 관리 페이지로 리디렉션하는 {@link ModelAndView} 객체.
+	 */
 	@PostMapping("/admin/paper/{paperTypeId}")
 	public ModelAndView paperAdminUpdate(@Valid @ModelAttribute UpdateWrappingTypeRequest request,
 		@PathVariable Long paperTypeId) {
@@ -673,6 +887,12 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 특정 포장지를 삭제합니다.
+	 *
+	 * @param paperTypeId 삭제할 포장지의 ID.
+	 * @return 포장지 관리 페이지로 리디렉션하는 {@link ModelAndView} 객체.
+	 */
 	@GetMapping("/admin/paper/{paperTypeId}")
 	public ModelAndView paperAdminDelete(@PathVariable Long paperTypeId) {
 		paperTypeServiceImpl.deletePaperTypeById(paperTypeId);
@@ -681,7 +901,11 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
-	// 주문 상태
+	/**
+	 * 주문 상태를 관리하는 관리자 뷰를 표시합니다.
+	 *
+	 * @return 모든 주문 상태 목록을 포함하고 "order/adminOrderStatus" 뷰 이름을 설정하는 {@link ModelAndView} 객체.
+	 */
 	@GetMapping("/admin/order-status")
 	public ModelAndView orderStatusAdmin() {
 		ModelAndView modelAndView = new ModelAndView();
@@ -690,6 +914,11 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 새로운 주문 상태를 생성하는 관리자 뷰를 표시합니다.
+	 *
+	 * @return "order/createOrderStatus" 뷰 이름을 설정하는 {@link ModelAndView} 객체.
+	 */
 	@GetMapping("/admin/order-status/create")
 	public ModelAndView orderStatusAdminCreate() {
 		ModelAndView modelAndView = new ModelAndView();
@@ -697,6 +926,12 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 기존의 주문 상태를 업데이트하는 관리자 뷰를 표시합니다.
+	 *
+	 * @param orderStatusId 업데이트할 주문 상태의 ID.
+	 * @return 업데이트할 주문 상태의 ID를 포함하고 "order/updateOrderStatus" 뷰 이름을 설정하는 {@link ModelAndView} 객체.
+	 */
 	@GetMapping("/admin/order-status/update/{orderStatusId}")
 	public ModelAndView orderStatusAdminUpdate(@PathVariable Long orderStatusId) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -705,6 +940,12 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 제공된 요청 데이터에 기반하여 새로운 주문 상태를 생성합니다.
+	 *
+	 * @param orderStatusRequest 새로운 주문 상태의 세부 정보를 담고 있는 {@link CreateOrderStatusRequest} 객체.
+	 * @return 주문 상태 관리 페이지로 리디렉션하는 {@link ModelAndView} 객체.
+	 */
 	@PostMapping("/admin/order-status")
 	public ModelAndView orderStatusAdminCreate(@Valid @ModelAttribute CreateOrderStatusRequest orderStatusRequest) {
 		orderStatusServiceImpl.create(orderStatusRequest);
@@ -713,6 +954,13 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 제공된 요청 데이터와 주문 상태 ID에 기반하여 주문 상태를 업데이트합니다.
+	 *
+	 * @param request 업데이트할 주문 상태의 세부 정보를 담고 있는 {@link CreateOrderStatusRequest} 객체.
+	 * @param orderStatusId 업데이트할 주문 상태의 ID.
+	 * @return 주문 상태 관리 페이지로 리디렉션하는 {@link ModelAndView} 객체.
+	 */
 	@PostMapping("/admin/order-status/{orderStatusId}")
 	public ModelAndView orderStatusAdminUpdate(@Valid @ModelAttribute CreateOrderStatusRequest request,
 		@PathVariable Long orderStatusId) {
@@ -722,6 +970,12 @@ public class OrderClientController {
 		return modelAndView;
 	}
 
+	/**
+	 * 특정 주문 상태를 삭제합니다.
+	 *
+	 * @param orderStatusId 삭제할 주문 상태의 ID.
+	 * @return 주문 상태 관리 페이지로 리디렉션하는 {@link ModelAndView} 객체.
+	 */
 	@GetMapping("/admin/order-status/{orderStatusId}")
 	public ModelAndView orderStatusAdminDelete(@PathVariable Long orderStatusId) {
 		orderStatusServiceImpl.delete(orderStatusId);

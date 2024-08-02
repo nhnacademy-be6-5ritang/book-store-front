@@ -7,15 +7,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.nhnacademy.bookstorefront.global.feignclient.SwaggerApiClient;
 
-@Controller
-public class SwaggerController {
+import lombok.RequiredArgsConstructor;
 
+/**
+ * @author 이기훈
+ * SwaggerController는 Swagger API 문서를 프론트엔드에서 볼 수 있도록 데이터를 제공하는 컨트롤러입니다.
+ */
+@Controller
+@RequiredArgsConstructor
+public class SwaggerController {
 	private final SwaggerApiClient swaggerApiClient;
 
-	public SwaggerController(SwaggerApiClient swaggerApiClient) {
-		this.swaggerApiClient = swaggerApiClient;
-	}
-
+	/**
+	 * 쿠폰 API 문서를 가져와서 모델에 추가합니다.
+	 *
+	 * @param model Spring MVC 모델
+	 * @return 쿠폰 API 문서를 표시하는 뷰 이름
+	 */
 	@GetMapping("/coupons/api")
 	public String getCouponApi(Model model) {
 		try {
@@ -28,6 +36,12 @@ public class SwaggerController {
 		return "api/coupon-api";
 	}
 
+	/**
+	 * 백엔드 API 문서를 가져와서 모델에 추가합니다.
+	 *
+	 * @param model Spring MVC 모델
+	 * @return 백엔드 API 문서를 표시하는 뷰 이름
+	 */
 	@GetMapping("/api")
 	public String getBackApi(Model model) {
 		try {
@@ -40,6 +54,12 @@ public class SwaggerController {
 		return "api/back-api";
 	}
 
+	/**
+	 * 인증 API 문서를 가져와서 모델에 추가합니다.
+	 *
+	 * @param model Spring MVC 모델
+	 * @return 인증 API 문서를 표시하는 뷰 이름
+	 */
 	@GetMapping("/auth")
 	public String getAuthApi(Model model) {
 		try {

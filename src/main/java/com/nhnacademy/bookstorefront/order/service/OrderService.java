@@ -15,6 +15,10 @@ import com.nhnacademy.bookstorefront.order.dto.response.GetOrderByInfoResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetUserPointOrderResponse;
 import com.nhnacademy.bookstorefront.user.dto.response.GetMyUserInfoResponse;
 
+/**
+ * @author 김다운
+ * 주문 관련 비즈니스 로직을 처리하는 서비스 인터페이스입니다.
+ */
 public interface OrderService {
 	/**
 	 * 주문 생성
