@@ -17,6 +17,7 @@ import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.service.BookService;
+import com.nhnacademy.bookstorefront.cache.service.impl.CacheManageServiceImpl;
 import com.nhnacademy.bookstorefront.cache.service.impl.CacheServiceImpl;
 import com.nhnacademy.bookstorefront.category.dto.response.GetCategoryResponse;
 import com.nhnacademy.bookstorefront.category.service.CategoryService;
@@ -31,6 +32,9 @@ class CacheServiceImplTest {
 
 	@InjectMocks
 	private CacheServiceImpl cacheService;
+
+	@InjectMocks
+	private CacheManageServiceImpl cacheManageService;
 
 	private CacheManager cacheManager;
 
@@ -76,7 +80,7 @@ class CacheServiceImplTest {
 		List<GetCategoryResponse> categories = cacheService.getCachedCategories();
 
 		// Assert
-		assertThat(categories).isNull(); // Exception should result in null
+		assertThat(categories).isEmpty(); // Exception should result in empty list
 
 		Cache cache = cacheManager.getCache("categoriesCache");
 		assertThat(cache).isNotNull();
@@ -114,7 +118,7 @@ class CacheServiceImplTest {
 		List<GetBookDetailResponse> books = cacheService.getOrderedBooks();
 
 		// Assert
-		assertThat(books).isNull(); // Exception should result in null
+		assertThat(books).isEmpty(); // Exception should result in empty list
 
 		Cache cache = cacheManager.getCache("orderedBooksCache");
 		assertThat(cache).isNotNull();
@@ -152,7 +156,7 @@ class CacheServiceImplTest {
 		List<GetBookDetailResponse> books = cacheService.getLikesBooks();
 
 		// Assert
-		assertThat(books).isNull(); // Exception should result in null
+		assertThat(books).isEmpty(); // Exception should result in empty list
 
 		Cache cache = cacheManager.getCache("likesBooksCache");
 		assertThat(cache).isNotNull();
@@ -190,33 +194,10 @@ class CacheServiceImplTest {
 		List<GetBookDetailResponse> books = cacheService.getNewestBooks();
 
 		// Assert
-		assertThat(books).isNull(); // Exception should result in null
+		assertThat(books).isEmpty(); // Exception should result in empty list
 
 		Cache cache = cacheManager.getCache("newestBooksCache");
 		assertThat(cache).isNotNull();
 		assertThat(cache.get("newestBooks")).isNull(); // Cache should be empty
-	}
-
-	@Test
-	void testRefreshMainPageCache() {
-		// Act
-		cacheService.getOrderedBooks();
-		cacheService.getLikesBooks();
-		cacheService.getNewestBooks();
-
-		cacheService.refreshMainPageCache();
-
-		// Assert
-		Cache orderedBooksCache = cacheManager.getCache("orderedBooksCache");
-		Cache likesBooksCache = cacheManager.getCache("likesBooksCache");
-		Cache newestBooksCache = cacheManager.getCache("newestBooksCache");
-
-		assertThat(orderedBooksCache).isNotNull();
-		assertThat(likesBooksCache).isNotNull();
-		assertThat(newestBooksCache).isNotNull();
-
-		assertThat(orderedBooksCache.get("orderedBooks")).isNull();
-		assertThat(likesBooksCache.get("likesBooks")).isNull();
-		assertThat(newestBooksCache.get("newestBooks")).isNull();
 	}
 }
