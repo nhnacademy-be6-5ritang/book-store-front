@@ -14,9 +14,17 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.nhnacademy.bookstorefront.cache.service.CacheManageService;
+import com.nhnacademy.bookstorefront.cache.service.CacheService;
+import com.nhnacademy.bookstorefront.global.controller.GlobalDataControllerAdvice;
 
 @WebMvcTest(CacheController.class)
 class CacheControllerTest {
+
+	@MockBean
+	private GlobalDataControllerAdvice globalDataControllerAdvice;
+
+	@MockBean
+	private CacheService cacheService;
 
 	@MockBean
 	private CacheManageService cacheManageService;
