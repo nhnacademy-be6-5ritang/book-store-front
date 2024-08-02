@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nhnacademy.bookstorefront.cache.service.CacheManageService;
-import com.nhnacademy.bookstorefront.cache.service.CacheService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/caches")
 public class CacheController {
-	private final CacheService cacheService;
 	private final CacheManageService cacheManageService;
 
 	/**

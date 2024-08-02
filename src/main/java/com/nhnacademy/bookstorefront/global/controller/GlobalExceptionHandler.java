@@ -22,7 +22,7 @@ import feign.RetryableException;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * @author 이경헌
+ * @author 공통
  * 전역 예외 처리를 담당하는 클래스입니다.
  */
 @ControllerAdvice

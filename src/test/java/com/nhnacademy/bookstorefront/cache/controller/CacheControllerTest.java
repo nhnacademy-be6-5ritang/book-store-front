@@ -14,13 +14,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.nhnacademy.bookstorefront.cache.service.CacheManageService;
-import com.nhnacademy.bookstorefront.cache.service.impl.CacheServiceImpl;
 
 @WebMvcTest(CacheController.class)
 class CacheControllerTest {
-
-	@MockBean
-	private CacheServiceImpl cacheService;
 
 	@MockBean
 	private CacheManageService cacheManageService;
@@ -30,7 +26,7 @@ class CacheControllerTest {
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
-		mockMvc = MockMvcBuilders.standaloneSetup(new CacheController(cacheService, cacheManageService))
+		mockMvc = MockMvcBuilders.standaloneSetup(new CacheController(cacheManageService))
 			.build();
 	}
 

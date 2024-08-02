@@ -30,6 +30,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * @author 김다운
+ * 결제 관련 HTTP 요청을 처리하는 컨트롤러입니다.
+ */
 @Slf4j
 @RestController
 @RequestMapping("/api/payments")

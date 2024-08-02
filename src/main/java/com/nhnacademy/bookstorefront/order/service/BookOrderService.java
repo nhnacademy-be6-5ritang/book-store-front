@@ -7,6 +7,10 @@ import com.nhnacademy.bookstorefront.order.dto.response.CreateBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetBookOrderResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.UpdateBookOrderResponse;
 
+/**
+ * @author 김다운
+ * 도서주문 관련 비즈니스 로직을 처리하는 서비스 인터페이스입니다.
+ */
 public interface BookOrderService {
 	/**
 	 * 주문리스트 생성

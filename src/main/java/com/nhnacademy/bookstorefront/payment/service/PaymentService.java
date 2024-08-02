@@ -7,6 +7,10 @@ import com.nhnacademy.bookstorefront.payment.dto.response.PaymentSaveResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.TransactionsResponse;
 import com.nhnacademy.bookstorefront.payment.dto.response.UpdatePaymentResponse;
 
+/**
+ * @author 김다운
+ * 결제 관련 서비스의 인터페이스입니다.
+ */
 public interface PaymentService {
 	/**
 	 * 결제 생성
@@ -50,5 +54,4 @@ public interface PaymentService {
 	 * @return 결제 취소된 결제 정보 리턴
 	 */
 	UpdatePaymentResponse updatePayment(String paymentResponseJson, Long paymentId);
-
 }

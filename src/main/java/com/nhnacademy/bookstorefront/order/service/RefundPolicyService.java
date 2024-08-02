@@ -4,6 +4,10 @@ import com.nhnacademy.bookstorefront.order.dto.request.CreateRefundPolicyRequest
 import com.nhnacademy.bookstorefront.order.dto.request.UpdateRefundPolicyRequest;
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllRefundResponse;
 
+/**
+ * @author 김다운
+ * 환불 정책 관련 비즈니스 로직을 처리하는 서비스 인터페이스입니다.
+ */
 public interface RefundPolicyService {
 
 	/**

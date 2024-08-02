@@ -7,6 +7,10 @@ import com.nhnacademy.bookstorefront.order.dto.response.GetAdminAllPaperResponse
 import com.nhnacademy.bookstorefront.order.dto.response.GetAllPaperResponse;
 import com.nhnacademy.bookstorefront.order.dto.response.GetPaperResponse;
 
+/**
+ * @author 김다운
+ * 포장지 유형 관련 비즈니스 로직을 처리하는 서비스 인터페이스입니다.
+ */
 public interface PaperTypeService {
 
 	/**
