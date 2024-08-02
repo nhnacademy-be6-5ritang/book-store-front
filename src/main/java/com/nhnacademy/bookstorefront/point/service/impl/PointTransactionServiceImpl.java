@@ -2,7 +2,6 @@ package com.nhnacademy.bookstorefront.point.service.impl;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
 import org.springframework.stereotype.Service;
 
 import com.nhnacademy.bookstorefront.point.dto.response.GetAllPointTransactionResponse;
@@ -15,14 +14,19 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class PointTransactionServiceImpl implements PointTransactionService {
-
 	private final PointServiceClient pointServiceClient;
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public Page<GetPointTransactionResponse> getPointTransactions(Pageable pageable) {
 		return pointServiceClient.getPointTransactions(pageable).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public Page<GetAllPointTransactionResponse> getAllPointTransactions(Pageable pageable) {
 		return pointServiceClient.getAllPointTransactions(pageable).getBody();

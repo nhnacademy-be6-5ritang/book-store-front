@@ -19,33 +19,52 @@ import lombok.RequiredArgsConstructor;
 public class DeliveryPolicyServiceImpl implements DeliveryPolicyService {
 	private final DeliveryPolicyServiceClient deliveryPolicyServiceClient;
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public List<GetDeliveryPoliciesResponse> getDeliveryPolicies() {
 		return deliveryPolicyServiceClient.getDeliveryPolicies().getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public GetDeliveryPolicyResponse getDeliveryPolicy(Long deliveryPolicyId) {
 		return deliveryPolicyServiceClient.getDeliveryPolicy(deliveryPolicyId).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void createDeliveryPolicy(CreateDeliveryPolicyRequest request) {
 		deliveryPolicyServiceClient.createDeliveryPolicy(request);
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void updateDeliveryPolicy(Long deliveryPolicyId,
 		UpdateDeliveryPolicyRequest request) {
 		deliveryPolicyServiceClient.updateDeliveryPolicy(deliveryPolicyId, request);
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void deleteDeliveryPolicy(Long deliveryPolicyId) {
 		deliveryPolicyServiceClient.deleteDeliveryPolicy(deliveryPolicyId);
 	}
 
-	public GetDeliveryPolicyResponse findByDeliveryPolicyStandardPriceLessThanEqualOrderByDeliveryPolicyStandardPriceDesc(Long deliveryId, BigDecimal price) {
+	/**
+	 *{@inheritDoc}
+	 */
+	public GetDeliveryPolicyResponse findByDeliveryPolicyStandardPriceLessThanEqualOrderByDeliveryPolicyStandardPriceDesc(
+		Long deliveryId, BigDecimal price) {
 		return deliveryPolicyServiceClient.addPolicy(deliveryId, price).getBody();
 	}
 }

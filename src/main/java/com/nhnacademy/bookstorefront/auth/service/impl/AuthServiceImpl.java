@@ -25,31 +25,49 @@ import lombok.RequiredArgsConstructor;
 public class AuthServiceImpl implements AuthService {
 	private final AuthClient authClient;
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public ResponseEntity<SignUpResponse> signUp(SignUpRequest signUpRequest) {
 		return authClient.requestSignUp(signUpRequest);
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public ResponseEntity<Void> sendEmailSignUp(String email) {
 		return authClient.sendEmailSignUp(email);
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public ResponseEntity<Void> checkEmailSignUp(String email, String certifyCode) {
 		return authClient.checkEmailSignUp(email, certifyCode);
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public ResponseEntity<LoginResponse> login(LoginRequest loginRequest) {
 		return authClient.requestLogin(loginRequest);
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void logout() {
 		authClient.requestLogout();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public boolean hasTokensInCookie(HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
@@ -72,11 +90,17 @@ public class AuthServiceImpl implements AuthService {
 		return hasAccessToken && hasRefreshToken;
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void updateLastLoginAt(String accessToken, String refreshToken, LocalDateTime lastLoginAt) {
 		authClient.updateLastLoginAt(accessToken, refreshToken, lastLoginAt);
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void getTokensForPaycoUser(String memberNumber, HttpServletResponse response) {
 		PaycoLoginResponse paycoLoginResponse = authClient.getTokensForPaycoUser(memberNumber).getBody();

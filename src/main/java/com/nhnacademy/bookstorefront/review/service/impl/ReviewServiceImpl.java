@@ -25,56 +25,89 @@ public class ReviewServiceImpl implements ReviewService {
 	private final UploadServiceClient uploadServiceClient;
 	private final PointServiceClient pointServiceClient;
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public Page<GetReviewResponse> getReviews(Pageable pageable) {
 		return reviewServiceClient.getReviews(pageable).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public Page<GetReviewResponse> getPhotoReviews(Pageable pageable) {
 		return reviewServiceClient.getPhotoReviews(pageable).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public Page<GetReviewResponse> getGeneralReviews(Pageable pageable) {
 		return reviewServiceClient.getGeneralReviews(pageable).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public Page<GetReviewResponse> getReviewsByBookId(Pageable pageable, Long bookId) {
 		return reviewServiceClient.getReviewsByBookId(pageable, bookId).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public Page<GetReviewResponse> getGeneralReviewsByBookId(Pageable pageable, Long bookId) {
 		return reviewServiceClient.getGeneralReviewsByBookId(pageable, bookId).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public Page<GetReviewResponse> getPhotoReviewsByBookId(Pageable pageable, Long bookId) {
 		return reviewServiceClient.getPhotoReviewsByBookId(pageable, bookId).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public Page<GetReviewResponse> getReviewsByUserId(Pageable pageable) {
 		return reviewServiceClient.getReviewsByUserId(pageable).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public Page<GetReviewResponse> getGeneralReviewsByUserId(Pageable pageable) {
 		return reviewServiceClient.getGeneralReviewsByUserId(pageable).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public Page<GetReviewResponse> getPhotoReviewsByUserId(Pageable pageable) {
 		return reviewServiceClient.getPhotoReviewsByUserId(pageable).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public GetReviewResponse getReview(Long reviewId) {
 		return reviewServiceClient.getReview(reviewId).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void createReview(CreateReviewRequest request, MultipartFile file) {
 		String fileName = null;
@@ -87,6 +120,9 @@ public class ReviewServiceImpl implements ReviewService {
 		pointServiceClient.reviewPointTransaction(reviewType);
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void updateReview(UpdateReviewRequest request, Long reviewId, MultipartFile file) {
 		String fileName = null;
@@ -94,19 +130,27 @@ public class ReviewServiceImpl implements ReviewService {
 			fileName = uploadServiceClient.upload(file, "reviews").getBody();
 		}
 		reviewServiceClient.updateReview(UpdateReviewRequest.from(request, fileName), reviewId);
-
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void deleteReview(Long reviewId) {
 		reviewServiceClient.deleteReview(reviewId);
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public double getReviewsAverageScoreByBookId(Long bookId) {
 		return reviewServiceClient.getReviewsAverageScoreByBookId(bookId).getBody();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public List<GetBookOrderWithoutReviewResponse> getBooksWithoutReviews() {
 		return reviewServiceClient.getBooksWithoutReviews().getBody();
