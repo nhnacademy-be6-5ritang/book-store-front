@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.nhnacademy.bookstorefront.cache.service.CacheManageService;
 import com.nhnacademy.bookstorefront.cache.service.CacheService;
 
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/caches")
 public class CacheController {
 	private final CacheService cacheService;
+	private final CacheManageService cacheManageService;
 
 	/**
 	 * 캐시 관리 페이지를 반환합니다.
@@ -34,9 +36,9 @@ public class CacheController {
 	 *
 	 * @return HTTP 200 OK 상태 코드를 담고 있는 {@link ResponseEntity}
 	 */
-	@GetMapping("/mainPage")
+	@GetMapping("/main-page/refresh")
 	public ResponseEntity<Void> refreshCacheMainPage() {
-		cacheService.refreshMainPageCache();
+		cacheManageService.refreshMainPageCache();
 		return ResponseEntity.ok().build();
 	}
 }

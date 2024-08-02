@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.nhnacademy.bookstorefront.cache.service.CacheManageService;
 import com.nhnacademy.bookstorefront.cache.service.impl.CacheServiceImpl;
 
 @WebMvcTest(CacheController.class)
@@ -21,12 +22,15 @@ class CacheControllerTest {
 	@MockBean
 	private CacheServiceImpl cacheService;
 
+	@MockBean
+	private CacheManageService cacheManageService;
+
 	private MockMvc mockMvc;
 
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
-		mockMvc = MockMvcBuilders.standaloneSetup(new CacheController(cacheService))
+		mockMvc = MockMvcBuilders.standaloneSetup(new CacheController(cacheService, cacheManageService))
 			.build();
 	}
 
@@ -39,13 +43,13 @@ class CacheControllerTest {
 
 	@Test
 	void testRefreshCacheMainPage() throws Exception {
-		doNothing().when(cacheService).refreshMainPageCache();
+		doNothing().when(cacheManageService).refreshMainPageCache();
 
-		mockMvc.perform(get("/caches/mainPage")
+		mockMvc.perform(get("/caches/main-page/refresh")
 				.contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
 			.andExpect(content().string(""));
 
-		verify(cacheService, times(1)).refreshMainPageCache();
+		verify(cacheManageService, times(1)).refreshMainPageCache();
 	}
 }

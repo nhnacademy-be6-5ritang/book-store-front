@@ -40,8 +40,7 @@ public interface CacheService {
 	List<GetBookDetailResponse> getNewestBooks();
 
 	/**
-	 * 메인 페이지 캐시를 갱신합니다.
-	 * 이 메서드는 일반적으로 정기적으로 실행되도록 스케줄링되어 캐시 데이터를 최신 상태로 유지합니다.
+	 * 메인 페이지 캐시를 초기화 합니다.
 	 */
-	void refreshMainPageCache();
+	void initMainPageCache();
 }
