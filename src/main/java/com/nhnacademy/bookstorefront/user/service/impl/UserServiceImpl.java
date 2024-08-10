@@ -1,6 +1,7 @@
 package com.nhnacademy.bookstorefront.user.service.impl;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import com.nhnacademy.bookstorefront.address.dto.response.GetAddressResponse;
 import com.nhnacademy.bookstorefront.user.dto.request.UpdateUserInfoRequest;
 import com.nhnacademy.bookstorefront.user.dto.request.UpdateUserRoleRequest;
 import com.nhnacademy.bookstorefront.user.dto.response.GetMyUserInfoResponse;
+import com.nhnacademy.bookstorefront.user.dto.response.GetUserGradeResponse;
 import com.nhnacademy.bookstorefront.user.dto.response.GetUserInfoResponse;
 import com.nhnacademy.bookstorefront.user.dto.response.UpdateUserInfoResponse;
 import com.nhnacademy.bookstorefront.user.feignclient.UserClient;
@@ -111,5 +113,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void paycoConnect(String paycoId) {
 		userClient.paycoConnect(paycoId);
+	}
+
+	@Override
+	public List<GetUserGradeResponse> getUserGrades() {
+		return userClient.getUserGrades().getBody();
 	}
 }

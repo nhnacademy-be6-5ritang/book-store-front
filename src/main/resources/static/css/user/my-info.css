@@ -1,3 +1,48 @@
+#user-grades-table {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.user-grade-container-active, .user-grade-container {
+    padding: 3rem 0.3rem;
+    border: 1px solid #333333;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 0 0 50px 50px;
+}
+
+.user-grade-container-active {
+    background: linear-gradient(225deg, #6a6e6b, #000000);
+}
+
+.user-grade-container {
+    color: #797979;
+}
+
+.user-grade-container hr {
+    border-color: #797979;
+}
+
+.user-grade-container-active hr {
+    border-color: white;
+}
+
+.min-max-container {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+}
+
+.price-container {
+    display: flex;
+
+}
+
 .my-info-table {
     width: 100%;
     border-collapse: collapse;
@@ -14,10 +59,16 @@
     align-items: center;
 }
 
-#withdraw-button {
+#edit-button, #withdraw-button {
     width: 7rem;
     height: 2.5rem;
     color: #a8a8a8;
+}
+
+#edit-button:hover {
+    color: #797979;
+    border: 1px solid #797979;
+    border-radius: 6px;
 }
 
 #withdraw-button:hover {

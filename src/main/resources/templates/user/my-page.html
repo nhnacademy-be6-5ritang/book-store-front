@@ -27,7 +27,10 @@
                 <div th:if="${myUserInfo.userStatusName == 'DORMANT'}"
                      style="width: 7px; height: 7px; border-radius: 50%; background-color: #a8a8a8"></div>
             </div>
-            <h5 style="margin: 0 1rem" th:text="${myUserInfo.name} + ' 님의 마이 페이지'"></h5>
+            <h5 style="margin: 0 5px; color: #797979" th:each="role : ${myUserInfo.roles()}"
+                th:text="${role}"></h5>
+            <h5 style="margin: 0 5px; font-weight: bold; color: #797979" th:text="${myUserInfo.name}"></h5>
+            <h5 style="margin: 0 5px; color: #797979"> 님의 마이 페이지</h5>
             <div th:if="${myUserInfo.userStatusName == 'DORMANT'}">
                 <button id="dormant-to-active-button" type="button"
                         th:data-email="${myUserInfo.email}">
@@ -43,15 +46,53 @@
         </section>
         <hr style="width: 100%"/>
         <section id="page-body">
-            <span style="color: #797979" onmouseover="displayUserGrades()"
-                  onmouseout="hideUserGrades()"
-                  th:text="${myUserInfo.userGradeName} + ' '"></span>
-            <span th:each="role : ${myUserInfo.roles()}"
-                  th:text="${role}"></span>
+            <h5 style="margin: 0">회원 등급</h5>
+            <div id="user-grades-table">
+                <div th:each="userGrade : ${userGrades}">
+                    <div th:class="${myUserInfo.userGradeName() == userGrade.userGradeName()} ? 'user-grade-container-active' : 'user-grade-container'">
+                        <img th:src="@{|/image/icon/${myUserInfo.userGradeName() == userGrade.userGradeName() ? userGrade.userGradeName() + '_ACTIVE' : userGrade.userGradeName()}.svg|}"
+                             th:alt="${userGrade.userGradeName()}"/>
+
+                        <br/>
+
+                        <span style="font-weight: bold" th:text="${userGrade.userGradeName()}"></span>
+
+                        <br/>
+                        <hr style="width: 80%"/>
+                        <br/>
+
+                        <div style="width: 100%; display: flex; justify-content: center; align-items: center">
+                            <img style="width: 15%; margin-right: 1rem"
+                                 th:src="@{|/image/icon/POINTS${myUserInfo.userGradeName() == userGrade.userGradeName() ? '_ACTIVE' : ''}.svg|}"
+                                 th:alt="points-icon"/>
+                            <span th:text="${userGrade.userGradePointRate()} + '%'"></span>
+                            <span style="font-size: 12px">적립</span>
+                        </div>
+
+                        <br/>
+                        <hr style="width: 80%"/>
+                        <br/>
+
+                        <div class="min-max-container">
+                            <div class="price-container">
+                                <div style="width: 2rem">
+                                    <span>min</span>
+                                </div>
+                                <span class="minAmount" th:text="${userGrade.userGradeMinAmount()}"></span>
+                            </div>
+                            <div class="price-container">
+                                <div style="width: 2rem" th:if="${userGrade.userGradeName() != 'PRESTIGE'}">
+                                    <span>max</span>
+                                </div>
+                                <span class="maxAmount" th:if="${userGrade.userGradeName() != 'PRESTIGE'}"
+                                      th:text="${userGrade.userGradeMaxAmount()}"></span>
+                                <span th:if="${userGrade.userGradeName() == 'PRESTIGE'}">&nbsp;</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <table class="my-info-table">
-                <tr>
-                    <td><br/></td>
-                </tr>
                 <tr>
                     <td><br/></td>
                 </tr>
@@ -128,13 +169,13 @@
                 </tr>
             </table>
             <div class="button-container">
-                <button type="button" class="payco-connect-button"
-                        th:onclick="'paycoConnectRequest(\'[[${myUserInfo.email()}]]\')'">
-                    <div class="payco-image-container">
-                        <img id="payco-image" th:src="@{/image/PAYCO_BUTTON.png}" alt="PAYCO 연동">
-                    </div>
-                </button>
-                <button onclick="location.href='/users/update-info'">회원 정보 수정</button>
+                <!--                <button type="button" class="payco-connect-button"-->
+                <!--                        th:onclick="'paycoConnectRequest(\'[[${myUserInfo.email()}]]\')'">-->
+                <!--                    <div class="payco-image-container">-->
+                <!--                        <img id="payco-image" th:src="@{/image/PAYCO_BUTTON.png}" alt="PAYCO 연동">-->
+                <!--                    </div>-->
+                <!--                </button>-->
+                <button id="edit-button" onclick="location.href='/users/update-info'">정보수정</button>
                 <button id="withdraw-button">회원탈퇴</button>
             </div>
         </section>
@@ -147,5 +188,25 @@
 
 <script th:src="@{/js/my-page.js}"></script>
 <script th:src="@{/js/payco.js}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var elements = document.querySelectorAll(".minAmount");
+        elements.forEach(function (element) {
+            var amount = parseFloat(element.textContent);
+            if (!isNaN(amount)) {
+                element.textContent = amount.toLocaleString('ko-KR') + "원";
+            }
+        });
+
+        elements = document.querySelectorAll(".maxAmount");
+        elements.forEach(function (element) {
+            var amount = parseFloat(element.textContent);
+            if (!isNaN(amount)) {
+                element.textContent = amount.toLocaleString('ko-KR') + "원";
+            }
+        });
+    });
+
+</script>
 </body>
 </html>

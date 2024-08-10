@@ -19,9 +19,14 @@
 <header th:insert="~{global/header}"></header>
 
 <section id="main-banner-section" class="top-container">
+    <div>
+        <span th:text="${currentUserGradeName}">here</span>
+        <span th:each="userGrade : ${userGrades}" th:text="${userGrade.userGradeName()}">here</span>
+    </div>
     <div class="main-banner-container">
         <div class="duck-stew-banner banner">
             <img class="duck-stew-banner-image" th:src="@{/image/ORITANG_MAIN_BANNER_1.png}" alt="오리탕 레시피 배너">
+            <!--            <img class="duck-stew-banner-image" th:src="@{/image/MAIN_BANNER_LIGHT.png}" alt="오리탕 레시피 배너">-->
         </div>
         <div class="sub-banner-container">
             <div class="coupon-banner banner">
