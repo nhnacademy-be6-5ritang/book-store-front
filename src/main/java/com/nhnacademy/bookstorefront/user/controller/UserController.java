@@ -1,6 +1,8 @@
 package com.nhnacademy.bookstorefront.user.controller;
 
 import java.math.BigDecimal;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -18,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.nhnacademy.bookstorefront.address.dto.response.GetAddressResponse;
 import com.nhnacademy.bookstorefront.user.dto.request.UpdateUserInfoRequest;
 import com.nhnacademy.bookstorefront.user.dto.response.GetMyUserInfoResponse;
+import com.nhnacademy.bookstorefront.user.dto.response.GetUserGradeResponse;
 import com.nhnacademy.bookstorefront.user.service.UserService;
 
 import jakarta.servlet.http.Cookie;
@@ -52,6 +55,20 @@ public class UserController {
 
 		ResponseEntity<Optional<GetAddressResponse>> getDefaultAddressResponse = userService.getDefaultAddress();
 		model.addAttribute("myAddress", getDefaultAddressResponse.getBody().orElse(null));
+
+		List<GetUserGradeResponse> userGrades = userService.getUserGrades();
+		List<GetUserGradeResponse> sortedUserGrades = userGrades.stream()
+			.sorted(Comparator.comparingInt(grade -> switch (grade.userGradeName()) {
+				case "REGULAR" -> 1;
+				case "ROYAL" -> 2;
+				case "GRAND" -> 3;
+				case "PRESTIGE" -> 4;
+				default -> Integer.MAX_VALUE;
+			}))
+			.toList();
+
+		model.addAttribute("userGrades", sortedUserGrades);
+
 		return "user/my-page";
 	}
 

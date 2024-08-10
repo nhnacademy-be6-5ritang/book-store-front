@@ -1,6 +1,7 @@
 package com.nhnacademy.bookstorefront.user.feignclient;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.cloud.openfeign.FeignClient;
@@ -20,6 +21,7 @@ import com.nhnacademy.bookstorefront.global.config.FeignClientConfig;
 import com.nhnacademy.bookstorefront.user.dto.request.UpdateUserInfoRequest;
 import com.nhnacademy.bookstorefront.user.dto.request.UpdateUserRoleRequest;
 import com.nhnacademy.bookstorefront.user.dto.response.GetMyUserInfoResponse;
+import com.nhnacademy.bookstorefront.user.dto.response.GetUserGradeResponse;
 import com.nhnacademy.bookstorefront.user.dto.response.GetUserInfoResponse;
 import com.nhnacademy.bookstorefront.user.dto.response.UpdateUserInfoResponse;
 
@@ -58,4 +60,7 @@ public interface UserClient {
 
 	@GetMapping("/api/users/payco-connect/{paycoId}")
 	void paycoConnect(@PathVariable String paycoId);
+
+	@GetMapping("/api/user-grades")
+	ResponseEntity<List<GetUserGradeResponse>> getUserGrades();
 }

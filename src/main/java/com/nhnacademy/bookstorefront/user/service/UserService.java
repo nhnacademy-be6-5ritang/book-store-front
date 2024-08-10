@@ -1,6 +1,7 @@
 package com.nhnacademy.bookstorefront.user.service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -11,6 +12,7 @@ import com.nhnacademy.bookstorefront.address.dto.response.GetAddressResponse;
 import com.nhnacademy.bookstorefront.user.dto.request.UpdateUserInfoRequest;
 import com.nhnacademy.bookstorefront.user.dto.request.UpdateUserRoleRequest;
 import com.nhnacademy.bookstorefront.user.dto.response.GetMyUserInfoResponse;
+import com.nhnacademy.bookstorefront.user.dto.response.GetUserGradeResponse;
 import com.nhnacademy.bookstorefront.user.dto.response.GetUserInfoResponse;
 import com.nhnacademy.bookstorefront.user.dto.response.UpdateUserInfoResponse;
 
@@ -82,6 +84,14 @@ public interface UserService {
 	 * @return 빈 본문을 가진 {@link ResponseEntity} 객체. 페이지 조회 성공 여부는 상태 코드로 반환됩니다.
 	 */
 	ResponseEntity<Void> getAdminPage();
+
+	/**
+	 * 현재 사용자와 모든 사용자 등급 정보를 조회합니다.
+	 * 메인 페이지 배너용
+	 *
+	 * @return 현재 사용자와 모든 사용자 등급 정보 리스트
+	 */
+	List<GetUserGradeResponse> getUserGrades();
 
 	/**
 	 * 사용자의 역할을 업데이트합니다.
