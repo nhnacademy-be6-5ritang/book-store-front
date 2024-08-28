@@ -1,45 +1,44 @@
 package com.nhnacademy.bookstorefront.cache.service;
 
-import static org.mockito.Mockito.*;
-
-import java.util.Collections;
-
+import com.nhnacademy.bookstorefront.cache.service.impl.CacheManageServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.nhnacademy.bookstorefront.cache.service.impl.CacheManageServiceImpl;
+import java.util.Collections;
+
+import static org.mockito.Mockito.*;
 
 class CacheManageServiceImplTest {
 
-	@Mock
-	private CacheService cacheService;
+    @Mock
+    private CacheService cacheService;
 
-	@InjectMocks
-	private CacheManageServiceImpl cacheManageService;
+    @InjectMocks
+    private CacheManageServiceImpl cacheManageService;
 
-	@BeforeEach
-	void setUp() {
-		MockitoAnnotations.openMocks(this);
-	}
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
-	@Test
-	void testRefreshMainPageCache() {
-		// Arrange
-		doNothing().when(cacheService).initMainPageCache();
-		when(cacheService.getOrderedBooks()).thenReturn(Collections.emptyList());
-		when(cacheService.getLikesBooks()).thenReturn(Collections.emptyList());
-		when(cacheService.getNewestBooks()).thenReturn(Collections.emptyList());
+    @Test
+    void testRefreshMainPageCache() {
+        // Arrange
+        doNothing().when(cacheService).initMainPageCache();
+        when(cacheService.getBestSellerBooks()).thenReturn(Collections.emptyList());
+        when(cacheService.getLikesBooks()).thenReturn(Collections.emptyList());
+        when(cacheService.getNewestBooks()).thenReturn(Collections.emptyList());
 
-		// Act
-		cacheManageService.refreshMainPageCache();
+        // Act
+        cacheManageService.refreshMainPageCache();
 
-		// Assert
-		verify(cacheService, times(1)).initMainPageCache();
-		verify(cacheService, times(1)).getOrderedBooks();
-		verify(cacheService, times(1)).getLikesBooks();
-		verify(cacheService, times(1)).getNewestBooks();
-	}
+        // Assert
+        verify(cacheService, times(1)).initMainPageCache();
+        verify(cacheService, times(1)).getBestSellerBooks();
+        verify(cacheService, times(1)).getLikesBooks();
+        verify(cacheService, times(1)).getNewestBooks();
+    }
 }

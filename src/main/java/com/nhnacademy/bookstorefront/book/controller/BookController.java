@@ -6,7 +6,6 @@ import com.nhnacademy.bookstorefront.book.dto.response.BookSearchResult;
 import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
 import com.nhnacademy.bookstorefront.bookstatus.service.impl.BookStatusServiceImpl;
-import com.nhnacademy.bookstorefront.cache.service.impl.CacheServiceImpl;
 import com.nhnacademy.bookstorefront.category.service.impl.CategoryServiceImpl;
 import com.nhnacademy.bookstorefront.global.util.PagingModel;
 import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
@@ -15,9 +14,7 @@ import com.nhnacademy.bookstorefront.tag.service.impl.TagServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -40,7 +37,6 @@ public class BookController {
     private final BookStatusServiceImpl bookStatusService;
     private final TagServiceImpl tagService;
     private final ReviewService reviewService;
-    private final CacheServiceImpl cacheService;
     private static final String REDIRECT_URL = "redirect:/api/books/page";
 
     /**
@@ -76,57 +72,19 @@ public class BookController {
     }
 
     /**
-     * 메인 페이지에서 모든 책을 조회합니다.
-     *
-     * @param model 모델 객체
-     * @return 메인 페이지 뷰 이름
-     */
-    @GetMapping("/main")
-    public String mainPage(Model model) {
-        model.addAttribute("orderedBooksCache", cacheService.getOrderedBooks());
-        model.addAttribute("likesBooksCache", cacheService.getLikesBooks());
-        model.addAttribute("newestBooksCache", cacheService.getNewestBooks());
-        return "index";
-    }
-
-    /**
      * 페이지네이션을 적용하여 모든 책을 조회합니다.
      *
      * @param pageable 페이지 정보
      * @param model    모델 객체
      * @return 책 리스트 뷰 이름
      */
-    @GetMapping("/page")
-    public String findAllBooks(@PageableDefault(page = 1) Pageable pageable, Model model) {
-        Page<GetBookDetailResponse> books = bookService.getNewestBooks(pageable);
+    @GetMapping
+    public String getBooks(@PageableDefault(page = 1) Pageable pageable, Model model) {
+        Page<GetBookDetailResponse> books = bookService.getBooks(pageable);
         model.addAttribute("books", books);
-        PagingModel.pagingProcessing(pageable, model, books, "/api/books/page", 5);
+        PagingModel.pagingProcessing(pageable, model, books, "/api/books", 5);
 
         return "book/list-book";
-    }
-
-    @GetMapping("/page/category")
-    public String findAllBooksByCategoryName(
-            @PageableDefault(page = 1, size = 12, sort = {
-                    "bookPublishDate"}, direction = Sort.Direction.DESC) Pageable defaultPageable,
-            @RequestParam(defaultValue = "bookPublishDate") String sortBy,
-            @RequestParam(defaultValue = "DESC") String direction,
-            @RequestParam String categoryName, Model model) {
-
-        Sort.Direction sortDirection = Sort.Direction.fromString(direction.toUpperCase());
-        Sort sort = Sort.by(sortDirection, sortBy);
-        Pageable pageable = PageRequest.of(defaultPageable.getPageNumber(), defaultPageable.getPageSize(), sort);
-
-        Page<GetBookDetailResponse> books = bookService.findAllBooksByCategory(pageable, categoryName);
-        model.addAttribute("books", books);
-        model.addAttribute("categoryName", categoryName);
-        model.addAttribute("sortBy", sortBy);
-        model.addAttribute("direction", direction);
-        PagingModel.pagingProcessing(pageable, model, books,
-                "/api/books/page/category?categoryName=" + categoryName + "&direction=" + direction + "&sortBy=" + sortBy,
-                5);
-
-        return "book/list-book-by-category";
     }
 
     /**

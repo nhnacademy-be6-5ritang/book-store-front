@@ -18,7 +18,7 @@ public class CacheManageServiceImpl implements CacheManageService {
     @Override
     public void refreshMainPageCache() {
         cacheService.initMainPageCache();
-        cacheService.getOrderedBooks();
+        cacheService.getBestSellerBooks();
         cacheService.getLikesBooks();
         cacheService.getNewestBooks();
         log.info("메인 페이지 도서 목록 캐시 업데이트 완료");

@@ -21,7 +21,7 @@ public class CacheSchedulerServiceImpl implements CacheSchedulerService {
     @Scheduled(cron = "0 0 * * * ?") // 1시간마다 캐시 갱신
     public void refreshMainPageCache() {
         cacheService.initMainPageCache();
-        cacheService.getOrderedBooks();
+        cacheService.getBestSellerBooks();
         cacheService.getLikesBooks();
         cacheService.getNewestBooks();
         log.info("메인 페이지 도서 목록 캐시 업데이트 완료");

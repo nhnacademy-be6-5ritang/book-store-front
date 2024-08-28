@@ -35,37 +35,10 @@ public class BookServiceImpl implements BookService {
      * {@inheritDoc}
      */
     @Override
-    public List<GetBookDetailResponse> getNewestBooks() {
-        return bookServiceClient.getNewestBooks().getBody();
+    public Page<GetBookDetailResponse> getBooks(Pageable pageable) {
+        return bookServiceClient.getBooks(pageable).getBody();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<GetBookDetailResponse> getOrderedBooks() {
-        return bookServiceClient.getOrderedBooks().getBody();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<GetBookDetailResponse> getLikesBooks() {
-        return bookServiceClient.getLikesBooks().getBody();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Page<GetBookDetailResponse> getNewestBooks(Pageable pageable) {
-        return bookServiceClient.getNewestBooks(pageable).getBody();
-    }
-
-    public Page<GetBookDetailResponse> findAllBooksByCategory(Pageable pageable, String categoryName) {
-        return bookServiceClient.findAllBooksByCategoryName(pageable, categoryName).getBody();
-    }
 
     /**
      * {@inheritDoc}
