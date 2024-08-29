@@ -1,7 +1,5 @@
 package com.nhnacademy.bookstorefront.author.service.impl;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,14 +14,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthorServiceImpl implements AuthorService {
 	private final AuthorServiceClient authorServiceClient;
-
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public List<AuthorDto> getAuthors() {
-		return authorServiceClient.getAuthors().getBody();
-	}
 
 	/**
 	 *{@inheritDoc}

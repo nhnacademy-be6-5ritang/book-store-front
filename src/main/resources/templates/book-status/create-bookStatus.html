@@ -20,19 +20,18 @@
     <section id="page-menu-container" th:insert="~{fragments/admin-menu.html}"></section>
     <section id="page-content">
         <section id="page-header">
-            <h5>배송상태</h5>
+            <h5>도서상태</h5>
         </section>
         <hr style="width: 100%"/>
         <section id="page-body">
-            <h3>배송상태 수정 폼</h3>
-            <form th:action="@{/api/deliveryStatuses/{deliveryStatusId}(deliveryStatusId=${deliveryStatus.deliveryStatusId})}"
-                  th:method="put" th:object="${deliveryStatus}">
+            <h3>도서상태 추가 폼</h3>
+            <form th:action="@{/book-statuses}" method="post">
                 <div class="form-group">
-                    <label for="deliveryStatusName">상태 이름</label>
-                    <input type="text" class="form-control" id="deliveryStatusName"
-                           th:field="*{deliveryStatusName}" required>
+                    <label for="bookStatusName">도서상태 이름</label>
+                    <input type="text" class="form-control" id="bookStatusName"
+                           name="bookStatusName" required>
                 </div>
-                <button type="submit" class="btn btn-primary">수정</button>
+                <button type="submit" class="btn btn-primary">추가</button>
                 <a class="btn btn-secondary" onclick="history.back()">취소</a>
             </form>
         </section>

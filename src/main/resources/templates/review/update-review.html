@@ -26,7 +26,7 @@
         <hr style="width: 100%"/>
         <section id="page-body">
             <!-- 리뷰 수정 폼 -->
-            <form id="editReviewForm" th:action="@{/api/reviews/{reviewId} (reviewId=${review.reviewId})}"
+            <form id="editReviewForm" th:action="@{/reviews/{reviewId} (reviewId=${review.reviewId})}"
                   method="post" enctype="multipart/form-data">
                 <div class="review-form">
 

@@ -34,9 +34,9 @@ class BookStatusControllerTest {
 
 	@Test
 	void testCreateBookStatusForm() throws Exception {
-		mockMvc.perform(get("/api/bookStatuses/create"))
+		mockMvc.perform(get("/book-statuses/create"))
 			.andExpect(status().isOk())
-			.andExpect(view().name("bookStatus/create-bookStatus"));
+			.andExpect(view().name("book-status/create-bookStatus"));
 	}
 
 	@Test
@@ -45,9 +45,9 @@ class BookStatusControllerTest {
 		BookStatusDto bookStatusDto = new BookStatusDto(bookStatusId, "Available");
 		when(bookStatusService.getBookStatus(bookStatusId)).thenReturn(bookStatusDto);
 
-		mockMvc.perform(get("/api/bookStatuses/update/{bookStatusId}", bookStatusId))
+		mockMvc.perform(get("/book-statuses/update/{bookStatusId}", bookStatusId))
 			.andExpect(status().isOk())
-			.andExpect(view().name("bookStatus/update-bookStatus"))
+			.andExpect(view().name("book-status/update-bookStatus"))
 			.andExpect(model().attribute("bookStatus", bookStatusDto));
 	}
 
@@ -58,9 +58,9 @@ class BookStatusControllerTest {
 
 		when(bookStatusService.getBookStatuses()).thenReturn(bookStatusList);
 
-		mockMvc.perform(get("/api/bookStatuses"))
+		mockMvc.perform(get("/book-statuses"))
 			.andExpect(status().isOk())
-			.andExpect(view().name("bookStatus/list-bookStatus"))
+			.andExpect(view().name("book-status/list-bookStatus"))
 			.andExpect(model().attribute("bookStatuses", bookStatusList));
 	}
 
@@ -68,11 +68,11 @@ class BookStatusControllerTest {
 	void testCreateBookStatus() throws Exception {
 		BookStatusDto bookStatusDto = new BookStatusDto(null, "Available");
 
-		mockMvc.perform(post("/api/bookStatuses")
+		mockMvc.perform(post("/book-statuses")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("bookStatusName", bookStatusDto.bookStatusName()))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/bookStatuses"));
+			.andExpect(redirectedUrl("/book-statuses"));
 
 		verify(bookStatusService).createBookStatus(any(BookStatusDto.class));
 	}
@@ -81,15 +81,15 @@ class BookStatusControllerTest {
 	void testUpdateBookStatus() throws Exception {
 		Long bookStatusId = 1L;
 		BookStatusDto bookStatusDto = new BookStatusDto(bookStatusId, "Status");
-		
+
 		doNothing().when(bookStatusService).updateBookStatus(eq(bookStatusId), any(BookStatusDto.class));
 
-		mockMvc.perform(put("/api/bookStatuses/{bookStatusId}", bookStatusId)
+		mockMvc.perform(put("/book-statuses/{bookStatusId}", bookStatusId)
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("bookStatusId", bookStatusDto.bookStatusId().toString())
 				.param("bookStatusName", bookStatusDto.bookStatusName()))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/bookStatuses"));
+			.andExpect(redirectedUrl("/book-statuses"));
 
 		verify(bookStatusService).updateBookStatus(eq(bookStatusId), any(BookStatusDto.class));
 	}
@@ -98,9 +98,9 @@ class BookStatusControllerTest {
 	void testDeleteBookStatus() throws Exception {
 		Long bookStatusId = 1L;
 
-		mockMvc.perform(delete("/api/bookStatuses/{bookStatusId}", bookStatusId))
+		mockMvc.perform(delete("/book-statuses/{bookStatusId}", bookStatusId))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/bookStatuses"));
+			.andExpect(redirectedUrl("/book-statuses"));
 
 		verify(bookStatusService).deleteBookStatus(bookStatusId);
 	}

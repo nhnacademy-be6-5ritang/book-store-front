@@ -1,4 +1,3 @@
-
 // rate , price 둘중에 한개만 적을 수 있게금 조치
 document.addEventListener('DOMContentLoaded', function () {
     const salePriceInput = document.getElementById('salePrice');
@@ -66,7 +65,7 @@ $(document).ready(function () {
         var query = $(this).val();
         if (query.length > 1) { // 3자 이상 입력 시 검색
             $.ajax({
-                url: '/api/books/search/test',
+                url: '/api/books/search',
                 type: 'GET',
                 data: {key: query},
                 success: function (data) {
@@ -95,7 +94,7 @@ $(document).ready(function () {
         var query = $(this).val();
         if (query.length > 1) { // 3자 이상 입력 시 검색
             $.ajax({
-                url: '/api/categories/search/test',
+                url: '/api/categories/search',
                 type: 'GET',
                 data: {key: query},
                 success: function (data) {
@@ -126,6 +125,7 @@ $(document).ready(function () {
 
         var policyId = $(this).data('policy-id');
         $('#couponPolicyId').val(policyId);
+
 // 현재 시간을 설정하는 함수
         function setCurrentTime() {
             var now = new Date();
@@ -165,13 +165,11 @@ $(document).ready(function () {
         });
 
         // Close modal on clicking the close button
-        $('#addCouponModal .close, #addCouponModal .btn-secondary').on('click', function() {
+        $('#addCouponModal .close, #addCouponModal .btn-secondary').on('click', function () {
             $('#addCouponModal').modal('hide');
         });
     });
 });
-
-
 
 
 $(document).ready(function () {
@@ -186,12 +184,11 @@ $(document).ready(function () {
                 saleRateInputEdit.val('').attr('disabled', 'disabled');
                 maxSalePriceInputEdit.val('').attr('disabled', 'disabled');
                 salePriceInputEdit.removeAttr('disabled');
-            } else if(saleRateInputEdit.val().trim() !== '' && maxSalePriceInputEdit.val().trim() !== ''){
+            } else if (saleRateInputEdit.val().trim() !== '' && maxSalePriceInputEdit.val().trim() !== '') {
                 salePriceInputEdit.val('').attr('disabled', 'disabled');
                 saleRateInputEdit.removeAttr('disabled');
                 maxSalePriceInputEdit.removeAttr('disabled');
             }
-
 
 
         }
@@ -204,11 +201,6 @@ $(document).ready(function () {
     });
 
 
-
-
-
-
-
     $('#couponTable').on('click', '.editBtn', function (e) {
         e.preventDefault();
         var policyId = $(this).data('policy-id');
@@ -219,7 +211,6 @@ $(document).ready(function () {
             alert('폐기된 정책은 다시 사용할 수 없습니다.');
             return; // 경고창을 띄운 후 함수 종료
         }
-
 
 
         var row = $(this).closest('tr');
@@ -244,18 +235,14 @@ $(document).ready(function () {
         $('#bookTitleEdit').val(row.find('.bookTitleHidden').val());
 
 
-
-
-
         // `th:action` URL 업데이트
         $('#editCouponForm').attr('action', '/coupons/policies/' + policyId);
 
         $('#editModal').modal('show'); // 수정 모달 표시
 
 
-
         // Close modal on clicking the close button
-        $('#editModal .close, #editModal .btn-secondary').on('click', function() {
+        $('#editModal .close, #editModal .btn-secondary').on('click', function () {
             $('#editModal').modal('hide');
         });
 

@@ -32,7 +32,7 @@ class IndexControllerTest {
 	void testIndexPageRedirect() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/"))
 			.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-			.andExpect(MockMvcResultMatchers.redirectedUrl("/api/books/main"));
+			.andExpect(MockMvcResultMatchers.redirectedUrl("/main"));
 	}
 
 	@Test

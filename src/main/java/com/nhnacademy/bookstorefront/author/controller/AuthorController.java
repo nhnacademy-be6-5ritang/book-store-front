@@ -26,10 +26,10 @@ import lombok.RequiredArgsConstructor;
  */
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/authors")
+@RequestMapping("/authors")
 public class AuthorController {
 	private final AuthorServiceImpl authorService;
-	private static final String REDIRECT_URL = "redirect:/api/authors/page";
+	private static final String REDIRECT_URL = "redirect:/authors";
 
 	/**
 	 * 저자 생성 폼을 반환합니다.
@@ -55,29 +55,17 @@ public class AuthorController {
 	}
 
 	/**
-	 * 모든 저자 정보를 조회하여 리스트로 반환합니다.
-	 *
-	 * @param model 모델 객체
-	 * @return 저자 리스트 뷰 이름
-	 */
-	@GetMapping
-	public String getAuthors(Model model) {
-		model.addAttribute("authors", authorService.getAuthors());
-		return "author/list-author";
-	}
-
-	/**
 	 * 페이지네이션을 포함하여 모든 저자 정보를 조회합니다.
 	 *
 	 * @param pageable 페이지네이션 정보
 	 * @param model    모델 객체
 	 * @return 저자 리스트 뷰 이름
 	 */
-	@GetMapping("/page")
+	@GetMapping
 	public String getAuthors(@PageableDefault(page = 1, size = 10) Pageable pageable, Model model) {
 		Page<AuthorDto> authors = authorService.getAuthors(pageable);
 		model.addAttribute("authors", authors);
-		PagingModel.pagingProcessing(pageable, model, authors, "/api/authors/page", 5);
+		PagingModel.pagingProcessing(pageable, model, authors, "/authors", 5);
 
 		return "author/list-author";
 	}

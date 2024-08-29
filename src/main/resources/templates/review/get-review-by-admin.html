@@ -54,9 +54,9 @@
                     </label>
                 </div>
                 <div class="d-flex justify-content-end">
-                    <a th:href="@{/api/reviews/update/{reviewId} (reviewId=${review.reviewId})}"
+                    <a th:href="@{/reviews/update/{reviewId} (reviewId=${review.reviewId})}"
                        class="btn btn-warning">편집</a>
-                    <form th:action="@{/api/reviews/{reviewId} (reviewId=${review.reviewId})}"
+                    <form th:action="@{/reviews/{reviewId} (reviewId=${review.reviewId})}"
                           th:method="delete">
                         <button type="submit" class="btn btn-danger">삭제</button>
                     </form>

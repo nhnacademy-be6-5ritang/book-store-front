@@ -23,10 +23,10 @@ import lombok.RequiredArgsConstructor;
  */
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/deliveryPolicies")
+@RequestMapping("/delivery-policies")
 public class DeliveryPolicyController {
 	private final DeliveryPolicyService deliveryPolicyService;
-	private static final String REDIRECT_URL = "redirect:/api/deliveryPolicies";
+	private static final String REDIRECT_URL = "redirect:/delivery-policies";
 
 	/**
 	 * 배송 정책 생성 폼을 반환합니다.
@@ -35,7 +35,7 @@ public class DeliveryPolicyController {
 	 */
 	@GetMapping("/create")
 	public String createDeliveryPolicyForm() {
-		return "/deliveryPolicy/create-delivery-policy";
+		return "/delivery-policy/create-delivery-policy";
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class DeliveryPolicyController {
 	@GetMapping("/update/{deliveryPolicyId}")
 	public String updateDeliveryPolicyForm(@PathVariable Long deliveryPolicyId, Model model) {
 		model.addAttribute("deliveryPolicy", deliveryPolicyService.getDeliveryPolicy(deliveryPolicyId));
-		return "/deliveryPolicy/update-delivery-policy";
+		return "/delivery-policy/update-delivery-policy";
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class DeliveryPolicyController {
 	@GetMapping("/{deliveryPolicyId}")
 	public String getDeliveryPolicy(@PathVariable Long deliveryPolicyId, Model model) {
 		model.addAttribute("deliveryPolicy", deliveryPolicyService.getDeliveryPolicy(deliveryPolicyId));
-		return "deliveryPolicy/get-delivery-policy";
+		return "delivery-policy/get-delivery-policy";
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class DeliveryPolicyController {
 	@GetMapping
 	public String listDeliveryPolicies(Model model) {
 		model.addAttribute("deliveryPolicies", deliveryPolicyService.getDeliveryPolicies());
-		return "deliveryPolicy/list-delivery-policy";
+		return "delivery-policy/list-delivery-policy";
 	}
 
 	/**

@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/wishLists")
+@RequestMapping("/wish-lists")
 public class WishListController {
 	private final WishListService wishListService;
 
@@ -32,7 +32,7 @@ public class WishListController {
 	 * @param model 데이터 모델
 	 * @return 위시리스트 목록 페이지의 뷰 이름
 	 */
-	@GetMapping
+	@GetMapping("/me")
 	public String getWishLists(Model model) {
 		model.addAttribute("wishLists", wishListService.getWishLists());
 		return "wishlist/list-wishlist";
@@ -58,7 +58,7 @@ public class WishListController {
 	@DeleteMapping("/{wishListId}")
 	public String deleteWishList(@PathVariable Long wishListId) {
 		wishListService.deleteWishList(wishListId);
-		return "redirect:/api/wishLists";
+		return "redirect:/wish-lists/me";
 	}
 
 }

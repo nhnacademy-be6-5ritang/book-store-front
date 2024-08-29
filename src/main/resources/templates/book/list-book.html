@@ -25,8 +25,8 @@
         <hr style="width: 100%"/>
         <section id="page-body">
             <h3>도서 리스트</h3>
-            <h3><a th:href="@{/api/books/create}" class="btn btn-primary">도서 추가</a></h3>
-            <form th:action="@{/api/books/fetch}" method="post" class="d-flex">
+            <h3><a th:href="@{/books/create}" class="btn btn-primary">도서 추가</a></h3>
+            <form th:action="@{/books/fetch}" method="post" class="d-flex">
                 <div class="input-group">
                     <label for="isbn" class="sr-only">추가할 책의 ISBN</label>
                     <input type="text" class="form-control" placeholder="ISBN 입력"
@@ -52,13 +52,11 @@
                         </td>
                         <td th:text="${book.bookTitle}">도서 이름</td>
                         <td style="display: flex; align-items: center;">
-                            <a href="#"
-                               th:href="@{/api/books/detail/{bookId} (bookId=${book.bookId})}"
+                            <a th:href="@{/books/{bookId} (bookId=${book.bookId})}"
                                class="btn btn-primary inline-text">보기</a>
-                            <a href="#"
-                               th:href="@{/api/books/update/{bookId} (bookId=${book.bookId})}"
+                            <a th:href="@{/books/update/{bookId} (bookId=${book.bookId})}"
                                class="btn btn-warning inline-text">편집</a>
-                            <form th:action="@{/api/books/{bookId} (bookId=${book.bookId})}"
+                            <form th:action="@{/books/{bookId} (bookId=${book.bookId})}"
                                   th:method="delete">
                                 <button type="submit" class="btn btn-danger inline-text">
                                     삭제

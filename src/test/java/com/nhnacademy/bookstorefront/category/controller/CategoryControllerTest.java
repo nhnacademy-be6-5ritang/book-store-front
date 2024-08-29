@@ -157,7 +157,7 @@ class CategoryControllerTest {
 		List<CategorySearchResult> searchResults = List.of(result);
 		when(categoryService.searchCategories(anyString())).thenReturn(searchResults);
 
-		mockMvc.perform(get("/api/categories/search/test")
+		mockMvc.perform(get("/api/categories/search")
 				.param("key", "Science"))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$[0].categoryId").value(result.categoryId()))

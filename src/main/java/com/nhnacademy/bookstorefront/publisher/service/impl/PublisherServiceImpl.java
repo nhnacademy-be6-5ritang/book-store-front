@@ -1,7 +1,5 @@
 package com.nhnacademy.bookstorefront.publisher.service.impl;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,14 +14,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PublisherServiceImpl implements PublisherService {
 	private final PublisherServiceClient publisherServiceClient;
-
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public List<PublisherDto> getPublishers() {
-		return publisherServiceClient.getPublishers().getBody();
-	}
 
 	/**
 	 *{@inheritDoc}

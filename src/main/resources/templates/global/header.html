@@ -10,7 +10,7 @@
 
     <div class="top-container logo-search-container">
         <div class="logo-container">
-            <a th:href="@{/api/books/main}" class="site-brand">
+            <a th:href="@{/main}" class="site-brand">
                 <img class="logo-image" th:src="@{/image/ORITANG_BANNER_LIGHT.png}" alt="">
             </a>
         </div>
@@ -45,14 +45,14 @@
         </div>
         <div class="categories-container">
             <div th:each="category : ${categoriesCache}" th:if="${#strings.isEmpty(category.parentCategoryName)}">
-                <a th:href="@{/api/books/page/category (categoryName=${category.categoryName})}"
+                <a th:href="@{/products/category (categoryName=${category.categoryName})}"
                    th:text="${category.categoryName}"
                    th:id="${category.categoryName}"></a>
                 <div class="sub-menu">
                     <ul>
                         <li th:each="subCategory : ${categoriesCache}"
                             th:if="${subCategory.parentCategoryName == category.categoryName}">
-                            <a th:href="@{/api/books/page/category (categoryName=${subCategory.categoryName})}"
+                            <a th:href="@{/products/category (categoryName=${subCategory.categoryName})}"
                                th:text="${subCategory.categoryName}"></a>
                         </li>
                     </ul>
@@ -62,7 +62,7 @@
 
 
         <div class="menu-button-container">
-            <a th:href="@{/api/wishLists}">
+            <a th:href="@{/wish-lists/me}">
                 <div class="menu-button">
                     <i class="fa-solid fa-heart"></i>
                     <span class="menu-tag">좋아요</span>

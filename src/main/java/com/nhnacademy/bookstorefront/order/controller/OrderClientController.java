@@ -21,8 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.nhnacademy.bookstorefront.address.dto.response.GetAddressResponse;
 import com.nhnacademy.bookstorefront.address.service.AddressService;
-import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
-import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
+import com.nhnacademy.bookstorefront.book.dto.response.GetBookResponse;
+import com.nhnacademy.bookstorefront.book.service.BookService;
 import com.nhnacademy.bookstorefront.bookcart.dto.response.GetBookCartResponse;
 import com.nhnacademy.bookstorefront.bookcart.service.BookCartService;
 import com.nhnacademy.bookstorefront.delivery.dto.response.GetDeliveryResponse;
@@ -81,7 +81,7 @@ public class OrderClientController {
 	private final PaperTypeServiceImpl paperTypeServiceImpl;
 	private final WrappingPaperServiceImpl wrappingPaperServiceImpl;
 	private final DeliveryServiceImpl deliveryServiceImpl;
-	private final BookServiceImpl bookServiceImpl;
+	private final BookService bookService;
 	private final DeliveryPolicyServiceImpl deliveryPolicyServiceImpl;
 	private final RefundPolicyServiceImpl refundPolicyServiceImpl;
 	private final UserAndCouponService userAndCouponService;
@@ -99,7 +99,7 @@ public class OrderClientController {
 	@GetMapping("/createBookOrderTest/{book_id}")
 	public ModelAndView createBookOrder(@PathVariable("book_id") Long bookId) {
 		ModelAndView modelAndView = new ModelAndView("order/orderList");
-		GetBookDetailResponse book = bookServiceImpl.getBook(bookId);
+		GetBookResponse book = bookService.getBook(bookId);
 		modelAndView.addObject("book", book);
 		modelAndView.addObject("bookId", bookId);
 		return modelAndView;
@@ -306,7 +306,7 @@ public class OrderClientController {
 		List<GetBookOrderResponse> list = bookOrderServiceImpl.getBookOrderByOrderId(orderInfoId);
 		BigDecimal total = BigDecimal.ZERO;
 		for (GetBookOrderResponse getBookOrderResponse : list) {
-			bookServiceImpl.updateQuantity(getBookOrderResponse.getBookResponse().bookId(),
+			bookService.updateQuantity(getBookOrderResponse.getBookResponse().bookId(),
 				getBookOrderResponse.quantity());
 			GetListWrappingResponse wrappingResponse = wrappingPaperServiceImpl.getWrappingPaperByOrderListId(
 				getBookOrderResponse.orderListId());

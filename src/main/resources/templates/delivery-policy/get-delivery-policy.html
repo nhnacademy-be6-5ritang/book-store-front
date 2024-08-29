@@ -36,9 +36,9 @@
                     th:text="${deliveryPolicy.deliveryPolicyStandardPrice}"></span>
             </p>
             <div class="d-flex justify-content-end">
-                <a th:href="@{/api/deliveryPolicies/update/{deliveryPolicyId} (deliveryPolicyId=${deliveryPolicy.deliveryPolicyId})}"
+                <a th:href="@{/delivery-policies/update/{deliveryPolicyId} (deliveryPolicyId=${deliveryPolicy.deliveryPolicyId})}"
                    class="btn btn-warning">편집</a>
-                <form th:action="@{/api/deliveryPolicies/{deliveryPolicyId}(deliveryPolicyId=${deliveryPolicy.deliveryPolicyId})}"
+                <form th:action="@{/delivery-policies/{deliveryPolicyId} (deliveryPolicyId=${deliveryPolicy.deliveryPolicyId})}"
                       th:method="delete">
                     <button type="submit" class="btn btn-danger">삭제</button>
                 </form>

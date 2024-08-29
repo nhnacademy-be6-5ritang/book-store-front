@@ -25,7 +25,7 @@
         <hr style="width: 100%"/>
         <section id="page-body">
             <h3>도서상태 수정 폼</h3>
-            <form th:action="@{/api/bookStatuses/{bookStatusId}(bookStatusId=${bookStatus.bookStatusId})}"
+            <form th:action="@{/book-statuses/{bookStatusId} (bookStatusId=${bookStatus.bookStatusId})}"
                   th:method="put" th:object="${bookStatus}">
                 <div class="form-group">
                     <label for="bookStatusName">도서상태 이름</label>

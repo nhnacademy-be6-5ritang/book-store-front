@@ -35,10 +35,10 @@ import lombok.RequiredArgsConstructor;
  */
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping
 public class ReviewController {
 	private final ReviewService reviewService;
-	private static final String REDIRECT_URL = "redirect:/api/users/me/reviews/page";
+	private static final String REDIRECT_URL = "redirect:/users/me/reviews";
 	private final BookOrderService bookOrderService;
 
 	/**
@@ -78,7 +78,7 @@ public class ReviewController {
 	 * @param model    데이터 모델
 	 * @return 모든 리뷰 목록 페이지의 뷰 이름
 	 */
-	@GetMapping("/reviews/page")
+	@GetMapping("/reviews")
 	public String getReviews(@PageableDefault(page = 1, size = 5) Pageable pageable, Model model,
 		@RequestParam(required = false, defaultValue = "전체") String reviewType) {
 
@@ -94,7 +94,7 @@ public class ReviewController {
 		model.addAttribute("reviewType", reviewType);
 		model.addAttribute("reviews", reviews);
 		PagingModel.pagingProcessing(pageable, model, reviews,
-			"/api/reviews/page" + "?reviewType=" + reviewType, 5);
+			"/reviews" + "?reviewType=" + reviewType, 5);
 
 		return "review/list-all-review";
 	}
@@ -106,7 +106,7 @@ public class ReviewController {
 	 * @param model    데이터 모델
 	 * @return 사용자의 리뷰 목록 페이지의 뷰 이름
 	 */
-	@GetMapping("/users/me/reviews/page")
+	@GetMapping("/users/me/reviews")
 	public String getReviewsByUserId(@PageableDefault(page = 1, size = 5) Pageable pageable, Model model,
 		@RequestParam(required = false, defaultValue = "전체") String reviewType) {
 
@@ -125,7 +125,7 @@ public class ReviewController {
 		model.addAttribute("reviewType", reviewType);
 		model.addAttribute("reviews", reviews);
 		PagingModel.pagingProcessing(pageable, model, reviews,
-			"/api/users/me/reviews/page" + "?reviewType=" + reviewType, 5);
+			"/users/me/reviews" + "?reviewType=" + reviewType, 5);
 
 		return "review/list-by-user-review";
 	}
@@ -188,6 +188,6 @@ public class ReviewController {
 	@DeleteMapping("/reviews/{reviewsId}")
 	public String deleteReview(@PathVariable Long reviewsId) {
 		reviewService.deleteReview(reviewsId);
-		return "redirect:/api/users/admin/reviews/page";
+		return "redirect:/users/admin/reviews";
 	}
 }

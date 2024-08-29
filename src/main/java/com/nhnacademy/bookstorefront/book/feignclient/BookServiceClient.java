@@ -17,29 +17,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.UpdateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.response.BookSearchResult;
-import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
+import com.nhnacademy.bookstorefront.book.dto.response.GetBookResponse;
+import com.nhnacademy.bookstorefront.book.dto.response.GetBookTitleResponse;
 
 @FeignClient(name = "book-feign-client", url = "http://localhost:8090/api/books")
 public interface BookServiceClient {
 
 	@GetMapping
-	ResponseEntity<List<GetBookDetailResponse>> getNewestBooks();
-
-	@GetMapping("/ordered")
-	ResponseEntity<List<GetBookDetailResponse>> getOrderedBooks();
-
-	@GetMapping("/likes")
-	ResponseEntity<List<GetBookDetailResponse>> getLikesBooks();
-
-	@GetMapping("/page")
-	ResponseEntity<Page<GetBookDetailResponse>> getNewestBooks(Pageable pageable);
-
-	@GetMapping("/page/category")
-	ResponseEntity<Page<GetBookDetailResponse>> findAllBooksByCategoryName(Pageable pageable,
-		@RequestParam String categoryName);
+	ResponseEntity<Page<GetBookTitleResponse>> getBooks(Pageable pageable);
 
 	@GetMapping("/{bookId}")
-	ResponseEntity<GetBookDetailResponse> getBook(@PathVariable Long bookId);
+	ResponseEntity<GetBookResponse> getBook(@PathVariable Long bookId);
 
 	@PostMapping("/fetch/book-lists")
 	ResponseEntity<String> fetchAndSaveBooks(@RequestParam Long count);

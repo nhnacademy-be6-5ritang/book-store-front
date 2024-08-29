@@ -8,88 +8,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/plugins.css}"/>
     <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/common/frame.css}"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/image/ORITANG_ROUND.png}">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
 
-
 <body>
-<div class="site-wrapper" id="top">
-    <!--=================================
-    Header Area
-    ===================================== -->
-    <div th:insert="~{global/header}"></div>
+<header th:insert="~{global/header}"></header>
 
-    <section class="breadcrumb-section">
-        <h2 class="sr-only">Site Breadcrumb</h2>
-        <div class="container">
-            <div class="breadcrumb-contents">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a th:href="@{/api/categories/main}">홈</a></li>
-                        <li class="breadcrumb-item active">환불 정책 관리</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </section>
-
-    <div class="page-section inner-page-sec-padding">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="row">
-                        <!-- My Account Tab Menu Start -->
-                        <div class="col-lg-3 col-12">
-                            <!-- 관리자 계정 메뉴 -->
-                            <div th:insert="~{fragments/admin-account-menu.html}"></div>
-                        </div>
-                        <!-- My Account Tab Menu End -->
-                        <!-- My Account Tab Content Start -->
-                        <div class="col-lg-9 col-12 mt--30 mt-lg--0">
-                            <div class="tab-content" id="myaccountContent">
-
-                                <div class="cart_area inner-page-sec-padding-bottom">
-                                    <div class="container">
-                                        <div class="page-section-title">
-                                            <h1>환불 정책 수정</h1>
-                                        </div>
-                                        <form th:action="@{/api/orders/admin/refundPolicy/{refundPolicyId}(refundPolicyId=${refundPolicyId})}"
-                                              method="post">
-                                            <div class="form-group">
-                                                <label for="refundPolicyContent">환불 정책 내용</label>
-                                                <input type="text" class="form-control" id="refundPolicyContent"
-                                                       name="refundPolicyContent" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="refundPolicyDate">환불 정책 기간 (송신일 기준 ~일 이내)</label>
-                                                <input type="text" class="form-control" id="refundPolicyDate"
-                                                       name="refundPolicyDate" required>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">정책 저장</button>
-                                        </form>
-                                    </div>
-
-
-                                </div>
-                            </div>
-                            <!-- My Account Tab Content End -->
-                        </div>
-                    </div>
+<section id="page" class="top-container">
+    <section id="page-menu-container" th:insert="~{fragments/admin-menu.html}"></section>
+    <section id="page-content">
+        <section id="page-header">
+            <h5>환불 정책 수정</h5>
+        </section>
+        <hr style="width: 100%"/>
+        <section id="page-body">
+            <form th:action="@{/api/orders/admin/refundPolicy/{refundPolicyId}(refundPolicyId=${refundPolicyId})}"
+                  method="post">
+                <div class="form-group">
+                    <label for="refundPolicyContent">환불 정책 내용</label>
+                    <input type="text" class="form-control" id="refundPolicyContent"
+                           name="refundPolicyContent" required>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
+                <div class="form-group">
+                    <label for="refundPolicyDate">환불 정책 기간 (송신일 기준 ~일 이내)</label>
+                    <input type="text" class="form-control" id="refundPolicyDate"
+                           name="refundPolicyDate" required>
+                </div>
+                <button type="submit" class="btn btn-primary">정책 저장</button>
+            </form>
+        </section>
+    </section>
+</section>
 
-<!--=================================
-Footer Area
-===================================== -->
-<div th:insert="~{global/footer}"></div>
-
-<!-- Use Minified Plugins Version For Fast Page Load -->
-<script th:src="@{/js/plugins.js}"></script>
-<script th:src="@{/js/ajax-mail.js}"></script>
-<script th:src="@{/js/custom.js}"></script>
+<div th:insert="~{fragments/to-admin-button}"></div>
+<footer th:insert="~{global/footer}"></footer>
+<script th:src="@{/js/my-page.js}"></script>
 </body>
-
 </html>

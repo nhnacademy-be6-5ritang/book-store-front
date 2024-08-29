@@ -26,7 +26,7 @@
         <div th:if="${!wishLists.isEmpty()}" th:each="wishlist: ${wishLists}">
             <div class="wishlist-item">
                 <div class="wishlist-book">
-                    <a th:href="@{/api/books/{bookId} (bookId=${wishlist.bookId})}">
+                    <a th:href="@{/products/{bookId} (bookId=${wishlist.bookId})}">
                         <div class="wishlist-thumbnail">
                             <img class="background-thumbnail" th:src="${wishlist.bookImageUrl}" alt="Book Image">
                             <img class="front-thumbnail" th:src="${wishlist.bookImageUrl}" alt="Book Image">
@@ -34,7 +34,7 @@
                     </a>
                     <div class="book-text-info">
                         <a style="font-size: 1rem; font-weight: bold; color: #797979"
-                           th:href="@{/api/books/{bookId} (bookId=${wishlist.bookId})}" th:text="${wishlist.bookTitle}">
+                           th:href="@{/products/{bookId} (bookId=${wishlist.bookId})}" th:text="${wishlist.bookTitle}">
                             Book Title
                         </a>
                         <br/>
@@ -56,7 +56,7 @@
                             <span>장바구니</span>
                         </button>
                     </div>
-                    <form th:action="@{/api/wishLists/{wishListsId} (wishListsId=${wishlist.wishListId})}"
+                    <form th:action="@{/wish-lists/{wishListsId} (wishListsId=${wishlist.wishListId})}"
                           th:method="delete">
                         <button type="submit" class="wishlist-dump-button">
                             <i style="font-size: 1.2rem" class="fa-solid fa-trash"></i>

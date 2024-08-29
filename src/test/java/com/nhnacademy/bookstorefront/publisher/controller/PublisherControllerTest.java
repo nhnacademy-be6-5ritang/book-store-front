@@ -5,7 +5,6 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -45,7 +44,7 @@ class PublisherControllerTest {
 
 	@Test
 	void testCreatePublisherForm() throws Exception {
-		mockMvc.perform(get("/api/publishers/create"))
+		mockMvc.perform(get("/publishers/create"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("publisher/create-publisher"));
 	}
@@ -57,7 +56,7 @@ class PublisherControllerTest {
 
 		when(publisherService.getPublisher(anyLong())).thenReturn(publisherDto);
 
-		mockMvc.perform(get("/api/publishers/update/{publisherId}", publisherId))
+		mockMvc.perform(get("/publishers/update/{publisherId}", publisherId))
 			.andExpect(status().isOk())
 			.andExpect(view().name("publisher/update-publisher"));
 	}
@@ -70,32 +69,20 @@ class PublisherControllerTest {
 
 		when(publisherService.getPublishers(any(Pageable.class))).thenReturn(publisherPage);
 
-		mockMvc.perform(get("/api/publishers/page"))
+		mockMvc.perform(get("/publishers"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("publisher/list-publisher"));
-	}
-
-	@Test
-	void testGetPublishersPage() throws Exception {
-		PublisherDto publisherDto = new PublisherDto(1L, "Publisher Name");
-		when(publisherService.getPublishers()).thenReturn(Collections.singletonList(publisherDto));
-
-		mockMvc.perform(get("/api/publishers"))
-			.andExpect(status().isOk())
-			.andExpect(view().name("publisher/list-publisher"))
-			.andExpect(model().attributeExists("publishers"))
-			.andExpect(model().attribute("publishers", Collections.singletonList(publisherDto)));
 	}
 
 	@Test
 	void testCreatePublisher() throws Exception {
 		PublisherDto publisherDto = new PublisherDto(null, "New Publisher");
 
-		mockMvc.perform(post("/api/publishers")
+		mockMvc.perform(post("/publishers")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("publisherName", publisherDto.publisherName()))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/publishers/page"));
+			.andExpect(redirectedUrl("/publishers"));
 
 		verify(publisherService).createPublisher(any(PublisherDto.class));
 	}
@@ -105,11 +92,11 @@ class PublisherControllerTest {
 		Long publisherId = 1L;
 		PublisherDto publisherDto = new PublisherDto(publisherId, "Updated Publisher");
 
-		mockMvc.perform(put("/api/publishers/{publisherId}", publisherId)
+		mockMvc.perform(put("/publishers/{publisherId}", publisherId)
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("publisherName", publisherDto.publisherName()))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/publishers/page"));
+			.andExpect(redirectedUrl("/publishers"));
 
 		verify(publisherService).updatePublisher(anyLong(), any(PublisherDto.class));
 	}
@@ -118,9 +105,9 @@ class PublisherControllerTest {
 	void testDeletePublisher() throws Exception {
 		Long publisherId = 1L;
 
-		mockMvc.perform(delete("/api/publishers/{publisherId}", publisherId))
+		mockMvc.perform(delete("/publishers/{publisherId}", publisherId))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/publishers/page"));
+			.andExpect(redirectedUrl("/publishers"));
 
 		verify(publisherService).deletePublisher(publisherId);
 	}

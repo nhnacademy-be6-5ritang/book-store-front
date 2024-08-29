@@ -22,10 +22,10 @@ import lombok.RequiredArgsConstructor;
  */
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/bookStatuses")
+@RequestMapping("/book-statuses")
 public class BookStatusController {
 	private final BookStatusServiceImpl bookStatusService;
-	private static final String REDIRECT_URL = "redirect:/api/bookStatuses";
+	private static final String REDIRECT_URL = "redirect:/book-statuses";
 
 	/**
 	 * 책 상태 생성 폼을 반환합니다.
@@ -34,7 +34,7 @@ public class BookStatusController {
 	 */
 	@GetMapping("/create")
 	public String createBookStatusForm() {
-		return "bookStatus/create-bookStatus";
+		return "book-status/create-bookStatus";
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class BookStatusController {
 	@GetMapping("/update/{bookStatusId}")
 	public String updateBookStatusForm(@PathVariable Long bookStatusId, Model model) {
 		model.addAttribute("bookStatus", bookStatusService.getBookStatus(bookStatusId));
-		return "bookStatus/update-bookStatus";
+		return "book-status/update-bookStatus";
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class BookStatusController {
 	@GetMapping
 	public String getBookStatuses(Model model) {
 		model.addAttribute("bookStatuses", bookStatusService.getBookStatuses());
-		return "bookStatus/list-bookStatus";
+		return "book-status/list-bookStatus";
 	}
 
 	/**

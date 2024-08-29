@@ -66,7 +66,7 @@ class ReviewControllerTest {
 
 		when(bookOrderService.getBookOrder(anyLong())).thenReturn(orderBook);
 
-		mockMvc.perform(get("/api/reviews/create/1"))
+		mockMvc.perform(get("/reviews/create/1"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("review/create-review"))
 			.andExpect(model().attribute("orderBook", orderBook))
@@ -80,7 +80,7 @@ class ReviewControllerTest {
 
 		when(reviewService.getReview(anyLong())).thenReturn(review);
 
-		mockMvc.perform(get("/api/reviews/update/1"))
+		mockMvc.perform(get("/reviews/update/1"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("review/update-review"))
 			.andExpect(model().attribute("review", review));
@@ -96,7 +96,7 @@ class ReviewControllerTest {
 
 		when(reviewService.getReviews(any(Pageable.class))).thenReturn(reviewPage);
 
-		mockMvc.perform(get("/api/reviews/page")
+		mockMvc.perform(get("/reviews")
 				.param("reviewType", "전체"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("review/list-all-review"))
@@ -113,7 +113,7 @@ class ReviewControllerTest {
 
 		when(reviewService.getGeneralReviews(any(Pageable.class))).thenReturn(reviewPage);
 
-		mockMvc.perform(get("/api/reviews/page")
+		mockMvc.perform(get("/reviews")
 				.param("reviewType", "일반"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("review/list-all-review"))
@@ -138,7 +138,7 @@ class ReviewControllerTest {
 		when(reviewService.getBooksWithoutReviews()).thenReturn(bookTitles);
 		when(reviewService.getReviewsByUserId(any(Pageable.class))).thenReturn(reviewPage);
 
-		mockMvc.perform(get("/api/users/me/reviews/page")
+		mockMvc.perform(get("/users/me/reviews")
 				.param("reviewType", "전체"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("review/list-by-user-review"))
@@ -164,7 +164,7 @@ class ReviewControllerTest {
 		when(reviewService.getBooksWithoutReviews()).thenReturn(bookTitles);
 		when(reviewService.getGeneralReviewsByUserId(any(Pageable.class))).thenReturn(reviewPage);
 
-		mockMvc.perform(get("/api/users/me/reviews/page")
+		mockMvc.perform(get("/users/me/reviews")
 				.param("reviewType", "일반"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("review/list-by-user-review"))
@@ -190,7 +190,7 @@ class ReviewControllerTest {
 		when(reviewService.getBooksWithoutReviews()).thenReturn(bookTitles);
 		when(reviewService.getPhotoReviewsByUserId(any(Pageable.class))).thenReturn(reviewPage);
 
-		mockMvc.perform(get("/api/users/me/reviews/page")
+		mockMvc.perform(get("/users/me/reviews")
 				.param("reviewType", "사진"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("review/list-by-user-review"))
@@ -208,7 +208,7 @@ class ReviewControllerTest {
 
 		when(reviewService.getPhotoReviews(any(Pageable.class))).thenReturn(reviewPage);
 
-		mockMvc.perform(get("/api/reviews/page")
+		mockMvc.perform(get("/reviews")
 				.param("reviewType", "사진"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("review/list-all-review"))
@@ -222,7 +222,7 @@ class ReviewControllerTest {
 
 		when(reviewService.getReview(anyLong())).thenReturn(reviewResponse);
 
-		mockMvc.perform(get("/api/reviews/book/1"))
+		mockMvc.perform(get("/reviews/book/1"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("review/get-review-by-book"))
 			.andExpect(model().attribute("review", reviewResponse));
@@ -235,7 +235,7 @@ class ReviewControllerTest {
 
 		when(reviewService.getReview(anyLong())).thenReturn(reviewResponse);
 
-		mockMvc.perform(get("/api/reviews/user/1"))
+		mockMvc.perform(get("/reviews/user/1"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("review/get-review-by-user"))
 			.andExpect(model().attribute("review", reviewResponse));
@@ -248,7 +248,7 @@ class ReviewControllerTest {
 
 		when(reviewService.getReview(anyLong())).thenReturn(reviewResponse);
 
-		mockMvc.perform(get("/api/reviews/admin/1"))
+		mockMvc.perform(get("/reviews/admin/1"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("review/get-review-by-admin"))
 			.andExpect(model().attribute("review", reviewResponse));
@@ -263,11 +263,11 @@ class ReviewControllerTest {
 
 		doNothing().when(reviewService).createReview(any(CreateReviewRequest.class), any(MultipartFile.class));
 
-		mockMvc.perform(multipart("/api/reviews")
+		mockMvc.perform(multipart("/reviews")
 				.file(file)
 				.flashAttr("createReviewRequest", request))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/users/me/reviews/page"));
+			.andExpect(redirectedUrl("/users/me/reviews"));
 	}
 
 	@Test
@@ -280,19 +280,19 @@ class ReviewControllerTest {
 		doNothing().when(reviewService)
 			.updateReview(any(UpdateReviewRequest.class), anyLong(), any(MultipartFile.class));
 
-		mockMvc.perform(multipart("/api/reviews/1")
+		mockMvc.perform(multipart("/reviews/1")
 				.file(file)
 				.flashAttr("updateReviewRequest", request))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/users/me/reviews/page"));
+			.andExpect(redirectedUrl("/users/me/reviews"));
 	}
 
 	@Test
 	void testDeleteReview() throws Exception {
 		doNothing().when(reviewService).deleteReview(anyLong());
 
-		mockMvc.perform(delete("/api/reviews/1"))
+		mockMvc.perform(delete("/reviews/1"))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/users/admin/reviews/page"));
+			.andExpect(redirectedUrl("/users/admin/reviews"));
 	}
 }

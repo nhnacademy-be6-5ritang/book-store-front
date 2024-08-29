@@ -9,49 +9,43 @@ import org.springframework.web.multipart.MultipartFile;
 import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.request.UpdateBookRequest;
 import com.nhnacademy.bookstorefront.book.dto.response.BookSearchResult;
-import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
+import com.nhnacademy.bookstorefront.book.dto.response.GetBookResponse;
+import com.nhnacademy.bookstorefront.book.dto.response.GetBookTitleResponse;
 
 /**
  * @author 김기욱, 이경헌
- * 외부 Book 서비스와 통신하여 책 정보를 관리하는 인터페이스입니다.
+ * 외부 Book 서비스와 통신하여 도서 정보를 관리하는 인터페이스입니다.
  */
 public interface BookService {
 
 	/**
-	 * 주어진 책 ID에 해당하는 책의 상세 정보를 조회합니다.
-	 *
-	 * @param bookId 책 ID
-	 * @return 책의 상세 정보
-	 */
-	GetBookDetailResponse getBook(Long bookId);
-
-	/**
-	 * 모든 책의 상세 정보를 조회합니다.
-	 *
-	 * @return 모든 책의 상세 정보 목록
-	 */
-	List<GetBookDetailResponse> getNewestBooks();
-
-	/**
-	 * 모든 책의 상세 정보를 페이지네이션하여 조회합니다.
+	 * 모든 도서의 상세 정보를 페이지네이션하여 조회합니다.
 	 *
 	 * @param pageable 페이지 정보
-	 * @return 페이지네이션된 책의 상세 정보 목록
+	 * @return 페이지네이션된 도서의 상세 정보 목록
 	 */
-	Page<GetBookDetailResponse> getNewestBooks(Pageable pageable);
+	Page<GetBookTitleResponse> getBooks(Pageable pageable);
 
 	/**
-	 * 새로운 책을 생성합니다.
+	 * 주어진 도서 ID에 해당하는 도서의 상세정보를 조회합니다.
 	 *
-	 * @param request 생성할 책 정보 DTO
+	 * @param bookId 도서 ID
+	 * @return 도서의 상세 정보
+	 */
+	GetBookResponse getBook(Long bookId);
+
+	/**
+	 * 새로운 도서를 생성합니다.
+	 *
+	 * @param request 생성할 도서 정보 DTO
 	 */
 	void createBook(CreateBookRequest request, MultipartFile file);
 
 	/**
-	 * 주어진 책 ID에 해당하는 책을 업데이트합니다.
+	 * 주어진 도서 ID에 해당하는 도서를 업데이트합니다.
 	 *
-	 * @param bookId  업데이트할 책 ID
-	 * @param request 업데이트할 책 정보 DTO
+	 * @param bookId  업데이트할 도서 ID
+	 * @param request 업데이트할 도서 정보 DTO
 	 */
 	void updateBookById(Long bookId, UpdateBookRequest request, MultipartFile file);
 
@@ -63,31 +57,25 @@ public interface BookService {
 	void saveBookByIsbn(String isbn);
 
 	/**
-	 * 주어진 책 ID에 해당하는 책을 삭제합니다.
+	 * 주어진 도서 ID에 해당하는 도서을 삭제합니다.
 	 *
-	 * @param bookId 삭제할 책 ID
+	 * @param bookId 삭제할 도서 ID
 	 */
 	void deleteBook(Long bookId);
 
 	/**
-	 * 주어진 쿼리 문자열을 기반으로 책을 검색합니다.
+	 * 도서의 수량을 업데이트합니다.
+	 *
+	 * @param bookId 도서의 고유 식별자
+	 * @param quantity 업데이트할 도서의 새로운 수량
+	 */
+	void updateQuantity(Long bookId, int quantity);
+
+	/**
+	 * 주어진 쿼리 문자열을 기반으로 도서를 검색합니다.
 	 *
 	 * @param query 검색할 문자열
-	 * @return 검색된 책 목록이 포함된 {@link List<BookSearchResult>} 객체
+	 * @return 검색된 도서 목록이 포함된 {@link List<BookSearchResult>} 객체
 	 */
 	List<BookSearchResult> searchBooks(String query);
-
-	/**
-	 * 베스트셀러 책의 목록을 조회합니다.
-	 *
-	 * @return 주문된 책 목록이 포함된 {@link List<GetBookDetailResponse>} 객체
-	 */
-	List<GetBookDetailResponse> getOrderedBooks();
-
-	/**
-	 * 사용자가 좋아요를 누른 책의 목록을 조회합니다.
-	 *
-	 * @return 좋아요를 누른 책 목록이 포함된 {@link List<GetBookDetailResponse>} 객체
-	 */
-	List<GetBookDetailResponse> getLikesBooks();
 }

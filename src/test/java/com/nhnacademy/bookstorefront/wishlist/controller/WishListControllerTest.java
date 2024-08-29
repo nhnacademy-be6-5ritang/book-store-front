@@ -63,6 +63,6 @@ class WishListControllerTest {
 		String redirectUrl = wishListController.deleteWishList(wishListId);
 
 		verify(wishListService).deleteWishList(wishListId);
-		assertEquals("redirect:/api/wishLists", redirectUrl);
+		assertEquals("redirect:/wish-lists/me", redirectUrl);
 	}
 }

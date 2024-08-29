@@ -25,7 +25,7 @@
         <hr style="width: 100%"/>
         <section id="page-body">
             <h3>배송비정책 리스트</h3>
-            <h3><a th:href="@{/api/deliveryPolicies/create}" class="btn btn-primary">정책 추가</a></h3>
+            <h3><a th:href="@{/delivery-policies/create}" class="btn btn-primary">정책 추가</a></h3>
             <div th:if="${deliveryPolicies.size() > 0}">
                 <table class="table table-bordered">
                     <thead>
@@ -40,7 +40,7 @@
                         <td th:text="${index.index + 1}">1</td>
                         <td th:text="${policy.deliveryPolicyName}">Policy Name</td>
                         <td style="display: flex; align-items: center;">
-                            <a th:href="@{/api/deliveryPolicies/{deliveryPolicyId} (deliveryPolicyId=${policy.deliveryPolicyId})}"
+                            <a th:href="@{/delivery-policies/{deliveryPolicyId} (deliveryPolicyId=${policy.deliveryPolicyId})}"
                                class="btn btn-info inline-text">보기</a>
                         </td>
                     </tr>

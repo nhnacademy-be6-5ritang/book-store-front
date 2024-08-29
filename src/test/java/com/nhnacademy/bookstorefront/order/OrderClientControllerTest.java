@@ -7,7 +7,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +25,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.bookstorefront.address.service.AddressService;
-import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
 import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
 import com.nhnacademy.bookstorefront.bookcart.dto.response.GetBookCartResponse;
 import com.nhnacademy.bookstorefront.bookcart.service.BookCartService;
@@ -1211,36 +1209,5 @@ class OrderClientControllerTest {
 			.andExpect(model().attribute("order", orderInfoResponse))
 			.andExpect(model().attribute("bookOrder", bookOrders))
 			.andExpect(model().attribute("total", BigDecimal.valueOf(2)));
-	}
-
-	@Test
-	void testCreateBookOrder() throws Exception {
-		Long bookId = 1L;
-
-		GetBookDetailResponse bookDetailResponse = new GetBookDetailResponse(
-			bookId,
-			"Test Author",
-			"Test Publisher",
-			"Available",
-			"Test Book Title",
-			"Test Description",
-			10,
-			new Date(),
-			"1234567890",
-			BigDecimal.valueOf(19.99),
-			BigDecimal.valueOf(15.99),
-			BigDecimal.valueOf(20),
-			"http://example.com/image.jpg"
-		);
-
-		when(bookServiceImpl.getBook(anyLong())).thenReturn(bookDetailResponse);
-
-		mockMvc.perform(get("/api/orders/createBookOrderTest/{book_id}", bookId))
-			.andExpect(status().isOk())
-			.andExpect(view().name("order/orderList"))
-			.andExpect(model().attributeExists("book"))
-			.andExpect(model().attributeExists("bookId"))
-			.andExpect(model().attribute("book", bookDetailResponse))
-			.andExpect(model().attribute("bookId", bookId));
 	}
 }

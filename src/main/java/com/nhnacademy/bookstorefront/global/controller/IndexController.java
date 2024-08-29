@@ -10,28 +10,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class IndexController {
 
-	/**
-	 * 인덱스 페이지 처리 메서드입니다. 기본 경로("/")로 접근할 경우 `/api/books/main`으로 리다이렉트합니다.
-	 *
-	 * @return 인덱스 페이지 리다이렉션 경로
-	 */
-	@GetMapping("/")
-	public String indexPage() {
-		return "redirect:/api/books/main";
-	}
+    /**
+     * 인덱스 페이지 처리 메서드입니다. 기본 경로("/")로 접근할 경우 `/main`으로 리다이렉트합니다.
+     *
+     * @return 인덱스 페이지 리다이렉션 경로
+     */
+    @GetMapping("/")
+    public String indexPage() {
+        return "redirect:/main";
+    }
 
-	@GetMapping("/api/users/admin")
-	public String adminPage() {
-		return "admin/admin-account";
-	}
+    @GetMapping("/api/users/admin")
+    public String adminPage() {
+        return "admin/admin-account";
+    }
 
-	@GetMapping("/api/users/me")
-	public String userPage() {
-		return "user/user-account";
-	}
+    @GetMapping("/api/users/me")
+    public String userPage() {
+        return "user/user-account";
+    }
 
-	@GetMapping("/template")
-	public String showTemplate() {
-		return "menu-template";
-	}
+    @GetMapping("/template")
+    public String showTemplate() {
+        return "menu-template";
+    }
 }

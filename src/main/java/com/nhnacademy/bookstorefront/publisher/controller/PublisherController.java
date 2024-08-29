@@ -26,10 +26,10 @@ import lombok.RequiredArgsConstructor;
  */
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/publishers")
+@RequestMapping("/publishers")
 public class PublisherController {
 	private final PublisherServiceImpl publisherService;
-	private static final String REDIRECT_URL = "redirect:/api/publishers/page";
+	private static final String REDIRECT_URL = "redirect:/publishers";
 
 	/**
 	 * 새로운 출판사 생성 폼을 반환합니다.
@@ -55,30 +55,18 @@ public class PublisherController {
 	}
 
 	/**
-	 * 모든 출판사 정보를 조회합니다.
-	 *
-	 * @param model 모델 객체
-	 * @return 출판사 리스트 뷰 이름
-	 */
-	@GetMapping
-	public String getPublishers(Model model) {
-		model.addAttribute("publishers", publisherService.getPublishers());
-		return "publisher/list-publisher";
-	}
-
-	/**
 	 * 페이지네이션을 포함하여 모든 출판사 정보를 조회합니다.
 	 *
 	 * @param pageable 페이지네이션 정보
 	 * @param model    모델 객체
 	 * @return 출판사 리스트 뷰 이름
 	 */
-	@GetMapping("/page")
+	@GetMapping
 	public String getPublishers(@PageableDefault(page = 1) Pageable pageable, Model model) {
 		Page<PublisherDto> publishers = publisherService.getPublishers(pageable);
 		model.addAttribute("publishers", publishers);
 
-		PagingModel.pagingProcessing(pageable, model, publishers, "/api/publishers/page", 5);
+		PagingModel.pagingProcessing(pageable, model, publishers, "/publishers", 5);
 
 		return "publisher/list-publisher";
 	}
