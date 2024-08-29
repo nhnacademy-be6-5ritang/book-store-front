@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.nhnacademy.bookstorefront.wishlist.dto.request.CreateWishListRequest;
 import com.nhnacademy.bookstorefront.wishlist.dto.response.GetWishListResponse;
 
-@FeignClient(name = "wishList-service", url = "http://localhost:8090/api/wishLists")
+@FeignClient(name = "wishList-service", url = "http://localhost:8090/api/wish-lists")
 public interface WishListServiceClient {
 
-	@GetMapping
+	@GetMapping("/me")
 	ResponseEntity<List<GetWishListResponse>> getWishLists();
 
 	@PostMapping

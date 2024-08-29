@@ -11,7 +11,7 @@ $(document).ready(function () {
         $.ajax({
             url: '/auth/has-tokens',
             type: 'GET',
-            success: function(isLoggedIn) {
+            success: function (isLoggedIn) {
                 if (isLoggedIn) {
                     // 로그인 상태일 경우 위시리스트 추가 요청
                     addToWishlist(requestData);
@@ -20,7 +20,7 @@ $(document).ready(function () {
                     window.location.href = 'https://www.5ritang.store/auth/login';
                 }
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.error('Error checking login status:', error);
                 alert('로그인 상태 확인 중 오류가 발생했습니다.');
             }
@@ -30,7 +30,7 @@ $(document).ready(function () {
 
 function addToWishlist(requestData) {
     $.ajax({
-        url: '/api/wishLists',
+        url: '/wish-lists',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(requestData),

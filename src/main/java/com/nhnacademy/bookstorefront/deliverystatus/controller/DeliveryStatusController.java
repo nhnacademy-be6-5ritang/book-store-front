@@ -23,10 +23,10 @@ import lombok.RequiredArgsConstructor;
  */
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/deliveryStatuses")
+@RequestMapping("/delivery-statuses")
 public class DeliveryStatusController {
 	private final DeliveryStatusService deliveryStatusService;
-	private static final String REDIRECT_URL = "redirect:/api/deliveryStatuses";
+	private static final String REDIRECT_URL = "redirect:/delivery-statuses";
 
 	/**
 	 * 새로운 배송 상태 생성 폼을 반환합니다.
@@ -35,7 +35,7 @@ public class DeliveryStatusController {
 	 */
 	@GetMapping("/create")
 	public String createDeliveryStatusForm() {
-		return "deliveryStatus/create-delivery-status";
+		return "delivery-status/create-delivery-status";
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class DeliveryStatusController {
 	@GetMapping("/update/{deliveryStatusId}")
 	public String updateDeliveryStatusForm(@PathVariable Long deliveryStatusId, Model model) {
 		model.addAttribute("deliveryStatus", deliveryStatusService.getDeliveryStatus(deliveryStatusId));
-		return "deliveryStatus/update-delivery-status";
+		return "delivery-status/update-delivery-status";
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class DeliveryStatusController {
 	@GetMapping
 	public String listDeliveryStatuses(Model model) {
 		model.addAttribute("deliveryStatuses", deliveryStatusService.getDeliveryStatuses());
-		return "deliveryStatus/list-delivery-status";
+		return "delivery-status/list-delivery-status";
 	}
 
 	/**
