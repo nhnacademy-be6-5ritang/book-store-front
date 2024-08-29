@@ -37,9 +37,9 @@ class DeliveryPolicyControllerTest {
 
 	@Test
 	void testCreateDeliveryPolicyForm() throws Exception {
-		mockMvc.perform(get("/api/deliveryPolicies/create"))
+		mockMvc.perform(get("/delivery-policies/create"))
 			.andExpect(status().isOk())
-			.andExpect(view().name("/deliveryPolicy/create-delivery-policy"));
+			.andExpect(view().name("/delivery-policy/create-delivery-policy"));
 	}
 
 	@Test
@@ -54,9 +54,9 @@ class DeliveryPolicyControllerTest {
 		);
 		when(deliveryPolicyService.getDeliveryPolicy(anyLong())).thenReturn(getResponse);
 
-		mockMvc.perform(get("/api/deliveryPolicies/update/{deliveryPolicyId}", deliveryPolicyId))
+		mockMvc.perform(get("/delivery-policies/update/{deliveryPolicyId}", deliveryPolicyId))
 			.andExpect(status().isOk())
-			.andExpect(view().name("/deliveryPolicy/update-delivery-policy"))
+			.andExpect(view().name("/delivery-policy/update-delivery-policy"))
 			.andExpect(model().attribute("deliveryPolicy", getResponse));
 	}
 
@@ -72,9 +72,9 @@ class DeliveryPolicyControllerTest {
 		);
 		when(deliveryPolicyService.getDeliveryPolicy(anyLong())).thenReturn(getResponse);
 
-		mockMvc.perform(get("/api/deliveryPolicies/{deliveryPolicyId}", deliveryPolicyId))
+		mockMvc.perform(get("/delivery-policies/{deliveryPolicyId}", deliveryPolicyId))
 			.andExpect(status().isOk())
-			.andExpect(view().name("deliveryPolicy/get-delivery-policy"))
+			.andExpect(view().name("delivery-policy/get-delivery-policy"))
 			.andExpect(model().attribute("deliveryPolicy", getResponse));
 	}
 
@@ -87,10 +87,10 @@ class DeliveryPolicyControllerTest {
 		List<GetDeliveryPoliciesResponse> policiesList = List.of(response);
 
 		when(deliveryPolicyService.getDeliveryPolicies()).thenReturn(policiesList);
-		
-		mockMvc.perform(get("/api/deliveryPolicies"))
+
+		mockMvc.perform(get("/delivery-policies"))
 			.andExpect(status().isOk())
-			.andExpect(view().name("deliveryPolicy/list-delivery-policy"))
+			.andExpect(view().name("delivery-policy/list-delivery-policy"))
 			.andExpect(model().attributeExists("deliveryPolicies"))
 			.andExpect(model().attribute("deliveryPolicies", policiesList));
 	}
@@ -104,14 +104,14 @@ class DeliveryPolicyControllerTest {
 			BigDecimal.valueOf(50)
 		);
 
-		mockMvc.perform(post("/api/deliveryPolicies")
+		mockMvc.perform(post("/delivery-policies")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("deliveryPolicyName", createRequest.deliveryPolicyName())
 				.param("deliveryPolicyContent", createRequest.deliveryPolicyContent())
 				.param("deliveryPolicyPrice", createRequest.deliveryPolicyPrice().toString())
 				.param("deliveryPolicyStandardPrice", createRequest.deliveryPolicyStandardPrice().toString()))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/deliveryPolicies"));
+			.andExpect(redirectedUrl("/delivery-policies"));
 
 		verify(deliveryPolicyService).createDeliveryPolicy(any(CreateDeliveryPolicyRequest.class));
 	}
@@ -128,14 +128,14 @@ class DeliveryPolicyControllerTest {
 
 		doNothing().when(deliveryPolicyService).updateDeliveryPolicy(anyLong(), any(UpdateDeliveryPolicyRequest.class));
 
-		mockMvc.perform(put("/api/deliveryPolicies/{deliveryPolicyId}", deliveryPolicyId)
+		mockMvc.perform(put("/delivery-policies/{deliveryPolicyId}", deliveryPolicyId)
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("deliveryPolicyName", updateRequest.deliveryPolicyName())
 				.param("deliveryPolicyContent", updateRequest.deliveryPolicyContent())
 				.param("deliveryPolicyPrice", updateRequest.deliveryPolicyPrice().toString())
 				.param("deliveryPolicyStandardPrice", updateRequest.deliveryPolicyStandardPrice().toString()))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/deliveryPolicies"));
+			.andExpect(redirectedUrl("/delivery-policies"));
 
 		verify(deliveryPolicyService).updateDeliveryPolicy(anyLong(), any(UpdateDeliveryPolicyRequest.class));
 	}
@@ -144,9 +144,9 @@ class DeliveryPolicyControllerTest {
 	void testDeleteDeliveryPolicy() throws Exception {
 		Long deliveryPolicyId = 1L;
 
-		mockMvc.perform(delete("/api/deliveryPolicies/{deliveryPolicyId}", deliveryPolicyId))
+		mockMvc.perform(delete("/delivery-policies/{deliveryPolicyId}", deliveryPolicyId))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/deliveryPolicies"));
+			.andExpect(redirectedUrl("/delivery-policies"));
 
 		verify(deliveryPolicyService).deleteDeliveryPolicy(deliveryPolicyId);
 	}

@@ -35,9 +35,9 @@ class DeliveryStatusControllerTest {
 
 	@Test
 	void testCreateDeliveryStatusForm() throws Exception {
-		mockMvc.perform(get("/api/deliveryStatuses/create"))
+		mockMvc.perform(get("/delivery-statuses/create"))
 			.andExpect(status().isOk())
-			.andExpect(view().name("deliveryStatus/create-delivery-status"));
+			.andExpect(view().name("delivery-status/create-delivery-status"));
 	}
 
 	@Test
@@ -46,9 +46,9 @@ class DeliveryStatusControllerTest {
 		GetDeliveryStatusResponse getResponse = new GetDeliveryStatusResponse(deliveryStatusId, "In Progress");
 		when(deliveryStatusService.getDeliveryStatus(anyLong())).thenReturn(getResponse);
 
-		mockMvc.perform(get("/api/deliveryStatuses/update/{deliveryStatusId}", deliveryStatusId))
+		mockMvc.perform(get("/delivery-statuses/update/{deliveryStatusId}", deliveryStatusId))
 			.andExpect(status().isOk())
-			.andExpect(view().name("deliveryStatus/update-delivery-status"))
+			.andExpect(view().name("delivery-status/update-delivery-status"))
 			.andExpect(model().attribute("deliveryStatus", getResponse));
 	}
 
@@ -58,9 +58,9 @@ class DeliveryStatusControllerTest {
 		List<GetDeliveryStatusResponse> statusesList = List.of(getResponse);
 		when(deliveryStatusService.getDeliveryStatuses()).thenReturn(statusesList);
 
-		mockMvc.perform(get("/api/deliveryStatuses"))
+		mockMvc.perform(get("/delivery-statuses"))
 			.andExpect(status().isOk())
-			.andExpect(view().name("deliveryStatus/list-delivery-status"))
+			.andExpect(view().name("delivery-status/list-delivery-status"))
 			.andExpect(model().attributeExists("deliveryStatuses"))
 			.andExpect(model().attribute("deliveryStatuses", statusesList));
 	}
@@ -69,11 +69,11 @@ class DeliveryStatusControllerTest {
 	void testCreateDeliveryStatus() throws Exception {
 		CreateDeliveryStatusRequest createRequest = new CreateDeliveryStatusRequest("New Status");
 
-		mockMvc.perform(post("/api/deliveryStatuses")
+		mockMvc.perform(post("/delivery-statuses")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("deliveryStatusName", createRequest.deliveryStatusName()))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/deliveryStatuses"));
+			.andExpect(redirectedUrl("/delivery-statuses"));
 
 		verify(deliveryStatusService).createDeliveryStatus(any(CreateDeliveryStatusRequest.class));
 	}
@@ -82,14 +82,14 @@ class DeliveryStatusControllerTest {
 	void testUpdateDeliveryStatus() throws Exception {
 		Long deliveryStatusId = 1L;
 		UpdateDeliveryStatusRequest updateRequest = new UpdateDeliveryStatusRequest("Updated");
-		
+
 		doNothing().when(deliveryStatusService).updateDeliveryStatus(anyLong(), any(UpdateDeliveryStatusRequest.class));
 
-		mockMvc.perform(put("/api/deliveryStatuses/{deliveryStatusId}", deliveryStatusId)
+		mockMvc.perform(put("/delivery-statuses/{deliveryStatusId}", deliveryStatusId)
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("deliveryStatusName", updateRequest.deliveryStatusName()))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/deliveryStatuses"));
+			.andExpect(redirectedUrl("/delivery-statuses"));
 
 		verify(deliveryStatusService).updateDeliveryStatus(anyLong(), any(UpdateDeliveryStatusRequest.class));
 	}
@@ -98,9 +98,9 @@ class DeliveryStatusControllerTest {
 	void testDeleteDeliveryStatus() throws Exception {
 		Long deliveryStatusId = 1L;
 
-		mockMvc.perform(delete("/api/deliveryStatuses/{deliveryStatusId}", deliveryStatusId))
+		mockMvc.perform(delete("/delivery-statuses/{deliveryStatusId}", deliveryStatusId))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/deliveryStatuses"));
+			.andExpect(redirectedUrl("/delivery-statuses"));
 
 		verify(deliveryStatusService).deleteDeliveryStatus(deliveryStatusId);
 	}

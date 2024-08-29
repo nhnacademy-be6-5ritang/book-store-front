@@ -96,7 +96,7 @@ class ReviewControllerTest {
 
 		when(reviewService.getReviews(any(Pageable.class))).thenReturn(reviewPage);
 
-		mockMvc.perform(get("/reviews/page")
+		mockMvc.perform(get("/reviews")
 				.param("reviewType", "전체"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("review/list-all-review"))
@@ -113,7 +113,7 @@ class ReviewControllerTest {
 
 		when(reviewService.getGeneralReviews(any(Pageable.class))).thenReturn(reviewPage);
 
-		mockMvc.perform(get("/reviews/page")
+		mockMvc.perform(get("/reviews")
 				.param("reviewType", "일반"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("review/list-all-review"))
@@ -138,7 +138,7 @@ class ReviewControllerTest {
 		when(reviewService.getBooksWithoutReviews()).thenReturn(bookTitles);
 		when(reviewService.getReviewsByUserId(any(Pageable.class))).thenReturn(reviewPage);
 
-		mockMvc.perform(get("/api/users/me/reviews/page")
+		mockMvc.perform(get("/users/me/reviews")
 				.param("reviewType", "전체"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("review/list-by-user-review"))
@@ -164,7 +164,7 @@ class ReviewControllerTest {
 		when(reviewService.getBooksWithoutReviews()).thenReturn(bookTitles);
 		when(reviewService.getGeneralReviewsByUserId(any(Pageable.class))).thenReturn(reviewPage);
 
-		mockMvc.perform(get("/api/users/me/reviews/page")
+		mockMvc.perform(get("/users/me/reviews")
 				.param("reviewType", "일반"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("review/list-by-user-review"))
@@ -190,7 +190,7 @@ class ReviewControllerTest {
 		when(reviewService.getBooksWithoutReviews()).thenReturn(bookTitles);
 		when(reviewService.getPhotoReviewsByUserId(any(Pageable.class))).thenReturn(reviewPage);
 
-		mockMvc.perform(get("/api/users/me/reviews/page")
+		mockMvc.perform(get("/users/me/reviews")
 				.param("reviewType", "사진"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("review/list-by-user-review"))
@@ -208,7 +208,7 @@ class ReviewControllerTest {
 
 		when(reviewService.getPhotoReviews(any(Pageable.class))).thenReturn(reviewPage);
 
-		mockMvc.perform(get("/reviews/page")
+		mockMvc.perform(get("/reviews")
 				.param("reviewType", "사진"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("review/list-all-review"))
@@ -267,7 +267,7 @@ class ReviewControllerTest {
 				.file(file)
 				.flashAttr("createReviewRequest", request))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/users/me/reviews/page"));
+			.andExpect(redirectedUrl("/users/me/reviews"));
 	}
 
 	@Test
@@ -284,7 +284,7 @@ class ReviewControllerTest {
 				.file(file)
 				.flashAttr("updateReviewRequest", request))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/users/me/reviews/page"));
+			.andExpect(redirectedUrl("/users/me/reviews"));
 	}
 
 	@Test
@@ -293,6 +293,6 @@ class ReviewControllerTest {
 
 		mockMvc.perform(delete("/reviews/1"))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/users/admin/reviews/page"));
+			.andExpect(redirectedUrl("/users/admin/reviews"));
 	}
 }

@@ -44,7 +44,7 @@ public class BookController {
 	private final BookStatusServiceImpl bookStatusService;
 	private final TagServiceImpl tagService;
 	private final ReviewService reviewService;
-	private static final String REDIRECT_URL = "redirect:/api/books";
+	private static final String REDIRECT_URL = "redirect:/books";
 
 	/**
 	 * 책 생성 폼을 반환합니다.

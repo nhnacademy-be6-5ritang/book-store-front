@@ -38,7 +38,7 @@ class AuthorControllerTest {
 
 	@Test
 	void testCreateAuthorForm() throws Exception {
-		mockMvc.perform(get("/api/authors/create"))
+		mockMvc.perform(get("/authors/create"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("author/create-author"));
 	}
@@ -49,7 +49,7 @@ class AuthorControllerTest {
 		AuthorDto authorDto = new AuthorDto(authorId, "John Doe");
 		when(authorService.getAuthor(authorId)).thenReturn(authorDto);
 
-		mockMvc.perform(get("/api/authors/update/{authorId}", authorId))
+		mockMvc.perform(get("/authors/update/{authorId}", authorId))
 			.andExpect(status().isOk())
 			.andExpect(view().name("author/update-author"))
 			.andExpect(model().attribute("author", authorDto));
@@ -62,7 +62,7 @@ class AuthorControllerTest {
 
 		when(authorService.getAuthors(any(Pageable.class))).thenReturn(authorPage);
 
-		mockMvc.perform(get("/api/authors/page?page=1&size=10"))
+		mockMvc.perform(get("/authors?page=1&size=10"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("author/list-author"))
 			.andExpect(model().attribute("authors", authorPage));
@@ -72,11 +72,11 @@ class AuthorControllerTest {
 	void testCreateAuthor() throws Exception {
 		AuthorDto authorDto = new AuthorDto(null, "John Doe");
 
-		mockMvc.perform(post("/api/authors")
+		mockMvc.perform(post("/authors")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("authorName", authorDto.authorName()))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/authors/page"));
+			.andExpect(redirectedUrl("/authors"));
 
 		verify(authorService).createAuthor(any(AuthorDto.class));
 	}
@@ -88,11 +88,11 @@ class AuthorControllerTest {
 
 		doNothing().when(authorService).updateAuthor(eq(authorId), any(AuthorDto.class));
 
-		mockMvc.perform(put("/api/authors/{authorId}", authorId)
+		mockMvc.perform(put("/authors/{authorId}", authorId)
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("authorName", authorDto.authorName()))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/authors/page"));
+			.andExpect(redirectedUrl("/authors"));
 
 		verify(authorService).updateAuthor(eq(authorId), any(AuthorDto.class));
 	}
@@ -101,9 +101,9 @@ class AuthorControllerTest {
 	void testDeleteAuthor() throws Exception {
 		Long authorId = 1L;
 
-		mockMvc.perform(delete("/api/authors/{authorId}", authorId))
+		mockMvc.perform(delete("/authors/{authorId}", authorId))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("/api/authors/page"));
+			.andExpect(redirectedUrl("/authors"));
 
 		verify(authorService).deleteAuthor(authorId);
 	}
