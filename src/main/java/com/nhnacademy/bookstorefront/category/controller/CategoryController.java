@@ -135,7 +135,7 @@ public class CategoryController {
 	 * @param search 검색할 키워드
 	 * @return 검색 결과를 포함하는 List<CategorySearchResult> 객체를 반환합니다.
 	 */
-	@GetMapping("/search/test")
+	@GetMapping("/search")
 	public ResponseEntity<List<CategorySearchResult>> searchCategories(@RequestParam("key") String search) {
 		List<CategorySearchResult> results = categoryService.searchCategories(search);
 		return ResponseEntity.ok(results);

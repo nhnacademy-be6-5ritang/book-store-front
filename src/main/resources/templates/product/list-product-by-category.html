@@ -21,7 +21,7 @@
     <div class="top-container book-list-container">
         <h3 style="color: darkgreen; font-weight: bold;" th:text="'카테고리: ' + ${categoryName}"></h3>
         <section>
-            <form th:action="@{/api/books/page/category}" method="get">
+            <form th:action="@{/products/category}" method="get">
                 <input type="hidden" name="categoryName" th:value="${categoryName}">
                 <!-- 정렬 방식 선택 -->
                 <label for="direction">정렬 방식:</label>
@@ -30,7 +30,7 @@
                     <option value="ASC" th:selected="${direction == 'ASC'}">오름차순</option>
                 </select>
 
-                <!-- 정력 기준 선택 -->
+                <!-- 정렬 기준 선택 -->
                 <label for="sortBy">기준 선택:</label>
                 <select id="sortBy" name="sortBy">
                     <option value="bookPublishDate" th:selected="${sortBy == 'bookPublishDate'}">책 출판일</option>
@@ -51,28 +51,28 @@
 
 
         <div class="book-grid">
-            <div th:each="book : ${books}" class="main-page-book"
-                 th:data-href="@{/api/books/{bookId}(bookId=${book.bookId})}"
+            <div th:each="product : ${products}" class="main-page-book"
+                 th:data-href="@{/products/{bookId}(bookId=${product.bookId})}"
                  onclick="location.href=this.getAttribute('data-href');">
                 <div class="book-thumbnail-container">
-                    <img class="book-background-thumbnail" th:src="${book.bookImageUrl}"
-                         th:alt="${book.bookTitle}">
-                    <img class="book-front-thumbnail" th:src="${book.bookImageUrl}"
-                         th:alt="${book.bookTitle}">
+                    <img class="book-background-thumbnail" th:src="${product.bookImageUrl}"
+                         th:alt="${product.bookTitle}">
+                    <img class="book-front-thumbnail" th:src="${product.bookImageUrl}"
+                         th:alt="${product.bookTitle}">
                 </div>
                 <div class="book-info">
                     <h5 class="book-title">
-                        <span th:text="${book.bookTitle}" class="book-title-link">제목 없음</span>
+                        <span th:text="${product.bookTitle}" class="book-title-link">제목 없음</span>
                     </h5>
-                    <span th:text="${book.authorName}" class="book-author">작가 없음</span>
+                    <span th:text="${product.authorName}" class="book-author">작가 없음</span>
                     <div class="price-info">
                         <span class="book-price"
-                              th:text="${#numbers.formatDecimal(book.bookSalePrice, 1, 'COMMA', 0, 'POINT') + '원'}">가격 정보 없음₩</span>
+                              th:text="${#numbers.formatDecimal(product.bookSalePrice, 1, 'COMMA', 0, 'POINT') + '원'}">가격 정보 없음₩</span>
                         <div class="original-price-info">
                             <del class="book-original-price"
-                                 th:text="${#numbers.formatDecimal(book.bookPrice, 1, 'COMMA', 0, 'POINT') + '원'}"></del>
+                                 th:text="${#numbers.formatDecimal(product.bookPrice, 1, 'COMMA', 0, 'POINT') + '원'}"></del>
                             <span class="book-price-discount"
-                                  th:text="${'-' + #numbers.formatDecimal(book.bookSalePercent, 1, 'COMMA', 0, 'POINT') + '%'}">할인율 정보 없음</span>
+                                  th:text="${'-' + #numbers.formatDecimal(product.bookSalePercent, 1, 'COMMA', 0, 'POINT') + '%'}">할인율 정보 없음</span>
                         </div>
                     </div>
                 </div>

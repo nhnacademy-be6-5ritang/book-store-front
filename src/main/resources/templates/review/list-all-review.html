@@ -29,11 +29,11 @@
                th:text="${reviewType} + ' 리뷰 (' + ${reviews.getTotalElements()} + ')'">
             </p>
             <div class="review-button-container">
-                <a th:href="@{/api/reviews/page (reviewType='전체')}"
+                <a th:href="@{/reviews (reviewType='전체')}"
                    class="btn btn-primary">전체리뷰 </a>
-                <a th:href="@{/api/reviews/page (reviewType='일반')}"
+                <a th:href="@{/reviews (reviewType='일반')}"
                    class="btn btn-primary">일반리뷰 </a>
-                <a th:href="@{/api/reviews/page (reviewType='사진')}"
+                <a th:href="@{/reviews (reviewType='사진')}"
                    class="btn btn-primary">사진리뷰 </a>
             </div>
 
@@ -64,7 +64,7 @@
                                      th:src="${review.reviewImageUrl}" alt="리뷰 이미지">
                             </div>
                             <span th:if="${review.reviewImageUrl == null}" th:text="${review.reviewComment()}"></span>
-                            <a th:href="@{/api/reviews/admin/{reviewId} (reviewId=${review.reviewId})}"
+                            <a th:href="@{/reviews/admin/{reviewId} (reviewId=${review.reviewId})}"
                                class="btn btn-primary">상세보기</a>
                         </div>
                     </div>

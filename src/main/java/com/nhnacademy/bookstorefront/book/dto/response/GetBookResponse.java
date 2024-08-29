@@ -1,4 +1,4 @@
-package com.nhnacademy.bookstorefront.product.dto.response;
+package com.nhnacademy.bookstorefront.book.dto.response;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -8,9 +8,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * @author 이경헌
- * 상품 페이지 응답 DTO
+ * 상품 관리자 페이지 응답 DTO
  */
-public record GetProductResponse(
+public record GetBookResponse(
 	Long bookId,
 	String authorName,
 	String publisherName,
@@ -25,6 +25,5 @@ public record GetProductResponse(
 	BigDecimal bookSalePercent,
 	String bookImageUrl,
 	List<String> bookCategories,
-	List<String> bookTags,
-	double reviewScoreAvg) {
+	List<String> bookTags) {
 }

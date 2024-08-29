@@ -45,14 +45,14 @@
         </div>
         <div class="categories-container">
             <div th:each="category : ${categoriesCache}" th:if="${#strings.isEmpty(category.parentCategoryName)}">
-                <a th:href="@{/api/books/page/category (categoryName=${category.categoryName})}"
+                <a th:href="@{/products/category (categoryName=${category.categoryName})}"
                    th:text="${category.categoryName}"
                    th:id="${category.categoryName}"></a>
                 <div class="sub-menu">
                     <ul>
                         <li th:each="subCategory : ${categoriesCache}"
                             th:if="${subCategory.parentCategoryName == category.categoryName}">
-                            <a th:href="@{/api/books/page/category (categoryName=${subCategory.categoryName})}"
+                            <a th:href="@{/products/category (categoryName=${subCategory.categoryName})}"
                                th:text="${subCategory.categoryName}"></a>
                         </li>
                     </ul>

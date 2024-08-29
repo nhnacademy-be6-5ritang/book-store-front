@@ -48,19 +48,19 @@
         <h3>베스트 셀러 TOP 10</h3>
         <div class="book-carousel">
             <div th:each="book : ${bestSellerProductsCache}" class="main-page-book"
-                 th:data-href="@{/api/books/{bookId}(bookId=${book.bookId})}"
+                 th:data-href="@{/products/{bookId}(bookId=${book.bookId})}"
                  onclick="location.href=this.getAttribute('data-href');">
                 <div class="book-thumbnail-container">
                     <img class="book-background-thumbnail" th:src="${book.bookImageUrl}"
                          th:alt="${book.bookTitle}"
-                         th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
+                         th:href="@{/products/{bookId}(bookId=${book.bookId})}">
                     <img class="book-front-thumbnail" th:src="${book.bookImageUrl}"
                          th:alt="${book.bookTitle}"
-                         th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
+                         th:href="@{/products/{bookId}(bookId=${book.bookId})}">
                 </div>
                 <div class="book-info">
                     <h5 class="book-title">
-                        <span th:href="@{/api/books/{bookId}(bookId=${book.bookId})}"
+                        <span th:href="@{/products/{bookId}(bookId=${book.bookId})}"
                               th:text="${book.bookTitle}" class="book-title-link">
                             제목 없음
                         </span>
@@ -91,19 +91,19 @@
         <h3>좋아요 많은 도서 TOP 10</h3>
         <div class="book-carousel">
             <div th:each="book : ${likesProductsCache}" class="main-page-book"
-                 th:data-href="@{/api/books/{bookId}(bookId=${book.bookId})}"
+                 th:data-href="@{/products/{bookId}(bookId=${book.bookId})}"
                  onclick="location.href=this.getAttribute('data-href');">
                 <div class="book-thumbnail-container">
                     <img class="book-background-thumbnail" th:src="${book.bookImageUrl}"
                          th:alt="${book.bookTitle}"
-                         th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
+                         th:href="@{/products/{bookId}(bookId=${book.bookId})}">
                     <img class="book-front-thumbnail" th:src="${book.bookImageUrl}"
                          th:alt="${book.bookTitle}"
-                         th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
+                         th:href="@{/products/{bookId}(bookId=${book.bookId})}">
                 </div>
                 <div class="book-info">
                     <h5 class="book-title">
-                        <span th:href="@{/api/books/{bookId}(bookId=${book.bookId})}"
+                        <span th:href="@{/products/{bookId}(bookId=${book.bookId})}"
                               th:text="${book.bookTitle}" class="book-title-link">
                             제목 없음
                         </span>
@@ -134,19 +134,19 @@
         <h3>신간 도서 NEW 10</h3>
         <div class="book-carousel">
             <div th:each="book : ${newestProductsCache}" class="main-page-book"
-                 th:data-href="@{/api/books/{bookId}(bookId=${book.bookId})}"
+                 th:data-href="@{/products/{bookId}(bookId=${book.bookId})}"
                  onclick="location.href=this.getAttribute('data-href');">
                 <div class="book-thumbnail-container">
                     <img class="book-background-thumbnail" th:src="${book.bookImageUrl}"
                          th:alt="${book.bookTitle}"
-                         th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
+                         th:href="@{/products/{bookId}(bookId=${book.bookId})}">
                     <img class="book-front-thumbnail" th:src="${book.bookImageUrl}"
                          th:alt="${book.bookTitle}"
-                         th:href="@{/api/books/{bookId}(bookId=${book.bookId})}">
+                         th:href="@{/products/{bookId}(bookId=${book.bookId})}">
                 </div>
                 <div class="book-info">
                     <h5 class="book-title">
-                        <span th:href="@{/api/books/{bookId}(bookId=${book.bookId})}"
+                        <span th:href="@{/products/{bookId}(bookId=${book.bookId})}"
                               th:text="${book.bookTitle}" class="book-title-link">
                             제목 없음
                         </span>

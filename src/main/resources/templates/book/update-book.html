@@ -27,7 +27,7 @@
         <section id="page-body">
             <h3>도서 수정 폼</h3>
             <form th:object="${book}"
-                  th:action="@{/api/books/{bookId} (bookId=${bookId})}"
+                  th:action="@{/books/{bookId} (bookId=${bookId})}"
                   method="post" id="form" enctype="multipart/form-data">
 
                 <!-- 최소 한 개의 카테고리 선택 항목 유지 -->

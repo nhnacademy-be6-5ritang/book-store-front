@@ -20,34 +20,34 @@ import com.nhnacademy.bookstorefront.review.dto.response.GetReviewResponse;
 @FeignClient(name = "review-feign-client", url = "http://localhost:8090/api")
 public interface ReviewServiceClient {
 
-	@GetMapping("/reviews/all/page")
+	@GetMapping("/reviews/all")
 	ResponseEntity<Page<GetReviewResponse>> getReviews(Pageable pageable);
 
-	@GetMapping("/reviews/photo/page")
+	@GetMapping("/reviews/photo")
 	ResponseEntity<Page<GetReviewResponse>> getPhotoReviews(Pageable pageable);
 
-	@GetMapping("/reviews/general/page")
+	@GetMapping("/reviews/general")
 	ResponseEntity<Page<GetReviewResponse>> getGeneralReviews(Pageable pageable);
 
-	@GetMapping("/books/{bookId}/reviews/all/page")
+	@GetMapping("/books/{bookId}/reviews/all")
 	ResponseEntity<Page<GetReviewResponse>> getReviewsByBookId(Pageable pageable,
 		@PathVariable Long bookId);
 
-	@GetMapping("/books/{bookId}/reviews/general/page")
+	@GetMapping("/books/{bookId}/reviews/general")
 	ResponseEntity<Page<GetReviewResponse>> getGeneralReviewsByBookId(Pageable pageable,
 		@PathVariable Long bookId);
 
-	@GetMapping("/books/{bookId}/reviews/photo/page")
+	@GetMapping("/books/{bookId}/reviews/photo")
 	ResponseEntity<Page<GetReviewResponse>> getPhotoReviewsByBookId(Pageable pageable,
 		@PathVariable Long bookId);
 
-	@GetMapping("/users/me/reviews/all/page")
+	@GetMapping("/users/me/reviews/all")
 	ResponseEntity<Page<GetReviewResponse>> getReviewsByUserId(Pageable pageable);
 
-	@GetMapping("/users/me/reviews/general/page")
+	@GetMapping("/users/me/reviews/general")
 	ResponseEntity<Page<GetReviewResponse>> getGeneralReviewsByUserId(Pageable pageable);
 
-	@GetMapping("/users/me/reviews/photo/page")
+	@GetMapping("/users/me/reviews/photo")
 	ResponseEntity<Page<GetReviewResponse>> getPhotoReviewsByUserId(Pageable pageable);
 
 	@PostMapping("/reviews")

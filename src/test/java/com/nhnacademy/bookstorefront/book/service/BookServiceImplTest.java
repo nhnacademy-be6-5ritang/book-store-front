@@ -1,12 +1,12 @@
 package com.nhnacademy.bookstorefront.book.service;
 
-import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
-import com.nhnacademy.bookstorefront.book.dto.request.UpdateBookRequest;
-import com.nhnacademy.bookstorefront.book.dto.response.BookSearchResult;
-import com.nhnacademy.bookstorefront.book.dto.response.GetBookDetailResponse;
-import com.nhnacademy.bookstorefront.book.feignclient.BookServiceClient;
-import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
-import com.nhnacademy.bookstorefront.upload.feignclient.UploadServiceClient;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -15,149 +15,134 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import com.nhnacademy.bookstorefront.book.dto.request.CreateBookRequest;
+import com.nhnacademy.bookstorefront.book.dto.request.UpdateBookRequest;
+import com.nhnacademy.bookstorefront.book.dto.response.BookSearchResult;
+import com.nhnacademy.bookstorefront.book.feignclient.BookServiceClient;
+import com.nhnacademy.bookstorefront.book.service.impl.BookServiceImpl;
+import com.nhnacademy.bookstorefront.upload.feignclient.UploadServiceClient;
 
 class BookServiceImplTest {
 
-    @Mock
-    private BookServiceClient bookServiceClient;
+	@Mock
+	private BookServiceClient bookServiceClient;
 
-    @InjectMocks
-    private BookServiceImpl bookService;
+	@InjectMocks
+	private BookServiceImpl bookService;
 
-    @Mock
-    private UploadServiceClient uploadServiceClient;
+	@Mock
+	private UploadServiceClient uploadServiceClient;
 
-    private String folderName = "books";
+	private String folderName = "books";
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
+	@BeforeEach
+	void setUp() {
+		MockitoAnnotations.openMocks(this);
+	}
 
-    @Test
-    void testGetBook() {
-        Long bookId = 1L;
-        GetBookDetailResponse expectedBook = new GetBookDetailResponse(
-                bookId, "Author", "Publisher", "Status", "Title", "Description", 10,
-                new Date(), "ISBN", BigDecimal.TEN, BigDecimal.ONE, BigDecimal.ZERO, "URL"
-        );
+	@Test
+	void testCreateBook_withFile() {
+		CreateBookRequest request = new CreateBookRequest(
+			"1234567890", List.of(1L), List.of(2L), "Title", "Author", "Publisher",
+			new Date(), "Status", "Description", 10, BigDecimal.TEN, BigDecimal.ONE, BigDecimal.ZERO, null);
+		MultipartFile file = mock(MultipartFile.class);
 
-        when(bookServiceClient.getBook(bookId)).thenReturn(ResponseEntity.ok(expectedBook));
+		when(file.isEmpty()).thenReturn(false);
+		when(uploadServiceClient.upload(file, folderName)).thenReturn(ResponseEntity.ok("file-name"));
 
-        GetBookDetailResponse actualBook = bookService.getBook(bookId);
+		bookService.createBook(request, file);
 
-        assertEquals(expectedBook, actualBook);
-    }
+		verify(uploadServiceClient).upload(file, folderName);
+		verify(bookServiceClient).createBook(CreateBookRequest.from(request, "file-name"));
+	}
 
-    @Test
-    void testCreateBook_withFile() {
-        CreateBookRequest request = new CreateBookRequest(
-                "1234567890", List.of(1L), List.of(2L), "Title", "Author", "Publisher",
-                new Date(), "Status", "Description", 10, BigDecimal.TEN, BigDecimal.ONE, BigDecimal.ZERO, null);
-        MultipartFile file = mock(MultipartFile.class);
+	@Test
+	void testCreateBook_withoutFile() {
+		CreateBookRequest request = new CreateBookRequest(
+			"1234567890", List.of(1L), List.of(2L), "Title", "Author", "Publisher",
+			new Date(), "Status", "Description", 10, BigDecimal.TEN, BigDecimal.ONE, BigDecimal.ZERO, null);
+		MultipartFile file = mock(MultipartFile.class);
+		when(file.isEmpty()).thenReturn(true);
 
-        when(file.isEmpty()).thenReturn(false);
-        when(uploadServiceClient.upload(file, folderName)).thenReturn(ResponseEntity.ok("file-name"));
+		bookService.createBook(request, file);
 
-        bookService.createBook(request, file);
+		verify(uploadServiceClient, never()).upload(file, folderName);
+		verify(bookServiceClient).createBook(CreateBookRequest.from(request, null));
+	}
 
-        verify(uploadServiceClient).upload(file, folderName);
-        verify(bookServiceClient).createBook(CreateBookRequest.from(request, "file-name"));
-    }
+	@Test
+	void testUpdateBookById_withFile() {
+		Long bookId = 1L;
+		UpdateBookRequest request = new UpdateBookRequest(
+			"1234567890", List.of(1L), List.of(2L), "Title", "Author", "Publisher",
+			new Date(), "Status", "Description", 10, BigDecimal.TEN, BigDecimal.ONE, BigDecimal.ZERO, null
+		);
+		MultipartFile file = mock(MultipartFile.class);
+		when(file.isEmpty()).thenReturn(false);
+		when(uploadServiceClient.upload(file, folderName)).thenReturn(ResponseEntity.ok("file-name"));
 
-    @Test
-    void testCreateBook_withoutFile() {
-        CreateBookRequest request = new CreateBookRequest(
-                "1234567890", List.of(1L), List.of(2L), "Title", "Author", "Publisher",
-                new Date(), "Status", "Description", 10, BigDecimal.TEN, BigDecimal.ONE, BigDecimal.ZERO, null);
-        MultipartFile file = mock(MultipartFile.class);
-        when(file.isEmpty()).thenReturn(true);
+		bookService.updateBookById(bookId, request, file);
 
-        bookService.createBook(request, file);
+		verify(uploadServiceClient).upload(file, folderName);
+		verify(bookServiceClient).updateBookById(bookId, UpdateBookRequest.from(request, "file-name"));
+	}
 
-        verify(uploadServiceClient, never()).upload(file, folderName);
-        verify(bookServiceClient).createBook(CreateBookRequest.from(request, null));
-    }
+	@Test
+	void testUpdateBookById_withoutFile() {
+		Long bookId = 1L;
+		UpdateBookRequest request = new UpdateBookRequest(
+			"1234567890", List.of(1L), List.of(2L), "Title", "Author", "Publisher",
+			new Date(), "Status", "Description", 10, BigDecimal.TEN, BigDecimal.ONE, BigDecimal.ZERO, null
+		);
+		MultipartFile file = mock(MultipartFile.class);
+		when(file.isEmpty()).thenReturn(true);
 
-    @Test
-    void testUpdateBookById_withFile() {
-        Long bookId = 1L;
-        UpdateBookRequest request = new UpdateBookRequest(
-                "1234567890", List.of(1L), List.of(2L), "Title", "Author", "Publisher",
-                new Date(), "Status", "Description", 10, BigDecimal.TEN, BigDecimal.ONE, BigDecimal.ZERO, null
-        );
-        MultipartFile file = mock(MultipartFile.class);
-        when(file.isEmpty()).thenReturn(false);
-        when(uploadServiceClient.upload(file, folderName)).thenReturn(ResponseEntity.ok("file-name"));
+		bookService.updateBookById(bookId, request, file);
 
-        bookService.updateBookById(bookId, request, file);
+		verify(uploadServiceClient, never()).upload(file, folderName);
+		verify(bookServiceClient).updateBookById(bookId, UpdateBookRequest.from(request, null));
+	}
 
-        verify(uploadServiceClient).upload(file, folderName);
-        verify(bookServiceClient).updateBookById(bookId, UpdateBookRequest.from(request, "file-name"));
-    }
+	@Test
+	void testFetchAndSaveBook() {
+		String isbn = "1234567890";
 
-    @Test
-    void testUpdateBookById_withoutFile() {
-        Long bookId = 1L;
-        UpdateBookRequest request = new UpdateBookRequest(
-                "1234567890", List.of(1L), List.of(2L), "Title", "Author", "Publisher",
-                new Date(), "Status", "Description", 10, BigDecimal.TEN, BigDecimal.ONE, BigDecimal.ZERO, null
-        );
-        MultipartFile file = mock(MultipartFile.class);
-        when(file.isEmpty()).thenReturn(true);
+		bookService.saveBookByIsbn(isbn);
 
-        bookService.updateBookById(bookId, request, file);
+		verify(bookServiceClient).saveBookByIsbn(isbn);
+	}
 
-        verify(uploadServiceClient, never()).upload(file, folderName);
-        verify(bookServiceClient).updateBookById(bookId, UpdateBookRequest.from(request, null));
-    }
+	@Test
+	void testDeleteBook() {
+		Long bookId = 1L;
 
-    @Test
-    void testFetchAndSaveBook() {
-        String isbn = "1234567890";
+		bookService.deleteBook(bookId);
 
-        bookService.saveBookByIsbn(isbn);
+		verify(bookServiceClient).deleteBook(bookId);
+	}
 
-        verify(bookServiceClient).saveBookByIsbn(isbn);
-    }
+	@Test
+	void testUpdateQuantity() {
+		Long bookId = 1L;
+		int quantity = 10;
 
-    @Test
-    void testDeleteBook() {
-        Long bookId = 1L;
+		bookService.updateQuantity(bookId, quantity);
 
-        bookService.deleteBook(bookId);
+		verify(bookServiceClient).updateQuantity(bookId, quantity);
+	}
 
-        verify(bookServiceClient).deleteBook(bookId);
-    }
+	@Test
+	void testSearchBooks() {
+		String query = "searchTerm";
+		List<BookSearchResult> expectedResults = List.of(
+			new BookSearchResult(1L, "Title1"),
+			new BookSearchResult(2L, "Title2")
+		);
 
-    @Test
-    void testUpdateQuantity() {
-        Long bookId = 1L;
-        int quantity = 10;
+		when(bookServiceClient.searchBooks(query)).thenReturn(ResponseEntity.ok(expectedResults));
 
-        bookService.updateQuantity(bookId, quantity);
+		List<BookSearchResult> actualResults = bookService.searchBooks(query);
 
-        verify(bookServiceClient).updateQuantity(bookId, quantity);
-    }
-
-    @Test
-    void testSearchBooks() {
-        String query = "searchTerm";
-        List<BookSearchResult> expectedResults = List.of(
-                new BookSearchResult(1L, "Title1"),
-                new BookSearchResult(2L, "Title2")
-        );
-
-        when(bookServiceClient.searchBooks(query)).thenReturn(ResponseEntity.ok(expectedResults));
-
-        List<BookSearchResult> actualResults = bookService.searchBooks(query);
-
-        assertEquals(expectedResults, actualResults);
-    }
+		assertEquals(expectedResults, actualResults);
+	}
 }
