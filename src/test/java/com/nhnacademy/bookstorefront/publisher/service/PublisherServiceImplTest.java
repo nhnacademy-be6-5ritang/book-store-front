@@ -5,7 +5,6 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 import java.util.Collections;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,19 +31,6 @@ class PublisherServiceImplTest {
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
-	}
-
-	@Test
-	void testGetPublishers() {
-		PublisherDto publisherDto = new PublisherDto(1L, "Publisher Name");
-		List<PublisherDto> publishers = Collections.singletonList(publisherDto);
-
-		when(publisherServiceClient.getPublishers()).thenReturn(ResponseEntity.ok(publishers));
-
-		List<PublisherDto> result = publisherService.getPublishers();
-
-		verify(publisherServiceClient).getPublishers();
-		assertEquals(publishers, result);
 	}
 
 	@Test

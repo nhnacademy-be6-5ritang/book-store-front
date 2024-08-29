@@ -25,7 +25,7 @@
         <hr style="width: 100%"/>
         <section id="page-body">
             <h3>출판사 리스트</h3>
-            <h3><a th:href="@{/api/publishers/create}" class="btn btn-primary">출판사 추가</a></h3>
+            <h3><a th:href="@{/publishers/create}" class="btn btn-primary">출판사 추가</a></h3>
             <div th:if="${publishers.getContent().size() > 0}">
                 <table class="table table-bordered">
                     <thead>
@@ -42,9 +42,9 @@
                         </td>
                         <td th:text="${publisher.publisherName}">출판사 이름</td>
                         <td style="display: flex; align-items: center;">
-                            <a th:href="@{/api/publishers/update/{publisherId} (publisherId=${publisher.publisherId})}"
+                            <a th:href="@{/publishers/update/{publisherId} (publisherId=${publisher.publisherId})}"
                                class="btn btn-warning inline-text">편집</a>
-                            <form th:action="@{/api/publishers/{publisherId} (publisherId=${publisher.publisherId})}"
+                            <form th:action="@{/publishers/{publisherId} (publisherId=${publisher.publisherId})}"
                                   th:method="delete">
                                 <button type="submit" class="btn btn-danger inline-text">
                                     삭제

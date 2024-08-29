@@ -33,20 +33,6 @@ class AuthorServiceImplTest {
 	}
 
 	@Test
-	void testGetAuthors() {
-		AuthorDto authorDto = new AuthorDto(1L, "John Doe");
-		List<AuthorDto> authorList = List.of(authorDto);
-
-		when(authorServiceClient.getAuthors()).thenReturn(new ResponseEntity<>(authorList, HttpStatus.OK));
-
-		List<AuthorDto> result = authorService.getAuthors();
-
-		assertNotNull(result);
-		assertEquals(1, result.size());
-		assertEquals("John Doe", result.get(0).authorName());
-	}
-
-	@Test
 	void testGetAuthorsWithPagination() {
 		AuthorDto authorDto = new AuthorDto(1L, "John Doe");
 		Page<AuthorDto> authorPage = new PageImpl<>(List.of(authorDto));

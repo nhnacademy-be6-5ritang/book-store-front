@@ -5,7 +5,6 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -73,18 +72,6 @@ class PublisherControllerTest {
 		mockMvc.perform(get("/api/publishers/page"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("publisher/list-publisher"));
-	}
-
-	@Test
-	void testGetPublishersPage() throws Exception {
-		PublisherDto publisherDto = new PublisherDto(1L, "Publisher Name");
-		when(publisherService.getPublishers()).thenReturn(Collections.singletonList(publisherDto));
-
-		mockMvc.perform(get("/api/publishers"))
-			.andExpect(status().isOk())
-			.andExpect(view().name("publisher/list-publisher"))
-			.andExpect(model().attributeExists("publishers"))
-			.andExpect(model().attribute("publishers", Collections.singletonList(publisherDto)));
 	}
 
 	@Test

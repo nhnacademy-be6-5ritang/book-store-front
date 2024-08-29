@@ -56,19 +56,6 @@ class AuthorControllerTest {
 	}
 
 	@Test
-	void testGetAuthors() throws Exception {
-		AuthorDto authorDto = new AuthorDto(1L, "John Doe");
-		List<AuthorDto> authorList = List.of(authorDto);
-
-		when(authorService.getAuthors()).thenReturn(authorList);
-
-		mockMvc.perform(get("/api/authors"))
-			.andExpect(status().isOk())
-			.andExpect(view().name("author/list-author"))
-			.andExpect(model().attribute("authors", authorList));
-	}
-
-	@Test
 	void testGetAuthorsWithPagination() throws Exception {
 		AuthorDto authorDto = new AuthorDto(1L, "John Doe");
 		Page<AuthorDto> authorPage = new PageImpl<>(List.of(authorDto));

@@ -1,7 +1,5 @@
 package com.nhnacademy.bookstorefront.author.service;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,13 +10,6 @@ import com.nhnacademy.bookstorefront.author.dto.response.AuthorDto;
  * 외부 Author 서비스와 통신하여 작가 정보를 관리하는 인터페이스입니다.
  */
 public interface AuthorService {
-
-	/**
-	 * 모든 작가 정보를 조회합니다.
-	 *
-	 * @return 작가 목록
-	 */
-	List<AuthorDto> getAuthors();
 
 	/**
 	 * 지정된 페이지 정보에 따른 저자 목록을 조회합니다.
