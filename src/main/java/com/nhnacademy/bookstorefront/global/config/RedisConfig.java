@@ -18,7 +18,6 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import com.nhnacademy.bookstorefront.keymanager.property.RedisProperty;
-import com.nhnacademy.bookstorefront.keymanager.service.KeyManagerService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,16 +28,14 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class RedisConfig {
 	private final RedisProperty redisProperty;
-	private final KeyManagerService keyManagerService;
 
 	@Bean
 	public RedisConnectionFactory redisConnectionFactory() {
 		RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
-		redisStandaloneConfiguration.setHostName(keyManagerService.getSecret(redisProperty.getHost()));
-		redisStandaloneConfiguration.setPort(Integer.parseInt(keyManagerService.getSecret(redisProperty.getPort())));
-		redisStandaloneConfiguration.setPassword(keyManagerService.getSecret(redisProperty.getPassword()));
-		redisStandaloneConfiguration.setDatabase(
-			Integer.parseInt(keyManagerService.getSecret(redisProperty.getDatabase())));
+		redisStandaloneConfiguration.setHostName(redisProperty.getHost());
+		redisStandaloneConfiguration.setPort(Integer.parseInt(redisProperty.getPort()));
+		redisStandaloneConfiguration.setPassword(redisProperty.getPassword());
+		redisStandaloneConfiguration.setDatabase(Integer.parseInt(redisProperty.getDatabase()));
 		return new LettuceConnectionFactory(redisStandaloneConfiguration);
 	}
 
