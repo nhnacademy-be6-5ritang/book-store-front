@@ -1,11 +1,13 @@
 package com.nhnacademy.bookstorefront.main.controller;
 
-import com.nhnacademy.bookstorefront.cache.service.CacheService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.nhnacademy.bookstorefront.product.service.ProductService;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * @author 이경헌
@@ -15,20 +17,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 @RequestMapping("/main")
 public class MainController {
-    private final CacheService cacheService;
+	private final ProductService productService;
 
-    /**
-     * 메인 페이지의 상품을 조회합니다.
-     *
-     * @param model 모델 객체
-     * @return 메인 페이지 뷰 이름
-     */
-    @GetMapping
-    public String mainPage(Model model) {
-        model.addAttribute("bestSellerProductsCache", cacheService.getBestSellerBooks());
-        model.addAttribute("likesProductsCache", cacheService.getLikesBooks());
-        model.addAttribute("newestProductsCache", cacheService.getNewestBooks());
-        return "index";
-    }
+	/**
+	 * 메인 페이지의 상품을 조회합니다.
+	 *
+	 * @param model 모델 객체
+	 * @return 메인 페이지 뷰 이름
+	 */
+	@GetMapping
+	public String mainPage(Model model) {
+		model.addAttribute("bestSellerProducts", productService.getBestSellerBooks());
+		model.addAttribute("likesProducts", productService.getLikesBooks());
+		model.addAttribute("newestProducts", productService.getNewestBooks());
+		return "index";
+	}
 
 }

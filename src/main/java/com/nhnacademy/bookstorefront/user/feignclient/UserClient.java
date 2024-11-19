@@ -31,20 +31,24 @@ public interface UserClient {
 	@GetMapping("/api/users/self")
 	ResponseEntity<GetMyUserInfoResponse> getMyUserInfo();
 
-	@PatchMapping("/api/users/withdraw")
-	ResponseEntity<Void> withdrawUser();
-
 	@GetMapping("/api/users/self/total-order-price")
 	ResponseEntity<BigDecimal> getMyTotalOrderPrice();
+
+	@GetMapping("/api/addresses/default")
+	ResponseEntity<Optional<GetAddressResponse>> getDefaultAddress();
+
+	@GetMapping("/api/user-grades")
+	ResponseEntity<List<GetUserGradeResponse>> getUserGrades();
+	// 마이페이지
+
+	@PatchMapping("/api/users/withdraw")
+	ResponseEntity<Void> withdrawUser();
 
 	@PostMapping("/api/users/send-email/dormant-to-active")
 	ResponseEntity<Void> sendEmailDormantToActive(@RequestParam String email);
 
 	@GetMapping("/api/users/check-email/dormant-to-active")
 	ResponseEntity<Void> checkEmailDormantToActive(@RequestParam String email, @RequestParam String certifyCode);
-
-	@GetMapping("/api/addresses/default")
-	ResponseEntity<Optional<GetAddressResponse>> getDefaultAddress();
 
 	@GetMapping("/api/users")
 	ResponseEntity<Page<GetUserInfoResponse>> getUsers(Pageable pageable);
@@ -61,6 +65,4 @@ public interface UserClient {
 	@GetMapping("/api/users/payco-connect/{paycoId}")
 	void paycoConnect(@PathVariable String paycoId);
 
-	@GetMapping("/api/user-grades")
-	ResponseEntity<List<GetUserGradeResponse>> getUserGrades();
 }

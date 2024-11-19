@@ -75,10 +75,10 @@ public class AuthController {
 		}
 
 		// welcome 쿠폰 발행 service method
-		if (Objects.nonNull(signUpResponse)) {
-
-			userAndCouponService.createWelcomeCoupon(signUpResponse.id());
-		}
+		// if (Objects.nonNull(signUpResponse)) {
+		//
+		// 	userAndCouponService.createWelcomeCoupon(signUpResponse.id());
+		// }
 		return "redirect:/auth/login";
 	}
 

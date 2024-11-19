@@ -50,7 +50,7 @@ public class AdminUserController {
 	 * @return 사용자 목록 페이지의 뷰 이름
 	 */
 	@GetMapping("/admin/users")
-	public String userListPage(@PageableDefault(page = 1, size = 10) Pageable pageable, Model model) {
+	public String userListPage(@PageableDefault(page = 0, size = 10) Pageable pageable, Model model) {
 		Page<GetUserInfoResponse> users = userService.getUsers(pageable).getBody();
 		model.addAttribute("users", users);
 
